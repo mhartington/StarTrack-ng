@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "public": "dist/Star-Track",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "redirects": [],
+    "headers": []
+  }
+}
