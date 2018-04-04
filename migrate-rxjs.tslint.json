@@ -1,0 +1,8 @@
+{
+  "rulesDirectory": ["node_modules/rxjs-migrate"],
+  "rules": {
+    "update-rxjs-imports": false,
+    "migrate-to-pipeable-operators": true,
+    "collapse-rxjs-imports": true
+  }
+}

@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Favorites</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-menu-toggle auto-hide="false" *ngFor="let favorite of favorites">
+      <ion-item  (click)="goToDetail(favorite)">
+        <ion-label>
+          <h2>{{favorite.trackName}}</h2>
+          <h3>by {{favorite.artistName}}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-list>
+</ion-content>

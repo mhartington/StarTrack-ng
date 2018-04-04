@@ -1,0 +1,45 @@
+<ion-card>
+  <ion-grid no-padding>
+    <ion-row align-items-center>
+      <ion-col col-12 col-md-5>
+        <div [ngClass]="{
+            '': !ifPlaying,
+            'playing': ifPlaying ,
+            'is-seeking': isSeeking
+          }" class="track-img">
+          <img [src]="fullImage" #img alt="">
+          <div class="background-shadow" [colorFromImage]="img"></div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <ion-card-content>
+          <ion-card-title>
+            <h2>{{track.trackName}}</h2>
+          </ion-card-title>
+          <h3>by {{track.artistName}}</h3>
+          <em>{{track.collectionName}}</em>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col col-3>
+                <ion-fab-button mini (click)="toggleSong()" color="light">
+                  <ion-icon color="success" name="play" *ngIf="!ifPlaying"></ion-icon>
+                  <ion-icon color="success" name="square" *ngIf="ifPlaying"></ion-icon>
+                </ion-fab-button>
+              </ion-col>
+              <ion-col col-9>
+                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.value)" color="success"></ion-range>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+        <ion-item>
+          <p>Track Duration</p>
+          <ion-badge slot="end" color="light">
+            {{track.trackTimeMillis | msToMins}}
+          </ion-badge>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "Star-Track": {
+      "root": "projects/Star-Track",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/Star-Track",
+            "index": "projects/Star-Track/src/index.html",
+            "main": "projects/Star-Track/src/main.ts",
+            "polyfills": "projects/Star-Track/src/polyfills.ts",
+            "tsConfig": "projects/Star-Track/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "favicon.ico",
+                "input": "projects/Star-Track/src",
+                "output": "./"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/Star-Track/src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@ionic/angular/dist/ionic",
+                "output": "./ionic/"
+              }
+            ],
+            "styles": [
+              {
+                "input": "projects/Star-Track/src/theme/variables.scss"
+              },
+              {
+                "input": "projects/Star-Track/src/global.scss"
+              }
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "from": "projects/Star-Track/src/environments/environment.ts",
+                  "to":
+                    "projects/Star-Track/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "Star-Track:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "Star-Track:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "Star-Track:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/Star-Track/src/test.ts",
+            "polyfills": "projects/Star-Track/src/polyfills.ts",
+            "tsConfig": "projects/Star-Track/tsconfig.spec.json",
+            "karmaConfig": "projects/Star-Track/karma.conf.js",
+            "styles": [
+              {
+                "input": "projects/Star-Track/styles.css"
+              }
+            ],
+            "scripts": [],
+            "assets": [
+              {
+                "glob": "favicon.ico",
+                "input": "projects/Star-Track/src/",
+                "output": "./"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/Star-Track/src/assets",
+                "output": "assets"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/Star-Track/tsconfig.app.json",
+              "projects/Star-Track/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "",
+      "styleext": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": ""
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Search</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="success">
+    <ion-searchbar placeholder="" [formControl]="searchInput" (ionFocus)="searchFocused($event)" (ionBlur)="searchBlured($event)" (ionCancel)="searchCleared($event)" showCancelButton="true">
+    </ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+<!--  -->
+<ion-content>
+    <ion-grid fixed no-padding>
+      <!-- No Search term? -->
+      <div *ngIf="!searchInput.value" padding>
+        <h1>Trending Bands</h1>
+        <ion-item *ngFor=" let trending of ['Pink Floyd', 'August Burns Red', 'Alkaline Trio']" (click)="setSearch(trending)">
+          {{trending}}
+        </ion-item>
+      </div>
+      <!-- Welp there's an error -->
+      <div *ngIf="isError" text-center padding>
+        <ion-icon color="secondary" name="warning" big></ion-icon>
+        <h1>Uh-oh...</h1>
+        <h2>It's not me, it's you!</h2>
+        <h2>It appears there is a connection problem</h2>
+      </div>
+      <!-- Alright, we're searching -->
+      <div padding text-center class="stauts-spinner" *ngIf="showSpinner">
+        <ion-spinner></ion-spinner>
+      </div>
+      <!-- We got some songs! -->
+      <ion-item *ngFor="let track of listing" detail-none (click)="detail(track)">
+        <ion-thumbnail slot="start">
+          <img [src]="track.artworkUrl100" alt="">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{track.trackName}}</h2>
+          <h3>{{track.artistName}}</h3>
+          <p>{{track.collectionName}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          {{track.trackTimeMillis | msToMins}}
+        </ion-note>
+      </ion-item>
+    </ion-grid>
+</ion-content>

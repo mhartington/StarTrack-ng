@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{track?.trackName}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFavorites()">
+        <ion-icon slot="icon-only" [name]="favoriteIcon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-sm-10 offset-sm-1>
+          <music-card #musicCard *ngIf="track" [track]="track"></music-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+</ion-content>
