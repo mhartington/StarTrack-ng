@@ -75,6 +75,6 @@ export class SearchPage implements OnInit {
       );
   }
   detail(track) {
-    this.router.navigate([`/app/menu/detail`, track.trackId])
+    this.router.navigate([`/app/detail`, track.trackId])
   }
 }

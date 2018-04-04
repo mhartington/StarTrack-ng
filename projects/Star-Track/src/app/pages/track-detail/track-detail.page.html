@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="success">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="app/search"></ion-back-button>
     </ion-buttons>
     <ion-title>{{track?.trackName}}</ion-title>
     <ion-buttons slot="end">
@@ -9,7 +9,6 @@
         <ion-icon slot="icon-only" [name]="favoriteIcon"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
@@ -23,5 +22,4 @@
       </ion-row>
     </ion-grid>
   </ion-list>
-
 </ion-content>

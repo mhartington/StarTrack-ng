@@ -16,14 +16,14 @@ export class MusicCardComponent {
     return this.track.artworkUrl100.replace(/100x100bb/, '400x400bb');
   }
   animationQ;
-  ifPlaying = false;
-  isFavorite = false;
-  favoriteIcon = 'star-outline';
-  player: Howl;
-  isSeeking: boolean = false;
+  public ifPlaying = false;
+  public isFavorite = false;
+  public favoriteIcon = 'star-outline';
+  public player: Howl;
+  public isSeeking: boolean = false;
   // public nativeMedia: NativeMedia
   constructor() {}
-  ngAfterViewInit() {
+  ngOnInit() {
     this.player = new Howl({
       src: [this.track.previewUrl],
       onplay: () => {

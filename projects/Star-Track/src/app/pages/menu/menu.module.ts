@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { MenuPage } from './menu.page';
 import { RouterModule } from '@angular/router';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { MenulistModule } from '../../components/menulist/menulist.module';
 
 @NgModule({
@@ -11,26 +11,24 @@ import { MenulistModule } from '../../components/menulist/menulist.module';
     IonicModule,
     MenulistModule,
     RouterModule.forChild([
-      { path: '', redirectTo: 'menu', pathMatch: 'full' },
       {
-        path: 'menu',
+        path: '',
         component: MenuPage,
         children: [
           {
             path: 'search',
-            loadChildren: '../search/search.module#SearchModule',
+            loadChildren: '../search/search.module#SearchModule'
           },
           {
             path: 'detail/:id',
             loadChildren:
-              '../track-detail/track-detail.module#TrackDetailModule',
+              '../track-detail/track-detail.module#TrackDetailModule'
           },
-          { path: '', redirectTo: 'search', pathMatch: 'full' },
+          { path: '', redirectTo: 'search', pathMatch: 'full' }
         ]
-      },
+      }
     ])
   ],
-  declarations: [MenuPage],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  declarations: [MenuPage]
 })
-export class MenuModule { }
+export class MenuModule {}

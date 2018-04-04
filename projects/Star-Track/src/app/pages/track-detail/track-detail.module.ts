@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 import { TrackDetailPage } from './track-detail.page';
 import { RouterModule } from '@angular/router';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -15,7 +15,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     RouterModule.forChild([{ path: '', component: TrackDetailPage }])
   ],
   declarations: [TrackDetailPage],
-  providers: [ItunesService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: [ItunesService]
 })
-export class TrackDetailModule { }
+export class TrackDetailModule {}

@@ -33,7 +33,7 @@
         <ion-spinner></ion-spinner>
       </div>
       <!-- We got some songs! -->
-      <ion-item *ngFor="let track of listing" detail-none (click)="detail(track)">
+      <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
         <ion-thumbnail slot="start">
           <img [src]="track.artworkUrl100" alt="">
         </ion-thumbnail>
