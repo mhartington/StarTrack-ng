@@ -1,6 +1,5 @@
 {
   "name": "StarTrack-ng",
-  "app_id": "",
   "type": "angular",
   "integrations": {
     "cordova": {}

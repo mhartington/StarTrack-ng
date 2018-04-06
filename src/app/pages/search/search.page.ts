@@ -34,6 +34,7 @@ export class SearchPage implements OnInit {
   searchCleared(e) {
     this.hasSearch = false;
     this.isError = false;
+    this.listing = []
   }
   searchBlured(e) {
     this.isError = false;
@@ -53,6 +54,8 @@ export class SearchPage implements OnInit {
             this.isError = false;
             return term;
           } else {
+
+            this.isError = false;
             this.listing = [];
             this.showSpinner = false;
           }
@@ -65,12 +68,11 @@ export class SearchPage implements OnInit {
         })
       )
       .subscribe(
-        results => (this.listing = results.results),
+        results => this.listing = results,
         err => {
           this.showOverlay = false;
           this.showSpinner = false;
           this.isError = true;
-          console.log(err);
         }
       );
   }

@@ -3,26 +3,22 @@
   "newProjectRoot": "projects",
   "projects": {
     "Star-Track": {
-      "root": "projects/Star-Track",
+      "root": "",
       "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Star-Track",
-            "index": "projects/Star-Track/src/index.html",
-            "main": "projects/Star-Track/src/main.ts",
-            "polyfills": "projects/Star-Track/src/polyfills.ts",
-            "tsConfig": "projects/Star-Track/tsconfig.app.json",
+            "progress": false,
+            "outputPath": "www",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
             "assets": [
               {
-                "glob": "favicon.ico",
-                "input": "projects/Star-Track/src",
-                "output": "./"
-              },
-              {
                 "glob": "**/*",
-                "input": "projects/Star-Track/src/assets",
+                "input": "src/assets",
                 "output": "assets"
               },
               {
@@ -33,10 +29,10 @@
             ],
             "styles": [
               {
-                "input": "projects/Star-Track/src/theme/variables.scss"
+                "input": "src/theme/variables.scss"
               },
               {
-                "input": "projects/Star-Track/src/global.scss"
+                "input": "src/global.scss"
               }
             ],
             "scripts": []
@@ -45,9 +41,9 @@
             "production": {
               "fileReplacements": [
                 {
-                  "from": "projects/Star-Track/src/environments/environment.ts",
+                  "from": "src/environments/environment.ts",
                   "to":
-                    "projects/Star-Track/src/environments/environment.prod.ts"
+                    "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -82,25 +78,25 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/Star-Track/src/test.ts",
-            "polyfills": "projects/Star-Track/src/polyfills.ts",
-            "tsConfig": "projects/Star-Track/tsconfig.spec.json",
-            "karmaConfig": "projects/Star-Track/karma.conf.js",
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "src/karma.conf.js",
             "styles": [
               {
-                "input": "projects/Star-Track/styles.css"
+                "input": "src/styles.css"
               }
             ],
             "scripts": [],
             "assets": [
               {
                 "glob": "favicon.ico",
-                "input": "projects/Star-Track/src/",
+                "input": "src/",
                 "output": "./"
               },
               {
                 "glob": "**/*",
-                "input": "projects/Star-Track/src/assets",
+                "input": "src/assets",
                 "output": "assets"
               }
             ]
@@ -110,8 +106,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/Star-Track/tsconfig.app.json",
-              "projects/Star-Track/tsconfig.spec.json"
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { debounceTime, tap, switchMap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'track-detail-page',

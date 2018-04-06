@@ -6,7 +6,7 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar color="success">
-    <ion-searchbar placeholder="" [formControl]="searchInput" (ionFocus)="searchFocused($event)" (ionBlur)="searchBlured($event)" (ionCancel)="searchCleared($event)" showCancelButton="true">
+    <ion-searchbar placeholder="" [formControl]="searchInput"  (ionCancel)="searchCleared($event)" showCancelButton="true">
     </ion-searchbar>
   </ion-toolbar>
 
@@ -23,7 +23,7 @@
       </div>
       <!-- Welp there's an error -->
       <div *ngIf="isError" text-center padding>
-        <ion-icon color="secondary" name="warning" big></ion-icon>
+        <ion-icon color="success" name="warning" size="large"></ion-icon>
         <h1>Uh-oh...</h1>
         <h2>It's not me, it's you!</h2>
         <h2>It appears there is a connection problem</h2>

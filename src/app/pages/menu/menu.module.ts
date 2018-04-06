@@ -4,7 +4,6 @@ import { MenuPage } from './menu.page';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { MenulistModule } from '../../components/menulist/menulist.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -31,4 +30,4 @@ import { MenulistModule } from '../../components/menulist/menulist.module';
   ],
   declarations: [MenuPage]
 })
-export class MenuModule {}
+export class MenuModule { }
