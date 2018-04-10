@@ -54,9 +54,7 @@ export class MusicCardComponent {
   setProgress() {
     if (!this.isSeeking) {
       let seek: any = this.player.seek();
-      // console.log(seek);
       this.progressValue = seek / this.player.duration() * 100 || 0;
-      // this.progressValue = Math.floor(Math.random()*10) + 1;
       this.animationQ = requestAnimationFrame(this.setProgress.bind(this));
     }
   }

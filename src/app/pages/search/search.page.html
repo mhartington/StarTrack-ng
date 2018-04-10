@@ -6,45 +6,45 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar color="success">
-    <ion-searchbar placeholder="" [formControl]="searchInput"  (ionCancel)="searchCleared($event)" showCancelButton="true">
+    <ion-searchbar placeholder="" [formControl]="searchInput" (ionCancel)="searchCleared($event)" (ionCancel)="searchCleared($event)" showCancelButton="true">
     </ion-searchbar>
   </ion-toolbar>
 
 </ion-header>
 <!--  -->
 <ion-content>
-    <ion-grid fixed no-padding>
-      <!-- No Search term? -->
-      <div *ngIf="!searchInput.value" padding>
-        <h1>Trending Bands</h1>
-        <ion-item *ngFor=" let trending of ['Pink Floyd', 'August Burns Red', 'Alkaline Trio']" (click)="setSearch(trending)">
-          {{trending}}
-        </ion-item>
-      </div>
-      <!-- Welp there's an error -->
-      <div *ngIf="isError" text-center padding>
-        <ion-icon color="success" name="warning" size="large"></ion-icon>
-        <h1>Uh-oh...</h1>
-        <h2>It's not me, it's you!</h2>
-        <h2>It appears there is a connection problem</h2>
-      </div>
-      <!-- Alright, we're searching -->
-      <div padding text-center class="stauts-spinner" *ngIf="showSpinner">
-        <ion-spinner></ion-spinner>
-      </div>
-      <!-- We got some songs! -->
-      <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
-        <ion-thumbnail slot="start">
-          <img [src]="track.artworkUrl100" alt="">
-        </ion-thumbnail>
-        <ion-label>
-          <h2>{{track.trackName}}</h2>
-          <h3>{{track.artistName}}</h3>
-          <p>{{track.collectionName}}</p>
-        </ion-label>
-        <ion-note slot="end">
-          {{track.trackTimeMillis | msToMins}}
-        </ion-note>
+  <ion-grid fixed no-padding>
+    <!-- No Search term? -->
+    <div *ngIf="!searchInput.value" padding>
+      <h1>Trending Bands</h1>
+      <ion-item *ngFor=" let trending of ['Pink Floyd', 'August Burns Red', 'Alkaline Trio']" (click)="setSearch(trending)">
+        {{trending}}
       </ion-item>
-    </ion-grid>
+    </div>
+    <!-- Welp there's an error -->
+    <div *ngIf="isError" text-center padding>
+      <ion-icon color="success" name="warning" size="large"></ion-icon>
+      <h1>Uh-oh...</h1>
+      <h2>It's not me, it's you!</h2>
+      <h2>It appears there is a connection problem</h2>
+    </div>
+    <!-- Alright, we're searching -->
+    <div padding text-center class="stauts-spinner" *ngIf="showSpinner">
+      <ion-spinner></ion-spinner>
+    </div>
+    <!-- We got some songs! -->
+    <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
+      <ion-thumbnail slot="start">
+        <img [src]="track.artworkUrl100" alt="">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{track.trackName}}</h2>
+        <h3>{{track.artistName}}</h3>
+        <p>{{track.collectionName}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        {{track.trackTimeMillis | msToMins}}
+      </ion-note>
+    </ion-item>
+  </ion-grid>
 </ion-content>

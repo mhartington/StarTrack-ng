@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TrackDetailPage } from '../track-detail/track-detail.page';
 import { ItunesService } from '../../providers/itunes/itunes.service';
@@ -9,7 +9,8 @@ import { debounceTime, tap, switchMap, filter } from 'rxjs/operators';
 @Component({
   selector: 'search-page',
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss']
+  styleUrls: ['./search.page.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchPage implements OnInit {
   @ViewChild('list') list: ElementRef;
@@ -25,19 +26,11 @@ export class SearchPage implements OnInit {
     private router: Router
   ) {}
 
-  searchFocused(e) {
-    this.hasSearch = true;
-    if (!this.searchInput.value) {
-      this.isError = false;
-    }
-  }
   searchCleared(e) {
+    console.log('cleard?')
     this.hasSearch = false;
     this.isError = false;
     this.listing = []
-  }
-  searchBlured(e) {
-    this.isError = false;
   }
   setSearch(val) {
     this.isError = false;
@@ -45,7 +38,6 @@ export class SearchPage implements OnInit {
     this.searchInput.setValue(val);
   }
   ngOnInit() {
-    console.log('search loaded')
     this.searchInput.valueChanges
       .pipe(
         filter(term => {
@@ -54,7 +46,6 @@ export class SearchPage implements OnInit {
             this.isError = false;
             return term;
           } else {
-
             this.isError = false;
             this.listing = [];
             this.showSpinner = false;

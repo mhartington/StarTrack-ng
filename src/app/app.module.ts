@@ -5,16 +5,22 @@ import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
-import IonicRouteStrategy from './router-reuse-strat';
+import { IonicRouteStrategy } from './router-reuse-strat';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([
-      { path: '', redirectTo: 'app', pathMatch: 'full' },
-      { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
-      { path: '**', redirectTo: 'app', pathMatch: 'full' },
-    ]),
+    RouterModule.forRoot(
+      [
+        { path: '', redirectTo: 'app', pathMatch: 'full' },
+        { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
+        { path: '**', redirectTo: 'app', pathMatch: 'full' }
+      ],
+      {
+        useHash: true
+      }
+    ),
     IonicModule.forRoot(),
     HttpClientModule,
     IonicStorageModule.forRoot({

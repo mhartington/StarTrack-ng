@@ -4,7 +4,8 @@ import {
   DetachedRouteHandle
 } from '@angular/router';
 
-export default class IonicRouteStrategy implements RouteReuseStrategy {
+export class IonicRouteStrategy implements RouteReuseStrategy {
+
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     return false;
   }

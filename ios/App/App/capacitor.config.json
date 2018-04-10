@@ -1,0 +1,6 @@
+{
+  "appId": "io.startrack.app",
+  "appName": "StarTrack",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}

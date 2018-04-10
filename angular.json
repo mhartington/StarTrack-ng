@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -41,9 +42,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "from": "src/environments/environment.ts",
-                  "to":
-                    "src/environments/environment.prod.ts"
+                  "src": "src/environments/environment.ts",
+                  "replaceWith": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -116,6 +116,11 @@
     }
   },
   "schematics": {
+    "@ionic/schematics-angular:page": {},
+    "@schematics/angular:component": {
+      "prefix": "",
+      "styleext": "scss"
+    },
     "@schematics/angular:component": {
       "prefix": "",
       "styleext": "scss"

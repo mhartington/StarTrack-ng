@@ -3,7 +3,6 @@
     <ion-row align-items-center>
       <ion-col col-12 col-md-5>
         <div [ngClass]="{
-            '': !ifPlaying,
             'playing': ifPlaying ,
             'is-seeking': isSeeking
           }" class="track-img">
@@ -28,7 +27,7 @@
                 </ion-fab-button>
               </ion-col>
               <ion-col col-9>
-                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.value)" color="success"></ion-range>
+                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)" color="success"></ion-range>
               </ion-col>
             </ion-row>
           </ion-grid>
