@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/Star-Track",
+    "public": "www",
     "rewrites": [
       {
         "source": "**",

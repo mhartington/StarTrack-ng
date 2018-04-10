@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^6.0.0-rc.3",
     "@angular/platform-browser-dynamic": "^6.0.0-rc.3",
     "@angular/router": "^6.0.0-rc.3",
+    "@angular/service-worker": "^6.0.0-rc.3",
     "@capacitor/cli": "^1.0.0-alpha.33",
     "@capacitor/core": "^1.0.0-alpha.33",
     "@capacitor/ios": "^1.0.0-alpha.33",
