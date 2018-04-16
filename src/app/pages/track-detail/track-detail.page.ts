@@ -10,7 +10,7 @@ import { debounceTime, tap, switchMap, filter } from 'rxjs/operators';
   templateUrl: './track-detail.page.html',
   styleUrls: ['./track-detail.page.scss']
 })
-export class TrackDetailPage implements OnInit {
+export class TrackDetailPage {
   @ViewChild('musicCard') musicCard;
   public track;
   public isFavorite = false;
@@ -23,15 +23,11 @@ export class TrackDetailPage implements OnInit {
     public toastCtrl: ToastController,
     public service: ItunesService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
-    const { id } = this.route.snapshot.params;
-    this.service.loadSong(id).subscribe(
-      res => this.track = res,
-      err => console.log(err),
-      () => this.checkStorage()
-    );
+    this.track = this.route.snapshot.data['track'];
+    this.checkStorage();
   }
   checkStorage() {
     this.storage.get(this.track.trackId).then(res => {
@@ -56,13 +52,13 @@ export class TrackDetailPage implements OnInit {
       position: 'bottom'
     };
     if (!this.isFavorite) {
-      this.toastCtrl.create(addedToast).then(toast => toast.present())
+      this.toastCtrl.create(addedToast).then(toast => toast.present());
       this.isFavorite = true;
       this.favoriteIcon = 'star';
       this.storage.set(this.track.trackId, this.track);
       this.events.publish('songAdded', this.track);
     } else {
-      this.toastCtrl.create(removedToast).then(toast => toast.present())
+      this.toastCtrl.create(removedToast).then(toast => toast.present());
       this.storage.remove(this.track.trackId);
       this.isFavorite = false;
       this.favoriteIcon = 'star-outline';

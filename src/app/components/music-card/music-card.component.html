@@ -22,8 +22,8 @@
             <ion-row>
               <ion-col col-3>
                 <ion-fab-button mini (click)="toggleSong()" color="light">
-                  <ion-icon color="success" name="play" *ngIf="!ifPlaying"></ion-icon>
-                  <ion-icon color="success" name="square" *ngIf="ifPlaying"></ion-icon>
+                  <ion-icon color="success" [name]="ifPlaying ? 'square' : 'play'" ></ion-icon>
+                  <!-- <ion&#45;icon color="success" name="square" *ngIf="ifPlaying"></ion&#45;icon> -->
                 </ion-fab-button>
               </ion-col>
               <ion-col col-9>

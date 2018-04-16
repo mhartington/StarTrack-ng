@@ -20,14 +20,13 @@ import { MenulistModule } from '../../components/menulist/menulist.module';
           },
           {
             path: 'detail/:id',
-            loadChildren:
-              '../track-detail/track-detail.module#TrackDetailModule'
+            loadChildren:'../track-detail/track-detail.module#TrackDetailModule',
           },
           { path: '', redirectTo: 'search', pathMatch: 'full' }
         ]
       }
     ])
   ],
-  declarations: [MenuPage]
+  declarations: [MenuPage],
 })
 export class MenuModule { }

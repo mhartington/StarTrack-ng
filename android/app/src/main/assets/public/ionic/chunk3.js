@@ -1,0 +1,5 @@
+/*!
+ * (C) Ionic http://ionicframework.com - MIT License
+ * Built with http://stenciljs.com
+ */
+const{h:t}=window.Ionic;function n(t,n,e){return Math.max(t,Math.min(n,e))}function e(t,n){if(!t){const t="ASSERT: "+n;throw console.error(t),new Error(t)}}function r(t){return t.timeStamp||Date.now()}function i(t){if(t){const n=t.changedTouches;if(n&&n.length>0){const t=n[0];return{x:t.clientX,y:t.clientY}}if(void 0!==t.pageX)return{x:t.pageX,y:t.pageY}}return{x:0,y:0}}function o(t,n=!1){const e="rtl"===document.dir;switch(t){case"right":return!0;case"left":return!1;case"end":return!e;case"start":return e;default:return n?!e:e}}function c(t){return u(t,0)}function u(t,n){const e=t._original||t;return{_original:t,emit:function(t,n=0){let e;return(...r)=>{clearTimeout(e),e=setTimeout(t,n,...r)}}(e.emit.bind(e),n)}}export{r as now,i as pointerCoord,c as deferEvent,n as clamp,e as assert,u as debounceEvent,o as isRightSide};

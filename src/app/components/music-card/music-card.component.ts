@@ -18,7 +18,6 @@ export class MusicCardComponent {
   animationQ;
   public ifPlaying = false;
   public isFavorite = false;
-  public favoriteIcon = 'star-outline';
   public player: Howl;
   public isSeeking: boolean = false;
   // public nativeMedia: NativeMedia
