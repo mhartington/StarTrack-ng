@@ -20,10 +20,7 @@ import { environment } from '../environments/environment';
         { path: '', redirectTo: 'app', pathMatch: 'full' },
         { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
         { path: '**', redirectTo: 'app', pathMatch: 'full' }
-      ],
-      {
-        useHash: true
-      }
+      ]
     ),
     IonicModule.forRoot(),
     HttpClientModule,
