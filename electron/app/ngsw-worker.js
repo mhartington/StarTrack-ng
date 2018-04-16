@@ -1292,42 +1292,6 @@ class DataGroup {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-function isNavigationRequest(req, relativeTo, adapter) {
-    if (req.mode !== 'navigate') {
-        return false;
-    }
-    if (req.url.indexOf('__') !== -1) {
-        return false;
-    }
-    if (hasFileExtension(req.url, relativeTo, adapter)) {
-        return false;
-    }
-    if (!acceptsTextHtml(req)) {
-        return false;
-    }
-    return true;
-}
-function hasFileExtension(url, relativeTo, adapter) {
-    const path = adapter.parseUrl(url, relativeTo).path;
-    const lastSegment = path.split('/').pop();
-    return lastSegment.indexOf('.') !== -1;
-}
-function acceptsTextHtml(req) {
-    const accept = req.headers.get('Accept');
-    if (accept === null) {
-        return false;
-    }
-    const values = accept.split(',');
-    return values.some(value => value.trim().toLowerCase() === 'text/html');
-}
-
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1382,6 +1346,13 @@ class AppVersion {
         // Process each `DataGroup` declared in the manifest.
         this.dataGroups = (manifest.dataGroups || [])
             .map(config => new DataGroup(this.scope, this.adapter, config, this.database, `ngsw:${config.version}:data`));
+        // Create `include`/`exclude` RegExps for the `navigationUrls` declared in the manifest.
+        const includeUrls = manifest.navigationUrls.filter(spec => spec.positive);
+        const excludeUrls = manifest.navigationUrls.filter(spec => !spec.positive);
+        this.navigationUrls = {
+            include: includeUrls.map(spec => new RegExp(spec.regex)),
+            exclude: excludeUrls.map(spec => new RegExp(spec.regex)),
+        };
     }
     get okay() { return this._okay; }
     /**
@@ -1450,14 +1421,30 @@ class AppVersion {
             }
             // Next, check if this is a navigation request for a route. Detect circular
             // navigations by checking if the request URL is the same as the index URL.
-            if (isNavigationRequest(req, this.scope.registration.scope, this.adapter) &&
-                req.url !== this.manifest.index) {
+            if (req.url !== this.manifest.index && this.isNavigationRequest(req)) {
                 // This was a navigation request. Re-enter `handleFetch` with a request for
                 // the URL.
                 return this.handleFetch(this.adapter.newRequest(this.manifest.index), context);
             }
             return null;
         });
+    }
+    /**
+     * Determine whether the request is a navigation request.
+     * Takes into account: Request mode, `Accept` header, `navigationUrls` patterns.
+     */
+    isNavigationRequest(req) {
+        if (req.mode !== 'navigate') {
+            return false;
+        }
+        if (!this.acceptsTextHtml(req)) {
+            return false;
+        }
+        const urlPrefix = this.scope.registration.scope.replace(/\/$/, '');
+        const url = req.url.startsWith(urlPrefix) ? req.url.substr(urlPrefix.length) : req.url;
+        const urlWithoutQueryOrHash = url.replace(/[?#].*$/, '');
+        return this.navigationUrls.include.some(regex => regex.test(urlWithoutQueryOrHash)) &&
+            !this.navigationUrls.exclude.some(regex => regex.test(urlWithoutQueryOrHash));
     }
     /**
      * Check this version for a given resource with a particular hash.
@@ -1535,6 +1522,17 @@ class AppVersion {
      * Get the opaque application data which was provided with the manifest.
      */
     get appData() { return this.manifest.appData || null; }
+    /**
+     * Check whether a request accepts `text/html` (based on the `Accept` header).
+     */
+    acceptsTextHtml(req) {
+        const accept = req.headers.get('Accept');
+        if (accept === null) {
+            return false;
+        }
+        const values = accept.split(',');
+        return values.some(value => value.trim().toLowerCase() === 'text/html');
+    }
 }
 
 /**
@@ -2211,22 +2209,23 @@ class Driver {
                 // Check if there is an assigned client id.
                 if (this.clientVersionMap.has(clientId)) {
                     // There is an assignment for this client already.
-                    let hash = this.clientVersionMap.get(clientId);
+                    const hash = this.clientVersionMap.get(clientId);
+                    let appVersion = this.lookupVersionByHash(hash, 'assignVersion');
                     // Ordinarily, this client would be served from its assigned version. But, if this
                     // request is a navigation request, this client can be updated to the latest
                     // version immediately.
                     if (this.state === DriverReadyState.NORMAL && hash !== this.latestHash &&
-                        isNavigationRequest(event.request, this.scope.registration.scope, this.adapter)) {
+                        appVersion.isNavigationRequest(event.request)) {
                         // Update this client to the latest version immediately.
                         if (this.latestHash === null) {
                             throw new Error(`Invariant violated (assignVersion): latestHash was null`);
                         }
                         const client = yield this.scope.clients.get(clientId);
                         yield this.updateClient(client);
-                        hash = this.latestHash;
+                        appVersion = this.lookupVersionByHash(this.latestHash, 'assignVersion');
                     }
                     // TODO: make sure the version is valid.
-                    return this.lookupVersionByHash(hash, 'assignVersion');
+                    return appVersion;
                 }
                 else {
                     // This is the first time this client ID has been seen. Whether the SW is in a
@@ -2638,3 +2637,4 @@ const adapter = new Adapter();
 const driver = new Driver(scope, adapter, new CacheDatabase(scope, adapter));
 
 }());
+//# sourceMappingURL=ngsw_worker.es6.js.map

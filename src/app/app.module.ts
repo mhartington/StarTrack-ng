@@ -5,7 +5,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -32,6 +32,7 @@ import { environment } from '../environments/environment';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-
+  constructor(private updates: SwUpdate){
+    this.updates.activateUpdate().then(() => console.log('updated in the background'))
+  }
 }

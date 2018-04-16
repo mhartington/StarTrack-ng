@@ -23,14 +23,8 @@ Ionic.loadBundle("./chunk3.js", ["exports"], function (n) { function t(n, t) { v
 } return { x: 0, y: 0 }; }, n.deferEvent = function (n) { return t(n, 0); }, n.clamp = function (n, t, e) { return Math.max(n, Math.min(t, e)); }, n.assert = function (n, t) { if (!n) {
     var n_2 = "ASSERT: " + t;
     throw console.error(n_2), new Error(n_2);
-} }, n.debounceEvent = t, n.isRightSide = function (n, t) {
-    if (t === void 0) { t = !1; }
-    var e = "rtl" === document.dir;
-    switch (n) {
-        case "right": return !0;
-        case "left": return !1;
-        case "end": return !e;
-        case "start": return e;
-        default: return t ? !e : e;
-    }
-}; });
+} }, n.debounceEvent = t, n.isRightSide = function (n) { var t = "rtl" === document.dir; switch (n) {
+    case "start": return t;
+    case "end": return !t;
+    default: throw new Error("\"" + n + "\" is not a valid value for [side]. Use \"start\" or \"end\" instead.");
+} }; });

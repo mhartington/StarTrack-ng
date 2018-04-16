@@ -37,11 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
  * (C) Ionic http://ionicframework.com - MIT License
  * Built with http://stenciljs.com
  */
-Ionic.loadBundle("./chunk6.js", ["exports"], function (n) { window.Ionic.h; var e = CustomEvent; function i(n, e) {
+Ionic.loadBundle("./chunk6.js", ["exports"], function (n) { function e(n, e) {
     return __awaiter(this, void 0, void 0, function () { var i; return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                i = (null != n.deepWait ? n.deepWait : e) ? [r(n.enteringEl), r(n.leavingEl)] : [l(n.enteringEl), l(n.leavingEl)];
+                i = (null != n.deepWait ? n.deepWait : e) ? [l(n.enteringEl), l(n.leavingEl)] : [o(n.enteringEl), o(n.leavingEl)];
                 return [4 /*yield*/, Promise.all(i)];
             case 1:
                 _a.sent();
@@ -66,31 +66,31 @@ Ionic.loadBundle("./chunk6.js", ["exports"], function (n) { window.Ionic.h; var 
                 return [2 /*return*/];
         }
     }); });
-} function t(n, e) { o(e, "ionViewWillLeave"), o(n, "ionViewWillEnter"); } function a(n, e) { o(n, "ionViewDidEnter"), o(e, "ionViewDidLeave"); } function o(n, i) { if (n) {
-    var t_1 = new e(i, { bubbles: !1, cancelable: !1 });
-    n.dispatchEvent(t_1);
-} } function l(n) { return n && n.componentOnReady ? n.componentOnReady() : Promise.resolve(); } function r(n) { return n ? customElements.get ? customElements.get(n.tagName.toLowerCase()) ? c(n) : Promise.all(Array.from(n.children).map(r)) : c(n) : Promise.resolve(); } function c(n) { return n.componentOnReady ? n.componentOnReady() : Promise.all(Array.from(n.children).map(r)); } n.lifecycle = o, n.transition = function (n) { return function (n) { var e = n.enteringEl, i = n.leavingEl; (function (n, e, i) { n && (n.style.zIndex = "back" === i ? "99" : "101"), e && (e.style.zIndex = "100"); })(e, i, n.direction), e && (n.showGoBack ? e.classList.add("can-go-back") : e.classList.remove("can-go-back"), e.hidden = !1), i && (i.hidden = !1); }(n), n.enteringEl && n.leavingEl && (n.animationBuilder || n.animation) ? function (n) {
-    return __awaiter(this, void 0, void 0, function () { var e; return __generator(this, function (_a) {
+} function i(n, e, i) { a(n, i, "ionViewWillLeave"), a(n, e, "ionViewWillEnter"); } function t(n, e, i) { a(n, e, "ionViewDidEnter"), a(n, i, "ionViewDidLeave"); } function a(n, e, i) { if (e) {
+    var t_1 = new (0, n.CustomEvent)(i, { bubbles: !1, cancelable: !1 });
+    e.dispatchEvent(t_1);
+} } function o(n) { return n && n.componentOnReady ? n.componentOnReady() : Promise.resolve(); } function l(n) { return n ? customElements.get ? customElements.get(n.tagName.toLowerCase()) ? r(n) : Promise.all(Array.from(n.children).map(l)) : r(n) : Promise.resolve(); } function r(n) { return n.componentOnReady ? n.componentOnReady() : Promise.all(Array.from(n.children).map(l)); } window.Ionic.h, n.lifecycle = a, n.transition = function (n) { return function (n) { var e = n.enteringEl, i = n.leavingEl; (function (n, e, i) { n && (n.style.zIndex = "back" === i ? "99" : "101"), e && (e.style.zIndex = "100"); })(e, i, n.direction), n.showGoBack ? e.classList.add("can-go-back") : e.classList.remove("can-go-back"), e.hidden = !1, i && (i.hidden = !1); }(n), n.leavingEl && (n.animationBuilder || n.animation) ? function (n) {
+    return __awaiter(this, void 0, void 0, function () { var a; return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, i(n, !0)];
+            case 0: return [4 /*yield*/, e(n, !0)];
             case 1:
                 _a.sent();
                 return [4 /*yield*/, function (n) { return n.animation ? n.animation : n.animationCtrl.create(n.animationBuilder, n.baseEl, n); }(n)];
             case 2:
-                e = _a.sent();
-                t(n.enteringEl, n.leavingEl);
-                return [4 /*yield*/, function (n, e) { var i = e.progressAnimation, t = new Promise(function (e) { return n.onFinish(e); }); return i ? (n.progressStart(), i(n)) : n.play(), t; }(e, n)];
-            case 3: return [2 /*return*/, (_a.sent(), e.hasCompleted && a(n.enteringEl, n.leavingEl), e)];
+                a = _a.sent();
+                i(n.window, n.enteringEl, n.leavingEl);
+                return [4 /*yield*/, function (n, e) { var i = e.progressAnimation, t = new Promise(function (e) { return n.onFinish(e); }); return i ? (n.progressStart(), i(n)) : n.play(), t; }(a, n)];
+            case 3: return [2 /*return*/, (_a.sent(), a.hasCompleted && t(n.window, n.enteringEl, n.leavingEl), a)];
         }
     }); });
 }(n) : function (n) {
-    return __awaiter(this, void 0, void 0, function () { var e, o; return __generator(this, function (_a) {
+    return __awaiter(this, void 0, void 0, function () { var a, o; return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                e = n.enteringEl, o = n.leavingEl;
-                e && e.classList.remove("hide-page"), o && o.classList.remove("hide-page");
-                return [4 /*yield*/, i(n, !1)];
-            case 1: return [2 /*return*/, (_a.sent(), t(e, o), void a(e, o))];
+                a = n.enteringEl, o = n.leavingEl;
+                a && a.classList.remove("hide-page"), o && o.classList.remove("hide-page");
+                return [4 /*yield*/, e(n, !1)];
+            case 1: return [2 /*return*/, (_a.sent(), i(n.window, a, o), t(n.window, a, o), null)];
         }
     }); });
 }(n); }; });

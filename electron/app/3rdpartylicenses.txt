@@ -1,4 +1,4 @@
-rxjs@6.0.0-tactical-rc.1
+rxjs@6.0.0-uncanny-rc.7
 Apache-2.0
 Apache License
                          Version 2.0, January 2004
@@ -202,11 +202,11 @@ Apache License
  See the License for the specific language governing permissions and
  limitations under the License.
 
-@angular/forms@6.0.0-rc.3
+@angular/forms@6.0.0-rc.5
 MIT
 MIT
 
-@ionic/angular@4.0.0-alpha.1
+@ionic/angular@4.0.0-alpha.2
 MIT
 MIT
 
@@ -337,11 +337,11 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
 
-@angular/common@6.0.0-rc.3
+@angular/common@6.0.0-rc.5
 MIT
 MIT
 
-@angular/platform-browser@6.0.0-rc.3
+@angular/platform-browser@6.0.0-rc.5
 MIT
 MIT
 
@@ -385,10 +385,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-@angular/router@6.0.0-rc.3
+@angular/router@6.0.0-rc.5
 MIT
 MIT
 
-@angular/core@6.0.0-rc.3
+@angular/core@6.0.0-rc.5
 MIT
 MIT

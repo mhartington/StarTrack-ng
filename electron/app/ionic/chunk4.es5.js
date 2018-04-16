@@ -2,4 +2,4 @@
  * (C) Ionic http://ionicframework.com - MIT License
  * Built with http://stenciljs.com
  */
-Ionic.loadBundle("./chunk4.js", ["exports"], function (n) { window.Ionic.h; var e = window.TapticEngine; n.hapticSelectionChanged = function () { e && e.gestureSelectionChanged(); }, n.hapticSelectionEnd = function () { e && e.gestureSelectionEnd(); }, n.hapticSelectionStart = function () { e && e.gestureSelectionStart(); }, n.hapticSelection = function () { e && e.selection(); }; });
+Ionic.loadBundle("./chunk4.js", ["exports"], function (n) { window.Ionic.h, n.hapticSelectionChanged = function () { var n = window.TapticEngine; n && n.gestureSelectionChanged(); }, n.hapticSelectionEnd = function () { var n = window.TapticEngine; n && n.gestureSelectionEnd(); }, n.hapticSelectionStart = function () { var n = window.TapticEngine; n && n.gestureSelectionStart(); }, n.hapticSelection = function () { var n = window.TapticEngine; n && n.selection(); }; });
