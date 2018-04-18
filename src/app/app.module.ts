@@ -33,6 +33,7 @@ import { environment } from '../environments/environment';
 })
 export class AppModule {
   constructor(private updates: SwUpdate){
-    this.updates.activateUpdate().then(() => console.log('updated in the background'))
-  }
+    if(environment.production){
+      this.updates.activateUpdate().then(() => console.log('updated in the background'))  }
+    }
 }

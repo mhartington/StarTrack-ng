@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TrackDetailPage } from '../track-detail/track-detail.page';
 import { ItunesService } from '../../providers/itunes/itunes.service';
@@ -21,16 +27,14 @@ export class SearchPage implements OnInit {
   public showSpinner: boolean = false;
   public searchInput = new FormControl('');
   public showOverlay: boolean = false;
-  constructor(
-    public itunes: ItunesService,
-    private router: Router
-  ) {}
-
+  constructor(public itunes: ItunesService, private router: Router) {}
+  searchCanceled(e) {
+    e.target.blur();
+  }
   searchCleared(e) {
-    console.log('cleard?')
     this.hasSearch = false;
     this.isError = false;
-    this.listing = []
+    this.listing = [];
   }
   setSearch(val) {
     this.isError = false;
@@ -44,11 +48,13 @@ export class SearchPage implements OnInit {
           if (term) {
             this.showSpinner = true;
             this.isError = false;
+            this.hasSearch = true;
             return term;
           } else {
             this.isError = false;
             this.listing = [];
             this.showSpinner = false;
+            this.hasSearch = false;
           }
         }),
         debounceTime(500),
@@ -59,7 +65,7 @@ export class SearchPage implements OnInit {
         })
       )
       .subscribe(
-        results => this.listing = results,
+        results => (this.listing = results),
         err => {
           this.showOverlay = false;
           this.showSpinner = false;
@@ -68,6 +74,6 @@ export class SearchPage implements OnInit {
       );
   }
   detail(track) {
-    this.router.navigate([`/app/detail`, track.trackId])
+    this.router.navigate(['app', 'detail', track.trackId]);
   }
 }
