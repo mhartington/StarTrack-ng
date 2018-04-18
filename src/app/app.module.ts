@@ -15,13 +15,11 @@ import { environment } from '../environments/environment';
       enabled: environment.production
     }),
     BrowserModule,
-    RouterModule.forRoot(
-      [
-        { path: '', redirectTo: 'app', pathMatch: 'full' },
-        { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
-        { path: '**', redirectTo: 'app', pathMatch: 'full' }
-      ]
-    ),
+    RouterModule.forRoot([
+      { path: '', redirectTo: 'app', pathMatch: 'full' },
+      { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
+      { path: '**', redirectTo: 'app', pathMatch: 'full' }
+    ]),
     IonicModule.forRoot(),
     HttpClientModule,
     IonicStorageModule.forRoot({
@@ -32,8 +30,11 @@ import { environment } from '../environments/environment';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private updates: SwUpdate){
-    if(environment.production){
-      this.updates.activateUpdate().then(() => console.log('updated in the background'))  }
+  constructor(private updates: SwUpdate) {
+    if (environment.production) {
+      this.updates
+        .activateUpdate()
+        .then(() => console.log('updated in the background'));
     }
+  }
 }
