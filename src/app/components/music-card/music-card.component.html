@@ -22,12 +22,11 @@
             <ion-row>
               <ion-col col-3>
                 <ion-fab-button mini (click)="toggleSong()" color="light">
-                  <ion-icon color="success" [name]="ifPlaying ? 'square' : 'play'" ></ion-icon>
-                  <!-- <ion&#45;icon color="success" name="square" *ngIf="ifPlaying"></ion&#45;icon> -->
+                  <ion-icon color="success"  [name]="ifPlaying ? 'square' : 'play'" ></ion-icon>
                 </ion-fab-button>
               </ion-col>
               <ion-col col-9>
-                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)" color="success"></ion-range>
+                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)"></ion-range>
               </ion-col>
             </ion-row>
           </ion-grid>

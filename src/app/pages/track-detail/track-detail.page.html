@@ -17,7 +17,8 @@
     <ion-grid>
       <ion-row>
         <ion-col col-sm-10 offset-sm-1>
-          <music-card #musicCard [track]="track"></music-card>
+          <music-card *ngIf="track" #musicCard [track]="track"></music-card>
+          <music-card-placeholder *ngIf="!track"></music-card-placeholder>
         </ion-col>
       </ion-row>
     </ion-grid>

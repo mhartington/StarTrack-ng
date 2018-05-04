@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { timeout, retryWhen, delay, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ItunesService {
   constructor(public http: HttpClient) {}
   public load(query): Observable<any> {

@@ -5,9 +5,8 @@ import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
-  selector: 'track-detail-page',
-  templateUrl: './track-detail.page.html',
-  styleUrls: ['./track-detail.page.scss']
+  selector: 'app-track-detail-page',
+  templateUrl: './track-detail.page.html'
 })
 export class TrackDetailPage {
   @ViewChild('musicCard') musicCard;
@@ -19,13 +18,18 @@ export class TrackDetailPage {
     public events: Events,
     public storage: Storage,
     public toastCtrl: ToastController,
-    public service: ItunesService,
+    public itunes: ItunesService,
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.track = this.route.snapshot.data['track'];
-    this.checkStorage();
+  ionViewDidEnter() {
+    this.itunes.loadSong(this.route.snapshot.params.id)
+    .subscribe(
+      res => this.track = res,
+      err => console.log(err),
+      () => this.checkStorage()
+    );
+
   }
   checkStorage() {
     this.storage.get(this.track.trackId).then(res => {

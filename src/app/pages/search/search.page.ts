@@ -1,25 +1,23 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  ViewEncapsulation
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TrackDetailPage } from '../track-detail/track-detail.page';
 import { ItunesService } from '../../providers/itunes/itunes.service';
-// import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { FormControl } from '@angular/forms';
-import { debounceTime, tap, switchMap, filter } from 'rxjs/operators';
+import {
+  debounceTime,
+  tap,
+  switchMap,
+  filter,
+  catchError
+} from 'rxjs/operators';
 
 @Component({
   selector: 'search-page',
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./search.page.scss']
 })
 export class SearchPage implements OnInit {
-  @ViewChild('list') list: ElementRef;
   hasSearch: boolean = false;
   public listing = [];
   public items = Array.from(Array(50).keys());
@@ -27,7 +25,11 @@ export class SearchPage implements OnInit {
   public showSpinner: boolean = false;
   public searchInput = new FormControl('');
   public showOverlay: boolean = false;
-  constructor(public itunes: ItunesService, private router: Router) {}
+  constructor(
+    public itunes: ItunesService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
   searchCanceled(e) {
     e.target.blur();
   }
@@ -62,18 +64,17 @@ export class SearchPage implements OnInit {
         tap(() => {
           this.showOverlay = false;
           this.showSpinner = false;
-        })
-      )
-      .subscribe(
-        results => (this.listing = results),
-        err => {
+        }),
+        catchError(e => {
           this.showOverlay = false;
           this.showSpinner = false;
           this.isError = true;
-        }
-      );
+          return [];
+        })
+      )
+      .subscribe(results => (this.listing = results));
   }
   detail(track) {
-    this.router.navigate(['app', 'detail', track.trackId]);
+    this.router.navigate(['detail', track.trackId], { relativeTo: this.route });
   }
 }

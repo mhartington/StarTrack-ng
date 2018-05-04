@@ -5,11 +5,17 @@
         <ion-title>Favorites</ion-title>
       </ion-toolbar>
     </ion-header>
-    <!-- <ion-content>
-      <ion-list> -->
         <menu-list></menu-list>
-      <!-- </ion-list>
-    </ion-content> -->
+        
+        <ion-footer>
+          <ion-toolbar transparent>
+            <ion-buttons slot="start">
+              <ion-button round="true" (click)="toggleDark()">
+                <ion-icon slot="icon-only" name="moon"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-footer>
   </ion-menu>
   <ion-router-outlet main stack></ion-router-outlet>
 </ion-split-pane>

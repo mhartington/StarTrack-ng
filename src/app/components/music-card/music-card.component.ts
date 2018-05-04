@@ -48,6 +48,7 @@ export class MusicCardComponent {
   stopSong() {
     this.ifPlaying = false;
     this.player.stop();
+    this.progressValue = 0;
     window.cancelAnimationFrame(this.animationQ);
   }
   setProgress() {

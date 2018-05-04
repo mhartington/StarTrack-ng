@@ -27,7 +27,9 @@ export class MenulistComponent implements OnInit {
   }
   getKeys() {
     this.storage.forEach(entry => {
-      this.favorites.push(entry);
+      if(typeof(entry) !== 'boolean'){
+        this.favorites.push(entry);
+      }
     });
   }
   goToDetail(favorite) {
