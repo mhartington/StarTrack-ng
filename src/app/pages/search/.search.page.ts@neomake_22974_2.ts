@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TrackDetailPage } from '../track-detail/track-detail.page';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 
 import { FormControl } from '@angular/forms';
@@ -12,7 +13,7 @@ import {
 } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-search-page',
+  selector: 'search-page',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss']
 })
@@ -30,6 +31,7 @@ export class SearchPage implements OnInit {
   ) {}
   searchCanceled(e) {
     e.target.blur();
+    
   }
   searchCleared(e) {
     this.hasSearch = false;
