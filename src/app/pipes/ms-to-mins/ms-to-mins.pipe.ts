@@ -1,8 +1,9 @@
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
-  name: 'msToMins'
+  name: 'msToMins',
+  pure: true
 })
-export class MsToMinsPipe {
+export class MsToMinsPipe implements PipeTransform {
   transform(value?: number) {
     return this.durationFromMsHelper(value);
   }
@@ -14,12 +15,12 @@ export class MsToMinsPipe {
   }
   durationFromMsHelper(ms) {
     let x: number = ms / 1000;
-    let seconds: number = this.pad2(Math.floor(x % 60));
+    const seconds: number = this.pad2(Math.floor(x % 60));
     x /= 60;
-    let minutes: number = this.pad2(Math.floor(x % 60));
+    const minutes: number = this.pad2(Math.floor(x % 60));
     x /= 60;
-    let hours: number = Math.floor(x % 24);
-    let newHours = hours ? this.pad2(hours) + ':' : '';
+    const hours: number = Math.floor(x % 24);
+    const newHours = hours ? this.pad2(hours) + ':' : '';
     return newHours + minutes + ':' + seconds;
   }
 }

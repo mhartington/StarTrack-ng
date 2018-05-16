@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ItunesService } from '../../providers/itunes/itunes.service';
-
 import { FormControl } from '@angular/forms';
 import {
   debounceTime,
@@ -28,15 +27,15 @@ export class SearchPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
-  searchCanceled(e) {
-    e.target.blur();
+  searchCanceled(e: Event) {
+    (e.target as HTMLIonSearchbarElement).blur();
   }
-  searchCleared(e) {
+  searchCleared(e: Event) {
     this.hasSearch = false;
     this.isError = false;
     this.listing = [];
   }
-  setSearch(val) {
+  setSearch(val: string) {
     this.isError = false;
     this.hasSearch = true;
     this.searchInput.setValue(val);

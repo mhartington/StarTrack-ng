@@ -1,82 +1,13 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
-export class ColorThiefService {
-
-  // Adaptation of ColorThief : http://lokeshdhakar.com/projects/color-thief/
-  getPalette(sourceImage, colorCount?: number, quality?: number) {
-    if (
-      typeof colorCount === 'undefined' ||
-      colorCount < 2 ||
-      colorCount > 256
-    ) {
-      colorCount = 10;
-    }
-    if (typeof quality === 'undefined' || quality < 1) {
-      quality = 10;
-    }
-
-    // Create custom CanvasImage object
-    var image = new CanvasImage(sourceImage);
-    var imageData = image.getImageData();
-    var pixels = imageData.data;
-    var pixelCount = image.getPixelCount();
-
-    // Store the RGB values in an array format suitable for quantize function
-    var pixelArray = [];
-    for (var i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
-      offset = i * 4;
-      r = pixels[offset + 0];
-      g = pixels[offset + 1];
-      b = pixels[offset + 2];
-      a = pixels[offset + 3];
-      // If pixel is mostly opaque and not white
-      if (a >= 125) {
-        if (!(r > 250 && g > 250 && b > 250)) {
-          pixelArray.push([r, g, b]);
-        }
-      }
-    }
-
-    // Send array to quantize function which clusters values
-    // using median cut algorithm
-    var cmap = MMCQ.quantize(pixelArray, colorCount);
-    var palette = cmap ? cmap.palette() : null;
-
-    // Clean up
-    image.removeCanvas();
-
-    return palette;
-  }
-  getColor(sourceImage, quality = 10) {
-    var palette = this.getPalette(sourceImage, 5, quality);
-    var dominantColor = palette[0];
-    return dominantColor;
-  }
-  getColorFromUrl(imageUrl, quality = 10) {
-    return new Promise((resolve, reject) => {
-      let sourceImage = new Image()
-      sourceImage.crossOrigin = "Anonymous"
-      let dominantColor, palette;
-      sourceImage.addEventListener('load', () => {
-        palette = this.getPalette(sourceImage, 5, quality);
-        dominantColor = palette[0];
-        resolve({ dominantColor, imageUrl });
-      });
-      sourceImage.src = imageUrl
-      sourceImage.addEventListener('error', reject.bind(this))
-    })
-  };
-
-}
 const pv = {
   map(array, f?) {
     const o = {};
     return f
       ? array.map((d, i) => {
-        o['index'] = i;
-        return f.call(o, d);
-      })
+          o['index'] = i;
+          return f.call(o, d);
+        })
       : array.slice();
   },
   naturalOrder(a, b) {
@@ -87,9 +18,9 @@ const pv = {
     return array.reduce(
       f
         ? (p, d, i) => {
-          o['index'] = i;
-          return p + f.call(o, d);
-        }
+            o['index'] = i;
+            return p + f.call(o, d);
+          }
         : (p, d) => p + d,
       0
     );
@@ -108,6 +39,7 @@ const MMCQ = (() => {
 
   // get reduced-space color index for a pixel
   function getColorIndex(r, g, b) {
+    //
     return (r << (2 * sigbits)) + (g << sigbits) + b;
   }
 
@@ -115,9 +47,7 @@ const MMCQ = (() => {
   class PQueue {
     public contents = [];
     public sorted = false;
-    constructor(public comparator) {
-
-    }
+    constructor(public comparator) {}
 
     sort() {
       this.contents.sort(this.comparator);
@@ -128,12 +58,18 @@ const MMCQ = (() => {
       this.sorted = false;
     }
     peek(index) {
-      if (!this.sorted) this.sort();
-      if (index === undefined) index = this.contents.length - 1;
+      if (!this.sorted) {
+        this.sort();
+      }
+      if (index === undefined) {
+        index = this.contents.length - 1;
+      }
       return this.contents[index];
     }
     pop() {
-      if (!this.sorted) this.sort();
+      if (!this.sorted) {
+        this.sort();
+      }
       return this.contents.pop();
     }
     size() {
@@ -143,7 +79,9 @@ const MMCQ = (() => {
       return this.contents.map(f);
     }
     debug() {
-      if (!this.sorted) this.sort();
+      if (!this.sorted) {
+        this.sort();
+      }
       return this.contents;
     }
   }
@@ -190,7 +128,7 @@ const MMCQ = (() => {
         for (i = this.r1; i <= this.r2; i++) {
           for (j = this.g1; j <= this.g2; j++) {
             for (k = this.b1; k <= this.b2; k++) {
-              let index = getColorIndex(i, j, k);
+              const index = getColorIndex(i, j, k);
               npix += this.histo[index] || 0;
             }
           }
@@ -253,8 +191,8 @@ const MMCQ = (() => {
 
     contains(pixel) {
       const rval = pixel[0] >> rshift;
-      let gval = pixel[1] >> rshift;
-      let bval = pixel[2] >> rshift;
+      const gval = pixel[1] >> rshift;
+      const bval = pixel[2] >> rshift;
       return (
         rval >= this.r1 &&
         rval <= this.r2 &&
@@ -311,8 +249,8 @@ const MMCQ = (() => {
       for (let i = 0; i < vboxes.size(); i++) {
         d2 = Math.sqrt(
           (color[0] - vboxes.peek(i).color[0]) ** 2 +
-          (color[1] - vboxes.peek(i).color[1]) ** 2 +
-          (color[1] - vboxes.peek(i).color[1]) ** 2
+            (color[1] - vboxes.peek(i).color[1]) ** 2 +
+            (color[1] - vboxes.peek(i).color[1]) ** 2
         );
         if (d2 < d1 || d1 === undefined) {
           d1 = d2;
@@ -329,15 +267,17 @@ const MMCQ = (() => {
 
       // force darkest color to black if everything < 5
       const lowest = vboxes[0].color;
-      if (lowest[0] < 5 && lowest[1] < 5 && lowest[2] < 5)
+      if (lowest[0] < 5 && lowest[1] < 5 && lowest[2] < 5) {
         vboxes[0].color = [0, 0, 0];
+      }
 
       // force lightest color to white if everything > 251
       const idx = vboxes.length - 1;
 
       const highest = vboxes[idx].color;
-      if (highest[0] > 251 && highest[1] > 251 && highest[2] > 251)
+      if (highest[0] > 251 && highest[1] > 251 && highest[2] > 251) {
         vboxes[idx].color = [255, 255, 255];
+      }
     }
   }
 
@@ -375,25 +315,36 @@ const MMCQ = (() => {
       rval = pixel[0] >> rshift;
       gval = pixel[1] >> rshift;
       bval = pixel[2] >> rshift;
-      if (rval < rmin) rmin = rval;
-      else if (rval > rmax) rmax = rval;
-      if (gval < gmin) gmin = gval;
-      else if (gval > gmax) gmax = gval;
-      if (bval < bmin) bmin = bval;
-      else if (bval > bmax) bmax = bval;
+      if (rval < rmin) {
+        rmin = rval;
+      } else if (rval > rmax) {
+        rmax = rval;
+      }
+      if (gval < gmin) {
+        gmin = gval;
+      } else if (gval > gmax) {
+        gmax = gval;
+      }
+      if (bval < bmin) {
+        bmin = bval;
+      } else if (bval > bmax) {
+        bmax = bval;
+      }
     });
     return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
   }
 
   function medianCutApply(histo, vbox) {
-    if (!vbox.count()) return;
+    if (!vbox.count()) {
+      return;
+    }
 
     const rw = vbox.r2 - vbox.r1 + 1;
     const gw = vbox.g2 - vbox.g1 + 1;
     const bw = vbox.b2 - vbox.b1 + 1;
     const maxw = pv.max([rw, gw, bw]);
     // only one pixel, no split
-    if (vbox.count() == 1) {
+    if (vbox.count() === 1) {
       return [vbox.copy()];
     }
 
@@ -407,7 +358,7 @@ const MMCQ = (() => {
     let k;
     let sum;
     let index;
-    if (maxw == rw) {
+    if (maxw === rw) {
       for (i = vbox.r1; i <= vbox.r2; i++) {
         sum = 0;
         for (j = vbox.g1; j <= vbox.g2; j++) {
@@ -419,7 +370,7 @@ const MMCQ = (() => {
         total += sum;
         partialsum[i] = total;
       }
-    } else if (maxw == gw) {
+    } else if (maxw === gw) {
       for (i = vbox.g1; i <= vbox.g2; i++) {
         sum = 0;
         for (j = vbox.r1; j <= vbox.r2; j++) {
@@ -445,8 +396,8 @@ const MMCQ = (() => {
         partialsum[i] = total;
       }
     }
-    partialsum.forEach((d, i) => {
-      lookaheadsum[i] = total - d;
+    partialsum.forEach((d, idx) => {
+      lookaheadsum[idx] = total - d;
     });
     function doCut(color) {
       const dim1 = `${color}1`;
@@ -463,12 +414,19 @@ const MMCQ = (() => {
           vbox2 = vbox.copy();
           left = i - vbox[dim1];
           right = vbox[dim2] - i;
-          if (left <= right) d2 = Math.min(vbox[dim2] - 1, ~~(i + right / 2));
-          else d2 = Math.max(vbox[dim1], ~~(i - 1 - left / 2));
+          if (left <= right) {
+            d2 = Math.min(vbox[dim2] - 1, ~~(i + right / 2));
+          } else {
+            d2 = Math.max(vbox[dim1], ~~(i - 1 - left / 2));
+          }
           // avoid 0-count boxes
-          while (!partialsum[d2]) d2++;
+          while (!partialsum[d2]) {
+            d2++;
+          }
           count2 = lookaheadsum[d2];
-          while (!count2 && partialsum[d2 - 1]) count2 = lookaheadsum[--d2];
+          while (!count2 && partialsum[d2 - 1]) {
+            count2 = lookaheadsum[--d2];
+          }
           // set dimensions
           vbox1[dim2] = d2;
           vbox2[dim1] = vbox1[dim2] + 1;
@@ -477,7 +435,7 @@ const MMCQ = (() => {
       }
     }
     // determine the cut planes
-    return maxw == rw ? doCut('r') : maxw == gw ? doCut('g') : doCut('b');
+    return maxw === rw ? doCut('r') : maxw === gw ? doCut('g') : doCut('b');
   }
 
   function quantize(pixels, maxcolors) {
@@ -512,7 +470,8 @@ const MMCQ = (() => {
     function iter(lh, target) {
       let ncolors = 1;
       let niters = 0;
-      let vbox;
+      // tslint:disable-next-line:no-shadowed-variable
+      let vbox: any;
       while (niters < maxIterations) {
         vbox = lh.pop();
         if (!vbox.count()) {
@@ -529,7 +488,7 @@ const MMCQ = (() => {
         const vbox2 = vboxes[1];
 
         if (!vbox1) {
-          console.log("vbox1 not defined; shouldn't happen!");
+          console.log(`vbox1 not defined; shouldn't happen!`);
           return;
         }
         lh.push(vbox1);
@@ -538,7 +497,9 @@ const MMCQ = (() => {
           lh.push(vbox2);
           ncolors++;
         }
-        if (ncolors >= target) return;
+        if (ncolors >= target) {
+          return;
+        }
         if (niters++ > maxIterations) {
           console.log('infinite loop; perhaps too few pixels!');
           return;
@@ -580,7 +541,6 @@ class CanvasImage {
   width;
   height;
   constructor(image: HTMLImageElement) {
-
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     document.body.appendChild(this.canvas);
@@ -607,5 +567,75 @@ class CanvasImage {
 
   removeCanvas() {
     this.canvas.parentNode.removeChild(this.canvas);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ColorThiefService {
+  // Adaptation of ColorThief : http://lokeshdhakar.com/projects/color-thief/
+  getPalette(sourceImage, colorCount?: number, quality?: number) {
+    if (
+      typeof colorCount === 'undefined' ||
+      colorCount < 2 ||
+      colorCount > 256
+    ) {
+      colorCount = 10;
+    }
+    if (typeof quality === 'undefined' || quality < 1) {
+      quality = 10;
+    }
+
+    // Create custom CanvasImage object
+    const image = new CanvasImage(sourceImage);
+    const imageData = image.getImageData();
+    const pixels = imageData.data;
+    const pixelCount = image.getPixelCount();
+
+    // Store the RGB values in an array format suitable for quantize function
+    const pixelArray = [];
+    for (let i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
+      offset = i * 4;
+      r = pixels[offset + 0];
+      g = pixels[offset + 1];
+      b = pixels[offset + 2];
+      a = pixels[offset + 3];
+      // If pixel is mostly opaque and not white
+      if (a >= 125) {
+        if (!(r > 250 && g > 250 && b > 250)) {
+          pixelArray.push([r, g, b]);
+        }
+      }
+    }
+
+    // Send array to quantize function which clusters values
+    // using median cut algorithm
+    const cmap = MMCQ.quantize(pixelArray, colorCount);
+    const palette = cmap ? cmap.palette() : null;
+
+    // Clean up
+    image.removeCanvas();
+
+    return palette;
+  }
+  getColor(sourceImage, quality = 10) {
+    const palette = this.getPalette(sourceImage, 5, quality);
+    const dominantColor = palette[0];
+    return dominantColor;
+  }
+  getColorFromUrl(imageUrl, quality = 10) {
+    return new Promise((resolve, reject) => {
+      const sourceImage = new Image();
+      sourceImage.crossOrigin = 'Anonymous';
+      let dominantColor, palette;
+      sourceImage.addEventListener('load', () => {
+        palette = this.getPalette(sourceImage, 5, quality);
+        dominantColor = palette[0];
+        resolve({ dominantColor, imageUrl });
+      });
+      sourceImage.src = imageUrl;
+      sourceImage.addEventListener('error', reject.bind(this));
+    });
   }
 }

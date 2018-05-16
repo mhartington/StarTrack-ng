@@ -1,16 +1,16 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 // import { NativeMedia } from '../../providers/native-media/native-media';
 import { Howl } from 'howler';
 import { FormControl } from '@angular/forms';
 @Component({
-  selector: 'music-card',
+  selector: 'app-music-card',
   templateUrl: './music-card.component.html',
   styleUrls: ['./music-card.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
-export class MusicCardComponent {
+export class MusicCardComponent implements OnInit {
   public progressValue = 0;
-  @Input() track;
+
+  @Input() track: any;
 
   get fullImage() {
     return this.track.artworkUrl100.replace(/100x100bb/, '400x400bb');
@@ -19,7 +19,7 @@ export class MusicCardComponent {
   public ifPlaying = false;
   public isFavorite = false;
   public player: Howl;
-  public isSeeking: boolean = false;
+  public isSeeking = false;
   // public nativeMedia: NativeMedia
   constructor() {}
   ngOnInit() {
@@ -53,14 +53,14 @@ export class MusicCardComponent {
   }
   setProgress() {
     if (!this.isSeeking) {
-      let seek: any = this.player.seek();
+      const seek: any = this.player.seek();
       this.progressValue = seek / this.player.duration() * 100 || 0;
       this.animationQ = requestAnimationFrame(this.setProgress.bind(this));
     }
   }
   seek(val) {
     this.isSeeking = false;
-    let duration = this.player.duration();
+    const duration = this.player.duration();
     this.player.seek(duration * (val / 100));
     this.animationQ = requestAnimationFrame(this.setProgress.bind(this));
   }

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -7,6 +8,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +17,7 @@ import { environment } from '../environments/environment';
       enabled: environment.production
     }),
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'app', pathMatch: 'full' },
       { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
@@ -27,7 +30,7 @@ import { environment } from '../environments/environment';
     }),
     RouterModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StatusBar],
   bootstrap: [AppComponent]
 })
 export class AppModule {

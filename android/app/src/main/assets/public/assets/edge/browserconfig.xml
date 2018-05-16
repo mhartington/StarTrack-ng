@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<browserconfig>
-    <msapplication>
-        <tile>
-          <square150x150logo src="assest/edge/mstile-150x150.png"/>
-            <TileColor>#32db64</TileColor>
-        </tile>
-    </msapplication>
-</browserconfig>

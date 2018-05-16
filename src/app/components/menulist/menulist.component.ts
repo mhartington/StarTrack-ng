@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { Events, MenuController } from '@ionic/angular';
 @Component({
-  selector: 'menu-list',
+  selector: 'app-menu-list',
   templateUrl: './menulist.component.html',
   styleUrls: ['./menulist.component.scss']
 })
@@ -27,14 +27,14 @@ export class MenulistComponent implements OnInit {
   }
   getKeys() {
     this.storage.forEach(entry => {
-      if(typeof(entry) !== 'boolean'){
+      if (typeof entry !== 'boolean') {
         this.favorites.push(entry);
       }
     });
   }
   goToDetail(favorite) {
-    this.menuCtrl.close().then(()=>{
+    this.menuCtrl.close().then(() => {
       this.router.navigateByUrl(`/app/detail/${favorite.trackId}`);
-    })
+    });
   }
 }

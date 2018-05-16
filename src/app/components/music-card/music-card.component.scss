@@ -1,65 +1,62 @@
-music-card {
+:host {
+  display: block;
+  position: relative;
+}
 
-  .track-img {
-    transition: all 500ms cubic-bezier(0.42, 0, 0, 1.93);
-    transform: scale3d(0.8, 0.8, 0.8);
-    max-width: 400px;
-    margin: auto;
-    border-radius: 15px;
+.track-img {
+  transition: all 500ms cubic-bezier(0.42, 0, 0, 1.93);
+  transform: scale3d(0.8, 0.8, 0.8);
+  max-width: 400px;
+  width: 100%;
+  padding-bottom: 100%;
+  margin: auto;
+  border-radius: 15px;
 
-    &.playing {
-      transform: scale3d(0.89, 0.89, 0.89);
-    }
-
-    &.is-seeking {
-      transition: all 100ms linear;
-      transform: scale3d(0.8, 0.8, 0.8) translateY(-35px);
-    }
-
-    img {
-      border-radius: 15px;
-    }
+  &.playing {
+    transform: scale3d(0.89, 0.89, 0.89);
   }
 
-  .track-img .background-shadow {
-    height: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
+  &.is-seeking {
+    transition: all 100ms linear;
+    transform: scale3d(0.8, 0.8, 0.8) translateY(-35px);
+  }
+
+  img {
+    border-radius: 15px;
     position: absolute;
-    width: 100%;
-    transition: all 300ms cubic-bezier(0.42, 0, 0.36, 1.46);
-    z-index: -1;
-    opacity: 0;
-    background-color: rgb(0, 0, 0);
-    filter: blur(20px);
-    border-radius: 15px;
-    transform: scale3d(0.84, 0.84, 0.84);
-  }
-  .track-img.playing .background-shadow {
-    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 35px, 0);
-  }
-
-  .item-md,
-  .item-ios {
-    background-color: transparent;
   }
 }
-
-.ios music-card {
-  .range-ios .range-knob {
-    transition: transform 100ms linear;
-    transform: scale3d(0.5, 0.5, 0.5);
-    // background: map-get($colors, secondary);
-  }
-
-  .range-knob-handle.range-knob-pressed .range-knob {
-    transform: scale3d(0.8, 0.8, 0.8);
-  }
+.track-img .background-shadow {
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  transition: all 300ms cubic-bezier(0.42, 0, 0.36, 1.46);
+  z-index: -1;
+  opacity: 0;
+  background-color: rgb(0, 0, 0);
+  filter: blur(20px);
+  border-radius: 15px;
+  transform: scale3d(0.84, 0.84, 0.84);
+}
+.track-img.playing .background-shadow {
+  transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 35px, 0);
 }
 
-.md music-card {
-  .range-md .range-knob-min.range-knob-min .range-knob {
-    // background: map-get($colors, secondary);
-  }
+.item-md,
+.item-ios {
+  background-color: transparent;
+}
+
+.range-ios .range-knob {
+  background: var(--ion-color-primary);
+  transform: scale3d(0.5, 0.5, 0.5);
+  transition: transform 100ms linear;
+}
+
+.range-ios .range-knob-handle.range-knob-pressed .range-knob {
+  background: var(--ion-color-primary);
+  transform: scale3d(0.8, 0.8, 0.8);
 }
