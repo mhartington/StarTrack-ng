@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "progress": false,
+            "progress": true,
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,9 +29,9 @@
                 "output": "."
               },
               {
-                "glob": "**/*",
-                "input": "node_modules/@ionic/angular/dist/ionic",
-                "output": "./ionic/"
+                "glob": "**/*.svg",
+                "input": "node_modules/@ionic/angular/dist/ionic/svg",
+                "output": "svg"
               }
             ],
             "styles": [

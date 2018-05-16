@@ -1,6 +1,6 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,7 +30,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     }),
     RouterModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, StatusBar],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    StatusBar,
+    SplashScreen
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

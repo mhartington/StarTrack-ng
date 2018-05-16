@@ -16,7 +16,10 @@ import {
   templateUrl: './track-detail.page.html',
   animations: [
     trigger('enterAnimation', [
-      transition(':enter', [style({ opacity: 0}), animate(200, style({opacity: 1}))])
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 }))
+      ])
     ])
   ]
 })
