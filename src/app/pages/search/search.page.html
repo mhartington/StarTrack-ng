@@ -6,12 +6,7 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar color="success">
-    <ion-searchbar
-      placeholder=""
-      [formControl]="searchInput"
-      (ionClear)="searchCleared($event)"
-      (ionCancel)="searchCleared($event); searchCanceled($event)"
-      showCancelButton="true">
+    <ion-searchbar placeholder="" [formControl]="searchInput" (ionClear)="searchCleared($event)" (ionCancel)="searchCleared($event); searchCanceled($event)" showCancelButton="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -37,18 +32,20 @@
       <ion-spinner></ion-spinner>
     </div>
     <!-- We got some songs! -->
-    <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
-      <ion-thumbnail slot="start">
-        <img [src]="track.artworkUrl100" alt="">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{track.trackName}}</h2>
-        <h3>{{track.artistName}}</h3>
-        <p>{{track.collectionName}}</p>
-      </ion-label>
-      <ion-note slot="end">
-        {{track.trackTimeMillis | msToMins}}
-      </ion-note>
-    </ion-item>
+    <div [@staggerIn]="listing?.length">
+      <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
+        <ion-thumbnail slot="start">
+          <img [src]="track.artworkUrl100" alt="">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{track.trackName}}</h2>
+          <h3>{{track.artistName}}</h3>
+          <p>{{track.collectionName}}</p>
+        </ion-label>
+        <ion-note slot="end">
+          {{track.trackTimeMillis | msToMins}}
+        </ion-note>
+      </ion-item>
+    </div>
   </ion-grid>
 </ion-content>

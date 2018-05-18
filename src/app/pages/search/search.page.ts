@@ -9,15 +9,44 @@ import {
   filter,
   catchError
 } from 'rxjs/operators';
-
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  query,
+  stagger
+} from '@angular/animations';
 @Component({
   selector: 'app-search-page',
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss']
+  styleUrls: ['./search.page.scss'],
+  animations: [
+    trigger('staggerIn', [
+      transition('* => *', [
+        query(
+          ':enter',
+          style({ opacity: 0, transform: `translate3d(0,10px,0)` }),
+          { optional: true }
+        ),
+        query(
+          ':enter',
+          stagger('100ms', [
+            animate(
+              '300ms',
+              style({ opacity: 1, transform: `translate3d(0,0,0)` })
+            )
+          ]),
+          { optional: true, limit: 15 }
+        )
+      ])
+    ])
+  ]
 })
 export class SearchPage implements OnInit {
   hasSearch = false;
-  public listing = [];
+  public listing: any[] = null;
   public isError = false;
   public showSpinner = false;
   public searchInput = new FormControl('');
@@ -33,7 +62,7 @@ export class SearchPage implements OnInit {
   searchCleared(e: Event) {
     this.hasSearch = false;
     this.isError = false;
-    this.listing = [];
+    this.listing = null;
   }
   setSearch(val: string) {
     this.isError = false;
