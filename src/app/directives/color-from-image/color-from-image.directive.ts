@@ -12,7 +12,6 @@ export class ColorFromImageDirective implements AfterViewInit {
       .getColorFromUrl(this.colorFromImage.src)
       .then((res: { dominantColor: number[]; imageUrl: string }) => {
         const colorMap = res.dominantColor;
-        this.el.nativeElement.style.opacity = 1;
         this.el.nativeElement.style.backgroundColor = `rgb(${colorMap[0]},${
           colorMap[1]
         },${colorMap[2]})`;

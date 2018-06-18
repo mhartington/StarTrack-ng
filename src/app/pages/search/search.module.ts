@@ -17,3 +17,4 @@ import { NgModule } from '@angular/core';
   declarations: [SearchPage],
 })
 export class SearchModule {}
+

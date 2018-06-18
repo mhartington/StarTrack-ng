@@ -22,20 +22,22 @@
     </div>
     <!-- Welp there's an error -->
     <div *ngIf="isError" text-center padding>
-      <ion-icon color="success" name="warning" size="large"></ion-icon>
+      <ion-icon color="dark" name="warning" size="large"></ion-icon>
       <h1>Uh-oh...</h1>
       <h2>It's not me, it's you!</h2>
       <h2>It appears there is a connection problem</h2>
     </div>
+
     <!-- Alright, we're searching -->
     <div padding text-center class="stauts-spinner" *ngIf="showSpinner">
-      <ion-spinner></ion-spinner>
+      <ion-spinner color="success"></ion-spinner>
     </div>
+
     <!-- We got some songs! -->
     <div [@staggerIn]="listing?.length">
       <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
         <ion-thumbnail slot="start">
-          <img [src]="track.artworkUrl100" alt="">
+          <img [src]="track.artworkUrl100"  alt=""  decoding="async">
         </ion-thumbnail>
         <ion-label>
           <h2>{{track.trackName}}</h2>

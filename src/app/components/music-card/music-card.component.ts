@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 // import { NativeMedia } from '../../providers/native-media/native-media';
 import { Howl } from 'howler';
-import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-music-card',
   templateUrl: './music-card.component.html',
   styleUrls: ['./music-card.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MusicCardComponent implements OnInit {
   public progressValue = 0;

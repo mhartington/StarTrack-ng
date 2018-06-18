@@ -67,61 +67,6 @@
       "src": "assets/chrome/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-604x960.png",
-      "sizes": "604x960",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-604x1136.png",
-      "sizes": "604x1136",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-750x1334.png",
-      "sizes": "750x1334",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-768x1024.png",
-      "sizes": "768x1024",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-1024x768.png",
-      "sizes": "1024x768",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-1024x1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-1224x2208.png",
-      "sizes": "1224x2208",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-1334x750.png",
-      "sizes": "1334x750",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-1536x2048.png",
-      "sizes": "1536x2048",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-2048x1536.png",
-      "sizes": "2048x1536",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/chrome/icon-2208x1224.png",
-      "sizes": "2208x1224",
-      "type": "image/png"
     }
   ]
 }

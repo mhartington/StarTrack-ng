@@ -1,24 +1,22 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, ViewChild } from '@angular/core';
-import { debounceTime } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-track-detail-page',
   templateUrl: './track-detail.page.html',
   animations: [
     trigger('enterAnimation', [
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('500ms ease-in', style({ opacity: 1 }))
+        style({ opacity: 0, transform: `translate3d(0,10px,0)` }),
+        animate(
+          '300ms ease-in',
+          style({ opacity: 1, transform: `translate3d(0,0,0)` })
+        )
       ])
     ])
   ]
@@ -28,7 +26,7 @@ export class TrackDetailPage {
   public track;
   public isFavorite = false;
   public favoriteIcon = 'star-outline';
-  show: boolean = false;
+  show = false;
   constructor(
     public events: Events,
     public storage: Storage,
@@ -40,6 +38,11 @@ export class TrackDetailPage {
   ionViewDidEnter() {
     this.itunes
       .loadSong(this.route.snapshot.params.id)
+      .pipe(
+        catchError(e => {
+          return EMPTY;
+        })
+      )
       .subscribe(
         res => (this.track = res),
         err => console.log(err),

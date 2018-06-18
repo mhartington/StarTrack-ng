@@ -5,8 +5,8 @@
         <div [ngClass]="{
             'playing': ifPlaying ,
             'is-seeking': isSeeking
-          }" class="track-img">
-          <img [src]="fullImage" #img alt="">
+          }"  class="track-img">
+          <img [src]="fullImage" #img alt="album art" decoding="async">
           <div class="background-shadow" [colorFromImage]="img"></div>
         </div>
       </ion-col>
@@ -24,11 +24,11 @@
             <ion-row>
               <ion-col col-3>
                 <ion-fab-button mini (click)="toggleSong()" color="light">
-                  <ion-icon color="success"  [name]="ifPlaying ? 'square' : 'play'" ></ion-icon>
+                  <ion-icon [name]="ifPlaying ? 'square' : 'play'" color="success" ></ion-icon>
                 </ion-fab-button>
               </ion-col>
               <ion-col col-9>
-                <ion-range [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)"></ion-range>
+                <ion-range color="success" [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)"></ion-range>
               </ion-col>
             </ion-row>
           </ion-grid>
