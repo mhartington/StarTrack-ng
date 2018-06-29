@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, ViewChild } from '@angular/core';
-import { catchError } from 'rxjs/operators';
+import { catchError, debounceTime } from 'rxjs/operators';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -39,10 +39,12 @@ export class TrackDetailPage {
     this.itunes
       .loadSong(this.route.snapshot.params.id)
       .pipe(
-        catchError(e => {
+        catchError(_e => {
           return EMPTY;
-        })
+        }),
+        debounceTime(500)
       )
+
       .subscribe(
         res => (this.track = res),
         err => console.log(err),

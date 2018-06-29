@@ -6,7 +6,7 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar color="success">
-    <ion-searchbar placeholder="" [formControl]="searchInput" (ionClear)="searchCleared($event)" (ionCancel)="searchCleared($event); searchCanceled($event)" showCancelButton="true">
+    <ion-searchbar placeholder="" [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>

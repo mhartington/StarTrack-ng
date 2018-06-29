@@ -59,7 +59,7 @@ export class SearchPage implements OnInit {
   searchCanceled(e: Event) {
     (e.target as HTMLIonSearchbarElement).blur();
   }
-  searchCleared(e: Event) {
+  searchCleared() {
     this.hasSearch = false;
     this.isError = false;
     this.listing = null;
@@ -88,8 +88,7 @@ export class SearchPage implements OnInit {
         debounceTime(500),
         switchMap(term =>
           this.itunes.load(term).pipe(
-            catchError(e => {
-              console.log(e);
+            catchError(() => {
               this.showOverlay = false;
               this.showSpinner = false;
               this.isError = true;
@@ -108,4 +107,3 @@ export class SearchPage implements OnInit {
     this.router.navigate(['detail', track.trackId], { relativeTo: this.route });
   }
 }
-

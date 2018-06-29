@@ -7,10 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  constructor(plt: Platform, statusBar: StatusBar, splash: SplashScreen){
-    plt.ready().then(()=>{
+  constructor(plt: Platform, statusBar: StatusBar, splash: SplashScreen) {
+    plt.ready().then(() => {
       statusBar.styleLightContent();
       splash.hide();
-    })
+    });
   }
 }

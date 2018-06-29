@@ -7,6 +7,9 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
     "target": "es5",
     "lib": ["es2017", "dom"],
     "plugins": [{ "name": "tslint-language-service" }]

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
+  "description": "An Ionic project",
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",
@@ -31,6 +32,7 @@
     "@ionic-native/splash-screen": "5.0.0-beta.10",
     "@ionic-native/status-bar": "5.0.0-beta.10",
     "@ionic/angular": "^4.0.0-alpha.7",
+    "@ionic/ng-toolkit": "^1.0.0-rc.8",
     "@ionic/schematics-angular": "canary",
     "@ionic/storage": "2.1.3",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
@@ -38,9 +40,9 @@
     "cordova-ios": "4.5.4",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
-    "cordova-plugin-ionic-webview": "git+https://github.com/jcesarmobile/cordova-plugin-ionic-webview.git#julio-android",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-taptic-engine": "^2.1.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "2.5.3",
     "howler": "2.0.8",
@@ -69,9 +71,8 @@
     "protractor": "^5.3.2",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "^2.7.2"
   },
-  "description": "An Ionic project",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -79,6 +80,7 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-statusbar": {},
+      "cordova-plugin-taptic-engine": {},
       "cordova-plugin-ionic-webview": {}
     },
     "platforms": [

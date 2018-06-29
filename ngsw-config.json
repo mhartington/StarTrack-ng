@@ -6,7 +6,7 @@
       "installMode": "prefetch",
       "resources": {
         "files": ["/index.html"],
-        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
+        "versionedFiles": ["/*.css", "/*.bundle.js", "/*.js"]
       }
     },
     {
