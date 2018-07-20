@@ -18,12 +18,17 @@ export class MenulistComponent implements OnInit {
 
   ngOnInit() {
     this.getKeys();
-    this.event.subscribe('songAdded', e => {
-      this.favorites.push(e);
-    });
-    this.event.subscribe('songRemoved', e => {
-      this.favorites.splice(this.favorites.indexOf(e), 1);
-    });
+    this.event.subscribe(
+      'songAdded',
+      e => (this.favorites = [...this.favorites, e])
+    );
+    this.event.subscribe(
+      'songRemoved',
+      e =>
+        (this.favorites = this.favorites.filter(
+          entry => entry.trackId !== e.trackId
+        ))
+    );
   }
   getKeys() {
     this.storage.forEach(entry => {

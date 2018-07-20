@@ -1,16 +1,16 @@
 <ion-card>
   <ion-grid no-padding>
     <ion-row align-items-center>
-      <ion-col col-12 col-md-5>
+      <ion-col size="12" size-md="5">
         <div [ngClass]="{
             'playing': ifPlaying ,
             'is-seeking': isSeeking
-          }"  class="track-img">
+          }" class="track-img">
           <img [src]="fullImage" #img alt="album art" decoding="async">
           <div class="background-shadow" [colorFromImage]="img"></div>
         </div>
       </ion-col>
-      <ion-col>
+      <ion-col size="auto">
         <ion-card-content>
           <ion-card-title>
             <h2>{{track.trackName}}</h2>
@@ -22,13 +22,13 @@
 
           <ion-grid>
             <ion-row>
-              <ion-col col-3>
+              <ion-col size="3">
                 <ion-fab-button mini (click)="toggleSong()" color="light">
-                  <ion-icon [name]="ifPlaying ? 'square' : 'play'" color="success" ></ion-icon>
+                  <ion-icon [name]="ifPlaying ? 'square' : 'play'" color="success"></ion-icon>
                 </ion-fab-button>
               </ion-col>
-              <ion-col col-9>
-                <ion-range color="success" [(ngModel)]="progressValue"  max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)"></ion-range>
+              <ion-col size="9">
+                <ion-range color="success" [(ngModel)]="progressValue" max="100" (ionFocus)="handleDrag()" (ionBlur)="seek($event.target.value)"></ion-range>
               </ion-col>
             </ion-row>
           </ion-grid>
