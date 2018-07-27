@@ -1,11 +1,13 @@
 {
   "hosting": {
-    "public": "functions/dist",
+    "public": "www",
     "rewrites": [
       {
         "source": "**",
-        "function": "http"
+        "destination": "/index.html"
       }
-    ]
+    ],
+    "redirects": [],
+    "headers": []
   }
 }

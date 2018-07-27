@@ -12,7 +12,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "progress": true,
-            "outputPath": "/browser",
+            "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -126,7 +126,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "/server",
+            "outputPath": "dist/app-server",
             "main": "src/main.server.ts",
             "tsConfig": "src/tsconfig.server.json"
           }
