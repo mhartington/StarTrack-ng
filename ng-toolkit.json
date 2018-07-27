@@ -1,0 +1,22 @@
+{
+  "universal": {
+    "skipInstall": false,
+    "directory": ".",
+    "project": "app"
+  },
+  "serverless": {
+    "directory": ".",
+    "skipInstall": true,
+    "provider": "firebase",
+    "project": "app",
+    "serverless": {
+      "aws": {},
+      "gcloud": {}
+    }
+  },
+  "pwa": {
+    "directory": ".",
+    "skipInstall": true,
+    "project": "app"
+  }
+}

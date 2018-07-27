@@ -1,20 +1,26 @@
-import { NgModule } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
-
-import { AppModule } from './app.module';
+import { NgtPwaMockModule } from '@ng-toolkit/pwa';
 import { AppComponent } from './app.component';
-import { Routes, RouterModule } from '@angular/router';
-import { AppShellComponent } from './app-shell/app-shell.component';
-
-const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
+import { AppModule } from './app.module';
+import {NgModule} from '@angular/core';
+import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
+import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+import { BrowserModule } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  imports: [
-    AppModule,
-    ServerModule,
-    RouterModule.forRoot(routes),
-  ],
-  bootstrap: [AppComponent],
-  declarations: [AppShellComponent],
+ bootstrap: [AppComponent],
+
+    imports:[
+ NgtPwaMockModule,
+ 
+ BrowserModule.withServerTransition({appId: 'app-root'}),
+ 
+ AppModule,
+ 
+        ServerModule,
+        NoopAnimationsModule,
+        ModuleMapLoaderModule,
+        ServerTransferStateModule, // comment
+    ]
 })
 export class AppServerModule {}
