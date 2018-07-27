@@ -16,7 +16,7 @@
   <ion-list>
     <ion-grid>
       <ion-row>
-        <ion-col size-sm="10" push-sm="1">
+        <ion-col size="12" sizeSm="10" pushSm="1">
           <app-music-card [@enterAnimation] *ngIf="track;else placeholder" #musicCard [track]="track"></app-music-card>
           <ng-template #placeholder>
             <app-music-card-placeholder></app-music-card-placeholder>

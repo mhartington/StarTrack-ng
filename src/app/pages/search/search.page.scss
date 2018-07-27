@@ -1,6 +1,8 @@
 :host {
-  .thumbnail-md img,
-  .thumbnail-ios img {
-    border-radius: 6px;
+  .thumbnail-md,
+  .thumbnail-md {
+    img {
+      border-radius: 6px;
+    }
   }
 }

@@ -89,5 +89,5 @@
     <plugin name="cordova-plugin-taptic-engine" spec="^2.1.0" />
     <plugin name="cordova-plugin-ionic-webview" spec="~1.2.0" />
     <engine name="ios" spec="4.5.4" />
-    <engine name="android" spec="^7.0.0" />
+    <engine name="android" spec="7.1.1" />
 </widget>

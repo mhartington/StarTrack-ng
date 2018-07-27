@@ -37,7 +37,7 @@
     <div [@staggerIn]="listing?.length">
       <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
         <ion-thumbnail slot="start">
-          <img [src]="track.artworkUrl100"  alt=""  decoding="async">
+          <img [src]="track.artworkUrl100" alt="" decoding="async">
         </ion-thumbnail>
         <ion-label>
           <h2>{{track.trackName}}</h2>

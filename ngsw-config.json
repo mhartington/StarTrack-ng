@@ -5,8 +5,7 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/index.html"],
-        "versionedFiles": ["/*.css", "/*.bundle.js", "/*.js"]
+        "files": ["/index.html", "/*.css", "/*.bundle.js", "/*.js"]
       }
     },
     {
@@ -25,7 +24,7 @@
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 100,
-        "maxAge": "96h",
+        "maxAge": "5d",
         "timeout": "5s"
       }
     }
