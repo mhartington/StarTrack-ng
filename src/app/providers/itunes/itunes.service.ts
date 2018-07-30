@@ -10,11 +10,7 @@ export class ItunesService {
   constructor(public http: HttpClient) {}
   public load(query): Observable<any> {
     return this.http
-      .get(
-        `https://itunes.apple.com/search?term=${encodeURIComponent(
-          query
-        )}&media=music`
-      )
+      .get(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music`)
       .pipe(
         retryWhen(error => error.pipe(delay(500))),
         timeout(5000),

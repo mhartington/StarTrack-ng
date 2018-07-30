@@ -5,7 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MsToMinsPipe implements PipeTransform {
   transform(value?: number) {
-    return this.durationFromMsHelper(value);
+    if(value){
+      return this.durationFromMsHelper(value);
+    }
   }
   pad2(num) {
     if (num <= 99) {
