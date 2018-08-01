@@ -16,7 +16,7 @@
     <!-- No Search term? -->
     <div *ngIf="!hasSearch" padding>
       <h1>Trending Bands</h1>
-      <ion-item *ngFor=" let trending of ['Pink Floyd', 'August Burns Red', 'Alkaline Trio']" (click)="setSearch(trending)">
+      <ion-item *ngFor=" let trending of ['Jimmy Eat World', 'Senses Fail', 'Alkaline Trio']" (click)="setSearch(trending)">
         {{trending}}
       </ion-item>
     </div>
@@ -35,7 +35,7 @@
 
     <!-- We got some songs! -->
     <div [@staggerIn]="listing?.length">
-      <ion-item *ngFor="let track of listing" detail-none [href]="'/app/detail/' + track.trackId">
+      <ion-item *ngFor="let track of listing" detail-none [href]="'/detail/' + track.trackId">
         <ion-thumbnail slot="start">
           <img [src]="track.artworkUrl100" alt="" decoding="async">
         </ion-thumbnail>

@@ -63,12 +63,12 @@ export class TrackDetailPage {
     });
   }
   toggleFavorites() {
-    const addedToast = {
+    let addedToast = {
       message: 'Song added to Favorites',
       duration: 3000,
       position: 'bottom'
     };
-    const removedToast = {
+    let removedToast = {
       message: 'Song remove to Favorites',
       duration: 3000,
       position: 'bottom'

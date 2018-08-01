@@ -10,13 +10,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
-import { ServiceWorkerModule  } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-// .withServerTransition({ appId: 'serverApp' }),
+import { ShellPage } from './pages/shell/shell.page';
+import { MenulistModule } from './components/menulist/menulist.module';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ShellPage],
   imports: [
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production
@@ -25,9 +26,10 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     BrowserAnimationsModule,
     RouterModule.forRoot(
       [
-        { path: '', redirectTo: 'app', pathMatch: 'full' },
-        { path: 'app', loadChildren: './pages/menu/menu.module#MenuModule' },
-        { path: '**', redirectTo: '/app/detail/299608205', pathMatch: 'full' }
+        { path: '', component: ShellPage },
+        { path: 'search',  loadChildren: './pages/search/search.module#SearchModule' },
+        { path: 'detail/:id', loadChildren: './pages/track-detail/track-detail.module#TrackDetailModule' },
+        { path: '**', redirectTo: '/detail/299608205', pathMatch: 'full' }
       ],
       { preloadingStrategy: PreloadAllModules }
     ),
@@ -36,7 +38,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     IonicStorageModule.forRoot({
       name: '__startTrack'
     }),
-    RouterModule
+    MenulistModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

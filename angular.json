@@ -183,18 +183,21 @@
               "devServerTarget": "app:serve:production"
             }
           }
+
         }
       }
     }
   },
+
+  "cli": {
+    "defaultCollection": "@ionic/schematics-angular"
+  },
   "schematics": {
-    "@ionic/schematics-angular:page": {},
-    "@schematics/angular:component": {
-      "prefix": "",
+    "@ionic/schematics-angular:component": {
       "styleext": "scss"
     },
-    "@schematics/angular:directive": {
-      "prefix": ""
+    "@ionic/schematics-angular:page": {
+      "styleext": "scss"
     }
   }
 }

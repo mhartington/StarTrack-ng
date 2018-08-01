@@ -31,6 +31,9 @@ export class AppComponent implements OnInit {
       console.log('update ready', res);
       await toast.present();
     });
-    toast.onDidDismiss().then(() => this.swUpdate.activateUpdate());
+    toast.onDidDismiss().then(() => {
+      this.swUpdate.activateUpdate();
+      window.location.reload()
+    });
   }
 }

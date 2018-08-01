@@ -39,7 +39,7 @@ export class MenulistComponent implements OnInit {
   }
   goToDetail(favorite) {
     this.menuCtrl.close().then(() => {
-      this.router.navigateByUrl(`/app/detail/${favorite.trackId}`);
+      this.router.navigate(['detail', favorite.trackId]);
     });
   }
 }
