@@ -27,8 +27,15 @@ import { MenulistModule } from './components/menulist/menulist.module';
     RouterModule.forRoot(
       [
         { path: '', component: ShellPage },
-        { path: 'search',  loadChildren: './pages/search/search.module#SearchModule' },
-        { path: 'detail/:id', loadChildren: './pages/track-detail/track-detail.module#TrackDetailModule' },
+        {
+          path: 'search',
+          loadChildren: './pages/search/search.module#SearchModule'
+        },
+        {
+          path: 'detail/:id',
+          loadChildren:
+            './pages/track-detail/track-detail.module#TrackDetailModule'
+        },
         { path: '**', redirectTo: '/detail/299608205', pathMatch: 'full' }
       ],
       { preloadingStrategy: PreloadAllModules }

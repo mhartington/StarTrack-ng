@@ -3,7 +3,7 @@
     <name>StarTrack-ng</name>
     <description>Explore music from iTunes</description>
     <author email="mikehartington@gmail.com" href="https://mhartington.io">Mike Hartington</author>
-    <content src="http://localhost:8080" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

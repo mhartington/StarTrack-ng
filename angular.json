@@ -123,43 +123,6 @@
             ]
           }
         },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/app-server",
-            "main": "src/main.server.ts",
-            "tsConfig": "src/tsconfig.server.json"
-          }
-        },
-        "udk": {
-          "builder": "udk:udk-builder",
-          "options": {
-            "main": "src/main.server.ts",
-            "browserTarget": "app:build",
-            "serverTarget": "app:server"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "app:build:production",
-              "serverTarget": "app:server:production",
-              "verbose": true,
-              "fileReplacements": [
-                {
-                  "src": "src/environments/environment.ts",
-                  "replaceWith": "src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "app-shell": {
-          "builder": "@angular-devkit/build-angular:app-shell",
-          "options": {
-            "browserTarget": "app:build",
-            "serverTarget": "app:server",
-            "route": "shell"
-          }
-        },
         "ionic-cordova-build": {
           "builder": "@ionic/ng-toolkit:cordova-build",
           "options": {

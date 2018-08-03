@@ -1,13 +1,13 @@
 <ion-app>
-<ion-split-pane>
-  <ion-menu>
-    <ion-header>
-      <ion-toolbar color="success">
-        <ion-title>Favorites</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <app-menu-list></app-menu-list>
-  </ion-menu>
-  <ion-router-outlet main></ion-router-outlet>,
+  <ion-split-pane>
+    <ion-menu>
+      <ion-header>
+        <ion-toolbar color="success">
+          <ion-title>Favorites</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <app-menu-list [favorites]="favorites"></app-menu-list>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
