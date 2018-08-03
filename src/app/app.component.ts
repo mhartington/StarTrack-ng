@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { SwUpdate } from '@angular/service-worker';
 import { Storage } from '@ionic/storage';
-import { fromEvent } from 'rxjs'
+// import { fromEvent } from 'rxjs'
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -20,18 +20,17 @@ export class AppComponent implements OnInit {
     private storage: Storage,
     private event: Events
   ) {
-    fromEvent(window, 'beforeinstallprompt').subscribe((res:any) => {
-      res.preventDefault();
-      res.prompt();
-      res.userChoice.then(choiceResult => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-      });
-
-    })
+    // fromEvent(window, 'beforeinstallprompt').subscribe((res:any) => {
+    //   res.preventDefault();
+    //   res.prompt();
+    //   res.userChoice.then(choiceResult => {
+    //     if (choiceResult.outcome === 'accepted') {
+    //       console.log('User accepted the A2HS prompt');
+    //     } else {
+    //       console.log('User dismissed the A2HS prompt');
+    //     }
+    //   });
+    // })
     plt.ready().then(() => {
       statusBar.styleLightContent();
       splash.hide();
