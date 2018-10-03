@@ -1,11 +1,12 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { ItunesService } from '../../providers/itunes/itunes.service';
 import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { EMPTY } from 'rxjs';
+import { MusicCardComponent } from '../../components/music-card/music-card.component';
 @Component({
   selector: 'app-track-detail-page',
   templateUrl: './track-detail.page.html',
@@ -21,11 +22,12 @@ import { EMPTY } from 'rxjs';
     ])
   ]
 })
-export class TrackDetailPage {
-  @ViewChild('musicCard') musicCard;
+export class TrackDetailPage implements OnInit {
+  @ViewChild('musicCard') musicCard: MusicCardComponent;
   public track;
   public isFavorite = false;
   public favoriteIcon = 'star-outline';
+  public canShare = false;
   show = false;
   constructor(
     public events: Events,
@@ -34,7 +36,12 @@ export class TrackDetailPage {
     public itunes: ItunesService,
     private route: ActivatedRoute
   ) {}
-
+  ngOnInit(){
+    if ('share' in navigator) {
+      console.log('share is there')
+      this.canShare = true;
+    }
+  }
   ionViewDidEnter() {
     this.itunes
       .loadSong(this.route.snapshot.params.id)
@@ -44,7 +51,6 @@ export class TrackDetailPage {
         }),
         debounceTime(500)
       )
-
       .subscribe(
         res => (this.track = res),
         err => console.log(err),
@@ -63,24 +69,26 @@ export class TrackDetailPage {
     });
   }
   toggleFavorites() {
-    let addedToast = {
-      message: 'Song added to Favorites',
-      duration: 3000,
-      position: 'bottom'
-    };
-    let removedToast = {
-      message: 'Song remove to Favorites',
-      duration: 3000,
-      position: 'bottom'
-    };
     if (!this.isFavorite) {
-      this.toastCtrl.create(addedToast).then(toast => toast.present());
+      this.toastCtrl
+        .create({
+          message: 'Song added to Favorites',
+          duration: 3000,
+          position: 'bottom'
+        })
+        .then(toast => toast.present());
       this.isFavorite = true;
       this.favoriteIcon = 'star';
       this.storage.set(this.track.trackId, this.track);
       this.events.publish('songAdded', this.track);
     } else {
-      this.toastCtrl.create(removedToast).then(toast => toast.present());
+      this.toastCtrl
+        .create({
+          message: 'Song remove to Favorites',
+          duration: 3000,
+          position: 'bottom'
+        })
+        .then(toast => toast.present());
       this.storage.remove(this.track.trackId);
       this.isFavorite = false;
       this.favoriteIcon = 'star-outline';
@@ -90,5 +98,19 @@ export class TrackDetailPage {
   ionViewWillLeave() {
     this.musicCard.stopSong();
     // this.nativeMedia.destroy();
+  }
+  share() {
+    if ('share' in navigator) {
+      navigator['share']({
+        title: 'Star Track',
+        text: `Check out "${this.track.trackName}" by ${
+          this.track.artistName
+        }. Via Star Track.`,
+        url: `${window.location.origin}/detail/${this.track.trackId}`
+      })
+        .then(
+          () => console.log('Successful share'),
+          error => console.log('Error sharing', error))
+    }
   }
 }

@@ -71,6 +71,10 @@ export class AppComponent implements OnInit {
       if (typeof entry !== 'boolean') {
         this.favorites.push(entry);
       }
-    });
+    }).then(()=> console.log('for each is done'))
+  }
+
+  async clearStorage(){
+    await this.storage.clear();
   }
 }

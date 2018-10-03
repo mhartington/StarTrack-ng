@@ -19,6 +19,7 @@ import { MenulistModule } from './components/menulist/menulist.module';
 @NgModule({
   declarations: [AppComponent, ShellPage],
   imports: [
+
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production
     }),
@@ -38,7 +39,7 @@ import { MenulistModule } from './components/menulist/menulist.module';
         },
         { path: '**', redirectTo: '/detail/299608205', pathMatch: 'full' }
       ],
-      { preloadingStrategy: PreloadAllModules }
+      { preloadingStrategy: PreloadAllModules}
     ),
     IonicModule.forRoot(),
     HttpClientModule,
@@ -54,4 +55,13 @@ import { MenulistModule } from './components/menulist/menulist.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+  // constructor( router: Router){
+  //  router.events.pipe(filter(e => e instanceof Scroll)).subscribe(
+  //   e => console.log(e),
+  //   err => console.log('err', err),
+  //   () => console.log('done')
+  //  )
+  // }
+}

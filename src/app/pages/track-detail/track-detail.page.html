@@ -8,6 +8,9 @@
       <ion-button (click)="toggleFavorites()">
         <ion-icon slot="icon-only" [name]="favoriteIcon"></ion-icon>
       </ion-button>
+      <ion-button *ngIf="canShare" (click)="share()">
+        <ion-icon slot="icon-only" name="share"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

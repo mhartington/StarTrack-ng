@@ -69,6 +69,9 @@ export class SearchPage implements OnInit {
     this.hasSearch = true;
     this.searchInput.setValue(val);
   }
+  ionViewWillLeave(){
+    console.log('by')
+  }
   ngOnInit() {
     this.searchInput.valueChanges
       .pipe(
