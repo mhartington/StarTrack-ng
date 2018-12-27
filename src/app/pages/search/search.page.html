@@ -6,12 +6,15 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar color="success">
-    <ion-searchbar placeholder="" [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true">
+    <ion-searchbar placeholder [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-avatar slot>
+    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=retro&f=y%22">
+  </ion-avatar>
   <ion-grid fixed no-padding>
 
     <!-- No Search term? -->
@@ -39,7 +42,7 @@
     <div [@staggerIn]="listing?.length">
       <ion-item *ngFor="let track of listing" detail-none [href]="'detail/' + track.trackId">
         <ion-thumbnail slot="start">
-          <img [src]="track.artworkUrl100" alt="" decoding="async">
+          <img [src]="track.artworkUrl100" alt decoding="async">
         </ion-thumbnail>
         <ion-label>
           <h2>{{track.trackName}}</h2>

@@ -35,23 +35,21 @@ export class AppComponent implements OnInit {
       statusBar.styleLightContent();
       splash.hide();
     });
-
   }
   async ngOnInit() {
-
-    const toast = await this.toastCtrl.create({
-      message: 'Update available!',
-      showCloseButton: true,
-      position: 'bottom',
-      closeButtonText: `Reload`
-    });
     this.swUpdate.available.subscribe(async res => {
+      const toast = await this.toastCtrl.create({
+        message: 'Update available!',
+        showCloseButton: true,
+        position: 'bottom',
+        closeButtonText: `Reload`
+      });
       console.log('update ready', res);
       await toast.present();
-    });
-    toast.onDidDismiss().then(() => {
-      this.swUpdate.activateUpdate();
-      window.location.reload();
+      toast.onDidDismiss().then(() => {
+        this.swUpdate.activateUpdate();
+        window.location.reload();
+      });
     });
 
     this.getKeys();
@@ -67,14 +65,16 @@ export class AppComponent implements OnInit {
     });
   }
   getKeys() {
-    this.storage.forEach(entry => {
-      if (typeof entry !== 'boolean') {
-        this.favorites.push(entry);
-      }
-    }).then(()=> console.log('for each is done'))
+    this.storage
+      .forEach(entry => {
+        if (typeof entry !== 'boolean') {
+          this.favorites.push(entry);
+        }
+      })
+      .then(() => console.log('for each is done'));
   }
 
-  async clearStorage(){
+  async clearStorage() {
     await this.storage.clear();
   }
 }

@@ -5,7 +5,7 @@
   "background_color": "#32bd64",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "/",
+  "start_url": "/search",
   "scope": "/",
   "icons": [
     {

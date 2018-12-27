@@ -5,8 +5,8 @@ import { ItunesService } from '../../providers/itunes/itunes.service';
 import { Events, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { EMPTY } from 'rxjs';
 import { MusicCardComponent } from '../../components/music-card/music-card.component';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-track-detail-page',
   templateUrl: './track-detail.page.html',
@@ -34,7 +34,7 @@ export class TrackDetailPage implements OnInit {
     public storage: Storage,
     public toastCtrl: ToastController,
     public itunes: ItunesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
   ngOnInit(){
     if ('share' in navigator) {
@@ -101,7 +101,7 @@ export class TrackDetailPage implements OnInit {
   }
   share() {
     if ('share' in navigator) {
-      navigator['share']({
+      (navigator as any).share({
         title: 'Star Track',
         text: `Check out "${this.track.trackName}" by ${
           this.track.artistName

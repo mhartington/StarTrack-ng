@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" href="favicon.png">
+  <title>ngworld</title>
+  <script src="./src/aframe-master.js"></script>
+  <script src="./src/aframe-extras.min.js"></script>
+  <script src="./src/aframe-controller-cursor-component.min.js"></script>
+</head>
+<body>
+  <a-scene physics="" canvas="" keyboard-shortcuts="" vr-mode-ui="">
+
+
+<a-entity
+  static-body=""
+  geometry="primitive: box; depth: 1; height: 15; width: -Infinity"
+  position="NaN 0 NaN"
+  rotation="0 0 0"
+  material="shader: flat; src: url(images/mountain.jpg); repeat: 1 1">
+</a-entity>
+
+<a-entity
+  static-body=""
+  geometry="primitive: box; depth: 1; height: 15; width: -Infinity"
+  position="NaN 0 NaN"
+  rotation="0 0 0"
+  material="shader: flat; src: url(images/mountain.jpg); repeat: 1 1">
+</a-entity>
+
+<a-entity
+  static-body=""
+  geometry="primitive: box; depth: 1; height: 15; width: -Infinity"
+  position="NaN 0 NaN"
+  rotation="0 90 0"
+  material="shader: flat; src: url(images/mountain.jpg); repeat: 1 1">
+</a-entity>
+
+<a-entity
+  static-body=""
+  geometry="primitive: box; depth: 1; height: 15; width: -Infinity"
+  position="NaN 0 NaN"
+  rotation="0 90 0"
+  material="shader: flat; src: url(images/mountain.jpg); repeat: 1 1">
+</a-entity>
+
+<a-entity static-body="" geometry="primitive: plane; height: NaN; width: NaN" position="NaN -0.2 NaN" rotation="-90 0 0" material="shader: flat; src: url(images/grass.jpg); repeat: 200 200"></a-entity>
+
+<a-entity id="restart" static-body="" geometry="primitive: plane; height: 400; width: 400" position="0 -5 0" rotation="-90 0 0" material="shader: flat; color: green"></a-entity>
+  <!-- Camera -->
+  <a-entity id="camera" camera="active:true" universal-controls="" kinematic-body="" jump-ability="enableDoubleJump: true; distance: 3;" position="11 1.4515555555555555 45" velocity="0 0 0" gamepad-controls="" keyboard-controls="" touch-controls="" hmd-controls="" mouse-controls="" rotation="4.35447924299426 92.93375437021959 0">
+  <a-animation attribute="position" begin="roof" dur="0" to="134 8 2.1"></a-animation>
+  <a-animation attribute="position" begin="start" dur="0" to="125 1.8 2.1"></a-animation>
+  <a-entity id="blockHand" hand-controls="right" controller-cursor intersection-spawn="event: click; mixin: voxel" position="0 0 5"></a-entity>
+  <a-cursor intersection-spawn="event: click; mixin: voxel"></a-cursor>
+  </a-entity>
+  <!-- Lighting and background -->
+  <a-sky src="images/sky.jpg" radius="5000" material="color:#FFF;shader:flat;src:url(images/sky.jpg)" geometry="primitive:sphere;radius:5000;segmentsWidth:64;segmentsHeight:64" scale="-1 1 1"></a-sky>
+    <a-entity light="color:#fff;type:ambient" data-aframe-default-light=""></a-entity>
+    <a-entity light="color:#fff;intensity:0.2" position="-1 2 1" data-aframe-default-light=""></a-entity>
+    <canvas class="a-canvas" width="1152" height="1598" style="height: 799px; width: 576px;"></canvas>
+    <div class="a-enter-vr" data-a-enter-vr-no-headset="" data-a-enter-vr-no-webvr="">
+      <button class="a-enter-vr-button"></button>
+    <div class="a-enter-vr-modal">
+      <p>Your browser does not support WebVR. To enter VR, use a VR-compatible browser or a mobile phone.</p>
+      <a href="http://mozvr.com/#start" target="_blank">Learn more.</a>
+      </div>
+    </div>
+    <div class="a-orientation-modal a-hidden"><button>Exit VR</button></div></a-scene>
+<script>
+(function () {
+  const entities = [].slice.call(document.getElementsByTagName('a-entity')).
+    filter(e => /leaf-\d-\d-\d/.test(e.id));
+  entities.forEach(e => e.addEventListener('click', _ => {
+    if (e.getAttribute('data-shaked')) {
+      return;
+    } else {
+      e.setAttribute('data-shaked', true);
+    }
+    const treeId = e.getAttribute('data-tree-id');
+    const tree = document.getElementById(treeId);
+    tree.emit('shake-front-' + treeId);
+    setTimeout(() => {
+      document.getElementById(treeId).emit('shake-back-' + treeId);
+      setTimeout(() => document.getElementById(treeId).emit('shake-ready-' + treeId), 150);
+    }, 150);
+    e.emit('shake-' + e.id);
+    fetch('http://localhost:8081', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        file: tree.getAttribute('data-template-url'),
+        start: e.getAttribute('data-start-offset'),
+        end: e.getAttribute('data-end-offset')
+      })
+    });
+  }));
+}());
+</script>
+</body>
+</html>
