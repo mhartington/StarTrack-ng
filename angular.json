@@ -1,4 +1,5 @@
-{  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+{
+  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -8,7 +9,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:build",
           "options": {
             "progress": true,
             "outputPath": "www",
@@ -72,7 +73,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "host": "0.0.0.0",
             "port": 8100,
@@ -152,12 +153,10 @@
               "devServerTarget": "app:serve:production"
             }
           }
-
         }
       }
     }
   },
-
   "cli": {
     "defaultCollection": "@ionic/angular-toolkit"
   },
