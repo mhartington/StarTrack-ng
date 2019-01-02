@@ -5,6 +5,7 @@
   "projects": {
     "app": {
       "root": "",
+      "sourceRoot":"src",
       "projectType": "application",
       "prefix": "app",
       "architect": {
