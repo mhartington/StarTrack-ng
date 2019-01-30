@@ -1,0 +1,50 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Browse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div text-center padding *ngIf="isLoading; else hasContent">
+    <ion-spinner text-center></ion-spinner>
+  </div>
+
+
+  <ng-template #hasContent>
+
+    <div class="topAlbum" padding>
+      <ion-grid fixed no-padding>
+        <h1>Top Albums</h1>
+        <ion-row>
+          <ion-col size="6" size-md="4" size-xl="3" *ngFor="let album of topAlbums; let i = index" no-padding>
+            <album-preview-item [album]="album" [index]="i" routerLink="/album/{{album.id}}"></album-preview-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="topPlaylist" padding>
+      <ion-grid fixed no-padding>
+        <h1>Top Playlists</h1>
+        <ion-row>
+          <ion-col size="6" size-md="4" size-xl="3" *ngFor="let playlist of topPlaylists; let i = index" no-padding>
+            <album-preview-item [album]="playlist" [index]="i" routerLink="/playlist/{{playlist.id}}"></album-preview-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="topSongs">
+      <ion-grid fixed no-padding>
+        <h1 padding>Top Songs</h1>
+        <song-item *ngFor="let song of topSongs; let i = index" [song]="song" [index]="i" (click)="playSong(i)">
+        </song-item>
+      </ion-grid>
+    </div>
+  </ng-template>
+</ion-content>

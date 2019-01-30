@@ -1,0 +1,11 @@
+<ion-card>
+  <lazy-img [src]="album.attributes.artwork.url | formatArtworkUrl:200"></lazy-img>
+</ion-card>
+<ion-label>
+  <h3>
+    <span class="index">{{index + 1 }}</span> {{album.attributes.name}} <span class="rating" *ngIf="album.attributes.contentRating==='explicit'">E</span>
+  </h3>
+  <ion-note>
+    <p>{{album.attributes.artistName}}</p>
+  </ion-note>
+</ion-label>

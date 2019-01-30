@@ -9,13 +9,13 @@ export class MsToMinsPipe implements PipeTransform {
       return this.durationFromMsHelper(value);
     }
   }
-  pad2(num) {
+  pad2(num: any) {
     if (num <= 99) {
       num = ('0' + num).slice(-2);
     }
     return num;
   }
-  durationFromMsHelper(ms) {
+  durationFromMsHelper(ms: number) {
     let x: number = ms / 1000;
     const seconds: number = this.pad2(Math.floor(x % 60));
     x /= 60;

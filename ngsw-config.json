@@ -16,17 +16,5 @@
         "files": ["/assets/**"]
       }
     }
-  ],
-  "dataGroups": [
-    {
-      "name": "itunes-api",
-      "urls": ["**"],
-      "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 100,
-        "maxAge": "5d",
-        "timeout": "5s"
-      }
-    }
   ]
 }

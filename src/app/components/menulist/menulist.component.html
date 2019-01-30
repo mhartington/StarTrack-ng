@@ -1,7 +1,7 @@
 <ion-content>
   <ion-list>
     <ion-menu-toggle auto-hide="false" *ngFor="let favorite of favorites">
-      <ion-item (click)="goToDetail(favorite)">
+      <ion-item routerLink="/detail/{{favorite.trackId}}">
         <ion-label>
           <h2>{{favorite.trackName}}</h2>
           <h3>by {{favorite.artistName}}</h3>

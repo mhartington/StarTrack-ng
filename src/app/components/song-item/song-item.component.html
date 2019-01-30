@@ -1,0 +1,16 @@
+<ion-item lines="inset" button detail="false">
+  <ion-thumbnail slot="start">
+    <lazy-img [src]="song.attributes.artwork.url | formatArtworkUrl:60" alt=""></lazy-img>
+  </ion-thumbnail>
+  <ion-text color="primary" slot="start" *ngIf="index !== null">
+    <p class="index">{{index +1 }}</p>
+  </ion-text>
+  <ion-label>
+    <h3>{{song.attributes.name}} </h3>
+    <ion-note *ngIf="song.attributes.artistName">
+      <p>{{song.attributes.artistName}}</p>
+    </ion-note>
+  </ion-label>
+  <p slot="end" class="rating" *ngIf="song.attributes.contentRating==='explicit'">E</p>
+  <ion-note slot="end" *ngIf="song.attributes.durationInMillis">{{song.attributes.durationInMillis | msToMins}}</ion-note>
+</ion-item>

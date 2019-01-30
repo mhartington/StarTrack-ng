@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ItunesService } from '../../providers/itunes/itunes.service';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EMPTY } from 'rxjs';
 import {
@@ -10,90 +8,58 @@ import {
   catchError,
   debounceTime
 } from 'rxjs/operators';
-import {
-  trigger,
-  style,
-  animate,
-  transition,
-  query,
-  stagger
-} from '@angular/animations';
+import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
+import { PlayerService } from '../../providers/player/player.service';
 @Component({
   selector: 'app-search-page',
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
-  animations: [
-    trigger('staggerIn', [
-      transition('* => *', [
-        query(
-          ':enter',
-          style({ opacity: 0, transform: `translate3d(0,10px,0)` }),
-          { optional: true }
-        ),
-        query(
-          ':enter',
-          stagger('100ms', [
-            animate(
-              '300ms ease-in',
-              style({ opacity: 1, transform: `translate3d(0,0,0)` })
-            )
-          ]),
-          { optional: true, limit: 15 }
-        )
-      ])
-    ])
-  ]
+  styleUrls: ['./search.page.scss']
 })
-export class SearchPage implements OnInit {
+export class SearchPage {
   public hasSearch = false;
-  public listing: any[] = null;
   public isError = false;
-  public showSpinner = false;
+  public isLoading = false;
   public searchInput = new FormControl('');
   public showOverlay = false;
-  constructor(
-    public itunes: ItunesService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  songResults: any;
+  albumResults: any;
+  artistResults: any;
+  playlistResults: any;
+  numOfResults: any;
+
+  constructor(private api: MusickitService, private player: PlayerService) {}
   searchCanceled(e: Event) {
-    (e.target as HTMLIonSearchbarElement).blur();
+    (e.target as any).blur();
   }
   searchCleared() {
     this.hasSearch = false;
     this.isError = false;
-    this.listing = null;
+
+    this.songResults = null;
+    this.albumResults = null;
+    this.artistResults = null;
+    this.playlistResults = null;
   }
-  setSearch(val: string) {
-    this.isError = false;
-    this.hasSearch = true;
-    this.searchInput.setValue(val);
-  }
-  ionViewWillLeave(){
-    console.log('by')
-  }
-  ngOnInit() {
+  ionViewDidEnter() {
     this.searchInput.valueChanges
       .pipe(
         filter(term => {
           if (term) {
-            this.showSpinner = true;
+            this.isLoading = true;
             this.isError = false;
             this.hasSearch = true;
             return term;
           } else {
             this.isError = false;
-            this.listing = [];
-            this.showSpinner = false;
+            this.isLoading = false;
             this.hasSearch = false;
           }
         }),
         debounceTime(500),
         switchMap(term =>
-          this.itunes.load(term).pipe(
+          this.api.search(term).pipe(
             catchError(() => {
-              this.showOverlay = false;
-              this.showSpinner = false;
+              this.isLoading = false;
               this.isError = true;
               return EMPTY;
             })
@@ -101,12 +67,23 @@ export class SearchPage implements OnInit {
         ),
         tap(() => {
           this.showOverlay = false;
-          this.showSpinner = false;
+          this.isLoading = false;
         })
       )
-      .subscribe(results => (this.listing = results));
+      .subscribe(results => {
+        this.songResults = results['songs'] ? results['songs']['data'] : null;
+        this.albumResults = results['albums']
+          ? results['albums']['data']
+          : null;
+        this.artistResults = results['artists']
+          ? results['artists']['data']
+          : null;
+        this.playlistResults = results['playlists']
+          ? results['playlists']['data']
+          : null;
+      });
   }
-  detail(track) {
-    this.router.navigate(['detail', track.trackId], { relativeTo: this.route });
+  playSong(index: any) {
+    this.player.setQueueFromItems(this.songResults, index).subscribe();
   }
 }

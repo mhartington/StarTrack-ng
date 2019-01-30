@@ -1,5 +1,0 @@
-/*!
- * (C) Ionic http://ionicframework.com - MIT License
- * Built with http://stenciljs.com
- */
-const{h:n}=window.Ionic;function t(n,t,e){return Math.max(n,Math.min(t,e))}function e(n,t){if(!n){const n="ASSERT: "+t;throw console.error(n),new Error(n)}}function r(n){return n.timeStamp||Date.now()}function o(n){if(n){const t=n.changedTouches;if(t&&t.length>0){const n=t[0];return{x:n.clientX,y:n.clientY}}if(void 0!==n.pageX)return{x:n.pageX,y:n.pageY}}return{x:0,y:0}}function i(n){const t="rtl"===document.dir;switch(n){case"start":return t;case"end":return!t;default:throw new Error(`"${n}" is not a valid value for [side]. Use "start" or "end" instead.`)}}function c(n){return u(n,0)}function u(n,t){const e=n._original||n;return{_original:n,emit:function(n,t=0){let e;return(...r)=>{clearTimeout(e),e=setTimeout(n,t,...r)}}(e.emit.bind(e),t)}}export{r as now,o as pointerCoord,c as deferEvent,t as clamp,e as assert,u as debounceEvent,i as isRightSide};
