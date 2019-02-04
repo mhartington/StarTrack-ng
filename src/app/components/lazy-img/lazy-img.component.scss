@@ -2,22 +2,18 @@
   width: 100%;
   height: 100%;
   background-image: url('/assets/imgs/default.jpeg');
-  transition: background 500ms ease-out;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 img {
   opacity: 0;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 250ms ease-in;
   object-fit: cover;
   height: 100%;
 }
 
 :host(.loaded) {
-  .placeholder {
-    background: #fff;
-  }
 
   img {
     opacity: 1;

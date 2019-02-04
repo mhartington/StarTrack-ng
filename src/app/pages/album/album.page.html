@@ -8,7 +8,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="share()" *ngIf="canShare">
+      <ion-button color="primary" (click)="share()" *ngIf="canShare && !isError">
       <ion-icon slot="icon-only" name="share"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -38,4 +38,8 @@
       <ion-spinner></ion-spinner>
     </div>
   </ng-template>
+
+  <ng-container *ngIf="isError">
+    <h1>There's an error!</h1>
+  </ng-container>
 </ion-content>

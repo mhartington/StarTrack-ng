@@ -1,6 +1,6 @@
 <div class="artwork-header">
   <div class="album-info" *ngIf="collection">
-    <img decoding="async" class="header-artwork" [src]="collection.attributes.artwork.url | formatArtworkUrl:1500">
+    <lazy-img class="header-artwork" [src]="collection.attributes.artwork.url | formatArtworkUrl:1500"></lazy-img>
     <div class="album-detail">
       <h3>{{collection.attributes.name}}</h3>
       <p>{{ collection.attributes.artistName ? collection.attributes.artistName : collection.attributes.curatorName }}

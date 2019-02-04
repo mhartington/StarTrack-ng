@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Album } from '../../../@types/model/model';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service';
+import { catchError } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-album',
   templateUrl: './album.page.html',
@@ -11,10 +13,11 @@ import { PlayerService } from '../../providers/player/player.service';
 export class AlbumPage {
   album: Album;
   canShare = false;
+  isError: boolean;
   constructor(
     private api: MusickitService,
     private route: ActivatedRoute,
-    private player: PlayerService,
+    private player: PlayerService
   ) {}
   ionViewDidEnter() {
     if ('share' in navigator) {
@@ -22,12 +25,15 @@ export class AlbumPage {
       this.canShare = true;
     }
     const id = this.route.snapshot.params.id;
-    this.api.fetchAlbum(id)
-    .subscribe(
-      album => (this.album = album),
-      err => console.log('err', err),
-    )
-
+    this.api
+      .fetchAlbum(id)
+      .pipe(
+        catchError(_e => {
+          this.isError = true;
+          return EMPTY;
+        })
+      )
+      .subscribe(album => (this.album = album), err => console.log('err', err));
   }
 
   playSong(index: number) {

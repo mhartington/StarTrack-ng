@@ -3,6 +3,7 @@ import { Observable, from } from 'rxjs';
 import { MusickitConfig } from '../musickit-config/musickit-config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Song, Album } from '../../../@types/model/model';
+import { delay, retryWhen, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,9 @@ export class MusickitService {
         types: searchTypes,
         limit: 50
       })
+    ).pipe(
+      retryWhen(error => error.pipe(delay(500))),
+      timeout(5000)
     );
   }
 
@@ -107,6 +111,9 @@ export class MusickitService {
         limit: 100,
         offset: offset
       })
+    ).pipe(
+      retryWhen(error => error.pipe(delay(500))),
+      timeout(5000)
     );
   }
 
