@@ -11,9 +11,9 @@
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "resources": {
-        "files": ["/assets/**"]
+        "files": ["/assets/**", "/svg/**"]
       }
     }
   ]

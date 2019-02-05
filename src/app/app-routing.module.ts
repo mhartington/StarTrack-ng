@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LandingPage } from './pages/landing/landing.page';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/browse', pathMatch: 'full' },
+  // { path: '', redirectTo: '/browse', pathMatch: 'full' },
   {
     path: 'search',
     loadChildren: './pages/search/search.module#SearchModule'
@@ -18,7 +19,8 @@ const routes: Routes = [
   {
     path: 'browse',
     loadChildren: './pages/browse/browse.module#BrowsePageModule'
-  }
+  },
+  { path: '', component: LandingPage },
 ];
 
 @NgModule({

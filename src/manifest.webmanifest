@@ -3,10 +3,10 @@
   "short_name": "StarTrack",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
+  "description": "The best Apple Music Client out there. Built with Ionic",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "/browse",
-  "scope": "/",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
