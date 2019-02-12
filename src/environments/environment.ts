@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  musicKitToken: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlAyNFpTRjRXQjIifQ.eyJpYXQiOjE1NDc0OTAyMjgsImV4cCI6MTU2MzA0MjIyOCwiaXNzIjoiOVlOMkhVNTlLOCJ9.4_MLYNHe7qV5Co6U2Pb9Sk2yAoO3s3I9fWCuCOon_6XT1vDPd3CL17SofSiW0H39mkUKJ2zl70dofV74SrETWA'
+  musicKitToken: 'MUSICTOKEN'
 };
 
 /*

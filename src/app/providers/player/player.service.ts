@@ -3,8 +3,8 @@ import { Observable, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { MusickitConfig } from '../musickit-config/musickit-config';
 import { Title }  from '@angular/platform-browser';
-import { Song } from '../../../@types/model/model';
-
+import { SongModel } from '../../../@types/song-model';
+declare var MusicKit: any;
 export enum PlaybackStates {
   NONE,
   LOADING,
@@ -88,7 +88,7 @@ export class PlayerService {
     this.changeBitrate();
   }
 
-  setQueueFromItems(items: Song[], startIndex: number = 0): Observable<any> {
+  setQueueFromItems(items: SongModel[], startIndex: number = 0): Observable<any> {
     items.forEach(item => (item['container'] = { id: item.id }));
     return from(
       this.musickitConfig.musicKit.setQueue({

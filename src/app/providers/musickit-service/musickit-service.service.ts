@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { MusickitConfig } from '../musickit-config/musickit-config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Song, Album } from '../../../@types/model/model';
 import { delay, retryWhen, timeout } from 'rxjs/operators';
+// import { SongModel } from '../../../@types/song-model';
+// import { AlbumModel } from '../../../@types/album-model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,29 +26,19 @@ export class MusickitService {
     });
   }
 
-  fetchLibrarySongs(offset: number): Observable<Song[]> {
-    return from(
-      this.musicKitService.musicKit.api.library.songs(null, {
-        limit: 100,
-        offset: offset
-      })
-    );
+  fetchLibrarySongs(offset: number): Observable<any> {
+    return from(this.musicKitService.musicKit.api.library.songs(null, { limit: 100, offset: offset }));
   }
 
-  fetchLibraryAlbums(offset: number): Observable<Album[]> {
-    return from(
-      this.musicKitService.musicKit.api.library.albums(null, {
-        limit: 100,
-        offset: offset
-      })
-    );
+  fetchLibraryAlbums(offset: number): Observable<any> {
+    return from(this.musicKitService.musicKit.api.library.albums(null, { limit: 100, offset: offset }));
   }
 
-  fetchLibraryAlbum(id: string): Observable<Album> {
+  fetchLibraryAlbum(id: string): Observable<any> {
     return from(this.musicKitService.musicKit.api.library.album(id));
   }
 
-  fetchAlbum(id: string): Observable<Album> {
+  fetchAlbum(id: string): Observable<any> {
     return from(this.musicKitService.musicKit.api.album(id));
   }
 

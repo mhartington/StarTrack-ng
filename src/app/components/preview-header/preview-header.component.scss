@@ -25,6 +25,7 @@
 .album-info {
   display: flex;
   align-items: center;
+  padding-left: var(--ion-safe-area-left);
 }
 .header-artwork {
   border-radius: 4px;

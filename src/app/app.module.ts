@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { FormatArtworkUrlModule } from './pipes/formatArtworkUrl/format-artwork-url.module';
 import { LandingPage } from './pages/landing/landing.page';

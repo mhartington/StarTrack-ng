@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -12,7 +12,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "progress": true,
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -25,25 +24,15 @@
                 "output": "assets"
               },
               {
-                "glob": "manifest.webmanifest",
-                "input": "src",
-                "output": "."
-              },
-              {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
-              }
-            ],
-            "styles": [
-              {
-                "input": "src/theme/variables.scss"
               },
-              {
-                "input": "src/global.scss"
-              }
+              "src/manifest.webmanifest"
             ],
-            "scripts": []
+            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "scripts": [],
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
@@ -133,7 +122,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "browserTarget": "app:build:production",
+              "serviceWorker": false
             }
           }
         },

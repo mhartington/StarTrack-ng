@@ -3,7 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LandingPage } from './pages/landing/landing.page';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/browse', pathMatch: 'full' },
+  { path: '', component: LandingPage },
+  {
+    path: 'browse',
+    loadChildren: './pages/browse/browse.module#BrowsePageModule'
+  },
   {
     path: 'search',
     loadChildren: './pages/search/search.module#SearchModule'
@@ -15,12 +19,7 @@ const routes: Routes = [
   {
     path: 'playlist/:id',
     loadChildren: './pages/playlists/playlists.module#PlaylistsPageModule'
-  },
-  {
-    path: 'browse',
-    loadChildren: './pages/browse/browse.module#BrowsePageModule'
-  },
-  { path: '', component: LandingPage },
+  }
 ];
 
 @NgModule({

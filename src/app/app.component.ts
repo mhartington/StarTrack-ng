@@ -129,4 +129,5 @@ export class AppComponent implements OnInit {
   prev() {
     this.player.skipToPreviousItem().subscribe();
   }
+
 }

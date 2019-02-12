@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Album } from '../../../@types/model/model';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service';
 import { catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
+import { AlbumModel } from '../../../@types/album-model';
 @Component({
   selector: 'app-album',
   templateUrl: './album.page.html',
   styleUrls: ['./album.page.scss']
 })
 export class AlbumPage {
-  album: Album;
+  album: AlbumModel;
   canShare = false;
   isError: boolean;
   constructor(
