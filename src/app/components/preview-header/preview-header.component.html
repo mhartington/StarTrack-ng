@@ -1,0 +1,23 @@
+<div class="artwork-header">
+  <div class="album-info" *ngIf="collection">
+    <lazy-img class="header-artwork" [src]="collection.attributes.artwork.url | formatArtworkUrl:1500"></lazy-img>
+    <div class="album-detail">
+      <h3>{{collection.attributes.name}}</h3>
+      <p>{{ collection.attributes.artistName ? collection.attributes.artistName : collection.attributes.curatorName }}
+      </p>
+      <p>{{ collection.attributes.description ? collection.attributes.description.short : collection.attributes.genreNames[0]}}</p>
+      <p>{{collection.relationships.tracks.data.length}} Songs, {{formatDuraction(duration)}}</p>
+      <ion-button (click)="playCollection()" fill="outline">
+        <ion-icon slot="start" name="play"></ion-icon>
+        Play
+      </ion-button>
+      <ion-button (click)="playCollection(true)" fill="outline">
+        <ion-icon name="shuffle" slot="start"></ion-icon>
+        Shuffle
+      </ion-button>
+      <ion-button fill="outline">
+        <ion-icon name="more" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</div>

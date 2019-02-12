@@ -1,5 +1,0 @@
-/*!
- * (C) Ionic http://ionicframework.com - MIT License
- * Built with http://stenciljs.com
- */
-const{h:n}=window.Ionic;function r(n,r,t){const o={};return t.split(" ").forEach(t=>(o[t]=!0,n&&(o[`${t}-${n}`]=!0,r&&(o[`${t}-${r}`]=!0,o[`${t}-${n}-${r}`]=!0)),o)),o}function t(n){const r={};for(let t=0;t<n.length;t++)r[n[t]]=!0;return r}function o(n,r){return n?{[n]:!0,[`${n}-${r}`]:!0}:{}}function e(n){return n?Array.isArray(n)?n:n.split(" ").filter(n=>""!==n.trim()):[]}function c(n){const r={};return e(n).forEach(n=>r[n]=!0),r}async function i(n,r,t="forward"){if(n&&"#"!==n[0]&&-1===n.indexOf("://")){const o=document.querySelector("ion-router");if(o)return r&&r.preventDefault(),await o.componentOnReady(),o.push(n,"back"===t?-1:1)}return Promise.resolve()}export{r as createThemedClasses,c as getClassMap,i as openURL,t as getElementClassMap,o as getButtonClassMap,e as getClassList};

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>StarTrack</title>
+  <title>Star Track</title>
   <base href="/">
 
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,54 +11,49 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <link rel="manifest" href="manifest.webmanifest">
-  <style>
-    app-root {
-      height: 100%;width: 100%;display: flex;align-items: center;display: flex;justify-content: center;
-    }
-
-    #icon {
-      width: 150px;
-      height: 150px;
-    }
-  </style>
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-180x180.png">
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
   <meta name="apple-mobile-web-app-title" content="Star Track">
-  <link rel="apple-touch-icon" href="assets/apple/apple-touch-icon.png">
-  <link rel="mask-icon" href="assets/apple/safari-pinned-tab.svg" color="#32db64">
 
   <link rel="shortcut icon" href="assets/favicon/favicon.ico">
   <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assest/favicon/favicon-16x16.png">
 
-  <meta name="msapplication-TileColor" content="#32db64">
+  <meta name="msapplication-TileColor" content="#fe2851">
   <meta name="msapplication-config" content="assest/edge/browserconfig.xml">
-  <meta name="theme-color" content="#32db64">
-  <script async src="https://cdn.rawgit.com/GoogleChrome/pwacompat/v2.0.0/pwacompat.min.js"></script>
+  <meta name="theme-color" content="#ffffff">
 
 </head>
 
-<body>
+<body style="background: var(--ion-background-color)">
+  <app-root style="height: 100%;width: 100%;display: flex;align-items: center;display: flex;justify-content: center;">
+    <svg xmlns="http://www.w3.org/2000/svg" style="width: 150px; height: 150px" viewBox="0 0 512 512"><circle cx="256" cy="256" r="236" fill="#fff" stroke="#fe2851" stroke-linecap="null" stroke-linejoin="null" stroke-width="20"/>
+      <path fill="#000" d="M351 105l-150 29c-3 1-6 3-6 6v174c0 2 0 6-2 9-2 4-6 7-11 9l-10 3c-17 3-47 10-47 37 0 23 17 33 31 35h5c5 0 26-2 37-9 8-6 18-16 18-35V208c0-2 2-5 4-5l111-23c3 0 7 2 7 6v95c0 3 0 7-2 10-2 4-6 7-12 9l-10 3c-18 4-47 10-47 37 0 25 19 35 31 35h14c6-1 17-4 26-10 13-7 20-19 20-35V110c0-3-3-6-7-5z"/></svg>
+  </app-root>
+
+
   <noscript>
-    <h3 style="color: #32db64; font-family: sans-serif; font-weight: 600; margin: 2rem;">
+    <h3 style="color: #000; font-family: sans-serif; font-weight: 600; margin: 2rem;">
       Sorry, but app is not available without javascript
     </h3>
   </noscript>
-  <app-root style="height: 100%;width: 100%;display: flex;align-items: center;display: flex;justify-content: center;">
-    <svg id='icon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 150px;height: 150px;">
-  <title>icon</title>
-  <g>
-    <path d="M256,503A247,247,0,0,1,81.34,81.34,247,247,0,1,1,430.66,430.66,245.38,245.38,0,0,1,256,503Z" style="fill: #32db64"/>
-    <path d="M256,18a238.07,238.07,0,0,1,92.63,457.3A238.07,238.07,0,0,1,163.37,36.7,236.49,236.49,0,0,1,256,18m0-18C114.62,0,0,114.62,0,256S114.62,512,256,512,512,397.38,512,256,397.38,0,256,0h0Z" style="fill: #29b552"/>
-  </g>
-  <circle cx="256" cy="256" r="147.6" style="fill: #fff"/>
-  <polygon points="199.23 157.32 199.23 354.68 340.12 256 199.23 157.32"/>
-</svg>
+  <script>
+  'use strict';(function(){if(!('fetch'in window)){return;}var capableDisplayModes=['standalone','fullscreen','minimal-ui'];var defaultSplashColor='#f8f9fa';var defaultSplashTextSize=24;var idealSplashIconSize=128;var minimumSplashIconSize=48;var splashIconPadding=32;var userAgent=navigator.userAgent||'';var isSafari=(navigator.vendor&&navigator.vendor.indexOf('Apple')!==-1);var isSafariMobile=isSafari&&(userAgent.indexOf('Mobile/')!==-1);var isEdge=(userAgent.indexOf('Edge')!==-1);var isEdgePWA=(typeof Windows!=='undefined');function setup(){var manifestEl=document.head.querySelector('link[rel="manifest"]');var manifestHref=manifestEl?manifestEl.href:'';var hrefFactory=buildHrefFactory([manifestHref,window.location]);Promise.resolve().then(function(){if(!manifestHref){throw "can't find <link rel=\"manifest\" href=\"..\" />'"}var opts=({});if(manifestHref.crossOrigin==='use-credentials'){opts.credentials='include'}return window.fetch(manifestHref,opts)}).then(function(response){return response.json()}).then(function(data){return process(data,hrefFactory)}).catch(function(err){return console.warn('pwacompat.js error',err)})}function buildHrefFactory(options){var _loop_1=function(i){var opt=options[i];try{new URL('',opt);return{value:function(part){return(new URL(part,opt)).toString()}}}catch(e){}};for(var i=0;i<options.length;i+=1){var state_1=_loop_1(i);if(typeof state_1==="object"){return state_1.value}}return function(part){return part}}function push(localName,attr){var node=document.createElement(localName);for(var k in attr){node.setAttribute(k,attr[k])}document.head.appendChild(node);return node}function meta(name,content){if(content){if(content===true){content='yes'}push('meta',{name:name,content:content})}}function process(manifest,urlFactory){var icons=manifest['icons']||[];icons.sort(function(a,b){return parseInt(b.sizes,10)-parseInt(a.sizes,10)});var appleTouchIcons=icons.map(function(icon){var attr={'rel':'icon','href':urlFactory(icon['src']),'sizes':icon['sizes']};push('link',attr);if(isSafariMobile){attr['rel']='apple-touch-icon';return push('link',attr)}});var metaViewport=document.head.querySelector('meta[name="viewport"]');var viewport=metaViewport&&metaViewport.content||'';var viewportFitCover=Boolean(viewport.match(/\bviewport-fit\s*=\s*cover\b/));console.info('got viewport',metaViewport,viewport,'viewportFitCover',viewportFitCover);var display=manifest['display'];var isCapable=capableDisplayModes.indexOf(display)!==-1;meta('mobile-web-app-capable',isCapable);updateThemeColorRender((manifest['theme_color'])||'black',viewportFitCover);if(isEdge){meta('application-name',manifest['short_name']);meta('msapplication-tooltip',manifest['description']);meta('msapplication-starturl',manifest['start_url']||'/');meta('msapplication-TileColor',manifest['theme_color'])}if(!document.head.querySelector('[name="theme-color"]')){meta('theme-color',manifest['theme_color'])}var orientation=simpleOrientationFor(manifest['orientation']);meta('x5-orientation',orientation);meta('screen-orientation',orientation);if(display==='fullscreen'){meta('x5-fullscreen','true');meta('full-screen','yes');}else if(isCapable){meta('x5-page-mode','app');meta('browsermode','application');}if(!isSafariMobile){return;}var backgroundIsLight=shouldUseLightForeground((manifest['background_color'])||defaultSplashColor);var title=manifest['name']||manifest['short_name']||document.title;var itunes=findAppleId(manifest['related_applications']);itunes&&meta('apple-itunes-app',"app-id="+itunes);meta('apple-mobile-web-app-capable',isCapable);meta('apple-mobile-web-app-title',title);function splashFor(_a,orientation,icon){var width=_a.width,height=_a.height;var ratio=window.devicePixelRatio;var ctx=contextForCanvas({width:width*ratio,height:height*ratio});ctx.scale(ratio,ratio);ctx.fillStyle=manifest['background_color']||defaultSplashColor;ctx.fillRect(0,0,width,height);ctx.translate(width/2,(height-splashIconPadding)/2);if(icon){var iconWidth=(icon.width/ratio);var iconHeight=(icon.height/ratio);if(iconHeight>idealSplashIconSize){iconWidth/=(iconHeight/idealSplashIconSize);iconHeight=idealSplashIconSize}if(iconWidth>=minimumSplashIconSize&&iconHeight>=minimumSplashIconSize){ctx.drawImage(icon,iconWidth/-2,iconHeight/-2,iconWidth,iconHeight);ctx.translate(0,iconHeight/2+splashIconPadding)}}ctx.fillStyle=backgroundIsLight?'white':'black';ctx.font=defaultSplashTextSize+"px HelveticaNeue-CondensedBold";var textWidth=ctx.measureText(title).width;ctx.fillText(title,textWidth/-2,0);var generatedSplash=document.createElement('link');generatedSplash.setAttribute('rel','apple-touch-startup-image');generatedSplash.setAttribute('media',"(orientation: "+orientation+")");generatedSplash.setAttribute('href',ctx.canvas.toDataURL());return generatedSplash}var previous=new Set();function updateSplash(applicationIcon){var portrait=splashFor(window.screen,'portrait',applicationIcon);var landscape=splashFor({width:window.screen.height,height:window.screen.width},'landscape',applicationIcon);previous.forEach(function(prev){return prev.remove()});document.head.appendChild(portrait);document.head.appendChild(landscape);previous.add(portrait);previous.add(landscape)}updateSplash(null);if(!appleTouchIcons.length){return}var icon=appleTouchIcons[0];var img=new Image();img.crossOrigin='anonymous';img.onload=function(){updateSplash(img);if(!manifest['background_color']){return}var redrawn=updateTransparent(img,manifest['background_color']);if(redrawn===null){return;}icon.href=redrawn;appleTouchIcons.slice(1).forEach(function(icon){var img=new Image();img.crossOrigin='anonymous';img.onload=function(){var redrawn=updateTransparent(img,manifest['background_color'],true);icon.href=redrawn};img.src=icon.href})};img.src=icon.href}function findAppleId(related){var itunes;(related||[]).filter(function(app){return app['platform']==='itunes'}).forEach(function(app){if(app['id']){itunes=app['id']}else{var match=app['url'].match(/id(\d+)/);if(match){itunes=match[1]}}});return itunes}function simpleOrientationFor(v){v=String(v||'');var prefix=v.substr(0,3);if(prefix==='por'){return 'portrait'}else if(prefix==='lan'){return 'landscape'}return ''}function updateThemeColorRender(color,viewportFitCover){if(!(isSafariMobile||isEdgePWA)){return}var themeIsLight=shouldUseLightForeground(color);if(isSafariMobile){var content=viewportFitCover?'black-translucent':(themeIsLight?'black':'default');meta('apple-mobile-web-app-status-bar-style',content)}else{var t=getEdgeTitleBar();if(t===null){return;}t.foregroundColor=colorToWindowsRGBA(themeIsLight?'black':'white');t.backgroundColor=colorToWindowsRGBA(color)}}function getEdgeTitleBar(){try{return Windows.UI.ViewManagement.ApplicationView.getForCurrentView().titleBar}catch(e){return null}}function colorToWindowsRGBA(color){var data=readColor(color);return ({'r':data[0],'g':data[1],'b':data[2],'a':data[3]})}function readColor(color){var c=contextForCanvas();c.fillStyle=color;c.fillRect(0,0,1,1);return c.getImageData(0,0,1,1).data}function shouldUseLightForeground(color){var pixelData=readColor(color);var data=pixelData.map(function(v){var f=v/255;return(f<0.03928)?f/12.92:Math.pow((f+0.055)/1.055,2.4)});var lum=0.2126*data[0]+0.7152*data[1]+0.0722*data[2];var contrast=Math.abs((1.05)/(lum+0.05));return contrast>3}function updateTransparent(image,background,force){if(force===void 0){force=false}var context=contextForCanvas(image);context.drawImage(image,0,0);if(!force){var imageData=context.getImageData(0,0,1,1);if(imageData.data[3]==255){return null}}context.globalCompositeOperation='destination-over';context.fillStyle=background;context.fillRect(0,0,image.width,image.height);return context.canvas.toDataURL()}function contextForCanvas(_a){var _b=_a===void 0?{width:1,height:1}:_a,width=_b.width,height=_b.height;var canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;return canvas.getContext('2d')}if(document.readyState==='complete'){setup()}else{window.addEventListener('load',setup)}}());
+  </script>
 
-  </app-root>
+  <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"></script>
+  <script>
+    if(window.cordova){
+    window.open = cordova.InAppBrowser.open;
+    }
+  </script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -10,8 +11,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
-    "target": "es5",
+    "target": "es2015",
     "lib": ["es2017", "dom"],
-    "plugins": [{ "name": "tslint-language-service" }]
+    "plugins": [{ "name": "typescript-tslint-plugin" }]
   }
 }

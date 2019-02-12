@@ -1,20 +1,8 @@
 {
   "rulesDirectory": [
-    "node_modules/codelyzer",
-    "node_modules/@ionic/v4-migration-tslint/rules"
+    "node_modules/codelyzer"
   ],
   "rules": {
-    "ion-action-sheet-title-and-subtitle-are-now-header-and-sub-header": true,
-    "ion-alert-title-and-subtitle-are-now-header-and-sub-header": true,
-    "ion-button-is-now-an-element": true,
-    "ion-button-attributes-are-renamed": true,
-    "ion-chip-markup-has-changed": true,
-    "ion-navbar-is-now-ion-toolbar": true,
-    "ion-tab-title-is-now-label": true,
-    "ion-tab-icon-is-now-icon": true,
-    "ion-tab-badge-is-now-badge": true,
-    "ion-tab-badge-style-is-now-badge-style": true,
-
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,

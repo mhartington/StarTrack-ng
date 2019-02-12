@@ -1,0 +1,26 @@
+.artwork-header {
+  height: 300px;
+  background-color: #222;
+  color: #ffffff;
+  overflow: hidde;
+  .header-wallpaper {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+  }
+  .album-info{
+    height:300px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+  .header-artwork {
+    border-radius: 4px;
+    display: block;
+    height: 200px;
+    width: 200px;
+    padding: 0 16px;
+  }
+}

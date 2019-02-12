@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  margin: auto;
+  max-width: 170px;
+  padding: 5px;
+}
+ion-card {
+  padding: 0;
+  margin: 0;
+  max-width: 160px;
+  max-height:160px;
+}
+lazy-img {
+  object-fit: cover;
+}
+ion-label {
+  margin: 8px 0 16px;
+  display: block;
+  white-space: nowrap;
+  & * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.index {
+  font-weight: 800;
+}
+.rating {
+  background: #aaa;
+  color: #fff;
+  width: 12px;
+  display: inline-block;
+  text-align: center;
+  height: 12px;
+  font-weight: 300;
+  border-radius: 3px;
+  font-size: 9px;
+  margin-left: 5px;
+  margin-top: -2px;
+  vertical-align: middle;
+}

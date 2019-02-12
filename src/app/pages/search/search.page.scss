@@ -1,9 +1,129 @@
-:host {
-
-  .thumbnail-md,
-  .thumbnail-md {
-    img {
-      border-radius: 6px;
-    }
+$time: 0.5s;
+.wrapper {
+  max-width: 400px;
+  margin: auto;
+}
+.shrug {
+  stroke: var(--ion-color-dark);
+  stroke-width: 2;
+  fill: none;
+}
+.smile {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+#shruggie {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.shrug {
+  opacity: 0;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-duration: $time/2;
+  animation-fill-mode: forwards;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes shoulder-l {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes shoulder-r {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes forearm-l {
+  from {
+    transform: rotate(-180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes forearm-r {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes hand-l {
+  from {
+    transform: rotate(260deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes hand-r {
+  from {
+    transform: rotate(-260deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes smile {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.head {
+  animation-name: fadein;
+}
+.shoulder-l {
+  transform-origin: center right;
+  animation-name: shoulder-l, fadein;
+  animation-delay: $time/4;
+}
+.shoulder-r {
+  transform-origin: center left;
+  animation-name: shoulder-r, fadein;
+  animation-delay: $time/4;
+}
+.forearm-l {
+  transform-origin: bottom center;
+  animation-name: forearm-l, fadein;
+  animation-delay: $time * (3/5);
+}
+.forearm-r {
+  transform-origin: bottom center;
+  animation-name: forearm-r, fadein;
+  animation-delay: $time * (3/5);
+}
+.hand-l {
+  transform-origin: center right;
+  animation-name: hand-l, fadein;
+  animation-delay: $time * (4/5);
+}
+.hand-r {
+  transform-origin: center left;
+  animation-name: hand-r, fadein;
+  animation-delay: $time * (4/5);
+}
+.smile {
+  opacity: 1;
+  animation-name: smile;
+  animation-delay: $time;
+  animation-duration: $time * 9;
 }

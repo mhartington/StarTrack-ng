@@ -1,56 +1,64 @@
 <ion-header>
-  <ion-toolbar color="success">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button color="primary"></ion-menu-button>
     </ion-buttons>
     <ion-title>Search</ion-title>
   </ion-toolbar>
-  <ion-toolbar color="success">
-    <ion-searchbar placeholder="" [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true">
+  <ion-toolbar>
+    <ion-searchbar placeholder="Artists, Songs, Lyrics, and More" [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true" animated="true">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-grid fixed no-padding>
 
-    <!-- No Search term? -->
-    <div *ngIf="!hasSearch" padding>
-      <h1>Trending Bands</h1>
-      <ion-item *ngFor=" let trending of ['Jimmy Eat World', 'Senses Fail', 'Alkaline Trio']" (click)="setSearch(trending)">
-        {{trending}}
-      </ion-item>
+  <div text-center padding *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <div *ngIf="isError" text-center>
+    <div class="wrapper">
+      <svg id="shruggie" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 100">
+        <line x1="25" y1="32" x2="50" y2="32" class="shrug hand-l"/>
+        <line x1="55" y1="30" x2="65" y2="60" class="shrug forearm-l"/>
+        <line x1="70" y1="65" x2="95" y2="65" class="shrug shoulder-l"/>
+        <path d="M100,23 Q80,43 100,65" class="shrug head"/>
+        <path d="M105,25 Q107,30 108,35" class="shrug head eye-l"/>
+        <path d="M119,25 Q120,30 119,35" class="shrug head eye-r"/>
+        <path d="M110,60 Q135,60 135,33" class="shrug smile"/>
+        <path d="M135,23 Q155,43 135,65" class="shrug head"/>
+        <line x1="140" y1="65" x2="165" y2="65" class="shrug shoulder-r"/>
+        <line x1="170" y1="60" x2="180" y2="30" class="shrug forearm-r"/>
+        <line x1="185" y1="32" x2="210" y2="32" class="shrug hand-r"/>
+      </svg>
     </div>
+    <h3>Well this is embarrassing, there seems to be an issue fetching data! </h3>
+  </div>
+  <ion-list>
 
-    <!-- Welp there's an error -->
-    <div *ngIf="isError" text-center padding>
-      <ion-icon color="dark" name="warning" size="large"></ion-icon>
-      <h1>Uh-oh...</h1>
-      <h2>It's not me, it's you!</h2>
-      <h2>It appears there is a connection problem</h2>
-    </div>
-
-    <!-- Alright, we're searching -->
-    <div padding text-center class="stauts-spinner" *ngIf="showSpinner">
-      <ion-spinner color="success"></ion-spinner>
-    </div>
-
-    <!-- We got some songs! -->
-    <div [@staggerIn]="listing?.length">
-      <ion-item *ngFor="let track of listing" detail-none [href]="'detail/' + track.trackId">
-        <ion-thumbnail slot="start">
-          <img [src]="track.artworkUrl100" alt="" decoding="async">
-        </ion-thumbnail>
+    <ion-item-group *ngIf="songResults">
+      <ion-item-divider sticky>
         <ion-label>
-          <h2>{{track.trackName}}</h2>
-          <h3>{{track.artistName}}</h3>
-          <p>{{track.collectionName}}</p>
+          Songs
         </ion-label>
-        <ion-note slot="end">
-          {{track.trackTimeMillis | msToMins}}
-        </ion-note>
-      </ion-item>
-    </div>
-
-  </ion-grid>
+      </ion-item-divider>
+      <song-item *ngFor="let song of songResults; let i = index" [song]="song" (click)="playSong(i)"></song-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="albumResults">
+      <ion-item-divider sticky>
+        <ion-label>
+          Albums
+        </ion-label>
+      </ion-item-divider>
+      <song-item *ngFor="let album of albumResults" [song]="album" routerLink="/album/{{album.id}}"></song-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="playlistResults">
+      <ion-item-divider sticky>
+        <ion-label>
+          Playlists
+        </ion-label>
+      </ion-item-divider>
+      <song-item *ngFor="let playlist of playlistResults" [song]="playlist" routerLink="/playlist/{{playlist.id}}"></song-item>
+    </ion-item-group>
+  </ion-list>
 </ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{playlist?.attributes.name}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="share()" *ngIf="canShare && !isError">
+        <ion-icon slot="icon-only" name="share"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <preview-header [collection]="playlist" (play)="playAlbum($event)"></preview-header>
+  <ng-container *ngIf="playlist; else isLoading">
+    <!-- <ion-grid fixed> -->
+    <ion-list>
+      <song-item *ngFor="let song of playlist.relationships.tracks.data; let i = index" [song]="song" (click)="playSong(i)"></song-item>
+    </ion-list>
+    <!-- </ion-grid> -->
+  </ng-container>
+  <ng-template #isLoading>
+    <div text-center padding>
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+  <ng-container *ngIf="isError">
+    <div text-center padding>
+      <h1>There's an error!</h1>
+    </div>
+  </ng-container>
+</ion-content>
