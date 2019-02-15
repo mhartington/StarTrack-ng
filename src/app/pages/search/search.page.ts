@@ -1,15 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EMPTY } from 'rxjs';
-import {
-  tap,
-  switchMap,
-  filter,
-  catchError,
-  debounceTime
-} from 'rxjs/operators';
+import { catchError, debounceTime, filter, switchMap, tap } from 'rxjs/operators';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service';
+
 @Component({
   selector: 'app-search-page',
   templateUrl: './search.page.html',

@@ -22,7 +22,7 @@ export class BrowsePage implements OnInit {
     this.menuCtrl.enable(true);
   }
   ionViewDidEnter() {
-    console.log('ionViewDidEnter FIRE')
+    console.log('ionViewDidEnter FIRE');
     if (this.isLoading) {
       this.api.fetchChart().subscribe(data => {
         this.topAlbums = data.albums[0].data;

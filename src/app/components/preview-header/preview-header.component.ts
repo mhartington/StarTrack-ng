@@ -3,13 +3,16 @@ import {
   EventEmitter,
   Input,
   Output,
-  HostBinding
+  HostBinding,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 @Component({
   selector: 'preview-header',
   templateUrl: './preview-header.component.html',
-  styleUrls: ['./preview-header.component.scss']
+  styleUrls: ['./preview-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewHeaderComponent {
   @HostBinding('style.background-image') bg: SafeStyle = '';
@@ -34,13 +37,14 @@ export class PreviewHeaderComponent {
           1000
         )}")`
       );
+    this.cd.markForCheck();
     }
   }
 
   @Output() play: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
   public duration = 0;
   private _collection: any = null;
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {}
 
   formatDuraction(val: number) {
     const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds(val);
@@ -52,3 +56,4 @@ export class PreviewHeaderComponent {
     this.play.emit({ shuffle });
   }
 }
+

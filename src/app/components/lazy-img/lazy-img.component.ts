@@ -4,13 +4,16 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  HostBinding
+  HostBinding,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
   selector: 'lazy-img',
   templateUrl: './lazy-img.component.html',
-  styleUrls: ['./lazy-img.component.scss']
+  styleUrls: ['./lazy-img.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LazyImgComponent implements AfterViewInit {
   observer: IntersectionObserver;
@@ -21,7 +24,7 @@ export class LazyImgComponent implements AfterViewInit {
 
   @ViewChild('lazyImage') lazyImage: ElementRef<HTMLImageElement>;
 
-  constructor() {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     const options: IntersectionObserverInit = {
@@ -65,6 +68,8 @@ export class LazyImgComponent implements AfterViewInit {
   preload(targetEl) {
     return this.fetchImage(this.src)
       .then(() => this.applyImage(targetEl, this.src))
-      .then(() => (this.isLoaded = true));
+      .then(() => (this.isLoaded = true))
+      .then(() => this.cd.markForCheck());
   }
 }
+

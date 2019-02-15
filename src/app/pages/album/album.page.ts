@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AlbumModel } from '../../../@types/album-model';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service';
-import { catchError } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-import { AlbumModel } from '../../../@types/album-model';
+
 @Component({
   selector: 'app-album',
   templateUrl: './album.page.html',

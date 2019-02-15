@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'song-item',
   templateUrl: './song-item.component.html',
-  styleUrls: ['./song-item.component.scss']
+  styleUrls: ['./song-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SongItemComponent {
   @Input() song: any;
