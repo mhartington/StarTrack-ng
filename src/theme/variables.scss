@@ -88,7 +88,8 @@ ion-content {
   --border-color: transparent;
 }
 
-.dark {
+@media (prefers-color-scheme: dark) {
+:root {
   --ion-color-secondary: #50c8ff;
   --ion-color-secondary-rgb: 80, 200, 255;
   --ion-color-secondary-contrast: #ffffff;
@@ -150,7 +151,7 @@ ion-content {
   }
 }
 
-.dark.ios {
+.ios {
   --ion-background-color: #000000;
   --ion-background-color-rgb: 0, 0, 0;
 
@@ -185,7 +186,7 @@ ion-content {
   // --ion-item-background-activated: #313131;
 }
 
-.dark.md {
+.md {
   --ion-background-color: #121212;
   --ion-background-color-rgb: 18, 18, 18;
 
@@ -215,4 +216,5 @@ ion-content {
   --ion-color-step-950: #f3f3f3;
 
   // --ion-item-background: #1a1b1e;
+}
 }

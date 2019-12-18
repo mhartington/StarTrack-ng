@@ -4,7 +4,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 import { MenuController, ToastController } from '@ionic/angular';
-import { DarkModeService } from './providers/dark-mode/dark-mode.service';
 import { MusickitConfig } from './providers/musickit-config/musickit-config';
 
 @Component({
@@ -19,7 +18,6 @@ export class AppComponent implements OnInit {
     private menuCtrl: MenuController,
     public musickitConfig: MusickitConfig,
     public router: Router,
-    public darkMode: DarkModeService,
     // tslint:disable-next-line: ban-types
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -63,8 +61,5 @@ export class AppComponent implements OnInit {
   logout() {
     this.musickitConfig.unauthorize();
     this.menuCtrl.close();
-  }
-  toggleMode() {
-    this.darkMode.shouldDark = !this.darkMode.shouldDark;
   }
 }
