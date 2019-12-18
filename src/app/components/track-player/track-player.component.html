@@ -1,0 +1,29 @@
+<div class="song-info">
+  <ion-thumbnail>
+    <img decoding="async" [src]="player?.nowPlayingItem.artworkURL | formatArtworkUrl:100" alt="The album art work cover" />
+  </ion-thumbnail>
+  <ion-label>
+    <p  data-apple-music-now-playing></p>
+    <p >{{player.nowPlayingItem.title}}</p>
+    <ion-note>{{player.nowPlayingItem.artistName}}</ion-note>
+  </ion-label>
+</div>
+<ion-range
+  step="1"
+  min="0"
+  [max]="currentPlaybackDuration"
+  [value]="currentPlaybackTime"
+  [disabled]="currentPlaybackDuration === 0 || isLoading || isNotPlaying"
+  (ionEnd)="seekToTime($event)"
+  ></ion-range>
+<div class="song-actions">
+  <ion-buttons>
+    <ion-button color="primary" fill="clear" (click)="togglePlay()">
+      <ion-icon *ngIf="!isLoading"  [name]="player.playbackState === playbackStates.PLAYING ? 'pause' : 'play' " slot="icon-only"></ion-icon>
+      <ion-spinner *ngIf="isLoading" ></ion-spinner>
+    </ion-button>
+    <ion-button color="primary" fill="clear" (click)="next()">
+      <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</div>

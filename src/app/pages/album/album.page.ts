@@ -18,13 +18,13 @@ export class AlbumPage {
   constructor(
     private api: MusickitService,
     private route: ActivatedRoute,
-    private player: PlayerService
+    private player: PlayerService,
   ) {}
   ionViewDidEnter() {
     if ('share' in navigator) {
-      console.log('share is there');
       this.canShare = true;
     }
+    console.log(window.history.state);
     const id = this.route.snapshot.params.id;
     this.api
       .fetchAlbum(id)
@@ -34,9 +34,13 @@ export class AlbumPage {
           return EMPTY;
         })
       )
-      .subscribe(album => (this.album = album), err => console.log('err', err));
+      .subscribe(
+        album => {
+          this.album = album;
+        },
+        err => console.log('err', err)
+      );
   }
-
   playSong(index: number) {
     this.player
       .setQueueFromItems(this.album.relationships.tracks.data, index)

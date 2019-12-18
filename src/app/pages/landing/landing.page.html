@@ -4,11 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding text-center>
+<ion-content class="ion-padding ion-text-center">
   <h3>Welcome to Star Track
     <ion-icon name="musical-notes" color="primary"></ion-icon>
   </h3>
   <p>Star Track is a simple way to interact with Apple Music.</p>
-  <ion-button routerLink="/browse">Get Started</ion-button>
-
+  <ion-button (click)="push()" routerLink="/browse" [replaceUrl]="true">Get Started</ion-button>
 </ion-content>

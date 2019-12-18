@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "www",
+    "public": "dist/browser",
     "rewrites": [
       {
         "source": "**",
@@ -23,8 +23,7 @@
         "headers": [
           {
             "key": "Link",
-            "value":
-              "</6.2cc5072049749debe2c0.js>;rel=preload;as=script,</4.bb35f45d75e55bad2cab.js>;rel=preload;as=script,</styles.fcdf381df8ddaf966388.css>;rel=preload;as=style,</runtime.3c2b23fc2462d71d15d6.js>;rel=preload;as=script,</polyfills.dd4f09a8872abc9992cb.js>;rel=preload;as=script,</main.c2967779a6c21ced6e08.js>;rel=preload;as=script,</assets/imgs/default.jpeg>;rel=preload;as=script,</common.fe5dfed5a88bfc0c4e65.js>;rel=preload;as=script,</146.a8b38ac8bfeeb76339e9.js>;rel=preload;as=script,</126.eee0f9dd8c6fe1f9904d.js>;rel=preload;as=script,</34.3480292556cfbeed86ca.js>;rel=preload;as=script,</150.238a1bda9c04313d3ea5.js>;rel=preload;as=script,</134.5f6accff05d64b1f6de6.js>;rel=preload;as=script,</94.0a82a0881f8615a122ed.js>;rel=preload;as=script,</116.63897ec37a606ad9b42f.js>;rel=preload;as=script,</2.bccd1842dc939f9b90c4.js>;rel=preload;as=script,</11.2fee154412b58b291a0a.js>;rel=preload;as=script,</16.d68f77636cd0a887c0bd.js>;rel=preload;as=script,</19.9868c6110a2ce057d09d.js>;rel=preload;as=script,</18.20b08b12e7818c003e57.js>;rel=preload;as=script,</136.b5b0156e8416d74a3a32.js>;rel=preload;as=script,</9.67ab7a3e1547c9693601.js>;rel=preload;as=script,</170.82d265b1aaf8f272e1ff.js>;rel=preload;as=script,"
+            "value": ""
           }
         ]
       }

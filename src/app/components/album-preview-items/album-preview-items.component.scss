@@ -3,15 +3,22 @@
   margin: auto;
   max-width: 170px;
   padding: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+  &:focus {
+    outline: none;
+  }
 }
 ion-card {
   padding: 0;
   margin: 0;
-  max-width: 160px;
-  max-height:160px;
+  width: 160px;
+  height: 160px;
 }
 lazy-img {
   object-fit: cover;
+  height: 100%;
 }
 ion-label {
   margin: 8px 0 16px;

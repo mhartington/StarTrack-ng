@@ -15,6 +15,12 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewHeaderComponent {
+
+  @Output() play: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
+  public duration = 0;
+  private _collection: any = null;
+  bgColor: string;
+
   @HostBinding('style.background-image') bg: SafeStyle = '';
 
   @Input()
@@ -36,14 +42,13 @@ export class PreviewHeaderComponent {
           1000,
           1000
         )}")`
+
       );
+      this.bgColor = this._collection.attributes.artwork.bgColor
     this.cd.markForCheck();
     }
   }
 
-  @Output() play: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
-  public duration = 0;
-  private _collection: any = null;
   constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {}
 
   formatDuraction(val: number) {

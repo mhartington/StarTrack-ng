@@ -11,7 +11,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <preview-header [collection]="playlist" (play)="playAlbum($event)"></preview-header>
   <ng-container *ngIf="playlist; else isLoading">
@@ -22,12 +21,12 @@
     <!-- </ion-grid> -->
   </ng-container>
   <ng-template #isLoading>
-    <div text-center padding>
+    <div class="ion-text-center ion-padding">
       <ion-spinner></ion-spinner>
     </div>
   </ng-template>
   <ng-container *ngIf="isError">
-    <div text-center padding>
+    <div class="ion-text-center ion-padding">
       <h1>There's an error!</h1>
     </div>
   </ng-container>

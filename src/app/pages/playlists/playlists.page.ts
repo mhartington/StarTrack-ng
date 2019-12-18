@@ -11,7 +11,7 @@ import { EMPTY } from 'rxjs';
 })
 export class PlaylistsPage {
   playlist: any;
-  isError: boolean = false;
+  isError = false;
   canShare: boolean;
   constructor(
     private api: MusickitService,
@@ -28,7 +28,7 @@ export class PlaylistsPage {
     this.api
       .fetchPlaylist(id)
       .pipe(
-        catchError(_e => {
+        catchError(() => {
           this.isError = true;
           return EMPTY;
         })
@@ -38,14 +38,14 @@ export class PlaylistsPage {
       });
   }
 
-  playAlbum(shuffle = false) {
-    if (shuffle) {
+  playAlbum(e) {
+    if (e.shuffle) {
       this.player.toggleShuffleOn();
     }
     this.player
       .setQueueFromItems(this.playlist.relationships.tracks.data)
       .subscribe(() => {
-        if (shuffle) {
+        if (e.shuffle) {
           this.player.toggleShuffleOff();
         }
       });
@@ -68,7 +68,7 @@ export class PlaylistsPage {
         })
         .then(
           () => console.log('Successful share'),
-          error => console.log('Error sharing', error)
+          ( error: any) => console.log('Error sharing', error)
         );
     }
   }

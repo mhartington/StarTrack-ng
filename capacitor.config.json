@@ -1,0 +1,13 @@
+{
+  "appId": "com.startrack.app",
+  "appName": "Star Track",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/browser",
+    "plugins": {
+    "Keyboard": {
+      "resize": "none",
+      "style": "dark"
+    }
+  }
+}

@@ -6,14 +6,23 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar placeholder="Artists, Songs, Lyrics, and More" [formControl]="searchInput" (ionClear)="searchCleared()" (ionCancel)="searchCleared(); searchCanceled($event)" showCancelButton="true" animated="true">
-    </ion-searchbar>
+        <!-- [formControl]="searchInput" -->
+    <form [formGroup]="searchForm" (ngSubmit)="closeKeyboard()">
+      <ion-searchbar
+        placeholder="Artists, Songs, Lyrics, and More"
+        formControlName="search"
+        (ionClear)="searchCleared()"
+        (ionCancel)="searchCleared(); searchCanceled($event)"
+        showCancelButton="focus"
+        animated="true"
+      >
+      </ion-searchbar>
+    </form>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <div text-center padding *ngIf="isLoading">
+  <div class="ion-text-center ion-padding" *ngIf="isLoading">
     <ion-spinner></ion-spinner>
   </div>
   <div *ngIf="isError" text-center>
@@ -37,7 +46,7 @@
   <ion-list>
 
     <ion-item-group *ngIf="songResults">
-      <ion-item-divider sticky>
+      <ion-item-divider [sticky]="true">
         <ion-label>
           Songs
         </ion-label>
@@ -45,20 +54,20 @@
       <song-item *ngFor="let song of songResults; let i = index" [song]="song" (click)="playSong(i)"></song-item>
     </ion-item-group>
     <ion-item-group *ngIf="albumResults">
-      <ion-item-divider sticky>
+      <ion-item-divider [sticky]="true">
         <ion-label>
           Albums
         </ion-label>
       </ion-item-divider>
-      <song-item *ngFor="let album of albumResults" [song]="album" routerLink="/album/{{album.id}}"></song-item>
+      <song-item *ngFor="let album of albumResults" [song]="album" [routerLink]="['/album', album.id]"></song-item>
     </ion-item-group>
     <ion-item-group *ngIf="playlistResults">
-      <ion-item-divider sticky>
+      <ion-item-divider [sticky]="true">
         <ion-label>
           Playlists
         </ion-label>
       </ion-item-divider>
-      <song-item *ngFor="let playlist of playlistResults" [song]="playlist" routerLink="/playlist/{{playlist.id}}"></song-item>
+      <song-item *ngFor="let playlist of playlistResults" [song]="playlist" [routerLink]="['/playlist', playlist.id]"></song-item>
     </ion-item-group>
   </ion-list>
 </ion-content>

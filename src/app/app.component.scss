@@ -1,0 +1,19 @@
+.mh-footer {
+  position: absolute;
+  bottom: 0;
+}
+
+img {
+  object-fit: cover;
+}
+.active {
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  ion-icon {
+    color: var(--ion-color-primary);
+  }
+}
+
+.split-pane-md.split-pane-visible > .split-pane-side {
+  max-width: 375px;
+}

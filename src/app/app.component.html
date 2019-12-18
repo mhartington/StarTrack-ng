@@ -1,7 +1,6 @@
 <ion-app>
-
-  <ion-split-pane when="(min-width: 850px)">
-    <ion-menu>
+  <ion-split-pane when="(min-width: 850px)" content-id="main">
+    <ion-menu  content-id="main">
       <ion-header>
         <ion-toolbar>
           <ion-title>Star Track</ion-title>
@@ -9,7 +8,7 @@
       </ion-header>
 
       <ion-content>
-        <ion-list>
+        <ion-list lines="none">
           <ion-menu-toggle auto-hide="false">
             <ion-item routerLink="/browse" routerDirection="root" routerLinkActive="active">
               <ion-icon name="musical-notes" slot="start"></ion-icon>
@@ -22,46 +21,36 @@
               Search
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-      <div class="login">
-          <ion-menu-toggle auto-hide="false" *ngIf="!musicKitService.isAuthorized; else isLoggedIn" >
-            <ion-item (click)="login()" lines="none">
+          <ion-menu-toggle auto-hide="false" *ngIf="!musickitConfig.isAuthorized; else isLoggedIn" class="bottom-item">
+            <ion-item (click)="login()" lines="none"  button="true">
               <ion-icon slot="start" name="log-in"></ion-icon>
               Login
             </ion-item>
           </ion-menu-toggle>
           <ng-template #isLoggedIn>
-            <ion-menu-toggle auto-hide="false">
-              <ion-item (click)="logout()" lines="none">
+            <ion-menu-toggle auto-hide="false" class="bottom-item">
+              <ion-item (click)="logout()" lines="none"  button="true">
                 <ion-icon slot="start" name="log-out"></ion-icon>
                 Logout
               </ion-item>
             </ion-menu-toggle>
           </ng-template>
-      </div>
+          <ion-item (click)="toggleMode()" lines="none" button="true">
+            <ion-icon slot="start" [name]="darkMode.shouldDark ? 'moon' : 'sunny'"></ion-icon>
+            Dark Mode
+          </ion-item>
+        </ion-list>
+      </ion-content>
     </ion-menu>
-    <ion-router-outlet main></ion-router-outlet>
+
+    <div class="ion-page"  id="main">
+      <ion-router-outlet></ion-router-outlet>
+    </div>
+
   </ion-split-pane>
 
-  <ion-footer class="mh-footer">
-    <div class="mh-toolbar">
-      <ion-thumbnail>
-        <img decoding="async" [src]="player.nowPlayingItem.artworkURL | formatArtworkUrl:100" />
-      </ion-thumbnail>
-      <ion-label style="overflow: hidden; white-space: nowrap;">
-        <p style="overflow: hidden; text-overflow:ellipsis">{{player.nowPlayingItem.title}}</p>
-        <ion-note>{{player.nowPlayingItem.artistName}}</ion-note>
-      </ion-label>
-      <ion-buttons>
-        <ion-button color="primary" fill="clear" (click)="togglePlay()">
-          <ion-icon [name]="player.playbackState === playbackStates.PLAYING ? 'pause' : 'play' " slot="icon-only"></ion-icon>
-        </ion-button>
-        <ion-button color="primary" fill="clear" (click)="next()">
-          <ion-icon name="fastforward" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </div>
+  <ion-footer class="mh-footer" translucent="true">
+    <track-player></track-player>
   </ion-footer>
 
 </ion-app>

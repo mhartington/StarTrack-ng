@@ -1,38 +1,46 @@
-<ion-header >
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button color="primary"></ion-menu-button>
     </ion-buttons>
     <ion-title>Browse</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openModal()">
+        <ion-icon name="help-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <!-- <ion-header collapse="condense" no-border> -->
+  <!-- <ion-toolbar class="transparent">          -->
+  <!-- <ion-title size="large">Browse</ion-title> -->
+  <!-- </ion-toolbar>                             -->
+  <!-- </ion-header>                              -->
 
-  <div text-center padding *ngIf="isLoading; else hasContent">
-    <ion-spinner text-center></ion-spinner>
+
+  <div class="ion-text-center ion-padding" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
   </div>
+  <ng-container *ngIf="topAlbums">
 
-
-  <ng-template #hasContent>
-
-    <div class="topAlbum" padding>
-      <ion-grid fixed no-padding>
+    <div class="topAlbum ion-padding">
+      <ion-grid fixed="true" class="ion-no-padding">
         <h1>Top Albums</h1>
-        <ion-row>
-          <ion-col size="6" size-md="4" size-xl="3" *ngFor="let album of topAlbums; let i = index" no-padding>
-            <album-preview-item [album]="album" [index]="i" routerLink="/album/{{album.id}}"></album-preview-item>
+        <ion-row class="ion-justify-content-start">
+          <ion-col size-md="6" size-lg="4" size-xl="3" *ngFor="let album of topAlbums; let i = index" class="ion-no-padding">
+            <album-preview-item [album]="album" [index]="i" [routerLink]="['/album', album.id]" [state]="{collection: album}"></album-preview-item>
           </ion-col>
         </ion-row>
       </ion-grid>
     </div>
 
-    <div class="topPlaylist" padding>
-      <ion-grid fixed no-padding>
+    <div class="topPlaylist ion-padding">
+      <ion-grid fixed="true" class="ion-no-padding">
         <h1>Top Playlists</h1>
         <ion-row>
-          <ion-col size="6" size-md="4" size-xl="3" *ngFor="let playlist of topPlaylists; let i = index" no-padding>
-            <album-preview-item [album]="playlist" [index]="i" routerLink="/playlist/{{playlist.id}}"></album-preview-item>
+          <ion-col size-md="6" size-lg="4" size-xl="3" *ngFor="let playlist of topPlaylists; let i = index" class="ion-no-padding">
+            <album-preview-item [album]="playlist" [index]="i" routerLink="/playlist/{{playlist.id}}" [state]="playlist"></album-preview-item>
           </ion-col>
 
         </ion-row>
@@ -40,11 +48,29 @@
     </div>
 
     <div class="topSongs">
-      <ion-grid fixed no-padding>
-        <h1 padding>Top Songs</h1>
+      <ion-grid fixed="true" class="ion-no-padding">
+        <h1 class="ion-padding">Top Songs</h1>
         <song-item *ngFor="let song of topSongs; let i = index" [song]="song" [index]="i" (click)="playSong(i)">
         </song-item>
       </ion-grid>
     </div>
-  </ng-template>
+  </ng-container>
+  <div *ngIf="hasError" class="ion-padding ion-text-center">
+    <div class="wrapper">
+      <svg id="shruggie" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 100">
+        <line x1="25" y1="32" x2="50" y2="32" class="shrug hand-l"/>
+        <line x1="55" y1="30" x2="65" y2="60" class="shrug forearm-l"/>
+        <line x1="70" y1="65" x2="95" y2="65" class="shrug shoulder-l"/>
+        <path d="M100,23 Q80,43 100,65" class="shrug head"/>
+        <path d="M105,25 Q107,30 108,35" class="shrug head eye-l"/>
+        <path d="M119,25 Q120,30 119,35" class="shrug head eye-r"/>
+        <path d="M110,60 Q135,60 135,33" class="shrug smile"/>
+        <path d="M135,23 Q155,43 135,65" class="shrug head"/>
+        <line x1="140" y1="65" x2="165" y2="65" class="shrug shoulder-r"/>
+        <line x1="170" y1="60" x2="180" y2="30" class="shrug forearm-r"/>
+        <line x1="185" y1="32" x2="210" y2="32" class="shrug hand-r"/>
+      </svg>
+    </div>
+    <h3>Well this is embarrassing, there seems to be an issue fetching data! </h3>
+  </div>
 </ion-content>

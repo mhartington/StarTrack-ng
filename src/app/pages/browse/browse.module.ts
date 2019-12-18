@@ -7,7 +7,7 @@ import { AlbumPreviewItemsModule } from '../../components/album-preview-items/al
 import { SongItemModule } from '../../components/song-item/song-item.module';
 import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artwork-url.module';
 import { BrowsePage } from './browse.page';
-
+import { DetailModalComponentModule } from '../../components/detail-modal/detail-modal.module'
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +21,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     SongItemModule,
+    DetailModalComponentModule,
     AlbumPreviewItemsModule,
     FormatArtworkUrlModule,
     RouterModule.forChild(routes)

@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Injectable, Inject } from '@angular/core';
+import { Observable, from, EMPTY } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { MusickitConfig } from '../musickit-config/musickit-config';
-import { Title }  from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { SongModel } from '../../../@types/song-model';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 declare var MusicKit: any;
 export enum PlaybackStates {
   NONE,
@@ -19,9 +21,7 @@ export enum PlaybackStates {
   COMPLETED
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PlayerService {
   bitrate = 256;
   playbackState: PlaybackStates = PlaybackStates.NONE;
@@ -30,7 +30,7 @@ export class PlayerService {
   queuePosition = 0;
   repeatMode = 0;
   isShuffling = false;
-  infiniteLoadTimeout;
+  infiniteLoadTimeout: any;
 
   nowPlayingItem = {
     albumName: '',
@@ -56,50 +56,45 @@ export class PlayerService {
   constructor(
     private musickitConfig: MusickitConfig,
     private titleService: Title,
-  ) {
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.mediaPlaybackError,
-      this.mediaPlaybackError.bind(this)
-    );
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.playbackStateDidChange,
-      this.playbackStateDidChange.bind(this)
-    );
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.mediaItemDidChange,
-      this.mediaItemDidChange.bind(this)
-    );
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.queueItemsDidChange,
-      this.queueItemsDidChange.bind(this)
-    );
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.queuePositionDidChange,
-      this.queuePositionDidChange.bind(this)
-    );
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+  initPlayer() {
+    this.musickitConfig.init();
 
-    this.player = this.musickitConfig.musicKit.player;
+    if (isPlatformBrowser(this.platformId)) {
+      this.musickitConfig.musicKit.addEventListener( MusicKit.Events.mediaPlaybackError, this.mediaPlaybackError.bind(this));
+      this.musickitConfig.musicKit.addEventListener( MusicKit.Events.playbackStateDidChange, this.playbackStateDidChange.bind(this));
+      this.musickitConfig.musicKit.addEventListener( MusicKit.Events.mediaItemDidChange, this.mediaItemDidChange.bind(this));
+      this.musickitConfig.musicKit.addEventListener( MusicKit.Events.queueItemsDidChange, this.queueItemsDidChange.bind(this));
+      this.musickitConfig.musicKit.addEventListener( MusicKit.Events.queuePositionDidChange, this.queuePositionDidChange.bind(this));
 
-    if (localStorage.getItem('bitrate') === null) {
-      this.bitrate = 256;
-    } else {
-      this.bitrate = parseInt(localStorage.getItem('bitrate'), 10);
+      this.player = this.musickitConfig.musicKit.player;
+
+      if (localStorage.getItem('bitrate') === null) {
+        this.bitrate = 256;
+      } else {
+        this.bitrate = parseInt(localStorage.getItem('bitrate'), 10);
+      }
+      this.changeBitrate();
     }
-    this.changeBitrate();
   }
 
-  setQueueFromItems(items: SongModel[], startIndex: number = 0): Observable<any> {
-    items.forEach(item => (item['container'] = { id: item.id }));
-    return from(
-      this.musickitConfig.musicKit.setQueue({
-        items: items,
-        startPosition: startIndex
-      })
-    ).pipe(mergeMap(_x => this.play()));
+  setQueueFromItems(items: any[], startPosition = 0): Observable<any> {
+    items.map(item => (item.container = { id: item.id }));
+
+    return from(this.musickitConfig.musicKit.setQueue({ items })).pipe(
+      tap(() => this.changeQueuePosition(startPosition))
+      // mergeMap(() => this.play())
+    );
   }
 
   play(): Observable<any> {
-    return from(this.player.play());
+    return from(this.player.play()).pipe(
+      catchError(e => {
+        console.log('errrr', e);
+        return EMPTY;
+      })
+    );
   }
 
   pause(): Observable<any> {
@@ -144,11 +139,11 @@ export class PlayerService {
     return from(this.player.seekToTime(time));
   }
 
-  playNext(item): void {
+  playNext(item: SongModel): void {
     this.player.queue.prepend(item);
   }
 
-  playLater(item): void {
+  playLater(item: SongModel): void {
     this.player.queue.append(item);
   }
 
@@ -160,7 +155,49 @@ export class PlayerService {
     return this.player.currentPlaybackTime;
   }
 
+  addMediaChangeListener(func: () => any) {
+    this.musickitConfig.musicKit.addEventListener(
+      MusicKit.Events.mediaItemDidChange,
+      func
+    );
+  }
+
+  removeFromQueue(index: number): void {
+    this.player.queue.remove(index + this.queuePosition);
+  }
+
+  changeQueuePosition(index: number): void {
+    this.musickitConfig.musicKit.changeToMediaAtIndex(index);
+  }
+
+  removeListener(func: () => any) {
+    this.musickitConfig.musicKit.removeEventListener(
+      MusicKit.Events.mediaItemDidChange,
+      func
+    );
+  }
+
+  changeVolume(volume: number): void {
+    this.player.volume = volume;
+  }
+
+  changeBitrate() {
+    this.musickitConfig.musicKit.bitrate = this.bitrate;
+    localStorage.setItem('bitrate', this.bitrate.toString());
+  }
+
+
+
+  // Global listeners
+  mediaItemDidChange(event: any): void {
+    this.nowPlayingItem = event.item;
+    this.titleService.setTitle(
+      this.nowPlayingItem.title + ' • ' + this.nowPlayingItem.artistName
+    );
+  }
+
   playbackStateDidChange(event: any): void {
+    console.log(event)
     this.playbackState = PlaybackStates[PlaybackStates[event.state]];
 
     // sometimes loading just gets stuck, a stop and resume fixes that
@@ -190,56 +227,16 @@ export class PlayerService {
     }
   }
 
-  mediaItemDidChange(event): void {
-    this.nowPlayingItem = event.item;
-    this.titleService.setTitle(
-      this.nowPlayingItem.title + ' • ' + this.nowPlayingItem.artistName
-    );
-  }
-
   mediaPlaybackError(event: any): void {
     console.log('mediaPlayBackError', event);
   }
 
-  queueItemsDidChange(_event: any): void {
+  queueItemsDidChange(): void {
     this.queue = this.player.queue.items.slice(this.queuePosition);
   }
 
   queuePositionDidChange(event: any): void {
     this.queuePosition = event.position + 1;
     this.queue = this.player.queue.items.slice(this.queuePosition);
-  }
-
-  removeFromQueue(index: number): void {
-    this.player.queue.remove(index + this.queuePosition);
-  }
-
-  changeQueuePosition(index): void {
-    this.musickitConfig.musicKit.changeToMediaAtIndex(
-      index + this.queuePosition
-    );
-  }
-
-  addMediaChangeListener(func) {
-    this.musickitConfig.musicKit.addEventListener(
-      MusicKit.Events.mediaItemDidChange,
-      func
-    );
-  }
-
-  removeListener(func) {
-    this.musickitConfig.musicKit.removeEventListener(
-      MusicKit.Events.mediaItemDidChange,
-      func
-    );
-  }
-
-  changeVolume(volume: number): void {
-    this.player.volume = volume;
-  }
-
-  changeBitrate() {
-    this.musickitConfig.musicKit.bitrate = this.bitrate;
-    localStorage.setItem('bitrate', this.bitrate.toString());
   }
 }

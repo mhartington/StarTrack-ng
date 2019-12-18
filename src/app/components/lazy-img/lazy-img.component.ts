@@ -1,12 +1,12 @@
 import {
-  Component,
   AfterViewInit,
-  Input,
-  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   ElementRef,
   HostBinding,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
+  Input,
+  ViewChild
 } from '@angular/core';
 
 @Component({
@@ -22,41 +22,39 @@ export class LazyImgComponent implements AfterViewInit {
 
   @HostBinding('class.loaded') isLoaded = false;
 
-  @ViewChild('lazyImage') lazyImage: ElementRef<HTMLImageElement>;
+  @ViewChild('lazyImage', { static: true }) lazyImage: ElementRef<HTMLImageElement>;
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     const options: IntersectionObserverInit = {
       root: this.lazyImage.nativeElement.closest('ion-content')
     };
 
     if ('IntersectionObserver' in window) {
-      this.observer = new IntersectionObserver(
-        this.onObserve.bind(this),
-        options
-      );
+      this.observer = new IntersectionObserver(await this.onObserve.bind(this), options);
       this.observer.observe(this.lazyImage.nativeElement);
     } else {
       setTimeout(() => this.preload(this.lazyImage.nativeElement), 200);
     }
   }
 
-  onObserve(data): IntersectionObserverCallback {
+  async onObserve(data: IntersectionObserverEntry[]): Promise<IntersectionObserverCallback> {
     if (data[0].isIntersecting) {
-      this.preload(data[0].target).then(() => this.observer.disconnect());
+      await this.preload(data[0].target as HTMLImageElement);
+      this.observer.disconnect();
+      return;
     }
-    return;
   }
 
-  applyImage(target: HTMLImageElement, src) {
+  applyImage(target: HTMLImageElement, src: string) {
     return new Promise(resolve => {
       target.src = src;
       resolve();
     });
   }
 
-  fetchImage(url) {
+  fetchImage(url: string) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = url;
@@ -65,11 +63,10 @@ export class LazyImgComponent implements AfterViewInit {
     });
   }
 
-  preload(targetEl) {
-    return this.fetchImage(this.src)
-      .then(() => this.applyImage(targetEl, this.src))
-      .then(() => (this.isLoaded = true))
-      .then(() => this.cd.markForCheck());
+  async preload(targetEl: HTMLImageElement) {
+    await this.fetchImage(this.src);
+    await this.applyImage(targetEl, this.src);
+    this.isLoaded = true;
+    this.cd.markForCheck();
   }
 }
-
