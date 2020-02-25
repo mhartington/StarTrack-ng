@@ -1,6 +1,9 @@
-.mh-footer {
+ion-footer.mh-footer {
   position: absolute;
   bottom: 0;
+  .footer-background {
+    z-index: -1 !important;
+  }
 }
 
 img {
@@ -13,7 +16,9 @@ img {
     color: var(--ion-color-primary);
   }
 }
-
+ion-split-pane {
+  overflow: hidden;
+}
 .split-pane-md.split-pane-visible > .split-pane-side {
   max-width: 375px;
 }

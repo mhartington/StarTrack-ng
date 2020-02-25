@@ -4,14 +4,15 @@ import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artw
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { IonRangeDirectiveModule } from 'src/app/directives/ion-range/ion-range.module';
-
+import {ReactiveComponentModule} from '@ngrx/component';
 @NgModule({
   declarations: [TrackPlayerComponent],
   imports: [
     FormatArtworkUrlModule,
     IonicModule,
     CommonModule,
-    IonRangeDirectiveModule
+    IonRangeDirectiveModule,
+    ReactiveComponentModule
   ],
   exports: [TrackPlayerComponent]
 })

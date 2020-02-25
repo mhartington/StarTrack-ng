@@ -1,12 +1,12 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
   Input,
-  ViewChild
+  ViewChild,
+  ɵmarkDirty as markDirty
 } from '@angular/core';
 
 @Component({
@@ -24,7 +24,7 @@ export class LazyImgComponent implements AfterViewInit {
 
   @ViewChild('lazyImage', { static: true }) lazyImage: ElementRef<HTMLImageElement>;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor() {}
 
   async ngAfterViewInit() {
     const options: IntersectionObserverInit = {
@@ -67,6 +67,6 @@ export class LazyImgComponent implements AfterViewInit {
     await this.fetchImage(this.src);
     await this.applyImage(targetEl, this.src);
     this.isLoaded = true;
-    this.cd.markForCheck();
+    markDirty(this);
   }
 }

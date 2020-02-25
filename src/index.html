@@ -1,84 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Star Track</title>
+    <meta
+      name="”description”"
+      content="A simple Apple Music client built with Angular, Ionic, and MusicKit JS!"
+    />
+    <base href="/" />
 
-<head>
-  <meta charset="utf-8">
-  <title>Star Track</title>
-  <meta name=”description” content="A simple Apple Music client built with Angular, Ionic, and MusicKit JS!" />
-  <base href="/">
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <link rel="manifest" href="manifest.webmanifest" />
 
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-  <link rel="manifest" href="manifest.webmanifest">
+    <!-- <link rel="preconnect" href="https://js-cdn.music.apple.com" crossorigin>      -->
+    <!-- <link rel="preconnect" href="https://itunes.apple.com" crossorigin>            -->
+    <!-- <link rel="preconnect" href="https://api.music.apple.com" crossorigin>         -->
+    <!-- <link rel="preconnect" href="https://amp-api.music.apple.com" crossorigin>     -->
+    <!-- <link rel="preconnect" href="https://xp.apple.com" crossorigin>                -->
+    <!-- <link rel="preconnect" href="https://se2.itunes.apple.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://is2-ssl.mzstatic.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://is3-ssl.mzstatic.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://is4-ssl.mzstatic.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://is5-ssl.mzstatic.com" crossorigin>        -->
+    <!-- <link rel="preconnect" href="https://client-api.itunes.apple.com" crossorigin> -->
+    <!-- <link rel="preconnect" href="https://init.itunes.apple.com" crossorigin>       -->
 
-  <!-- <link rel="preconnect" href="https://js-cdn.music.apple.com" crossorigin>      -->
-  <!-- <link rel="preconnect" href="https://itunes.apple.com" crossorigin>            -->
-  <!-- <link rel="preconnect" href="https://api.music.apple.com" crossorigin>         -->
-  <!-- <link rel="preconnect" href="https://amp-api.music.apple.com" crossorigin>     -->
-  <!-- <link rel="preconnect" href="https://xp.apple.com" crossorigin>                -->
-  <!-- <link rel="preconnect" href="https://se2.itunes.apple.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://is1-ssl.mzstatic.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://is2-ssl.mzstatic.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://is3-ssl.mzstatic.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://is4-ssl.mzstatic.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://is5-ssl.mzstatic.com" crossorigin>        -->
-  <!-- <link rel="preconnect" href="https://client-api.itunes.apple.com" crossorigin> -->
-  <!-- <link rel="preconnect" href="https://init.itunes.apple.com" crossorigin>       -->
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
+    <meta name="apple-mobile-web-app-title" content="Star Track" />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="/assets/icons/icon-192x192.png"
+    />
 
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
-  <meta name="apple-mobile-web-app-title" content="Star Track">
-  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/icon-192x192.png">
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assest/favicon/favicon-16x16.png"
+    />
 
+    <meta name="msapplication-TileColor" content="#fe2851" />
+    <meta name="msapplication-config" content="assest/edge/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
 
-  <link rel="shortcut icon" href="assets/favicon/favicon.ico">
-  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assest/favicon/favicon-16x16.png">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-144734803-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-  <meta name="msapplication-TileColor" content="#fe2851">
-  <meta name="msapplication-config" content="assest/edge/browserconfig.xml">
-  <meta name="theme-color" content="#ffffff">
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
+      gtag('config', 'UA-144734803-1');
+    </script>
+    <style>
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144734803-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  <body style="background: var(--ion-background-color);">
+    <!-- <app&#45;root></app&#45;root> -->
+    <app-root
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        style="width: 150px; height: 150px;"
+        viewBox="0 0 512 512"
+      >
+        <circle
+          cx="256"
+          cy="256"
+          r="236"
+          fill="#fff"
+          stroke="#fe2851"
+          stroke-linecap="null"
+          stroke-linejoin="null"
+          stroke-width="20"
+        />
+        <path
+          fill="#000"
+          d="M351 105l-150 29c-3 1-6 3-6 6v174c0 2 0 6-2 9-2 4-6 7-11 9l-10 3c-17 3-47 10-47 37 0 23 17 33 31 35h5c5 0 26-2 37-9 8-6 18-16 18-35V208c0-2 2-5 4-5l111-23c3 0 7 2 7 6v95c0 3 0 7-2 10-2 4-6 7-12 9l-10 3c-18 4-47 10-47 37 0 25 19 35 31 35h14c6-1 17-4 26-10 13-7 20-19 20-35V110c0-3-3-6-7-5z"
+        />
+      </svg>
+    </app-root>
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-144734803-1');
-  </script>
-  <style>
-    body, html {
-      padding: 0;
-      margin: 0
-    }
-  </style>
-</head>
-
-<body style="background: var(--ion-background-color)">
-  <app-root></app-root>
-  <!-- <app-root style="height: 100%;width: 100%;display: flex;align-items: center;display: flex;justify-content: center;">                                                                                                                                                                                                           -->
-  <!--   <svg xmlns="http://www.w3.org/2000/svg" style="width: 150px; height: 150px" viewBox="0 0 512 512"><circle cx="256" cy="256" r="236" fill="#fff" stroke="#fe2851" stroke-linecap="null" stroke-linejoin="null" stroke-width="20"/>                                                                                            -->
-  <!-- <path fill="#000" d="M351 105l-150 29c-3 1-6 3-6 6v174c0 2 0 6-2 9-2 4-6 7-11 9l-10 3c-17 3-47 10-47 37 0 23 17 33 31 35h5c5 0 26-2 37-9 8-6 18-16 18-35V208c0-2 2-5 4-5l111-23c3 0 7 2 7 6v95c0 3 0 7-2 10-2 4-6 7-12 9l-10 3c-18 4-47 10-47 37 0 25 19 35 31 35h14c6-1 17-4 26-10 13-7 20-19 20-35V110c0-3-3-6-7-5z"/></svg> -->
-  <!-- </app-root>                                                                                                                                                                                                                                                                                                                    -->
-
-  <noscript>
-    <h3 style="color: #000; font-family: sans-serif; font-weight: 600; margin: 2rem;">
-      Sorry, but app is not available without javascript
-    </h3>
-  </noscript>
-  <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.8/pwacompat.min.js" integrity="sha384-uONtBTCBzHKF84F6XvyC8S0gL8HTkAPeCyBNvfLfsqHh+Kd6s/kaS4BdmNQ5ktp1" crossorigin="anonymous"></script>
-  <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"></script>
-  <!-- <script src="https://js-cdn.music.apple.com/musickit/v2/musickit.js"></script> -->
-</body>
-
+    <noscript>
+      <h3
+        style="
+          color: #000;
+          font-family: sans-serif;
+          font-weight: 600;
+          margin: 2rem;
+        "
+      >
+        Sorry, but app is not available without javascript
+      </h3>
+    </noscript>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.8/pwacompat.min.js"
+      integrity="sha384-uONtBTCBzHKF84F6XvyC8S0gL8HTkAPeCyBNvfLfsqHh+Kd6s/kaS4BdmNQ5ktp1"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"></script>
+    <!-- <script src="https://js-cdn.music.apple.com/musickit/v2/musickit.js"></script> -->
+  </body>
 </html>

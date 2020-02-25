@@ -4,28 +4,39 @@
   background-size: cover;
   background-position: center center;
 }
+ion-toolbar {
+  --background: transparent;
+  color: #ffffff;
 
+  ion-title {
+    -webkit-padding-start: 0;
+    padding-inline-start: 0;
+    -webkit-padding-end: 0;
+    padding-inline-end: 0;
+  }
+}
 .artwork-header {
   display: flex;
-  background-color: rgba(34,34,34,0.8);
-  backdrop-filter: blur(8px);
-  color: #ffffff;
+  backdrop-filter: blur(12px);
   overflow: hidden;
   height: 300px;
   align-items: center;
   justify-content: flex-start;
 }
-.header-wallpaper {
-  height: 100%;
+.artwork-bg {
+  position: absolute;
   width: 100%;
-  object-fit: cover;
-  opacity: 0.3;
-  filter: blur(4px);
+  height: 300px;
+  z-index: 0;
+  opacity: 0.8;
+  filter: brightness(25%);
 }
 .album-info {
   display: flex;
   align-items: center;
   padding-left: var(--ion-safe-area-left);
+  z-index: 1;
+  overflow: hidden;
 }
 .header-artwork {
   border-radius: 4px;
@@ -34,11 +45,22 @@
   width: 200px;
   margin: 0 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  lazy-img > img {
+    object-fit: contain;
+  }
 }
 .album-detail {
   padding: 0 16px;
-  line-height: 0.6;
-
+  z-index: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  h3,
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   h3 {
     font-weight: 800;
   }

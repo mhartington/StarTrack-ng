@@ -1,36 +1,43 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      {{album?.attributes.name}}
-    </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button color="primary" (click)="share()" *ngIf="canShare && !isError">
-        <ion-icon slot="icon-only" name="share"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ng-container *ngrxLet="state$ as state">
+      <ion-title> {{state.collection?.attributes.name}} </ion-title>
+      <ion-buttons slot="end">
+        <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
+          <ion-icon slot="icon-only" name="share"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ng-container>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <preview-header [collection]="album" (play)="playAlbum($event)"></preview-header>
-  <ng-container *ngIf="album; else isLoading">
-    <ion-list>
-      <song-item *ngFor="let song of album.relationships.tracks.data; let i = index" [song]="song" [index]="i" (click)="playSong(i)">
-      </song-item>
-    </ion-list>
-  </ng-container>
+<ion-content [fullscreen]="true">
 
-  <ng-template #isLoading>
-    <div class="ion-text-center ion-padding">
+  <ng-container *ngrxLet="state$ as state">
+    <ng-container *ngIf="state.collection">
+      <preview-header
+        [collection]="state.collection"
+        (play)="playAlbum($event)"
+      ></preview-header>
+      <ion-list>
+        <song-item
+          *ngFor="let song of state.collection.relationships.tracks.data; let i = index"
+          [song]="song"
+          [index]="i"
+          (click)="playSong(i)"
+        >
+        </song-item>
+      </ion-list>
+    </ng-container>
+    <div class="ion-text-center ion-padding" *ngIf="state.isLoading">
       <ion-spinner></ion-spinner>
     </div>
-  </ng-template>
-
-  <ng-container *ngIf="isError">
-    <h1>There's an error!</h1>
+    <error-emoji
+      class="ion-text-center ion-padding"
+      *ngIf="state.isError"
+    ></error-emoji>
   </ng-container>
 </ion-content>

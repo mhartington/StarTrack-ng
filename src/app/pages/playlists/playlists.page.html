@@ -13,21 +13,11 @@
 </ion-header>
 <ion-content>
   <preview-header [collection]="playlist" (play)="playAlbum($event)"></preview-header>
-  <ng-container *ngIf="playlist; else isLoading">
-    <!-- <ion-grid fixed> -->
-    <ion-list>
-      <song-item *ngFor="let song of playlist.relationships.tracks.data; let i = index" [song]="song" (click)="playSong(i)"></song-item>
-    </ion-list>
-    <!-- </ion-grid> -->
-  </ng-container>
-  <ng-template #isLoading>
-    <div class="ion-text-center ion-padding">
-      <ion-spinner></ion-spinner>
-    </div>
-  </ng-template>
-  <ng-container *ngIf="isError">
-    <div class="ion-text-center ion-padding">
-      <h1>There's an error!</h1>
-    </div>
-  </ng-container>
+  <ion-list *ngIf="playlist">
+    <song-item *ngFor="let song of playlist.relationships.tracks.data; let i = index" [song]="song" (click)="playSong(i)"></song-item>
+  </ion-list>
+  <div class="ion-text-center ion-padding" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <error-emoji class="ion-text-center ion-padding" *ngIf="isError"></error-emoji>
 </ion-content>

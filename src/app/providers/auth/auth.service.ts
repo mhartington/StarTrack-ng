@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { MusickitConfig } from '../musickit-config/musickit-config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({})
 export class AuthGuard implements CanActivate {
   constructor(
     private musicKitService: MusickitConfig,

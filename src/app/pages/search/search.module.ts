@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { SongItemModule } from '../../components/song-item/song-item.module';
 import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artwork-url.module';
+import { ErrorComponentModule } from 'src/app/components/error/error.module';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   imports: [
@@ -14,11 +16,12 @@ import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artw
     IonicModule,
     SongItemModule,
     FormatArtworkUrlModule,
+    ErrorComponentModule,
     RouterModule.forChild([{ path: '', component: SearchPage }]),
     TimePipeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ReactiveComponentModule,
   ],
   declarations: [SearchPage],
 })
 export class SearchModule {}
-

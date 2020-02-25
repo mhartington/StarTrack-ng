@@ -12,6 +12,7 @@ import { EMPTY } from 'rxjs';
 export class PlaylistsPage {
   playlist: any;
   isError = false;
+  isLoading = true;
   canShare: boolean;
   constructor(
     private api: MusickitService,
@@ -30,10 +31,12 @@ export class PlaylistsPage {
       .pipe(
         catchError(() => {
           this.isError = true;
+          this.isLoading = false;
           return EMPTY;
         })
       )
       .subscribe(playlist => {
+          this.isLoading = false;
         this.playlist = playlist;
       });
   }

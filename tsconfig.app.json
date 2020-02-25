@@ -4,5 +4,8 @@
     "outDir": "./out-tsc/app",
     "types": ["@types/google.analytics"]
   },
-  "files": ["src/main.ts", "src/polyfills.ts", "src/zone-flags.ts"]
+  "files": ["src/main.ts", "src/polyfills.ts" ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

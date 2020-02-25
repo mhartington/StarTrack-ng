@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MsToMinsPipe implements PipeTransform {
   transform(value?: number) {
-    if(value){
+    if (value) {
       return this.durationFromMsHelper(value);
     }
   }
