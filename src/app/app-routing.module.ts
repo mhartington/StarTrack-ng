@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { LandingPage } from './pages/landing/landing.page';
-
 const routes: Routes = [
   { path: '', component: LandingPage },
   {
@@ -20,7 +19,6 @@ const routes: Routes = [
       import('./pages/album/album.module').then((m) => m.AlbumPageModule),
   },
 ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),

@@ -9,7 +9,9 @@ import { SongItemModule } from '../../components/song-item/song-item.module';
 import { PreviewHeaderModule } from '../../components/preview-header/preview-header.module';
 import { ErrorComponentModule } from 'src/app/components/error/error.module';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artwork-url.module';
+import { LazyImgModule } from '../../components/lazy-img/lazy-img.module';
+import { TemplateModule } from '@rx-angular/template';
 
 const routes: Routes = [{ path: '', component: AlbumPage }];
 
@@ -21,8 +23,10 @@ const routes: Routes = [{ path: '', component: AlbumPage }];
     PreviewHeaderModule,
     SongItemModule,
     RouterModule.forChild(routes),
-    ReactiveComponentModule
+    TemplateModule,
+    LazyImgModule,
+    FormatArtworkUrlModule,
   ],
-  declarations: [AlbumPage]
+  declarations: [AlbumPage],
 })
 export class AlbumPageModule {}

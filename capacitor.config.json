@@ -4,7 +4,8 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist/browser",
-    "plugins": {
+  "backgroundColor": "#000000FF",
+  "plugins": {
     "Keyboard": {
       "resize": "none",
       "style": "dark"

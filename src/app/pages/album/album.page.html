@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
     </ion-buttons>
-    <ng-container *ngrxLet="state$ as state">
+    <ng-container *rxLet="state$ as state">
       <ion-title> {{state.collection?.attributes.name}} </ion-title>
       <ion-buttons slot="end">
         <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
@@ -13,10 +13,8 @@
     </ng-container>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-
-  <ng-container *ngrxLet="state$ as state">
+  <ng-container *rxLet="state$ as state">
     <ng-container *ngIf="state.collection">
       <preview-header
         [collection]="state.collection"
@@ -29,6 +27,15 @@
           [index]="i"
           (click)="playSong(i)"
         >
+          <ion-thumbnail
+            slot="start"
+            *ngIf="state.collection.type === 'playlists'"
+          >
+            <lazy-img
+              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
+            ></lazy-img>
+          </ion-thumbnail>
         </song-item>
       </ion-list>
     </ng-container>

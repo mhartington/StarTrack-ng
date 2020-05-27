@@ -15,6 +15,7 @@ img {
 }
 
 :host(.loaded) {
+  background-image: none;
   img {
     opacity: 1;
   }

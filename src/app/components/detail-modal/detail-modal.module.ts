@@ -6,6 +6,6 @@ import { DetailModalComponent } from './detail-modal.component';
 @NgModule({
   imports: [CommonModule, IonicModule],
   declarations: [DetailModalComponent],
-  exports: [DetailModalComponent]
+  exports: [DetailModalComponent],
 })
 export class DetailModalComponentModule {}

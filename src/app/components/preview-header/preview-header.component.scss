@@ -45,10 +45,6 @@ ion-toolbar {
   width: 200px;
   margin: 0 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-  lazy-img > img {
-    object-fit: contain;
-  }
 }
 .album-detail {
   padding: 0 16px;

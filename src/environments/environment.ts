@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  musicKitToken: ''
+  musicKitToken: '',
+  hmr: true,
 };

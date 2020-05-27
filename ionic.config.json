@@ -1,7 +1,8 @@
 {
   "name": "StarTrack-ng",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

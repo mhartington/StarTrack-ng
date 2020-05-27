@@ -18,8 +18,7 @@
       <ion-title size="large">Browse</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ng-container *ngrxLet="state$ as state">
-
+  <ng-container *rxLet="state$ as state">
     <error-emoji
       *ngIf="state.hasError"
       class="ion-padding ion-text-center"
@@ -32,7 +31,10 @@
     <div *ngIf="state.collection as chart">
       <ion-list>
         <ion-grid fixed="true" class="ion-no-padding">
-          <ion-list-header> <h1>Top Albums</h1> </ion-list-header>
+          <ion-list-header>
+            <h1>Top Albums</h1>
+          </ion-list-header>
+
           <ion-row class="ion-justify-content-start">
             <ion-col
               size-lg="4"
@@ -44,7 +46,6 @@
                 [album]="album"
                 [index]="i"
                 [routerLink]="['/album', album.id]"
-                [state]="{collection: album}"
               ></album-preview-item>
             </ion-col>
           </ion-row>
@@ -79,6 +80,12 @@
             [index]="i"
             (click)="playSong(i)"
           >
+            <ion-thumbnail slot="start">
+              <lazy-img
+                [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+                alt=""
+              ></lazy-img>
+            </ion-thumbnail>
           </song-item>
         </ion-grid>
       </ion-list>

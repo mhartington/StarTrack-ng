@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { delay, retryWhen, timeout, map, tap } from 'rxjs/operators';
+import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +58,7 @@ export class MusickitService {
       return from(this.fetchAlbum(id));
     }
   }
+
   fetchLibraryArtists(offset: number): Observable<any> {
     return from(
       this.musicKitInstance.api.library.artists(null, {
@@ -66,7 +67,6 @@ export class MusickitService {
       })
     );
   }
-
   fetchLibraryArtist(id: string): Observable<any> {
     return from(
       this.musicKitInstance.api.library.artist(id, {

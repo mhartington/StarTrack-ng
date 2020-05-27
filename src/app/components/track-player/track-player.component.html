@@ -1,57 +1,66 @@
-<ng-container *ngrxLet="state$ as state">
-  <div class="song-info">
-    <ion-thumbnail>
-      <img
-        decoding="async"
-        [src]="state?.nowPlayingItem.artworkURL | formatArtworkUrl: 100"
-        alt="The album art work cover"
-      />
-    </ion-thumbnail>
-    <ion-label>
-      <p>{{ state.nowPlayingItem.title }}</p>
-      <ion-note>{{ state.nowPlayingItem.artistName }}</ion-note>
-    </ion-label>
+<ion-footer class="mh-footer" translucent="true">
+  <div class="track-wrapper">
+    <div class="track-player" *rxLet="state$ as state">
+      <div class="song-info">
+        <ion-thumbnail>
+          <img
+            decoding="async"
+            [src]="state?.nowPlayingItem.artworkURL | formatArtworkUrl: 100"
+            alt="The album art work cover"
+          />
+        </ion-thumbnail>
+        <ion-label>
+          <p>{{ state.nowPlayingItem.title }}</p>
+          <ion-note>{{ state.nowPlayingItem.artistName }}</ion-note>
+        </ion-label>
+      </div>
+      <ion-range
+        step="1"
+        min="0"
+        [disabled]="
+          state.playbackDuration === 0 ||
+          state.playbackState === playbackStates.NONE ||
+          state.playbackState === playbackStates.LOADING ||
+          state.playbackState === playbackStates.ENDED ||
+          state.playbackState === playbackStates.WAITING ||
+          state.playbackState === playbackStates.STALLED
+        "
+        [max]="state.playbackDuration"
+        [value]="state.playbackTime"
+        (click)="stopProp($event)"
+        (ionEnd)="seekToTime($event)"
+      ></ion-range>
+      <div class="song-actions">
+        <ion-buttons>
+          <ion-button color="primary" fill="clear" class="prev-button">
+            <ion-icon name="play-back" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button color="primary" fill="clear" (click)="togglePlay($event)">
+            <ion-spinner
+              *ngIf="
+                state.playbackState === playbackStates.LOADING ||
+                  state.playbackState === playbackStates.ENDED ||
+                  state.playbackState === playbackStates.WAITING ||
+                  state.playbackState === playbackStates.STALLED;
+                else buttonTemplate
+              "
+            ></ion-spinner>
+            <ng-template #buttonTemplate>
+              <ion-icon
+                [name]="
+                  state.playbackState === playbackStates.PLAYING
+                    ? 'pause'
+                    : 'play'
+                "
+                slot="icon-only"
+              ></ion-icon>
+            </ng-template>
+          </ion-button>
+          <ion-button color="primary" fill="clear" (click)="next($event)">
+            <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </div>
   </div>
-  <ion-range
-    step="1"
-    min="0"
-    [disabled]="
-      state.playbackDuration === 0 ||
-      state.playbackState === playbackStates.NONE ||
-      state.playbackState === playbackStates.LOADING ||
-      state.playbackState === playbackStates.ENDED ||
-      state.playbackState === playbackStates.WAITING ||
-      state.playbackState === playbackStates.STALLED
-    "
-    [max]="state.playbackDuration"
-    [value]="state.playbackTime"
-    (ionEnd)="seekToTime($event)"
-  ></ion-range>
-  <div class="song-actions">
-    <ion-buttons>
-      <ion-button color="primary" fill="clear" (click)="togglePlay()">
-        <ion-spinner
-          *ngIf="
-              state.playbackState === playbackStates.LOADING ||
-              state.playbackState === playbackStates.ENDED ||
-              state.playbackState === playbackStates.WAITING ||
-              state.playbackState === playbackStates.STALLED;
-            else buttonTemplate
-          "
-        ></ion-spinner>
-        <ng-template #buttonTemplate>
-          <ion-icon
-            [name]="
-              state.playbackState === playbackStates.PLAYING ? 'pause' : 'play'
-            "
-            slot="icon-only"
-          ></ion-icon>
-        </ng-template>
-      </ion-button>
-
-      <ion-button color="primary" fill="clear" (click)="next()">
-        <ion-icon name="play-forward" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </div>
-</ng-container>
+</ion-footer>

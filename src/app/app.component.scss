@@ -5,17 +5,29 @@ ion-footer.mh-footer {
     z-index: -1 !important;
   }
 }
-
+ion-list{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ion-item {
+  margin: 10px 0;
+  // --background-hover:
+  --border-radius: 8px;
+}
 img {
   object-fit: cover;
 }
-.active {
-  color: var(--ion-color-primary);
+.selected {
+
+  --background: rgba(var(--ion-color-primary-rgb), 0.8);
+  color: white;
   font-weight: 700;
+  --color-hover: white;
   ion-icon {
-    color: var(--ion-color-primary);
+    color: white;
   }
 }
+
 ion-split-pane {
   overflow: hidden;
 }

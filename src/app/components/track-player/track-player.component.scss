@@ -1,58 +1,132 @@
 :host {
-  border-top-width: 0.55px;
-  border-top-color: rgba(var(--ion-background-color-rgb), 0.2);
-  border-top-style: solid;
-  min-height: calc(var(--ion-safe-area-bottom) + 58px);
-  padding: 4px calc(16px + var(--ion-safe-area-left));
-  background-color: rgba(var(--ion-background-color-rgb), var(--platform-opacity));
-  color: #444;
-  padding-bottom: var(--ion-safe-area-bottom);
-
-  justify-content: space-between;
-
-  display: grid;
-  grid-template-columns: minmax(200px, 30%) minmax(auto, 400px) minmax(90px, 30%);
-  grid-gap: 10px;
-  width: 100%;
-}
-
-.song-info {
-  display: grid;
-  grid-template-columns: 48px auto;
-  overflow: hidden;
-
-
-ion-label {
-  padding-left: 10px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  * {
+  ion-footer.mh-footer {
+    position: absolute;
+    bottom: 0;
+    .footer-background {
+      z-index: -1 !important;
+    }
+  }
+  .track-wrapper {
+    background-color: rgba(
+      var(--ion-background-color-rgb),
+      var(--platform-opacity)
+    );
+  }
+  .track-player {
+    border-top-width: 0.55px;
+    border-top-color: rgba(var(--ion-background-color-rgb), 0.2);
+    border-top-style: solid;
+    min-height: calc(var(--ion-safe-area-bottom) + 58px);
+    padding: 4px calc(16px + var(--ion-safe-area-left));
+    color: #444;
+    padding-bottom: var(--ion-safe-area-bottom);
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(200px, 30%) minmax(auto, 400px) minmax(
+        90px,
+        30%
+      );
+    grid-gap: 10px;
+    width: 100%;
+  }
+  .song-info {
+    display: grid;
+    grid-template-columns: 48px auto;
     overflow: hidden;
-    white-space: nowrap;
-  }
-}
-}
-ion-range {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.song-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
 
-@media (max-width: 849px) {
-  :host {
-    grid-template-columns: minmax(200px, 30%) minmax(auto, 300px) minmax(90px, auto);
-  }
-}
-@media (max-width: 645px) {
-  :host {
-    grid-template-columns: 50% 50%;
+    ion-label {
+      padding-left: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      * {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
   }
   ion-range {
-    display: none;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .song-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  @media (max-width: 849px) {
+    .track-player {
+      grid-template-columns: minmax(200px, 30%) minmax(auto, 300px) minmax(
+          90px,
+          auto
+        );
+    }
+  }
+  @media (max-width: 645px) {
+    .track-player {
+      grid-template-columns: 50% 50%;
+    }
+    ion-range {
+      display: none;
+    }
+  }
+}
+:host(.active) {
+  height: 100%;
+
+  ion-footer {
+    height: 100%;
+  }
+  .track-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .track-player {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 300px;
+    overflow: hidden;
+  }
+  .song-info {
+    display: unset;
+    ion-label {
+      > * {
+        font-size: 2em;
+        line-height: 1.2;
+      }
+    }
+    ion-thumbnail {
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: auto;
+    }
+  }
+  .prev-button {
+    display: unset;
+  }
+  ion-button {
+    ion-icon {
+      width: 2em;
+      height: 2em;
+    }
+  }
+  .song-info {
+    flex: 0 1 350px;
+  }
+  .song-actions {
+    flex: 0 1 2em;
+  }
+  ion-range {
+    display: unset !important;
+    width: 300px;
+    flex: 0 1 100px;
   }
 }

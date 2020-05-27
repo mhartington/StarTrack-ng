@@ -21,7 +21,7 @@ export class PreviewHeaderComponent {
   @HostBinding('style.background-image') bg: SafeStyle = '';
 
   @Input()
-  get collection() {
+  get collection(): any {
     return this.internalCollection;
   }
   set collection(val: any) {
@@ -43,15 +43,13 @@ export class PreviewHeaderComponent {
     }
   }
   constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {}
-  formatDuraction(val: number) {
-    const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds(
-      val
-    );
+  formatDuraction(val: number): string {
+    const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds( val);
     const hourTime = hours === 0 ? `` : `${hours} hours, `;
     const minutesTime = `${minutes} minutes`;
     return `${hourTime} ${minutesTime} `;
   }
-  playCollection(shuffle = false) {
+  playCollection(shuffle = false): void {
     this.play.emit({ shuffle });
   }
 }

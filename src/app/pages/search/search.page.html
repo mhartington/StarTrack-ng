@@ -8,6 +8,7 @@
   <ion-toolbar>
     <form [formGroup]="searchForm">
       <ion-searchbar
+        enterkeyhint="search"
         placeholder="Artists, Songs, Lyrics, and More"
         formControlName="search"
         showCancelButton="focus"
@@ -18,9 +19,8 @@
     </form>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ng-container *ngrxLet="state$ as state">
+  <ng-container *rxLet="state$ as state">
     <div class="ion-text-center ion-padding" *ngIf="state.isLoading">
       <ion-spinner></ion-spinner>
     </div>
@@ -39,7 +39,15 @@
           *ngFor="let song of songs; let i = index"
           [song]="song"
           (click)="playSong(i)"
-        ></song-item>
+        >
+
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+            ></lazy-img>
+        </ion-thumbnail>
+        </song-item>
       </ion-item-group>
       <ion-item-group *ngIf="state.collection.albums as albums">
         <ion-item-divider [sticky]="true">
@@ -51,7 +59,15 @@
           *ngFor="let album of albums"
           [song]="album"
           [routerLink]="['/album', album.id]"
-        ></song-item>
+        >
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+            ></lazy-img>
+        </ion-thumbnail>
+
+        </song-item>
       </ion-item-group>
       <ion-item-group *ngIf="state.collection.playlists as playlists">
         <ion-item-divider [sticky]="true">
@@ -63,7 +79,15 @@
           *ngFor="let playlist of playlists"
           [song]="playlist"
           [routerLink]="['/playlist', playlist.id]"
-        ></song-item>
+        >
+
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+            ></lazy-img>
+        </ion-thumbnail>
+        </song-item>
       </ion-item-group>
     </ion-list>
   </ng-container>

@@ -1,10 +1,5 @@
 <ion-item button="true">
-  <ion-thumbnail slot="start">
-    <lazy-img
-      [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-      alt=""
-    ></lazy-img>
-  </ion-thumbnail>
+  <ng-content></ng-content>
   <ion-text color="primary" slot="start" *ngIf="index !== null">
     <p class="index">{{ index + 1 }}</p>
   </ion-text>

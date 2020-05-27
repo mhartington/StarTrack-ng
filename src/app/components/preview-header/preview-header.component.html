@@ -1,13 +1,18 @@
 <div
   class="artwork-header"
-  [ngStyle]="{ 'background-color': '#' + collection.attributes.artwork.bgColor + 'aa' }"
+  [ngStyle]="{
+    'background-color': '#' + collection.attributes.artwork.bgColor + 'aa'
+  }"
 >
   <div class="album-info" *ngIf="collection">
     <lazy-img
       class="header-artwork"
       [src]="collection.attributes.artwork.url | formatArtworkUrl: 1500"
     ></lazy-img>
-      <div class="album-detail" [ngStyle]="{'color': '#'+ collection.attributes.artwork.textColor1}">
+    <div
+      class="album-detail"
+      [ngStyle]="{ color: '#' + collection.attributes.artwork.textColor1 }"
+    >
       <h3>{{ collection.attributes.name }}</h3>
       <p>
         {{

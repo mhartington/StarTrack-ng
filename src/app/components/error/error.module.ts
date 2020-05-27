@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ErrorComponent } from './error.component';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule, ],
+  imports: [CommonModule, FormsModule, IonicModule],
   declarations: [ErrorComponent],
-  exports: [ErrorComponent]
+  exports: [ErrorComponent],
 })
 export class ErrorComponentModule {}

@@ -9,7 +9,6 @@ export function mapToResults(result: any) {
 
 
 export function mapToAlbumResults(result: any) {
-  console.log('results are ', result)
   return {
     hasError: false,
     isLoading: false,

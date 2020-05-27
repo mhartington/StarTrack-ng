@@ -4,7 +4,7 @@ import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artw
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { IonRangeDirectiveModule } from 'src/app/directives/ion-range/ion-range.module';
-import {ReactiveComponentModule} from '@ngrx/component';
+import { TemplateModule } from '@rx-angular/template';
 @NgModule({
   declarations: [TrackPlayerComponent],
   imports: [
@@ -12,7 +12,7 @@ import {ReactiveComponentModule} from '@ngrx/component';
     IonicModule,
     CommonModule,
     IonRangeDirectiveModule,
-    ReactiveComponentModule
+    TemplateModule
   ],
   exports: [TrackPlayerComponent]
 })

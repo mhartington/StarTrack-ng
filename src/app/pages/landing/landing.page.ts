@@ -5,12 +5,12 @@ import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.page.html',
-  styleUrls: ['./landing.page.scss']
+  styleUrls: ['./landing.page.scss'],
 })
 export class LandingPage implements OnInit {
   ev: any;
   constructor(
-// tslint:disable-next-line: ban-types
+    // tslint:disable-next-line: ban-types
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 

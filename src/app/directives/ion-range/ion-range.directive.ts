@@ -3,13 +3,13 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Output
+  Output,
 } from '@angular/core';
 import { IonRange } from '@ionic/angular';
 import { RangeValue } from '@ionic/core';
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: 'ion-range'
+  selector: 'ion-range',
 })
 export class IonRangeDirective {
   @Output() public ionEnd: EventEmitter<RangeValue> = new EventEmitter();

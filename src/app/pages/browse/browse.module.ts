@@ -9,14 +9,14 @@ import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artw
 import { BrowsePage } from './browse.page';
 import { DetailModalComponentModule } from '../../components/detail-modal/detail-modal.module';
 import { ErrorComponentModule } from 'src/app/components/error/error.module';
-import { ReactiveComponentModule } from '@ngrx/component';
-
+import { TemplateModule } from '@rx-angular/template';
+import { LazyImgModule } from 'src/app/components/lazy-img/lazy-img.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: BrowsePage
-  }
+    component: BrowsePage,
+  },
 ];
 
 @NgModule({
@@ -30,8 +30,9 @@ const routes: Routes = [
     FormatArtworkUrlModule,
     ErrorComponentModule,
     RouterModule.forChild(routes),
-    ReactiveComponentModule
+    TemplateModule,
+    LazyImgModule,
   ],
-  declarations: [BrowsePage]
+  declarations: [BrowsePage],
 })
 export class BrowsePageModule {}
