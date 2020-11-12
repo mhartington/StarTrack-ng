@@ -1,0 +1,51 @@
+:host {
+  .animated-bar {
+    --primaryColor: #000;
+    transform: translateY(9px);
+
+    animation-name: none;
+
+    animation-duration: 0.4s;
+
+    animation-delay: var(--delay, 0);
+
+    animation-direction: alternate;
+
+    animation-timing-function: ease-in;
+
+    animation-iteration-count: infinite;
+    fill: var(--ion-color-step-250);
+
+    &.bar-1 {
+      --max-height-offset: 6px;
+      --delay: 250ms;
+      -webkit-animation-duration: 0.6s;
+      animation-duration: 0.6s;
+    }
+
+    &.bar-2 {
+      --max-height-offset: 2px;
+      --delay: 615ms;
+    }
+
+    &.bar-3 {
+      --max-height-offset: 4px;
+      --delay: 475ms;
+    }
+
+    &.bar-4 {
+      --max-height-offset: 2px;
+      --delay: 25ms;
+    }
+  }
+}
+:host(.playing) {
+  .animated-bar {
+    animation-name: playback-bar;
+  }
+}
+@keyframes playback-bar {
+  to {
+    transform: translateY(var(--max-height-offset, 0));
+  }
+}

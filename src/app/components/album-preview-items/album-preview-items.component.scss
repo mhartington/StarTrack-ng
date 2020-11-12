@@ -1,8 +1,7 @@
 :host {
   display: block;
   margin: auto;
-  max-width: 170px;
-  padding: 5px;
+  width: 162px;
   &:hover {
     cursor: pointer;
   }
@@ -13,12 +12,12 @@
 ion-card {
   padding: 0;
   margin: 0;
-  width: 160px;
-  height: 160px;
+  width: 162px;
+  height: 162px;
+  // aspect-ratio: 1/1;
 }
 lazy-img {
   object-fit: cover;
-  height: 100%;
 }
 ion-label {
   margin: 8px 0 16px;

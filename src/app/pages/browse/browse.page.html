@@ -4,11 +4,6 @@
       <ion-menu-button color="primary"></ion-menu-button>
     </ion-buttons>
     <ion-title>Browse</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openModal()">
-        <ion-icon name="help-circle" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,11 +13,11 @@
       <ion-title size="large">Browse</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ng-container *rxLet="state$ as state">
-    <error-emoji
-      *ngIf="state.hasError"
-      class="ion-padding ion-text-center"
-    ></error-emoji>
+
+  <ng-container *rxLet="state$; let state">
+    <ng-container *ngIf="state.hasError">
+      <error-emoji class="ion-padding ion-text-center"></error-emoji>
+    </ng-container>
 
     <div class="ion-padding ion-text-center" *ngIf="state.isLoading">
       <ion-spinner></ion-spinner>
@@ -30,54 +25,41 @@
 
     <div *ngIf="state.collection as chart">
       <ion-list>
-        <ion-grid fixed="true" class="ion-no-padding">
-          <ion-list-header>
-            <h1>Top Albums</h1>
-          </ion-list-header>
+        <ion-list-header>
+          <h1>Top Albums</h1>
+        </ion-list-header>
+        <div class="album-grid">
+          <album-preview-item
+            *ngFor="let album of chart.topAlbums; let i = index"
+            [album]="album"
+            [index]="i"
+            [routerLink]="['/album', album.id]"
+          ></album-preview-item>
+        </div>
+      </ion-list>
 
-          <ion-row class="ion-justify-content-start">
-            <ion-col
-              size-lg="4"
-              size-xl="3"
-              *ngFor="let album of chart.topAlbums; let i = index"
-              class="ion-no-padding"
-            >
-              <album-preview-item
-                [album]="album"
-                [index]="i"
-                [routerLink]="['/album', album.id]"
-              ></album-preview-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-list>
       <ion-list>
-        <ion-grid fixed="true" class="ion-no-padding">
-          <ion-list-header> <h1>Top Playlists</h1> </ion-list-header>
-          <ion-row>
-            <ion-col
-              size-lg="4"
-              size-xl="3"
-              *ngFor="let playlist of chart.topPlaylists; let i = index"
-              class="ion-no-padding"
-            >
-              <album-preview-item
-                [album]="playlist"
-                [index]="i"
-                routerLink="/playlist/{{playlist.id}}"
-                [state]="playlist"
-              ></album-preview-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-list-header>
+          <h1>Top Playlists</h1>
+        </ion-list-header>
+        <div class="album-grid">
+          <album-preview-item
+            *ngFor="let playlist of chart.topPlaylists; let i = index"
+            [album]="playlist"
+            [index]="i"
+            [routerLink]="['/playlist', playlist.id]"
+          ></album-preview-item>
+        </div>
       </ion-list>
+
       <ion-list>
-        <ion-grid fixed="true" class="ion-no-padding">
-          <ion-list-header> <h1>Top Songs</h1> </ion-list-header>
+        <ion-list-header>
+          <h1>Top Songs</h1>
+        </ion-list-header>
+        <div class="song-grid">
           <song-item
             *ngFor="let song of chart.topSongs; let i = index"
             [song]="song"
-            [index]="i"
             (click)="playSong(i)"
           >
             <ion-thumbnail slot="start">
@@ -87,7 +69,7 @@
               ></lazy-img>
             </ion-thumbnail>
           </song-item>
-        </ion-grid>
+        </div>
       </ion-list>
     </div>
   </ng-container>

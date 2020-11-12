@@ -1,47 +1,63 @@
 <div
   class="artwork-header"
-  [ngStyle]="{
-    'background-color': '#' + collection.attributes.artwork.bgColor + 'aa'
-  }"
+  [style.background]="
+    collection
+      ? '#' + collection.attributes.artwork.bgColor + 'aa'
+      : 'var(--ion-color-light)'
+  "
 >
-  <div class="album-info" *ngIf="collection">
+  <div class="album-info">
     <lazy-img
       class="header-artwork"
-      [src]="collection.attributes.artwork.url | formatArtworkUrl: 1500"
+      [src]="collection?.attributes.artwork.url | formatArtworkUrl: 1500"
     ></lazy-img>
     <div
       class="album-detail"
-      [ngStyle]="{ color: '#' + collection.attributes.artwork.textColor1 }"
+      [style.color]="'#' + collection?.attributes.artwork.textColor1"
     >
-      <h3>{{ collection.attributes.name }}</h3>
-      <p>
-        {{
-          collection.attributes.artistName
-            ? collection.attributes.artistName
-            : collection.attributes.curatorName
-        }}
-      </p>
-      <p>
-        {{
-          collection.attributes.description
-            ? collection.attributes.description.short
-            : collection.attributes.genreNames[0]
-        }}
-      </p>
-      <p>
-        {{ collection.relationships.tracks.data.length }} Songs,
-        {{ formatDuraction(duration) }}
-      </p>
-      <ion-button (click)="playCollection()" fill="solid">
-        <ion-icon slot="start" name="play"></ion-icon>
-        Play
+      <ng-container *ngIf="collection; else placeholder">
+        <h3>{{ collection.attributes.name }}</h3>
+        <p class="name">
+          <ion-text color="primary">{{
+            collection.attributes.artistName
+              ? collection.attributes.artistName
+              : collection.attributes.curatorName
+          }}</ion-text>
+        </p>
+        <p>
+          {{
+            collection.attributes.description
+              ? collection.attributes.description.short
+              : collection.attributes.genreNames[0]
+          }}
+        </p>
+        <p>
+          {{ collection.relationships.tracks.data.length }} Songs,
+          {{ formatDuraction(duration) }}
+        </p>
+      </ng-container>
+
+      <ng-template #placeholder>
+        <h3> <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text> </h3>
+        <p> <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text> </p>
+        <p> <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text> </p>
+        <p> <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text> </p>
+      </ng-template>
+
+      <ion-button (click)="togglePlay()" color="light" fill="solid">
+        <ion-icon color="primary" slot="start" name="play"></ion-icon>
+        <ion-text color="primary">Play</ion-text>
       </ion-button>
-      <ion-button (click)="playCollection(true)" fill="solid">
-        <ion-icon name="shuffle" slot="start"></ion-icon>
-        Shuffle
+      <ion-button (click)="togglePlay(true)" color="light" fill="solid">
+        <ion-icon color="primary" name="shuffle" slot="start"></ion-icon>
+        <ion-text color="primary">Shuffle</ion-text>
       </ion-button>
-      <ion-button fill="solid">
-        <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+      <ion-button color="light" fill="solid">
+        <ion-icon
+          color="primary"
+          name="ellipsis-vertical"
+          slot="icon-only"
+        ></ion-icon>
       </ion-button>
     </div>
   </div>

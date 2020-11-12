@@ -1,33 +1,39 @@
 :host {
+  display: block;
   &:hover {
     cursor: pointer;
   }
-}
-ion-thumbnail {
-  margin-inline-end: 15px;
-}
-ion-label {
-  h3,
-  ion-note * {
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+  ion-thumbnail {
+    margin-inline-end: 15px;
+  }
+  ion-label {
+    h3,
+    ion-note * {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .index {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  ion-note {
+    font-variant-numeric: tabular-nums;
+  }
+  .rating {
+    background: #aaa;
+    color: #fff;
+    width: 12px;
+    text-align: center;
+    height: 12px;
+    font-weight: 300;
+    border-radius: 3px;
+    font-size: 9px;
   }
 }
-.index {
-  font-variant-numeric: tabular-nums;
-  width: 22px;
-  text-align: right;
-}
-ion-note {
-  font-variant-numeric: tabular-nums;
-}
-.rating {
-  background: #aaa;
-  color: #fff;
-  width: 12px;
-  text-align: center;
-  height: 12px;
-  font-weight: 300;
-  border-radius: 3px;
-  font-size: 9px;
+:host(.active){
+  ion-item{
+    --background: var(--ion-color-step-100);
+  }
 }

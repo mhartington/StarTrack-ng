@@ -173,7 +173,7 @@ export class MusickitService {
     return from(
       this.musicKitInstance.api.charts(null, {
         types: searchTypes,
-        limit: 10,
+        limit: 30,
       })
     ).pipe(
       map((res: any) => {

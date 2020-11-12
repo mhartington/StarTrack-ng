@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LazyImgComponent } from './lazy-img.component';
 
@@ -6,7 +6,7 @@ describe('LazyImgComponent', () => {
   let component: LazyImgComponent;
   let fixture: ComponentFixture<LazyImgComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LazyImgComponent ]
     })

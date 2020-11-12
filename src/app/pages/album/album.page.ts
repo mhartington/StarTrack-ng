@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { AlbumModel } from '../../../@types/album-model';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { RxState } from '@rx-angular/state';
 import { mapToError, mapToAlbumResults } from '../../util/fetchUtils';
 
@@ -22,6 +22,7 @@ interface IAlbumPageState {
 })
 export class AlbumPage {
   public state$: Observable<IAlbumPageState> = this.stateService.select();
+  private ionViewDidEnter$ = new Subject<boolean>();
 
   private fetchDataStream$ = this.route.params.pipe(
     switchMap(({ type, id }) => this.api.fetchAlbumOrPlaylist(type, id)),
@@ -35,25 +36,30 @@ export class AlbumPage {
     private player: PlayerService,
     private stateService: RxState<IAlbumPageState>
   ) {
-    this.stateService.connect(this.fetchDataStream$);
+
+    this.stateService.set({
+      isLoading: true,
+      hasError: false,
+      collection: null,
+    });
+
+    this.stateService.connect(
+      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
+    );
   }
-  playSong(index: number) {
+  ionViewDidEnter() {
+    this.ionViewDidEnter$.next();
+    this.ionViewDidEnter$.complete();
+  }
+  playSong(index: number, shuffle = false) {
     this.player.setQueueFromItems(
       Array.from(this.stateService.get().collection.relationships.tracks.data),
-      index
+      index,
+      shuffle
     );
   }
   playAlbum({ shuffle }) {
-    let index: number;
-    if (shuffle) {
-      this.player.toggleShuffle(shuffle);
-      const tracks = this.stateService.get().collection.relationships.tracks
-        .data;
-      index = Math.floor(Math.random() * Math.floor(tracks.length));
-    } else {
-      index = 0;
-    }
-    this.playSong(index);
+    this.playSong(0, shuffle);
   }
   share() {
     const { collection, canShare } = this.stateService.get();

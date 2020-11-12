@@ -31,62 +31,53 @@
     <ion-list>
       <ion-item-group *ngIf="state.collection.songs as songs">
         <ion-item-divider [sticky]="true">
-          <ion-label>
-            Songs
-          </ion-label>
+          <ion-label> Songs </ion-label>
         </ion-item-divider>
         <song-item
           *ngFor="let song of songs; let i = index"
           [song]="song"
           (click)="playSong(i)"
         >
-
-        <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-            alt=""
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
             ></lazy-img>
-        </ion-thumbnail>
+          </ion-thumbnail>
         </song-item>
       </ion-item-group>
       <ion-item-group *ngIf="state.collection.albums as albums">
         <ion-item-divider [sticky]="true">
-          <ion-label>
-            Albums
-          </ion-label>
+          <ion-label> Albums </ion-label>
         </ion-item-divider>
         <song-item
           *ngFor="let album of albums"
           [song]="album"
           [routerLink]="['/album', album.id]"
         >
-        <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
-            alt=""
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
             ></lazy-img>
-        </ion-thumbnail>
-
+          </ion-thumbnail>
         </song-item>
       </ion-item-group>
       <ion-item-group *ngIf="state.collection.playlists as playlists">
         <ion-item-divider [sticky]="true">
-          <ion-label>
-            Playlists
-          </ion-label>
+          <ion-label> Playlists </ion-label>
         </ion-item-divider>
         <song-item
           *ngFor="let playlist of playlists"
           [song]="playlist"
           [routerLink]="['/playlist', playlist.id]"
         >
-
-        <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
-            alt=""
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
             ></lazy-img>
-        </ion-thumbnail>
+          </ion-thumbnail>
         </song-item>
       </ion-item-group>
     </ion-list>

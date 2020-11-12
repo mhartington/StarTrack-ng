@@ -15,7 +15,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewHeaderComponent {
-  @Output() play: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
+  @Output() playCollection: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
   public duration = 0;
   private internalCollection: any = null;
   @HostBinding('style.background-image') bg: SafeStyle = '';
@@ -44,12 +44,14 @@ export class PreviewHeaderComponent {
   }
   constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {}
   formatDuraction(val: number): string {
-    const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds( val);
+    const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds(
+      val
+    );
     const hourTime = hours === 0 ? `` : `${hours} hours, `;
     const minutesTime = `${minutes} minutes`;
     return `${hourTime} ${minutesTime} `;
   }
-  playCollection(shuffle = false): void {
-    this.play.emit({ shuffle });
+  togglePlay(shuffle = false): void {
+    this.playCollection.emit({ shuffle });
   }
 }

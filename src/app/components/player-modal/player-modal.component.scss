@@ -1,0 +1,113 @@
+:host {
+  ion-header {
+    padding-top: calc(16px + var(--ion-safe-area-top));
+    &:hover {
+      cursor: pointer;
+    }
+    .dismisser {
+      margin: calc(16px + var(--ion-safe-area-top)) auto 16px auto;
+      border-radius: 8px;
+      height: 9px;
+      width: 64px;
+      background: var(--ion-color-step-100);
+    }
+  }
+  .track-wrapper {
+    // padding-top: calc(16px + var(--ion-safe-area-top));
+    padding-bottom: calc(16px + var(--ion-safe-area-bottom));
+    display: block;
+    height: 100%;
+    overflow: scroll;
+
+    .track-player {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 100%;
+      .song-actions {
+        flex: initial;
+        justify-content: center;
+        height: 56px;
+        ion-button {
+          height: 56px;
+          width: 56px;
+          ion-icon {
+            width: 56px;
+            height: 56px;
+          }
+        }
+      }
+      ion-range {
+        display: block !important;
+        width: 80%;
+        margin: 0 auto;
+        flex: initial;
+      }
+      .song-info {
+        overflow: visible;
+        display: block;
+        width: 100%;
+        padding: 16px;
+        ion-label {
+          * {
+            font-size: 2em;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        ion-thumbnail {
+          width: 100%;
+          padding-top: 100%;
+          position: relative;
+          margin: auto;
+
+          lazy-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 15px;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+    .player-queue {
+      max-width: 100%;
+      display: block;
+      .svg-aside {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    @media (min-width: 750px) {
+      display: flex;
+      padding-top: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      .player-queue {
+        padding-top: var(--ion-safe-area-top);
+        padding-bottom: var(--ion-safe-area-bottom);
+        width: 50%;
+        .queue-scroller {
+          height: 100%;
+          overflow: scroll;
+        }
+      }
+      .track-player {
+        width: 45%;
+        max-width: 600px;
+        margin: auto;
+        .song-info {
+          width: 100%;
+          margin: 0 auto;
+        }
+        ion-range {
+          padding: 0;
+        }
+      }
+    }
+  }
+}

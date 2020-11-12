@@ -43,6 +43,7 @@ ion-toolbar {
   display: block;
   height: 200px;
   width: 200px;
+  min-width: 200px;
   margin: 0 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -59,6 +60,9 @@ ion-toolbar {
   }
   h3 {
     font-weight: 800;
+  }
+  .name {
+    font-weight: bold
   }
 }
 @media (max-width: 650px) {

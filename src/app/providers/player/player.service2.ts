@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RxState } from '@rx-angular/state';
 import { tap } from 'rxjs/operators';
-
 export enum PlaybackStates {
   NONE,
   LOADING,
@@ -69,7 +68,7 @@ export class PlayerService extends RxState<IPlayerState> {
       nowPlayingItem: {
         albumName: '',
         artistName: '',
-        artworkURL: './assets/imgs/default.jpeg',
+        artworkURL: 'assets/imgs/default.jpeg',
         title: '',
         trackNumber: 1,
         id: '',
@@ -142,7 +141,7 @@ export class PlayerService extends RxState<IPlayerState> {
     );
   }
   playbackStateDidChange(event: any) {
-    this.set(state => ({
+    this.set((state) => ({
       ...state,
       playbackState: PlaybackStates[PlaybackStates[event.state]],
     }));
@@ -175,11 +174,11 @@ export class PlayerService extends RxState<IPlayerState> {
   mediaPlaybackError(event: any): void {
     console.log('mediaPlayBackError', event);
   }
-  queueItemsDidChange(e): void {
+  queueItemsDidChange(e: any): void {
     this.set((state: any) => {
       return {
         ...state,
-        queue: e
+        queue: e,
       };
     });
   }
@@ -187,13 +186,19 @@ export class PlayerService extends RxState<IPlayerState> {
     this.set((state) => {
       return {
         ...state,
-        queuePosition: event.position + 1
+        queuePosition: event.position + 1,
       };
     });
   }
 
-  async setQueueFromItems(items: any[], startPosition = 0) {
-    const newItems = items.map((item) => ({...item, container: { id: item.id }}));
+  async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
+    if (shuffle) {
+      items = items.sort(() => 0.5 - Math.random());
+    }
+    const newItems = items.map((item) => ({
+      ...item,
+      container: { id: item.id },
+    }));
     await this.musicKitInstance.setQueue({ items: newItems });
     await this.musicKitInstance.changeToMediaAtIndex(startPosition);
   }
@@ -238,7 +243,9 @@ export class PlayerService extends RxState<IPlayerState> {
   async seekToTime(time: number) {
     await this.player.seekToTime(time);
   }
-
+  async skipTo(index: number) {
+    await this.player.changeToMediaAtIndex(index);
+  }
   //
   // playNext(item: SongModel): void {
   //   this.player.queue.prepend(item);

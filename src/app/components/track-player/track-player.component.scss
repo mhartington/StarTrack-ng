@@ -12,6 +12,9 @@
       var(--platform-opacity)
     );
   }
+  .player-queue {
+    display: none;
+  }
   .track-player {
     border-top-width: 0.55px;
     border-top-color: rgba(var(--ion-background-color-rgb), 0.2);
@@ -69,64 +72,5 @@
     ion-range {
       display: none;
     }
-  }
-}
-:host(.active) {
-  height: 100%;
-
-  ion-footer {
-    height: 100%;
-  }
-  .track-wrapper {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .track-player {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 300px;
-    overflow: hidden;
-  }
-  .song-info {
-    display: unset;
-    ion-label {
-      > * {
-        font-size: 2em;
-        line-height: 1.2;
-      }
-    }
-    ion-thumbnail {
-      width: 200px;
-      height: 200px;
-      border-radius: 15px;
-      overflow: hidden;
-      margin: auto;
-    }
-  }
-  .prev-button {
-    display: unset;
-  }
-  ion-button {
-    ion-icon {
-      width: 2em;
-      height: 2em;
-    }
-  }
-  .song-info {
-    flex: 0 1 350px;
-  }
-  .song-actions {
-    flex: 0 1 2em;
-  }
-  ion-range {
-    display: unset !important;
-    width: 300px;
-    flex: 0 1 100px;
   }
 }

@@ -1,21 +1,19 @@
 <ion-app>
-  <ion-split-pane when="(min-width: 850px)" content-id="main">
-    <ion-menu content-id="main">
+  <ion-split-pane when="(min-width: 850px)" contentId="main">
+    <ion-menu contentId="main">
       <ion-header>
         <ion-toolbar>
           <ion-title>Music</ion-title>
         </ion-toolbar>
       </ion-header>
-
       <ion-content>
         <ion-header collapse="condense">
           <ion-toolbar class="transparent">
             <ion-title size="large">Music</ion-title>
           </ion-toolbar>
         </ion-header>
-
         <ion-list lines="none">
-          <ion-menu-toggle auto-hide="false">
+          <ion-menu-toggle autoHide="false">
             <ion-item
               routerLink="/browse"
               routerDirection="root"
@@ -25,51 +23,44 @@
               Browse
             </ion-item>
           </ion-menu-toggle>
-          <ion-menu-toggle auto-hide="false">
+          <ion-menu-toggle autoHide="false">
             <ion-item
               routerLink="/search"
               routerDirection="root"
               routerLinkActive="selected"
-            >
+              >
               <ion-icon name="search" slot="start"></ion-icon>
               Search
             </ion-item>
           </ion-menu-toggle>
 
-          <ng-container *ngIf="isAuthorized | push; else loggedOut">
-            <!-- <ion&#45;menu&#45;toggle auto&#45;hide="false"> -->
-            <!--   <ion&#45;item>item 01</ion&#45;item> -->
-            <!-- </ion&#45;menu&#45;toggle> -->
-            <!--  -->
-            <!-- <ion&#45;menu&#45;toggle auto&#45;hide="false"> -->
-            <!--   <ion&#45;item>item 02</ion&#45;item> -->
-            <!-- </ion&#45;menu&#45;toggle> -->
-            <!--  -->
-            <!-- <ion&#45;menu&#45;toggle auto&#45;hide="false"> -->
-            <!--   <ion&#45;item>item 03</ion&#45;item> -->
-            <!-- </ion&#45;menu&#45;toggle> -->
-
-            <ion-menu-toggle auto-hide="false">
-              <ion-item (click)="logout()" lines="none" button="true">
-                <ion-icon slot="start" name="log-out"></ion-icon>
-                Log Out
-              </ion-item>
-            </ion-menu-toggle>
+          <ng-container *rxLet="isAuthorized; let isAuth">
+            <ng-container *ngIf="isAuth">
+              <ion-menu-toggle autoHide="false">
+                <ion-item (click)="logout()" lines="none" button="true">
+                  <ion-icon slot="start" name="log-out"></ion-icon>
+                  Log Out
+                </ion-item>
+              </ion-menu-toggle>
+            </ng-container>
+            <ng-container *ngIf="!isAuth">
+              <ion-menu-toggle autoHide="false">
+                <ion-item (click)="login()" lines="none" button="true">
+                  <ion-icon slot="start" name="log-in"></ion-icon>
+                  Log In
+                </ion-item>
+              </ion-menu-toggle>
+            </ng-container>
           </ng-container>
-
-          <ng-template #loggedOut>
-            <ion-menu-toggle auto-hide="false">
-              <ion-item (click)="login()" lines="none" button="true">
-                <ion-icon slot="start" name="log-in"></ion-icon>
-                Log In
-              </ion-item>
-            </ion-menu-toggle>
-          </ng-template>
         </ion-list>
       </ion-content>
     </ion-menu>
-
-    <ion-router-outlet id="main"></ion-router-outlet>
+    <div
+      id="main"
+      class="route-wrapper"
+    >
+      <ion-router-outlet></ion-router-outlet>
+      <track-player></track-player>
+    </div>
   </ion-split-pane>
-  <track-player></track-player>
 </ion-app>

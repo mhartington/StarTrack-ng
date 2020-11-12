@@ -5,18 +5,9 @@
   background-size: cover;
   background-repeat: no-repeat;
   display: block;
-}
-
-img {
-  opacity: 0;
-  transition: opacity 250ms ease-in;
-  object-fit: cover;
-  height: 100%;
-}
-
-:host(.loaded) {
-  background-image: none;
   img {
-    opacity: 1;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
   }
 }

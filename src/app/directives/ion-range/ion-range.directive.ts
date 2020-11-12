@@ -8,7 +8,6 @@ import {
 import { IonRange } from '@ionic/angular';
 import { RangeValue } from '@ionic/core';
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: 'ion-range',
 })
 export class IonRangeDirective {

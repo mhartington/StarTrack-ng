@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { MenuController, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { Plugins } from '@capacitor/core';
 import { Meta } from '@angular/platform-browser';
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -21,18 +19,20 @@ export class AppComponent implements OnInit {
     private menuCtrl: MenuController,
     private metaService: Meta
   ) {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.setMetaTheme(prefersDark.matches);
-    prefersDark.addListener(({ matches }) => this.setMetaTheme(matches));
 
-    this.musicKitInstance.addEventListener(this.musicKitEvents.authorizationStatusDidChange, this.authDidChange.bind(this));
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.setMetaTheme();
+    prefersDark.addEventListener('change', () => this.setMetaTheme());
+
+    this.musicKitInstance.addEventListener(
+      this.musicKitEvents.authorizationStatusDidChange,
+      this.authDidChange.bind(this)
+    );
   }
   authDidChange() {
     this.isAuthorized.next(this.musicKitInstance.isAuthorized);
   }
   ngOnInit() {
-    const { SplashScreen } = Plugins;
-    SplashScreen.hide();
     this.swUpdate.available.subscribe(async () => {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
@@ -58,11 +58,10 @@ export class AppComponent implements OnInit {
     await this.musicKitInstance.unauthorize();
     this.menuCtrl.close();
   }
-  setMetaTheme(matches: boolean) {
-    if (matches) {
-      this.metaService.updateTag({ content: '#000000' }, 'name="theme-color"');
-    } else {
-      this.metaService.updateTag({ content: '#ffffff' }, 'name="theme-color"');
-    }
+  setMetaTheme() {
+    const color = getComputedStyle(document.documentElement)
+      .getPropertyValue('--ion-background-color')
+      .replace(/\s+/g, '');
+    this.metaService.updateTag({ content: color, name: 'theme-color' });
   }
 }

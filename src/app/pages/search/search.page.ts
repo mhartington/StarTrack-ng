@@ -71,9 +71,13 @@ export class SearchPage {
     // Set init state
     this.stateService.set(idleState);
     // Listen to play button trigger
-    this.stateService.hold( this.playSongTrigger$.pipe(tap(this.playSong.bind(this))));
+    this.stateService.hold(
+      this.playSongTrigger$.pipe(tap(this.playSong.bind(this)))
+    );
     // Listen to clear button trigger
-    this.stateService.connect( this.searchClearTrigger$.pipe(mapTo(idleState.bind(this))));
+    this.stateService.connect(
+      this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
+    );
     this.stateService.connect(this.clearCollection$);
     //
     // Data Actions
@@ -99,14 +103,12 @@ export class SearchPage {
     debounceTime(16),
     tap((term) => {
       const navExtras = term ? { queryParams: { query: term } } : {};
-      this.router.navigate([], {...navExtras});
+      this.router.navigate([], { ...navExtras });
     })
   );
 
   private readUrlEffect$ = this.route.queryParams.pipe(
-    map(({ query }) =>
-      this.searchForm.setValue({ search: query ?? '',  })
-    )
+    map(({ query }) => this.searchForm.setValue({ search: query ?? '' }))
   );
 
   private clearCollection$ = this.searchTerm$.pipe(
@@ -123,8 +125,7 @@ export class SearchPage {
     catchError(() => of(errorState.bind(this)))
   );
 
-
-  playSong(index: number) {
+  playSong(index: number): void {
     this.player.setQueueFromItems(
       this.stateService.get().collection.songs,
       index
