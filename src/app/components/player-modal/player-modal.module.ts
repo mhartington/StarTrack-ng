@@ -10,6 +10,7 @@ import { SvgBarsComponentModule } from '../svg-bars/svg-bars.module';
 import { LazyImgModule } from '../lazy-img/lazy-img.module';
 import { IonRangeDirectiveModule } from 'src/app/directives/ion-range/ion-range.module';
 import { FormatArtworkUrlModule } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [PlayerModalComponent],
@@ -19,6 +20,7 @@ import { FormatArtworkUrlModule } from 'src/app/pipes/formatArtworkUrl/format-ar
     LetModule,
     PushModule,
     SongItemModule,
+    FormsModule,
     SvgBarsComponentModule,
     IonRangeDirectiveModule,
     LazyImgModule,

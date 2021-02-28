@@ -11,7 +11,7 @@ import { ErrorComponentModule } from 'src/app/components/error/error.module';
 
 import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artwork-url.module';
 import { LazyImgModule } from '../../components/lazy-img/lazy-img.module';
-import { TemplateModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 
 const routes: Routes = [{ path: '', component: AlbumPage }];
 
@@ -23,7 +23,7 @@ const routes: Routes = [{ path: '', component: AlbumPage }];
     PreviewHeaderModule,
     SongItemModule,
     RouterModule.forChild(routes),
-    TemplateModule,
+    LetModule, PushModule,
     LazyImgModule,
     FormatArtworkUrlModule,
   ],

@@ -42,7 +42,6 @@
               "extractLicenses": true,
               "vendorChunk": true,
               "commonChunk": true,
-              "experimentalRollupPass": false,
               "buildOptimizer": true,
               "optimization": {
                 "scripts": true,

@@ -8,7 +8,7 @@ import { SongItemModule } from '../../components/song-item/song-item.module';
 import { FormatArtworkUrlModule } from '../../pipes/formatArtworkUrl/format-artwork-url.module';
 import { BrowsePage } from './browse.page';
 import { ErrorComponentModule } from 'src/app/components/error/error.module';
-import { TemplateModule } from '@rx-angular/template';
+import { LetModule, PushModule} from '@rx-angular/template';
 import { LazyImgModule } from 'src/app/components/lazy-img/lazy-img.module';
 
 const routes: Routes = [
@@ -27,7 +27,7 @@ const routes: Routes = [
     FormatArtworkUrlModule,
     ErrorComponentModule,
     RouterModule.forChild(routes),
-    TemplateModule,
+    LetModule, PushModule,
     LazyImgModule,
   ],
   declarations: [BrowsePage],

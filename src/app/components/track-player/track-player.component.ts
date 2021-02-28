@@ -5,29 +5,35 @@ import {
   PlayerService,
 } from '../../providers/player/player.service2';
 import { PlayerModalComponent } from '../player-modal/player-modal.component';
+import { tap } from 'rxjs/operators';
 
 @Component({
+  // eslint-disable-next-line
   selector: 'track-player',
   templateUrl: './track-player.component.html',
   styleUrls: ['./track-player.component.scss'],
 })
 export class TrackPlayerComponent {
   public playbackStates = PlaybackStates;
-  public state$ = this.player.select();
-  public queue$ = this.player.select('queue');
-
   private _playerModal: typeof PlayerModalComponent;
-  click_block = false;
+  public state$ = this.player.select();
+  private playbackTime$ = this.player.select('playbackTime');
+  public playbackTime = 0;
 
-  constructor(
-    public player: PlayerService,
-    private modalCtrl: ModalController
-  ) {}
+  clickBlock = false;
+  isScrubbing = false;
+  constructor( public player: PlayerService, private modalCtrl: ModalController) {
+  this.playbackTime$.pipe(tap((val: any) => {
+    if(!this.isScrubbing){
+      this.playbackTime = val
+    }
+  })).subscribe();
+  }
 
   @HostListener('click')
   async toggle() {
-    if (!this._playerModal && !this.click_block) {
-      this.click_block = true;
+    if (!this._playerModal && !this.clickBlock) {
+      this.clickBlock = true;
       const { PlayerModalComponent } = await import(
         '../player-modal/player-modal.component'
       );
@@ -40,11 +46,21 @@ export class TrackPlayerComponent {
       cssClass: 'full-modal',
     });
     await modalInstance.present();
-    this.click_block = false;
+    this.clickBlock = false;
   }
-  seekToTime(time: number): void {
-    this.player.seekToTime(time);
+
+  async seekToTime(ev: any): Promise<void> {
+    this.stopProp(ev)
+    await this.player.seekToTime(ev.target.value);
+    this.isScrubbing = false;
   }
+
+  pauseSeeking(ev: any): void {
+    this.stopProp(ev)
+    this.isScrubbing = true;
+    this.playbackTime = ev.target.value
+  }
+
   async togglePlay(e: any): Promise<void> {
     this.stopProp(e);
     if (this.player.get().playbackState === this.playbackStates.PAUSED) {
@@ -52,10 +68,6 @@ export class TrackPlayerComponent {
     } else {
       await this.player.pause();
     }
-  }
-  playAtIndex(e: any, i: number) {
-    this.stopProp(e);
-    this.player.skipTo(i);
   }
   stopProp(e: any): void {
     e.stopPropagation();

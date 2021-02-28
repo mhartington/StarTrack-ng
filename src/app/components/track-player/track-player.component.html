@@ -1,12 +1,8 @@
 <ion-footer class="mh-footer" translucent="true">
-  <div class="track-wrapper" *rxLet="state$ as state">
+  <div class="track-wrapper" *rxLet="state$; let state">
     <div class="track-player">
       <div class="song-info">
-        <ion-thumbnail
-          [ngClass]="{
-            playing: state.playbackState === playbackStates.PLAYING
-          }"
-        >
+        <ion-thumbnail>
           <lazy-img
             [src]="state.nowPlayingItem.artworkURL"
             alt="The album art work cover"
@@ -20,6 +16,11 @@
       <ion-range
         step="1"
         min="0"
+        [max]="state.playbackDuration"
+        [(ngModel)]="playbackTime"
+        (click)="stopProp($event)"
+        (ionStart)="pauseSeeking($event)"
+        (ionEnd)="seekToTime($event)"
         [disabled]="
           state.playbackDuration === 0 ||
           state.playbackState === playbackStates.NONE ||
@@ -28,10 +29,6 @@
           state.playbackState === playbackStates.WAITING ||
           state.playbackState === playbackStates.STALLED
         "
-        [max]="state.playbackDuration"
-        [value]="state.playbackTime"
-        (click)="stopProp($event)"
-        (ionEnd)="seekToTime($event)"
       ></ion-range>
       <ion-buttons class="song-actions">
         <ion-button

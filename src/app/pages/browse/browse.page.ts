@@ -5,7 +5,6 @@ import { MusickitService } from '../../providers/musickit-service/musickit-servi
 import { PlayerService } from '../../providers/player/player.service2';
 import { RxState } from '@rx-angular/state';
 import { mapToResults, mapToError } from '../../util/fetchUtils';
-import { Router } from '@angular/router';
 
 interface IBrowsePageState {
   collection: any;
@@ -29,7 +28,6 @@ export class BrowsePage {
   constructor(
     private api: MusickitService,
     private player: PlayerService,
-    private router: Router,
     private stateService: RxState<IBrowsePageState>
   ) {
     this.stateService.set({
@@ -41,9 +39,6 @@ export class BrowsePage {
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
     );
   }
-  // goToAlbum(album: any){
-  //   this.router.navigateByUrl(`/album/${album.id}`)
-  // }
   ionViewDidEnter() {
     this.ionViewDidEnter$.next();
     this.ionViewDidEnter$.complete();

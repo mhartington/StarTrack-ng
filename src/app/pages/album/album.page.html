@@ -42,10 +42,6 @@
 
     <ng-container *ngIf="state.isLoading">
       <preview-header></preview-header>
-      <div class="ion-text-center ion-padding">
-        <ion-spinner></ion-spinner>
-      </div>
-
       <ion-list>
         <ion-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]">
           <ion-label>

@@ -15,27 +15,20 @@ ion-list-header {
   justify-content: left;
   overflow-x: scroll;
   width: 100%;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 16px;
   &::after {
     content: '';
     width: 1px;
     margin-right: -1px;
   }
 
-  * {
-    scroll-snap-align: start;
-  }
 }
 .song-grid {
   overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 16px;
   display: grid;
   grid-auto-flow: column dense;
   grid-template-rows: auto auto auto auto;
   grid-gap: 16px;
-  // padding: 16px;
+  padding: 16px;
   justify-content: left;
   &::after {
     content: '';
@@ -45,6 +38,5 @@ ion-list-header {
 
   song-item {
     width: 350px;
-    scroll-snap-align: center;
   }
 }

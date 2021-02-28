@@ -36,8 +36,9 @@
         state.playbackState === playbackStates.STALLED
       "
       [max]="state.playbackDuration"
-      [value]="state.playbackTime"
+      [(ngModel)]="playbackTime"
       (click)="stopProp($event)"
+      (ionStart)="pauseSeeking($event)"
       (ionEnd)="seekToTime($event)"
     ></ion-range>
     <ion-buttons class="song-actions">

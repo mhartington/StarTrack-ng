@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { tap } from 'rxjs/operators';
 import {
   PlaybackStates,
   PlayerService,
@@ -16,17 +17,42 @@ export class PlayerModalComponent {
   public state$ = this.player.select();
   public queue$ = this.player.select('queue');
 
+  private playbackTime$ = this.player.select('playbackTime');
+  public playbackTime = 0;
+
+  clickBlock = false;
+  isScrubbing = false;
+
   constructor(
     private modalCtrl: ModalController,
     public player: PlayerService
-  ) {}
+  ) {
+    this.playbackTime$
+      .pipe(
+        tap((val: any) => {
+          if (!this.isScrubbing) {
+            this.playbackTime = val;
+          }
+        })
+      )
+      .subscribe();
+  }
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
 
-  seekToTime(time: number): void {
-    this.player.seekToTime(time);
+  async seekToTime(ev: any): Promise<void> {
+    this.stopProp(ev);
+    await this.player.seekToTime(ev.target.value);
+    this.isScrubbing = false;
   }
+
+  pauseSeeking(ev: any): void {
+    this.stopProp(ev);
+    this.isScrubbing = true;
+    this.playbackTime = ev.target.value;
+  }
+
   async togglePlay(e: any): Promise<void> {
     this.stopProp(e);
     if (this.player.get().playbackState === this.playbackStates.PAUSED) {

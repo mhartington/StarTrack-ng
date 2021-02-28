@@ -4,9 +4,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   selector: 'album-preview-item',
   templateUrl: './album-preview-items.component.html',
   styleUrls: ['./album-preview-items.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlbumPreviewItemsComponent {
   @Input() album: any;
