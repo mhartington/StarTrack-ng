@@ -1,6 +1,8 @@
 <img
   #lazyImage
   loading="lazy"
+  [class.loaded]="isLoaded"
   [src]="src"
   [alt]="alt"
+  (load)="markForChange()"
 />

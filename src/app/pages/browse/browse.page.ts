@@ -30,15 +30,12 @@ export class BrowsePage {
     private player: PlayerService,
     private stateService: RxState<IBrowsePageState>
   ) {
-    this.stateService.set({
-      isLoading: true,
-      hasError: false,
-      collection: null,
-    });
-    this.stateService.connect(
-      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
-    );
+
+    this.stateService.set({ isLoading: true, hasError: false, collection: null, });
+    this.stateService.connect(this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$)));
+
   }
+
   ionViewDidEnter() {
     this.ionViewDidEnter$.next();
     this.ionViewDidEnter$.complete();

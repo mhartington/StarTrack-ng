@@ -1,13 +1,16 @@
 :host {
   width: 100%;
   height: 100%;
-  background-image: url('/assets/imgs/default.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: var(--ion-color-step-150);
   display: block;
   img {
     object-fit: cover;
     height: 100%;
     width: 100%;
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+    &.loaded {
+      opacity: 1;
+    }
   }
 }

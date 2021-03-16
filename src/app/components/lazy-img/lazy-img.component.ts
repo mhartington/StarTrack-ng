@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   Input,
   ViewChild,
   ɵmarkDirty as markDirty,
@@ -19,22 +18,19 @@ export class LazyImgComponent implements AfterViewInit {
   private observer: IntersectionObserver;
   @Input() src = '';
   @Input() alt = '';
+  @Input() lazyParent = ''
 
-  @ViewChild('lazyImage', { static: true }) lazyImage: ElementRef<
-    HTMLImageElement
-  >;
+  @ViewChild('lazyImage', { static: true })
+  lazyImage: ElementRef<HTMLImageElement>;
+  isLoaded = false;
 
   constructor() {}
   async ngAfterViewInit(): Promise<void> {
     if ('loading' in HTMLImageElement.prototype) {
       this.lazyImage.nativeElement.src = this.src;
       this.lazyImage.nativeElement.alt = this.alt;
-      markDirty(this)
-
     } else if ('IntersectionObserver' in window) {
-      const options: IntersectionObserverInit = {
-        root: this.lazyImage.nativeElement.closest('ion-content'),
-      };
+      const options: IntersectionObserverInit = { root: this.lazyImage.nativeElement.closest(this.lazyParent) };
       this.observer = new IntersectionObserver(
         await this.onObserve.bind(this),
         options
@@ -72,6 +68,11 @@ export class LazyImgComponent implements AfterViewInit {
       image.onload = resolve;
       image.onerror = reject;
     });
+  }
+
+  markForChange() {
+    this.isLoaded = true;
+    markDirty(this);
   }
 
   async preload(targetEl: HTMLImageElement): Promise<void> {
