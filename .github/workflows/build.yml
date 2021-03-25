@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: MUSICKIT_TOKEN=${{ secrets.MK_TOKEN}} npm run build
 
       - name: Deploy to Firebase
         uses: lowply/deploy-firebase@v0.0.3
