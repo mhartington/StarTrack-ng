@@ -7,7 +7,7 @@
   "scripts": {
     "prestart": "node ./scripts/index.js",
     "prebuild": "ENVIRONMENT='production' node ./scripts/index.js",
-    "build": "ionic build --prod",
+    "build": "ng build --prod",
     "build:dev": "ionic build",
     "prebuild:dev": "node ./scripts/index.js",
     "e2e": "ng e2e",
