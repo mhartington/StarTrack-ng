@@ -17,6 +17,16 @@ const appInitialize = () => {
       app: {
         name: 'Star Track',
         build: '1.0',
+        declarativeMarkup: true,
+        debug: false,
+        features: [
+          'player-accurate-timing',
+          'api-data-store',
+          'api-session-storage',
+          'api-artist-include',
+        ],
+        storefrontId: 'us',
+        suppressErrorDialog: false,
       },
     });
     return;
