@@ -175,20 +175,16 @@ export class PlayerService extends RxState<IPlayerState> {
     console.log('mediaPlayBackError', event);
   }
   queueItemsDidChange(e: any): void {
-    this.set((state: any) => {
-      return {
+    this.set((state: any) => ({
         ...state,
         queue: e,
-      };
-    });
+      }));
   }
   queuePositionDidChange(event: any): void {
-    this.set((state) => {
-      return {
+    this.set((state) => ({
         ...state,
         queuePosition: event.position + 1,
-      };
-    });
+      }));
   }
 
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {

@@ -176,13 +176,11 @@ export class MusickitService {
         limit: 30,
       })
     ).pipe(
-      map((res: any) => {
-        return {
+      map((res: any) => ({
           topAlbums: res.albums[0].data,
           topPlaylists: res.playlists[0].data,
           topSongs: res.songs[0].data,
-        };
-      }),
+        })),
       retryWhen((error) => error.pipe(delay(500))),
       timeout(5000)
     );

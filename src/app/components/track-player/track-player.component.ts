@@ -25,7 +25,7 @@ export class TrackPlayerComponent {
   constructor( public player: PlayerService, private modalCtrl: ModalController) {
   this.playbackTime$.pipe(tap((val: any) => {
     if(!this.isScrubbing){
-      this.playbackTime = val
+      this.playbackTime = val;
     }
   })).subscribe();
   }
@@ -50,15 +50,15 @@ export class TrackPlayerComponent {
   }
 
   async seekToTime(ev: any): Promise<void> {
-    this.stopProp(ev)
+    this.stopProp(ev);
     await this.player.seekToTime(ev.target.value);
     this.isScrubbing = false;
   }
 
   pauseSeeking(ev: any): void {
-    this.stopProp(ev)
+    this.stopProp(ev);
     this.isScrubbing = true;
-    this.playbackTime = ev.target.value
+    this.playbackTime = ev.target.value;
   }
 
   async togglePlay(e: any): Promise<void> {

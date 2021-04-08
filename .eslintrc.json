@@ -1,36 +1,47 @@
 {
   "root": true,
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.*?.json"],
+        "project": ["tsconfig.json", "e2e/tsconfig.json"],
         "createDefaultProgram": true
       },
-      "extends": ["plugin:@angular-eslint/recommended"],
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
       "rules": {
-        "@angular-eslint/directive-selector": [
+        "@angular-eslint/component-class-suffix": [
           "error",
-          { "type": "attribute", "prefix": "app", "style": "camelCase" }
+          {
+            "suffixes": ["Page", "Component"]
+          }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "app", "style": "kebab-case" }
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
         ],
-        "quotes": ["error", "single", { "allowTemplateLiterals": true }]
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ]
       }
     },
-
     {
-      "files": ["*.component.html"],
+      "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
-      "rules": {
-        "max-len": ["error", { "code": 140 }]
-      }
-    },
-    {
-      "files": ["*.component.ts"],
-      "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
+      "rules": {}
     }
   ]
 }

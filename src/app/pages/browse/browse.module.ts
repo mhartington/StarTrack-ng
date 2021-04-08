@@ -27,7 +27,7 @@ const routes: Routes = [
     FormatArtworkUrlModule,
     ErrorComponentModule,
     RouterModule.forChild(routes),
-    LetModule, 
+    LetModule,
     LazyImgModule,
   ],
   declarations: [BrowsePage],

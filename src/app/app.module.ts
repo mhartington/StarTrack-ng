@@ -10,8 +10,7 @@ import { AppComponent } from './app.component';
 import { TrackPlayerModule } from './components/track-player/track-player.module';
 import { LandingPage } from './pages/landing/landing.page';
 import { LetModule } from '@rx-angular/template';
-const appInitialize = () => {
-  return () => {
+const appInitialize = () => () => {
     (window as any).MusicKit.configure({
       developerToken: environment.musicKitToken,
       app: {
@@ -31,7 +30,6 @@ const appInitialize = () => {
     });
     return;
   };
-};
 @NgModule({
   declarations: [AppComponent, LandingPage],
   imports: [

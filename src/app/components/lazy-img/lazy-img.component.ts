@@ -18,7 +18,7 @@ export class LazyImgComponent implements AfterViewInit {
   private observer: IntersectionObserver;
   @Input() src = '';
   @Input() alt = '';
-  @Input() lazyParent = ''
+  @Input() lazyParent = '';
 
   @ViewChild('lazyImage', { static: true })
   lazyImage: ElementRef<HTMLImageElement>;
