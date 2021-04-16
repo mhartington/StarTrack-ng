@@ -59,35 +59,6 @@ const successState = (state: Partial<ISearchPageState>, val: ICollection) => ({
   providers: [RxState],
 })
 export class SearchPage {
-  constructor(
-    private stateService: RxState<ISearchPageState>,
-    private api: MusickitService,
-    private player: PlayerService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder
-  ) {
-    // UI Actions
-    // Set init state
-    this.stateService.set(idleState);
-    // Listen to play button trigger
-    this.stateService.hold(
-      this.playSongTrigger$.pipe(tap(this.playSong.bind(this)))
-    );
-    // Listen to clear button trigger
-    this.stateService.connect(
-      this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
-    );
-    this.stateService.connect(this.clearCollection$);
-    //
-    // Data Actions
-    // Read the url and set the search
-    this.stateService.hold(this.readUrlEffect$.pipe(take(1)));
-    // Write the url based on search
-    this.stateService.hold(this.writeUrlEffect$);
-    // Fetch some data
-    this.stateService.connect(this.fetchDataSideEffect$);
-  }
 
   public state$: Observable<ISearchPageState> = this.stateService.select();
   public searchForm = this.fb.group({ search: '' });
@@ -124,6 +95,37 @@ export class SearchPage {
     map((results) => successState({}, results)),
     catchError(() => of(errorState.bind(this)))
   );
+
+  constructor(
+    private stateService: RxState<ISearchPageState>,
+    private api: MusickitService,
+    private player: PlayerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
+
+    // UI Actions
+    // Set init state
+    this.stateService.set(idleState);
+    // Listen to play button trigger
+    this.stateService.hold(
+      this.playSongTrigger$.pipe(tap(this.playSong.bind(this)))
+    );
+    // Listen to clear button trigger
+    this.stateService.connect(
+      this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
+    );
+    this.stateService.connect(this.clearCollection$);
+
+    // Data Actions
+    // Read the url and set the search
+    this.stateService.hold(this.readUrlEffect$.pipe(take(1)));
+    // Write the url based on search
+    this.stateService.hold(this.writeUrlEffect$);
+    // Fetch some data
+    this.stateService.connect(this.fetchDataSideEffect$);
+  }
 
   playSong(index: number): void {
     this.player.setQueueFromItems(
