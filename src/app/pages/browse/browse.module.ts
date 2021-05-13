@@ -10,6 +10,7 @@ import { BrowsePage } from './browse.page';
 import { ErrorComponentModule } from 'src/app/components/error/error.module';
 import { LetModule } from '@rx-angular/template';
 import { LazyImgModule } from 'src/app/components/lazy-img/lazy-img.module';
+import { RxForModule } from 'src/app/directives/rxfor/rxfor.module';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LetModule,
     LazyImgModule,
+    RxForModule
   ],
   declarations: [BrowsePage],
 })
