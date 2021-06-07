@@ -15,11 +15,16 @@ ion-list-header {
   justify-content: left;
   overflow-x: scroll;
   width: 100%;
+  // scroll-snap-type: x mandatory;
   &::after {
     content: '';
     width: 1px;
     margin-right: -1px;
   }
+  // album-preview-item {
+  //   scroll-snap-align: start start;
+  //   padding: 0px 16px;
+  // }
 
 }
 .song-grid {
@@ -30,6 +35,7 @@ ion-list-header {
   grid-gap: 16px;
   padding: 16px;
   justify-content: left;
+  // scroll-snap-type: x mandatory;
   &::after {
     content: '';
     width: 1px;
@@ -38,5 +44,6 @@ ion-list-header {
 
   song-item {
     width: 350px;
+    // scroll-snap-align: start start;
   }
 }
