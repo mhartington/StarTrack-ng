@@ -30,7 +30,10 @@
               },
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": [
+              { "input": "src/theme/variables.scss", "inject": true },
+              { "input": "src/global.scss", "inject": true }
+            ],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
