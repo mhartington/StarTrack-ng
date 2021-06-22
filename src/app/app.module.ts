@@ -10,26 +10,25 @@ import { AppComponent } from './app.component';
 import { TrackPlayerModule } from './components/track-player/track-player.module';
 import { LandingPage } from './pages/landing/landing.page';
 import { LetModule } from '@rx-angular/template';
-const appInitialize = () => () => {
-    (window as any).MusicKit.configure({
-      developerToken: environment.musicKitToken,
-      app: {
-        name: 'Star Track',
-        build: '1.0',
-        declarativeMarkup: true,
-        debug: false,
-        features: [
-          'player-accurate-timing',
-          'api-data-store',
-          'api-session-storage',
-          'api-artist-include',
-        ],
-        storefrontId: 'us',
-        suppressErrorDialog: false,
-      },
-    });
-    return;
-  };
+const appInitialize = () => () =>
+  (window as any).MusicKit.configure({
+    developerToken: environment.musicKitToken,
+    app: {
+      name: 'Star Track',
+      build: '1.0',
+      declarativeMarkup: true,
+      debug: false,
+      features: [
+        'player-accurate-timing',
+        'api-data-store',
+        'api-session-storage',
+        'api-artist-include',
+      ],
+      storefrontId: 'us',
+      suppressErrorDialog: false,
+    },
+  });
+
 @NgModule({
   declarations: [AppComponent, LandingPage],
   imports: [
