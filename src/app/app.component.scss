@@ -34,7 +34,7 @@ ion-split-pane {
   max-width: 375px;
   border-right: none;
   ion-content {
-    border-right: solid 1px rgb(34, 34, 34);
+    border-right: 1px solid var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.13))));
   }
   // ion-content::after {
   //   right: 0;
