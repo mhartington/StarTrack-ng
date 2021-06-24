@@ -20,9 +20,9 @@ export class AppComponent implements OnInit {
     private metaService: Meta
   ) {
 
-    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    // this.setMetaTheme();
-    // prefersDark.addEventListener('change', () => this.setMetaTheme());
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.setMetaTheme();
+    prefersDark.addEventListener('change', () => this.setMetaTheme());
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
@@ -62,6 +62,7 @@ export class AppComponent implements OnInit {
     const color = getComputedStyle(document.documentElement)
       .getPropertyValue('--ion-background-color')
       .replace(/\s+/g, '');
+
     this.metaService.updateTag({ content: color, name: 'theme-color' });
   }
 }
