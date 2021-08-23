@@ -13,16 +13,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
+        uses: actions/setup-node@latest
       - name: Install dependencies
         run: npm ci
-
       - name: Build
         run: MUSICKIT_TOKEN=${{ secrets.MK_TOKEN}} npm run build
-
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         env:
