@@ -8,16 +8,14 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@master
-        with:
-          fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
       - name: Install dependencies
         run: npm ci
+
       - name: Build
         run: MUSICKIT_TOKEN=${{ secrets.MK_TOKEN}} npm run build
+
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         env:
