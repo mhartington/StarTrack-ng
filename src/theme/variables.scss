@@ -270,6 +270,22 @@ div.route-wrapper {
   z-index: 0;
 }
 
+ion-split-pane {
+  overflow: hidden;
+}
+
+.split-pane-md.split-pane-visible > .split-pane-side {
+  max-width: 375px;
+  border-right: none;
+  ion-content {
+    border-right: 1px solid
+      var(
+        --ion-item-border-color,
+        var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.13)))
+      );
+  }
+}
+
 .split-pane-visible .split-pane-main {
   left: 0;
   right: 0;
@@ -279,4 +295,10 @@ div.route-wrapper {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   z-index: 0;
+}
+
+.split-pane-visible .split-pane-main {
+  ion-title {
+    display: none;
+  }
 }
