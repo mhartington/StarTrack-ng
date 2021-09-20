@@ -9,16 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         run: MUSICKIT_TOKEN=${{ secrets.MK_TOKEN}} npm run build
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STARTRACK_NG }}'
-          projectId: startrack-ng
-          channelId: live
+      - uses: lowply/deploy-firebase@v0.0.3
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT: startrack-ng
+          TARGET_BRANCH: main
