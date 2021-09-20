@@ -14,34 +14,38 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./track-player.component.scss'],
 })
 export class TrackPlayerComponent {
-  public playbackStates = PlaybackStates;
-  private _playerModal: typeof PlayerModalComponent;
   public state$ = this.player.select();
-  private playbackTime$ = this.player.select('playbackTime');
   public playbackTime = 0;
 
-  clickBlock = false;
-  isScrubbing = false;
-  constructor( public player: PlayerService, private modalCtrl: ModalController) {
-  this.playbackTime$.pipe(tap((val: any) => {
-    if(!this.isScrubbing){
-      this.playbackTime = val;
-    }
-  })).subscribe();
+  public playbackStates = PlaybackStates;
+  private playerModal: typeof PlayerModalComponent;
+  private playbackTime$ = this.player.select('playbackTime');
+  private clickBlock = false;
+  private isScrubbing = false;
+
+
+  constructor(public player: PlayerService, private modalCtrl: ModalController) {
+    this.playbackTime$
+      .pipe(
+        tap((val: any) => {
+          if (!this.isScrubbing) {
+            this.playbackTime = val;
+          }
+        })
+      )
+      .subscribe();
   }
 
   @HostListener('click')
   async toggle() {
-    if (!this._playerModal && !this.clickBlock) {
+    if (!this.playerModal && !this.clickBlock) {
       this.clickBlock = true;
-      const { PlayerModalComponent } = await import(
-        '../player-modal/player-modal.component'
-      );
-      this._playerModal = PlayerModalComponent;
+      const { PlayerModalComponent } = await import( '../player-modal/player-modal.component');
+      this.playerModal = PlayerModalComponent;
     }
 
     const modalInstance = await this.modalCtrl.create({
-      component: this._playerModal,
+      component: this.playerModal,
       swipeToClose: false,
       cssClass: 'full-modal',
     });

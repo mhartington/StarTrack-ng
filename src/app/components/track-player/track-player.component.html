@@ -4,7 +4,7 @@
       <div class="song-info">
         <ion-thumbnail>
           <lazy-img
-            [src]="state.nowPlayingItem.artworkURL"
+            [src]="state.nowPlayingItem.artworkURL | formatArtworkUrl: 60"
             alt="The album art work cover"
           ></lazy-img>
         </ion-thumbnail>

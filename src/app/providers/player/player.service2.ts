@@ -49,9 +49,8 @@ interface IPlayerState {
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService extends RxState<IPlayerState> {
-  private player = null;
-  musicKitInstance = (window as any).MusicKit.getInstance();
-  musicKitEvents = (window as any).MusicKit.Events;
+  private mkInstance = (window as any).MusicKit.getInstance();
+  private musicKitEvents = (window as any).MusicKit.Events;
 
   constructor(private title: Title) {
     super();
@@ -86,39 +85,38 @@ export class PlayerService extends RxState<IPlayerState> {
       },
     });
 
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.playbackTimeDidChange,
       this.playbackTimeDidChange.bind(this)
     );
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.playbackDurationDidChange,
       this.playbackDurationDidChange.bind(this)
     );
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.mediaPlaybackError,
       this.mediaPlaybackError.bind(this)
     );
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.playbackStateDidChange,
       this.playbackStateDidChange.bind(this)
     );
-    this.musicKitInstance.addEventListener(
-      this.musicKitEvents.mediaItemDidChange,
-      this.mediaItemDidChange.bind(this)
+    this.mkInstance.addEventListener(
+      this.musicKitEvents.mediaItemStateDidChange,
+      this.mediaItemStateDidChange.bind(this)
     );
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.queueItemsDidChange,
       this.queueItemsDidChange.bind(this)
     );
-    this.musicKitInstance.addEventListener(
+    this.mkInstance.addEventListener(
       this.musicKitEvents.queuePositionDidChange,
       this.queuePositionDidChange.bind(this)
     );
 
-    this.player = this.musicKitInstance.player;
   }
 
-  // Global listeners
+  // GLOBAL LISTENERS
   playbackTimeDidChange(event: any) {
     this.set((state) => ({
       ...state,
@@ -128,10 +126,11 @@ export class PlayerService extends RxState<IPlayerState> {
   playbackDurationDidChange(event: any) {
     this.set((state) => ({ ...state, playbackDuration: event.duration }));
   }
-  mediaItemDidChange(event: any) {
+  mediaItemStateDidChange(event: any) {
+    console.log('mediaItemStateDidChange', event)
     this.set((state) => ({
       ...state,
-      nowPlayingItem: event.item,
+      nowPlayingItem: event,
       playbackTime: 0,
     }));
     this.select('nowPlayingItem').pipe(
@@ -174,19 +173,17 @@ export class PlayerService extends RxState<IPlayerState> {
   mediaPlaybackError(event: any): void {
     console.log('mediaPlayBackError', event);
   }
-  queueItemsDidChange(e: any): void {
-    this.set((state: any) => ({
-        ...state,
-        queue: e,
-      }));
+  queueItemsDidChange(event: any): void {
+    console.log('queueItemsDidChange', event)
+    this.set((state: any) => ({ ...state, queue: event, }));
   }
   queuePositionDidChange(event: any): void {
-    this.set((state) => ({
-        ...state,
-        queuePosition: event.position + 1,
-      }));
+    console.log('queuePositionDidChange', event)
+    this.set((state) => ({ ...state, queuePosition: event.position + 1, }));
   }
 
+
+  // PLAYER METHODS
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
     if (shuffle) {
       items = items.sort(() => 0.5 - Math.random());
@@ -195,31 +192,31 @@ export class PlayerService extends RxState<IPlayerState> {
       ...item,
       container: { id: item.id },
     }));
-    await this.musicKitInstance.setQueue({ items: newItems });
-    await this.musicKitInstance.changeToMediaAtIndex(startPosition);
+    await this.mkInstance.setQueue({ items: newItems });
+    await this.mkInstance.changeToMediaAtIndex(startPosition);
   }
   async play() {
-    await this.player.play();
+    await this.mkInstance.play();
   }
   async pause() {
-    await this.player.pause();
+    await this.mkInstance.pause();
   }
   async stop() {
-    await this.player.stop();
+    await this.mkInstance.stop();
   }
   toggleRepeat(): void {
-    const nextRepeatMode = (this.player.repeatMode + 1) % 3;
-    this.player.repeatMode = nextRepeatMode;
+    const nextRepeatMode = (this.mkInstance.repeatMode + 1) % 3;
+    this.mkInstance.repeatMode = nextRepeatMode;
     this.set((state: Partial<IPlayerState>) => ({
       ...state,
-      repeatMode: this.player.repeatMode,
+      repeatMode: this.mkInstance.repeatMode,
     }));
   }
   toggleShuffle(shouldShuffle: boolean): void {
-    this.player.shuffleMode = !!shouldShuffle;
+    this.mkInstance.shuffleMode = !!shouldShuffle;
     this.set((state) => ({
       ...state,
-      isShuffling: this.player.shuffleMode,
+      isShuffling: this.mkInstance.shuffleMode,
     }));
   }
   async skipToNextItem() {
@@ -227,47 +224,47 @@ export class PlayerService extends RxState<IPlayerState> {
     if (state.repeatMode === 1) {
       return this.seekToTime(0);
     }
-    await this.player.skipToNextItem();
+    await this.mkInstance.skipToNextItem();
   }
   async skipToPreviousItem() {
     const state = this.get();
     if (state.repeatMode === 1) {
       return this.seekToTime(0);
     }
-    await this.player.skipToPreviousItem();
+    await this.mkInstance.skipToPreviousItem();
   }
   async seekToTime(time: number) {
-    await this.player.seekToTime(time);
+    await this.mkInstance.seekToTime(time);
   }
   async skipTo(index: number) {
-    await this.player.changeToMediaAtIndex(index);
+    await this.mkInstance.changeToMediaAtIndex(index);
   }
   //
   // playNext(item: SongModel): void {
-  //   this.player.queue.prepend(item);
+  //   this.mkInstance.queue.prepend(item);
   // }
   //
   // playLater(item: SongModel): void {
-  //   this.player.queue.append(item);
+  //   this.mkInstance.queue.append(item);
   // }
   //
   // get currentPlaybackDuration(): number {
-  //   return this.player.currentPlaybackDuration;
+  //   return this.mkInstance.currentPlaybackDuration;
   // }
   //
   // get currentPlaybackTime(): number {
-  //   return this.player.currentPlaybackTime;
+  //   return this.mkInstance.currentPlaybackTime;
   // }
   //
   //
   // removeFromQueue(index: number): void {
-  //   this.player.queue.remove(index + this.queuePosition);
+  //   this.mkInstance.queue.remove(index + this.queuePosition);
   // }
   //
   //
   //
   // changeVolume(volume: number): void {
-  //   this.player.volume = volume;
+  //   this.mkInstance.volume = volume;
   // }
   //
   // changeBitrate() {

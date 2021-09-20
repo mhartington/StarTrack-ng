@@ -10,8 +10,8 @@ import { AppComponent } from './app.component';
 import { TrackPlayerModule } from './components/track-player/track-player.module';
 import { LandingPage } from './pages/landing/landing.page';
 import { LetModule } from '@rx-angular/template';
-const appInitialize = () => () =>
-  (window as any).MusicKit.configure({
+const appInitialize = () => async () =>
+  await (window as any).MusicKit.configure({
     developerToken: environment.musicKitToken,
     app: {
       name: 'Star Track',
@@ -26,6 +26,10 @@ const appInitialize = () => () =>
       ],
       storefrontId: 'us',
       suppressErrorDialog: false,
+      app: {
+        name: 'My Cool Web App',
+        build: '1978.4.1',
+      },
     },
   });
 
@@ -49,7 +53,6 @@ const appInitialize = () => () =>
       provide: APP_INITIALIZER,
       useFactory: appInitialize,
       multi: true,
-      deps: [],
     },
   ],
   bootstrap: [AppComponent],

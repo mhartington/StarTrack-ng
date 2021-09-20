@@ -15,14 +15,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyImgComponent implements AfterViewInit {
-  private observer: IntersectionObserver;
+
   @Input() src = '';
   @Input() alt = '';
   @Input() lazyParent = '';
 
-  @ViewChild('lazyImage', { static: true })
+  @ViewChild('lazyImage')
   lazyImage: ElementRef<HTMLImageElement>;
-  isLoaded = false;
+
+  public isLoaded = false;
+
+  private observer: IntersectionObserver;
 
   constructor() {}
   async ngAfterViewInit(): Promise<void> {
@@ -61,6 +64,7 @@ export class LazyImgComponent implements AfterViewInit {
   }
 
   fetchImage(url: string): Promise<Event> {
+    console.log(url)
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.src = url;

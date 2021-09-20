@@ -2,17 +2,11 @@
   .animated-bar {
     --primaryColor: #000;
     transform: translateY(9px);
-
     animation-name: none;
-
     animation-duration: 0.4s;
-
     animation-delay: var(--delay, 0);
-
     animation-direction: alternate;
-
     animation-timing-function: ease-in;
-
     animation-iteration-count: infinite;
     fill: var(--ion-color-step-250);
 

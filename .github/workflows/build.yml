@@ -16,10 +16,9 @@ jobs:
       - name: Build
         run: MUSICKIT_TOKEN=${{ secrets.MK_TOKEN}} npm run build
 
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        env:
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STARTRACK_NG }}'
-          channelId: live
           projectId: startrack-ng
+          channelId: live

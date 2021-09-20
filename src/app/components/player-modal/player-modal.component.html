@@ -13,7 +13,7 @@
         }"
       >
         <lazy-img
-          [src]="state.nowPlayingItem.artworkURL"
+          [src]="state.nowPlayingItem.artworkURL | formatArtworkUrl: 600"
           alt="The album art work cover"
         ></lazy-img>
       </ion-thumbnail>
