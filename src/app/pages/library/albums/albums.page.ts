@@ -8,7 +8,6 @@ import { MusickitService } from '../../../providers/musickit-service/musickit-se
 type AlbumsPageState = {
   albums: any[];
   offset: number;
-  isLoading: boolean;
 };
 
 @Component({
@@ -31,13 +30,11 @@ export class AlbumsPage implements OnInit {
   );
 
   private fetchLibraryAlbums$ = this.api.fetchLibraryAlbums().pipe(
-    map((res: { data: any[]; next: string }) => {
-      this.infiniteScroll.disabled = false;
-      return {
-        albums: res.data,
-        offset: parseInt(res.next.match(/\d*$/)[0], 10),
-      };
-    })
+    map((res: { data: any[]; next: string }) => ({
+      albums: res.data,
+      offset: parseInt(res.next.match(/\d*$/)[0], 10),
+    })),
+    tap(() => (this.infiniteScroll.disabled = false))
   );
   private ionViewDidEnter$ = new Subject<boolean>();
   constructor(
@@ -47,7 +44,6 @@ export class AlbumsPage implements OnInit {
     this.stateService.set({
       albums: [],
       offset: 0,
-      isLoading: true,
     });
   }
 
@@ -59,7 +55,6 @@ export class AlbumsPage implements OnInit {
     this.stateService.connect(this.fetchMore$, (oldState, newState) => ({
       albums: [...oldState.albums, ...newState.data],
       offset: parseInt(newState.next.match(/\d*$/)[0], 10),
-      isLoading: false,
     }));
   }
   ionViewDidEnter() {
