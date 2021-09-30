@@ -6,11 +6,18 @@ h1 {
 ion-list-header {
   padding-left: 16px;
 }
+
+album-preview-item {
+  width: 162px;
+  ion-card: {
+    width: 162px;
+    height: 162px;
+  }
+}
 .album-grid {
   display: grid;
   grid-auto-flow: column dense;
   grid-template-rows: auto auto;
-  width: 162px;
   grid-gap: 16px 32px;
   padding: 16px;
   justify-content: left;
@@ -26,7 +33,6 @@ ion-list-header {
   //   scroll-snap-align: start start;
   //   padding: 0px 16px;
   // }
-
 }
 .song-grid {
   overflow-x: scroll;
