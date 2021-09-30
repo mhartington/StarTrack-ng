@@ -53,7 +53,7 @@
         <song-item
           *ngFor="let album of albums"
           [song]="album"
-          [routerLink]="['/album', album.id]"
+          [routerLink]="['/us', 'album', album.id]"
         >
           <ion-thumbnail slot="start">
             <lazy-img
@@ -70,7 +70,7 @@
         <song-item
           *ngFor="let playlist of playlists"
           [song]="playlist"
-          [routerLink]="['/playlist', playlist.id]"
+          [routerLink]="['/us','playlist', playlist.id]"
         >
           <ion-thumbnail slot="start">
             <lazy-img

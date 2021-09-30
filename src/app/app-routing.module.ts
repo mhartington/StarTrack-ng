@@ -14,9 +14,16 @@ const routes: Routes = [
       import('./pages/search/search.module').then((m) => m.SearchModule),
   },
   {
-    path: ':type/:id',
+    path: 'us/:type/:id',
     loadChildren: () =>
       import('./pages/album/album.module').then((m) => m.AlbumPageModule),
+  },
+  {
+    path: 'library/albums',
+    loadChildren: () =>
+      import('./pages/library/albums/albums.module').then(
+        (m) => m.AlbumsPageModule
+      ),
   },
 ];
 @NgModule({

@@ -25,7 +25,7 @@
             *ngFor="let album of chart.topAlbums; let i = index"
             [album]="album"
             [index]="i"
-            [routerLink]="['/album', album.id]"
+            [routerLink]="['/us', 'album', album.id]"
           >
             <lazy-img
               [src]="album.attributes.artwork.url | formatArtworkUrl: 200"
@@ -46,7 +46,7 @@
             *ngFor="let playlist of chart.topPlaylists; let i = index"
             [album]="playlist"
             [index]="i"
-            [routerLink]="['/playlist', playlist.id]"
+            [routerLink]="['/us','playlist', playlist.id]"
           >
             <lazy-img
               [src]="playlist.attributes.artwork.url | formatArtworkUrl: 200"

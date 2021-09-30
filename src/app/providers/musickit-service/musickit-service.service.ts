@@ -9,17 +9,20 @@ import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 export class MusickitService {
   private musicKitInstance = (window as any).MusicKit.getInstance();
   private apiUrl = `https://api.music.apple.com/v1/catalog/${this.musicKitInstance.storefrontId}`;
-  constructor(private http: HttpClient) {}
+  private libraryUrl = `https://api.music.apple.com/v1/me/library`;
+  constructor(private http: HttpClient) {
+  }
 
   getApiHeaders(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${this.musicKitInstance.developerToken}`,
-      // Accept: 'application/json',
-      // 'Content-Type': 'application/json',
-      // 'Music-User-Token': this.musicKitInstance.musicUserToken,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Music-User-Token': this.musicKitInstance.musicUserToken,
     });
   }
 
+  // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/albums/${id}`, {
@@ -32,7 +35,6 @@ export class MusickitService {
         })
       );
   }
-
   fetchPlaylist(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/playlists/${id}`, {
@@ -45,7 +47,6 @@ export class MusickitService {
         })
       );
   }
-
   fetchAlbumOrPlaylist(type: string, id: string): Observable<any> {
     if (type === 'playlist') {
       return this.fetchPlaylist(id);
@@ -53,7 +54,6 @@ export class MusickitService {
       return this.fetchAlbum(id);
     }
   }
-
   fetchPlaylistTracks(nextUrl: string): Observable<any> {
     return this.http.get(this.apiUrl + nextUrl, {
       headers: this.getApiHeaders(),
@@ -67,7 +67,6 @@ export class MusickitService {
       })
     );
   }
-
   search(query: string): Observable<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
 
@@ -90,15 +89,12 @@ export class MusickitService {
         timeout(5000)
       );
   }
-
   fetchRecentPlayed(): Observable<any> {
     return from(this.musicKitInstance.api.recentPlayed());
   }
-
   fetchHeavyRotation(): Observable<any> {
     return from(this.musicKitInstance.api.historyHeavyRotation());
   }
-
   fetchChart(): Observable<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
     return from(
@@ -121,7 +117,6 @@ export class MusickitService {
       timeout(5000)
     );
   }
-
   fetchPlaylists(offset: number): Observable<any> {
     return from(
       this.musicKitInstance.api.library.playlists(null, {
@@ -143,13 +138,8 @@ export class MusickitService {
       })
     );
   }
-  fetchLibraryAlbums(offset: number): Observable<any> {
-    return from(
-      this.musicKitInstance.api.library.albums(null, {
-        limit: 100,
-        offset,
-      })
-    );
+  fetchLibraryAlbums(offset = 0): Observable<any> {
+    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {headers: this.getApiHeaders()});
   }
   fetchLibraryAlbum(id: string): Observable<any> {
     return from(this.musicKitInstance.api.library.album(id));

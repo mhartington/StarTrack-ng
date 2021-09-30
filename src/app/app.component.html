@@ -13,29 +13,45 @@
           </ion-toolbar>
         </ion-header>
         <ion-list lines="none">
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              routerLink="/browse"
-              routerDirection="root"
-              routerLinkActive="selected"
-            >
-              <ion-icon name="musical-notes" slot="start"></ion-icon>
-              Browse
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle autoHide="false">
-            <ion-item
-              routerLink="/search"
-              routerDirection="root"
-              routerLinkActive="selected"
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-label>Apple Music</ion-label>
+            </ion-item-divider>
+            <ion-menu-toggle autoHide="false">
+              <ion-item
+                routerLink="/browse"
+                routerDirection="root"
+                routerLinkActive="selected"
               >
-              <ion-icon name="search" slot="start"></ion-icon>
-              Search
-            </ion-item>
-          </ion-menu-toggle>
+                <ion-icon name="musical-notes" slot="start"></ion-icon>
+                Browse
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle autoHide="false">
+              <ion-item
+                routerLink="/search"
+                routerDirection="root"
+                routerLinkActive="selected"
+              >
+                <ion-icon name="search" slot="start"></ion-icon>
+                Search
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-item-group>
 
-          <ng-container *rxLet="isAuthorized; let isAuth">
+          <ion-item-group *rxLet="isAuthorized; let isAuth">
             <ng-container *ngIf="isAuth">
+              <ion-item-divider>
+                <ion-label>Library</ion-label>
+              </ion-item-divider>
+
+              <ion-menu-toggle autoHide="false">
+                <ion-item routerLink="/library/albums" routerDirection="root">
+                  <ion-icon slot="start" name="albums"></ion-icon>
+                  Albums
+                </ion-item>
+              </ion-menu-toggle>
+
               <ion-menu-toggle autoHide="false">
                 <ion-item (click)="logout()" lines="none" button="true">
                   <ion-icon slot="start" name="log-out"></ion-icon>
@@ -51,14 +67,11 @@
                 </ion-item>
               </ion-menu-toggle>
             </ng-container>
-          </ng-container>
+          </ion-item-group>
         </ion-list>
       </ion-content>
     </ion-menu>
-    <div
-      id="main"
-      class="route-wrapper"
-    >
+    <div id="main" class="route-wrapper">
       <ion-router-outlet></ion-router-outlet>
       <track-player></track-player>
     </div>

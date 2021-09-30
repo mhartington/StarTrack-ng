@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Albums</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *rxLet="state$ as state">
+    <ion-grid>
+      <ion-row>
+        <ng-container *ngIf="state.albums.length; else loading"></ng-container>
+        <ion-col
+          size="6"
+          sizeMd="4"
+          sizeLg="3"
+          sizeXl="2"
+          *ngFor="let album of state.albums"
+        >
+          <album-preview-item
+            [album]="album"
+            [routerLink]="['/us', 'album', album.id]"
+          >
+            <lazy-img
+              [src]="album.attributes.artwork?.url | formatArtworkUrl: 200"
+              lazyParent="album-grid"
+              alt="Album Artwork"
+            ></lazy-img>
+          </album-preview-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ng-template #loading>
+      <ion-col
+        *ngFor="let album of [].constructor(20)"
+        size="6"
+        sizeMd="4"
+        sizeLg="3"
+        sizeXl="2"
+      >
+        <album-preview-item>
+          <lazy-img></lazy-img>
+        </album-preview-item>
+      </ion-col>
+    </ng-template>
+  </ng-container>
+
+  <ion-infinite-scroll
+    threshold="200px"
+    (ionInfinite)="scrollTrigger$.next()"
+    disabled="true"
+  >
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

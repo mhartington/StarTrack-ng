@@ -1,7 +1,6 @@
 :host {
   display: block;
   margin: auto;
-  width: 162px;
   &:hover {
     cursor: pointer;
   }
@@ -12,9 +11,8 @@
 ion-card {
   padding: 0;
   margin: 0;
-  width: 162px;
-  height: 162px;
-  // aspect-ratio: 1/1;
+  width: 100%;
+  aspect-ratio: 1/1;
 }
 lazy-img {
   object-fit: cover;

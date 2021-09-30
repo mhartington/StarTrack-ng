@@ -53,6 +53,10 @@
   ion-range {
     padding-top: 0;
     padding-bottom: 0;
+
+    .range-knob-handle {
+        transition: left 0.01s ease-in;
+    }
   }
   .song-actions {
     display: flex;
