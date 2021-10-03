@@ -8,25 +8,31 @@ import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 })
 export class MusickitService {
   private musicKitInstance = (window as any).MusicKit.getInstance();
+  private musicKitEvents = (window as any).MusicKit.Events;
   private apiUrl = `https://api.music.apple.com/v1/catalog/${this.musicKitInstance.storefrontId}`;
   private libraryUrl = `https://api.music.apple.com/v1/me/library`;
+  private headers = new HttpHeaders({
+    Authorization: `Bearer ${this.musicKitInstance.developerToken}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  });
   constructor(private http: HttpClient) {
-  }
-
-  getApiHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.musicKitInstance.developerToken}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Music-User-Token': this.musicKitInstance.musicUserToken,
-    });
+    this.musicKitInstance.addEventListener(
+      this.musicKitEvents.authorizationStatusDidChange,
+      () => {
+        this.headers.append(
+          'Music-User-Token',
+          this.musicKitInstance.musicUserToken
+        );
+      }
+    );
   }
 
   // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/albums/${id}`, {
-        headers: this.getApiHeaders(),
+        headers: this.headers,
       })
       .pipe(
         map((res: any) => {
@@ -38,7 +44,7 @@ export class MusickitService {
   fetchPlaylist(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/playlists/${id}`, {
-        headers: this.getApiHeaders(),
+        headers: this.headers,
       })
       .pipe(
         map((res: any) => {
@@ -56,7 +62,7 @@ export class MusickitService {
   }
   fetchPlaylistTracks(nextUrl: string): Observable<any> {
     return this.http.get(this.apiUrl + nextUrl, {
-      headers: this.getApiHeaders(),
+      headers: this.headers,
     });
   }
   fetchArtist(id: string): Observable<any> {
@@ -76,7 +82,7 @@ export class MusickitService {
           ','
         )}&limit=25`,
         {
-          headers: this.getApiHeaders(),
+          headers: this.headers,
         }
       )
       .pipe(
@@ -101,7 +107,7 @@ export class MusickitService {
       this.http.get(
         `${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=30`,
         {
-          headers: this.getApiHeaders(),
+          headers: this.headers,
         }
       )
     ).pipe(
@@ -139,7 +145,9 @@ export class MusickitService {
     );
   }
   fetchLibraryAlbums(offset = 0): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {headers: this.getApiHeaders()});
+    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {
+      headers: this.headers,
+    });
   }
   fetchLibraryAlbum(id: string): Observable<any> {
     return from(this.musicKitInstance.api.library.album(id));
