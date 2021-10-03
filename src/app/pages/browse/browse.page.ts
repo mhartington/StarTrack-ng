@@ -32,11 +32,10 @@ export class BrowsePage {
   ) {
 
     this.stateService.set({ isLoading: true, hasError: false, collection: null, });
-    this.stateService.connect(this.ionViewDidEnter$.pipe(
-      switchMapTo(this.fetchDataStream$)
-    ));
+    this.stateService.connect(this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$)));
 
   }
+
   ionViewDidEnter() {
     this.ionViewDidEnter$.next();
     this.ionViewDidEnter$.complete();
