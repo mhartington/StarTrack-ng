@@ -35,7 +35,7 @@ export class AlbumsPage {
 
   public fetchMore$ = this.scrollTrigger$.pipe(
     withLatestFrom(this.stateService.$),
-    switchMap((scrollTrigger, {albums, total, offset}) => {
+    switchMap(([scrollTrigger, {albums, total, offset}]) => {
       if (albums.length === total) {
         this.infiniteScroll.complete();
         this.infiniteScroll.disabled = true;
