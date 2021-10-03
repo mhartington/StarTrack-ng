@@ -1,8 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { RxState } from '@rx-angular/state';
-import { Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, tap } from 'rxjs/operators';
+import { insert, RxState } from '@rx-angular/state';
+import { EMPTY, Observable, Subject } from 'rxjs';
+import {
+  map,
+  switchMap,
+  switchMapTo,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
 type AlbumsPageState = {
@@ -10,6 +16,14 @@ type AlbumsPageState = {
   offset: number;
   total: number;
 };
+
+const initialState = {
+  albums: [],
+  offset: 0,
+  total: 0,
+};
+const parseNext = (next: string, fallback: number = 0): number =>
+  next ? parseInt(next.match(/\d*$/)[0], 10) : fallback;
 
 @Component({
   selector: 'app-library-albums',
@@ -20,45 +34,38 @@ type AlbumsPageState = {
 export class AlbumsPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
-  public state$: Observable<AlbumsPageState> = this.stateService.select();
+  public albums$: Observable<any[]> = this.stateService.select('albums');
   public scrollTrigger$ = new Subject();
 
   public fetchMore$ = this.scrollTrigger$.pipe(
-    filter(() => {
-      const length = this.stateService.get('albums').length;
-      const total = this.stateService.get('total');
-      if (length === total) {
+    withLatestFrom(this.stateService.$),
+    switchMap(([_, { albums, total }]) => {
+      if (albums.length === total) {
         this.infiniteScroll.complete();
         this.infiniteScroll.disabled = true;
-        return false;
-      } else {
-        return true;
+        return EMPTY;
       }
+      return this.api.fetchLibraryAlbums(this.stateService.get('offset'));
     }),
-    switchMap(() =>
-      this.api.fetchLibraryAlbums(this.stateService.get('offset'))
-    ),
     tap(() => this.infiniteScroll.complete())
   );
 
   private fetchLibraryAlbums$ = this.api.fetchLibraryAlbums().pipe(
     map((res: { data: any[]; next: string; meta: { total: number } }) => ({
       albums: res.data,
-      offset: parseInt(res.next.match(/\d*$/)[0], 10),
+      offset: parseNext(res.next),
       total: res.meta.total,
     })),
     tap(() => (this.infiniteScroll.disabled = false))
   );
   private ionViewDidEnter$ = new Subject<boolean>();
+
+
   constructor(
     private api: MusickitService,
     private stateService: RxState<AlbumsPageState>
   ) {
-    this.stateService.set({
-      albums: [],
-      offset: 0,
-      total: 0,
-    });
+    this.stateService.set(initialState);
   }
 
   ngOnInit() {
@@ -66,19 +73,13 @@ export class AlbumsPage implements OnInit {
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbums$))
     );
 
-    this.stateService.connect(this.fetchMore$, (oldState, newState) => {
-      let offset: number;
-      if (newState.next) {
-        offset = parseInt(newState.next.match(/\d*$/)[0], 10);
-      } else {
-        offset = oldState.total;
-      }
-      const updates = {
-        albums: [...oldState.albums, ...newState.data],
-        offset,
-      };
-      return updates;
-    });
+    this.stateService.connect(
+      this.fetchMore$,
+      ({ total, albums }, { data, next }) => ({
+        albums: insert(albums, data),
+        offset: parseNext(next, total),
+      })
+    );
   }
   ionViewDidEnter() {
     this.ionViewDidEnter$.next();

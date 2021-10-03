@@ -1,20 +1,30 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
     <ion-title>Albums</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ng-container *rxLet="state$ as state">
+<ion-content fullscreen="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar class="transparent">
+      <ion-title size="large">Albums</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ng-container *rxLet="albums$ as albums">
     <ion-grid>
       <ion-row>
-        <ng-container *ngIf="state.albums.length; else loading"></ng-container>
+        <ng-container *ngIf="albums.length; else loading"></ng-container>
         <ion-col
           size="6"
           sizeMd="4"
           sizeLg="3"
           sizeXl="2"
-          *ngFor="let album of state.albums"
+          *ngFor="let album of albums"
         >
           <album-preview-item
             [album]="album"
