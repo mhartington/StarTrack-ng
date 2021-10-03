@@ -17,6 +17,12 @@ export class MusickitService {
     'Content-Type': 'application/json',
   });
   constructor(private http: HttpClient) {
+    if (this.musicKitInstance.isAuthorized) {
+      this.headers = this.headers.append(
+        'Music-User-Token',
+        this.musicKitInstance.musicUserToken
+      );
+    }
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
       () => {
