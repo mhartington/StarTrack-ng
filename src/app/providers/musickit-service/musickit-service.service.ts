@@ -7,45 +7,44 @@ import { delay, retryWhen, timeout, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MusickitService {
-  private musicKitInstance = (window as any).MusicKit.getInstance();
+  public musicKitInstance = (window as any).MusicKit.getInstance();
+  private musicKitEvents = (window as any).MusicKit.Events;
+
   private apiUrl = `https://api.music.apple.com/v1/catalog/${this.musicKitInstance.storefrontId}`;
   private libraryUrl = `https://api.music.apple.com/v1/me/library`;
-  constructor(private http: HttpClient) {
-  }
 
-  getApiHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.musicKitInstance.developerToken}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Music-User-Token': this.musicKitInstance.musicUserToken,
-    });
+  private headers = new HttpHeaders({
+    Authorization: `Bearer ${this.musicKitInstance.developerToken}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  });
+  constructor(private http: HttpClient) {
+    this.musicKitInstance.addEventListener(
+      this.musicKitEvents.authorizationStatusDidChange,
+      this.authDidChange.bind(this)
+    );
+  }
+  authDidChange() {
+    this.headers.append(
+      'Music-User-Token',
+      this.musicKitInstance.musicUserToken
+    );
   }
 
   // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/albums/${id}`, {
-        headers: this.getApiHeaders(),
+        headers: this.headers,
       })
-      .pipe(
-        map((res: any) => {
-          console.log(res);
-          return res.data[0];
-        })
-      );
+      .pipe(map((res: any) => res.data[0]));
   }
   fetchPlaylist(id: string): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/playlists/${id}`, {
-        headers: this.getApiHeaders(),
+        headers: this.headers,
       })
-      .pipe(
-        map((res: any) => {
-          console.log(res);
-          return res.data[0];
-        })
-      );
+      .pipe(map((res: any) => res.data[0]));
   }
   fetchAlbumOrPlaylist(type: string, id: string): Observable<any> {
     if (type === 'playlist') {
@@ -56,7 +55,7 @@ export class MusickitService {
   }
   fetchPlaylistTracks(nextUrl: string): Observable<any> {
     return this.http.get(this.apiUrl + nextUrl, {
-      headers: this.getApiHeaders(),
+      headers: this.headers,
     });
   }
   fetchArtist(id: string): Observable<any> {
@@ -76,7 +75,7 @@ export class MusickitService {
           ','
         )}&limit=25`,
         {
-          headers: this.getApiHeaders(),
+          headers: this.headers,
         }
       )
       .pipe(
@@ -97,25 +96,21 @@ export class MusickitService {
   }
   fetchChart(): Observable<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
-    return from(
-      this.http.get(
-        `${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=30`,
-        {
-          headers: this.getApiHeaders(),
-        }
-      )
-    ).pipe(
-      map(({ results }: any) => {
-        console.log(results);
-        return {
-          topAlbums: results.albums[0].data,
-          topPlaylists: results.playlists[0].data,
-          topSongs: results.songs[0].data,
-        };
-      }),
-      retryWhen((error) => error.pipe(delay(500))),
-      timeout(5000)
-    );
+    return this.http
+      .get(`${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=30`, {
+        headers: this.headers,
+      })
+      .pipe(
+        map(({ results }: any) => {
+          return {
+            topAlbums: results.albums[0].data,
+            topPlaylists: results.playlists[0].data,
+            topSongs: results.songs[0].data,
+          };
+        }),
+        retryWhen((error) => error.pipe(delay(500))),
+        timeout(5000)
+      );
   }
   fetchPlaylists(offset: number): Observable<any> {
     return from(
@@ -139,7 +134,9 @@ export class MusickitService {
     );
   }
   fetchLibraryAlbums(offset = 0): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {headers: this.getApiHeaders()});
+    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {
+      headers: this.headers,
+    });
   }
   fetchLibraryAlbum(id: string): Observable<any> {
     return from(this.musicKitInstance.api.library.album(id));
