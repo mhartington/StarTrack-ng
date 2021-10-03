@@ -3,6 +3,13 @@ import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
+
+export interface Result {
+  data: any[]; 
+  next: string; 
+  meta: { total: number } 
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,7 +42,7 @@ export class MusickitService {
   }
 
   // API/Apple Music
-  fetchAlbum(id: string): Observable<any> {
+  fetchAlbum(id: string): Observable<Result> {
     return this.http
       .get(`${this.apiUrl}/albums/${id}`, {
         headers: this.headers,

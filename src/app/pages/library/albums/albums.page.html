@@ -5,16 +5,28 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *rxLet="state$ as state">
+  <ng-container *rxLet="albums$ as albums">
     <ion-grid>
       <ion-row>
-        <ng-container *ngIf="state.albums.length; else loading"></ng-container>
+        <ng-container *ngIf="!albums.length">
+          <ion-col
+            *ngFor="let album of [].constructor(20)"
+            size="6"
+            sizeMd="4"
+            sizeLg="3"
+            sizeXl="2"
+          >
+            <album-preview-item>
+              <lazy-img></lazy-img>
+            </album-preview-item>
+          </ion-col>
+        </ng-container>
         <ion-col
           size="6"
           sizeMd="4"
           sizeLg="3"
           sizeXl="2"
-          *ngFor="let album of state.albums"
+          *ngFor="let album of albums"
         >
           <album-preview-item
             [album]="album"
@@ -29,19 +41,6 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ng-template #loading>
-      <ion-col
-        *ngFor="let album of [].constructor(20)"
-        size="6"
-        sizeMd="4"
-        sizeLg="3"
-        sizeXl="2"
-      >
-        <album-preview-item>
-          <lazy-img></lazy-img>
-        </album-preview-item>
-      </ion-col>
-    </ng-template>
   </ng-container>
 
   <ion-infinite-scroll
