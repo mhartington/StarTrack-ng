@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
@@ -42,7 +41,6 @@ export class MusickitService {
       })
       .pipe(
         map((res: any) => {
-          console.log(res);
           return res.data[0];
         })
       );
@@ -54,7 +52,6 @@ export class MusickitService {
       })
       .pipe(
         map((res: any) => {
-          console.log(res);
           return res.data[0];
         })
       );
@@ -117,14 +114,11 @@ export class MusickitService {
         }
       )
     ).pipe(
-      map(({ results }: any) => {
-        console.log(results);
-        return {
-          topAlbums: results.albums[0].data,
-          topPlaylists: results.playlists[0].data,
-          topSongs: results.songs[0].data,
-        };
-      }),
+      map(({ results }: any) => ({
+        topAlbums: results.albums[0].data,
+        topPlaylists: results.playlists[0].data,
+        topSongs: results.songs[0].data,
+      })),
       retryWhen((error) => error.pipe(delay(500))),
       timeout(5000)
     );

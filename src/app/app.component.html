@@ -14,16 +14,14 @@
         </ion-header>
         <ion-list lines="none">
           <ion-item-group>
-            <ion-item-divider>
-              <ion-label>Apple Music</ion-label>
-            </ion-item-divider>
             <ion-menu-toggle autoHide="false">
               <ion-item
                 routerLink="/browse"
                 routerDirection="root"
                 routerLinkActive="selected"
+                detail="false"
               >
-                <ion-icon name="musical-notes" slot="start"></ion-icon>
+                <ion-icon color="primary" name="grid-outline" slot="start"></ion-icon>
                 Browse
               </ion-item>
             </ion-menu-toggle>
@@ -32,8 +30,9 @@
                 routerLink="/search"
                 routerDirection="root"
                 routerLinkActive="selected"
+                detail="false"
               >
-                <ion-icon name="search" slot="start"></ion-icon>
+                <ion-icon color="primary" name="search" slot="start"></ion-icon>
                 Search
               </ion-item>
             </ion-menu-toggle>
@@ -46,23 +45,38 @@
               </ion-item-divider>
 
               <ion-menu-toggle autoHide="false">
-                <ion-item routerLink="/library/albums" routerDirection="root">
-                  <ion-icon slot="start" name="albums"></ion-icon>
+                <ion-item
+                  routerLink="/library/albums"
+                  routerDirection="root"
+                  routerLinkActive="selected"
+                  detail="false"
+                >
+                  <ion-icon color="primary" slot="start" name="albums"></ion-icon>
                   Albums
                 </ion-item>
               </ion-menu-toggle>
 
               <ion-menu-toggle autoHide="false">
-                <ion-item (click)="logout()" lines="none" button="true">
-                  <ion-icon slot="start" name="log-out"></ion-icon>
+                <ion-item
+                  (click)="logout()"
+                  lines="none"
+                  button="true"
+                  detail="false"
+                >
+                  <ion-icon color="primary" slot="start" name="log-out"></ion-icon>
                   Log Out
                 </ion-item>
               </ion-menu-toggle>
             </ng-container>
             <ng-container *ngIf="!isAuth">
               <ion-menu-toggle autoHide="false">
-                <ion-item (click)="login()" lines="none" button="true">
-                  <ion-icon slot="start" name="log-in"></ion-icon>
+                <ion-item
+                  (click)="login()"
+                  lines="none"
+                  button="true"
+                  detail="false"
+                >
+                  <ion-icon color="primary" slot="start" name="log-in"></ion-icon>
                   Log In
                 </ion-item>
               </ion-menu-toggle>

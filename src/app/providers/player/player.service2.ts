@@ -113,7 +113,6 @@ export class PlayerService extends RxState<IPlayerState> {
       this.musicKitEvents.queuePositionDidChange,
       this.queuePositionDidChange.bind(this)
     );
-
   }
 
   // GLOBAL LISTENERS
@@ -127,7 +126,6 @@ export class PlayerService extends RxState<IPlayerState> {
     this.set((state) => ({ ...state, playbackDuration: event.duration }));
   }
   mediaItemStateDidChange(event: any) {
-    console.log('mediaItemStateDidChange', event)
     this.set((state) => ({
       ...state,
       nowPlayingItem: event,
@@ -174,14 +172,13 @@ export class PlayerService extends RxState<IPlayerState> {
     console.log('mediaPlayBackError', event);
   }
   queueItemsDidChange(event: any): void {
-    console.log('queueItemsDidChange', event)
-    this.set((state: any) => ({ ...state, queue: event, }));
+    console.log('queueItemsDidChange', event);
+    this.set((state: any) => ({ ...state, queue: event }));
   }
   queuePositionDidChange(event: any): void {
-    console.log('queuePositionDidChange', event)
-    this.set((state) => ({ ...state, queuePosition: event.position + 1, }));
+    console.log('queuePositionDidChange', event);
+    this.set((state) => ({ ...state, queuePosition: event.position + 1 }));
   }
-
 
   // PLAYER METHODS
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {

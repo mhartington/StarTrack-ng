@@ -1,11 +1,8 @@
 <ion-header (click)="dismiss()" class="ion-no-border">
   <div class="dismisser"></div>
 </ion-header>
-<div
-  class="track-wrapper"
-  *rxLet="state$; let state;"
->
-  <div class="track-player">
+<div class="track-wrapper" *rxLet="state$; let state">
+  <div class="track-player" [@playerAnimation]="showQueue">
     <div class="song-info">
       <ion-thumbnail
         [ngClass]="{
@@ -85,8 +82,8 @@
       </ion-button>
     </ion-buttons>
   </div>
-  <div class="player-queue" *rxLet="queue$; let queue">
-    <div *ngIf="queue.length" class="ion-padding queue-scroller">
+  <div class="player-queue" *ngIf="showQueue"  @queueAnimation>
+    <div *rxLet="queue$; let queue" class="ion-padding queue-scroller">
       <h1>Player Queue</h1>
       <song-item
         *ngFor="let song of queue; let i = index"
@@ -111,3 +108,12 @@
     </div>
   </div>
 </div>
+<ion-footer>
+  <ion-toolbar color="transparent">
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleQueue()">
+        <ion-icon name="list" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

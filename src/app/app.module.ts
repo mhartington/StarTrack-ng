@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { TrackPlayerModule } from './components/track-player/track-player.module';
 import { LandingPage } from './pages/landing/landing.page';
 import { LetModule } from '@rx-angular/template';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const appInitialize = () => async () =>
   await (window as any).MusicKit.configure({
     developerToken: environment.musicKitToken,
@@ -40,6 +42,7 @@ const appInitialize = () => async () =>
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
+    BrowserAnimationsModule,
     AppRoutingModule,
     IonicModule.forRoot(),
     HttpClientModule,

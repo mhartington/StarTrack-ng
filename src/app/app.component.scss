@@ -19,11 +19,11 @@ img {
 }
 .selected {
   --background: rgba(var(--ion-color-primary-rgb), 0.8);
-  color: white;
+  color: #ffffff;
   font-weight: 700;
   --color-hover: white;
   ion-icon {
-    color: white;
+    --ion-color-base: #ffffff !important;
   }
 }
 
