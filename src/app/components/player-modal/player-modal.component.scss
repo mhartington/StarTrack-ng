@@ -67,6 +67,7 @@
         }
         ion-thumbnail {
           width: 80%;
+          max-width: 600px;
           height: auto;
           margin: auto;
 
@@ -94,18 +95,26 @@
       padding-bottom: 0;
       overflow: hidden;
       justify-content: space-around;
+
       .player-queue {
         padding-top: var(--ion-safe-area-top);
         padding-bottom: var(--ion-safe-area-bottom);
         width: 50%;
+        /* transition: flex-grow 2s ease-in; */
+
         .queue-scroller {
           height: 100%;
           overflow: scroll;
         }
       }
+      .track-player-wrapper{
+        /* transition: width 300ms ease-out; */
+        /* flex: 1 1 45%; */
+        width: 45%
+      }
       .track-player {
-        flex: 1 1 45%;
-        max-width: 600px;
+        max-width: 500px;
+        margin: auto;
         padding: 0 16px;
         .song-info {
           width: 100%;

@@ -1,88 +1,90 @@
 <ion-header (click)="dismiss()" class="ion-no-border">
   <div class="dismisser"></div>
 </ion-header>
-<div class="track-wrapper" *rxLet="state$; let state">
-  <div class="track-player" [@playerAnimation]="showQueue">
-    <div class="song-info">
-      <ion-thumbnail
-        [ngClass]="{
-          playing: state.playbackState === playbackStates.PLAYING
-        }"
-      >
-        <lazy-img
-          [src]="state.nowPlayingItem.artworkURL | formatArtworkUrl: 600"
-          alt="The album art work cover"
-        ></lazy-img>
-      </ion-thumbnail>
-      <br />
+<div class="track-wrapper" *rxLet="state$; let state" [@playerAnimation]="showQueue">
+ <div class="track-player-wrapper">
+   <div class="track-player">
+     <div class="song-info">
+       <ion-thumbnail
+         [ngClass]="{
+         playing: state.playbackState === playbackStates.PLAYING
+         }"
+         >
+         <lazy-img
+           [src]="state.nowPlayingItem.artworkURL | formatArtworkUrl: 600"
+           alt="The album art work cover"
+           ></lazy-img>
+       </ion-thumbnail>
+       <br />
 
-      <ion-label>
-        <h3>{{ state.nowPlayingItem.title }}</h3>
-        <p>{{ state.nowPlayingItem.artistName }}</p>
-      </ion-label>
-    </div>
-    <ion-range
-      step="1"
-      min="0"
-      [disabled]="
-        state.playbackDuration === 0 ||
-        state.playbackState === playbackStates.NONE ||
-        state.playbackState === playbackStates.LOADING ||
-        state.playbackState === playbackStates.ENDED ||
-        state.playbackState === playbackStates.WAITING ||
-        state.playbackState === playbackStates.STALLED
-      "
-      [max]="state.playbackDuration"
-      [(ngModel)]="playbackTime"
-      (click)="stopProp($event)"
-      (ionStart)="pauseSeeking($event)"
-      (ionEnd)="seekToTime($event)"
-    ></ion-range>
-    <ion-buttons class="song-actions">
-      <ion-button
-        shape="round"
-        color="primary"
-        fill="clear"
-        class="prev-button"
-        (click)="prev($event)"
-      >
-        <ion-icon name="play-back" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button
-        shape="round"
-        color="primary"
-        fill="clear"
-        (click)="togglePlay($event)"
-      >
-        <ion-spinner
-          *ngIf="
-            state.playbackState === playbackStates.LOADING ||
-              state.playbackState === playbackStates.ENDED ||
-              state.playbackState === playbackStates.WAITING ||
-              state.playbackState === playbackStates.STALLED;
-            else buttonTemplate
-          "
-        ></ion-spinner>
-        <ng-template #buttonTemplate>
-          <ion-icon
-            [name]="
-              state.playbackState === playbackStates.PLAYING ? 'pause' : 'play'
-            "
-            slot="icon-only"
-          ></ion-icon>
-        </ng-template>
-      </ion-button>
-      <ion-button
-        shape="round"
-        color="primary"
-        fill="clear"
-        (click)="next($event)"
-      >
-        <ion-icon name="play-forward" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </div>
-  <div class="player-queue" *ngIf="showQueue"  @queueAnimation>
+       <ion-label>
+         <h3>{{ state.nowPlayingItem.title }}</h3>
+         <p>{{ state.nowPlayingItem.artistName }}</p>
+       </ion-label>
+     </div>
+     <ion-range
+       step="1"
+       min="0"
+       [disabled]="
+       state.playbackDuration === 0 ||
+       state.playbackState === playbackStates.NONE ||
+       state.playbackState === playbackStates.LOADING ||
+       state.playbackState === playbackStates.ENDED ||
+       state.playbackState === playbackStates.WAITING ||
+       state.playbackState === playbackStates.STALLED
+       "
+       [max]="state.playbackDuration"
+       [(ngModel)]="playbackTime"
+       (click)="stopProp($event)"
+       (ionStart)="pauseSeeking($event)"
+       (ionEnd)="seekToTime($event)"
+       ></ion-range>
+     <ion-buttons class="song-actions">
+       <ion-button
+         shape="round"
+         color="primary"
+         fill="clear"
+         class="prev-button"
+         (click)="prev($event)"
+         >
+         <ion-icon name="play-back" slot="icon-only"></ion-icon>
+       </ion-button>
+       <ion-button
+         shape="round"
+         color="primary"
+         fill="clear"
+         (click)="togglePlay($event)"
+         >
+         <ion-spinner
+           *ngIf="
+           state.playbackState === playbackStates.LOADING ||
+           state.playbackState === playbackStates.ENDED ||
+           state.playbackState === playbackStates.WAITING ||
+           state.playbackState === playbackStates.STALLED;
+           else buttonTemplate
+           "
+           ></ion-spinner>
+         <ng-template #buttonTemplate>
+           <ion-icon
+             [name]="
+             state.playbackState === playbackStates.PLAYING ? 'pause' : 'play'
+             "
+             slot="icon-only"
+             ></ion-icon>
+         </ng-template>
+       </ion-button>
+       <ion-button
+         shape="round"
+         color="primary"
+         fill="clear"
+         (click)="next($event)"
+         >
+         <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+       </ion-button>
+     </ion-buttons>
+   </div>
+ </div>
+  <div class="player-queue" *ngIf="showQueue">
     <div *rxLet="queue$; let queue" class="ion-padding queue-scroller">
       <h1>Player Queue</h1>
       <song-item

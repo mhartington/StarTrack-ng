@@ -1,4 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
@@ -39,11 +40,7 @@ export class MusickitService {
       .get(`${this.apiUrl}/albums/${id}`, {
         headers: this.headers,
       })
-      .pipe(
-        map((res: any) => {
-          return res.data[0];
-        })
-      );
+      .pipe(map((res: any) => res.data[0]));
   }
   fetchPlaylist(id: string): Observable<any> {
     return this.http
@@ -52,6 +49,7 @@ export class MusickitService {
       })
       .pipe(
         map((res: any) => {
+          console.log(res);
           return res.data[0];
         })
       );
@@ -149,9 +147,14 @@ export class MusickitService {
       headers: this.headers,
     });
   }
+
+
   fetchLibraryAlbum(id: string): Observable<any> {
-    return from(this.musicKitInstance.api.library.album(id));
+    return this.http.get(`${this.libraryUrl}/albums/${id}`, {
+      headers: this.headers,
+    }).pipe(map((res: any) => res.data[0]));
   }
+
   fetchLibraryArtists(offset: number): Observable<any> {
     return from(
       this.musicKitInstance.api.library.artists(null, {

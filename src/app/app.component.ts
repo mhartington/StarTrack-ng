@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 @Component({
@@ -17,7 +17,9 @@ export class AppComponent implements OnInit {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private menuCtrl: MenuController,
-    private metaService: Meta
+    private metaService: Meta,
+    public platform: Platform
+
   ) {
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();

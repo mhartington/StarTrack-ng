@@ -1,5 +1,13 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  animate,
+    group,
+  query,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import {
@@ -7,35 +15,41 @@ import {
   PlayerService,
 } from 'src/app/providers/player/player.service2';
 
-const queueAnimation = trigger('queueAnimation', [
-  transition(':enter', [
-    style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }),
-    animate( '200ms ease-out', style({ opacity: 1, transform: 'scale3d(0, 0, 0);' })),
-  ]),
-  transition(':leave', [animate('200ms', style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }))]),
-]);
-
 const playerAnimation = trigger('playerAnimation', [
+  // toggleing the queue to true
   transition('0 => 1', [
-   style({transform: 'translate3d(100%, 0,0)'}) ,
-   animate('200ms ease-out', style({transform: 'translate3d(0.1%, 0, 0)'}))
+    group([
+      query('.track-player', [
+        style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }),
+        animate( '200ms ease-out', style({ opacity: 1, transform: 'scale3d(0, 0, 0);' })),
+      ]),
+      query(':enter', [
+        style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }),
+        animate( '200ms ease-out', style({ opacity: 1, transform: 'scale3d(0, 0, 0);' })),
+      ]),
+    ]),
   ]),
 
-
+  // toggleing the queue to false
   transition('1 => 0', [
-   style({transform: 'translate3d(0.1%, 0,0)'}) ,
-   animate('200ms ease-out', style({transform: 'translate3d(95%, 0, 0)'}))
-  ])
-
+    group([
+      query(':leave', [
+        animate( '200ms', style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' })),
+      ]),
+      query('.track-player', [
+        animate( '200ms', style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' })),
+      ]),
+    ])
+  ]),
 ]);
 @Component({
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [queueAnimation, playerAnimation],
+  animations: [playerAnimation],
 })
-export class PlayerModalComponent {
+export class PlayerModalComponent implements OnInit {
   public playbackStates = PlaybackStates;
   public state$ = this.player.select();
   public queue$ = this.player.select('queue');
@@ -59,6 +73,7 @@ export class PlayerModalComponent {
       )
       .subscribe();
   }
+  ngOnInit() {}
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
@@ -98,7 +113,7 @@ export class PlayerModalComponent {
     this.stopProp(e);
     this.player.skipToPreviousItem();
   }
-  toggleQueue(){
+  toggleQueue() {
     this.showQueue = !this.showQueue;
   }
 }

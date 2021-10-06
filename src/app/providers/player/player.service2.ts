@@ -67,7 +67,7 @@ export class PlayerService extends RxState<IPlayerState> {
       nowPlayingItem: {
         albumName: '',
         artistName: '',
-        artworkURL: 'assets/imgs/default.jpeg',
+        artworkURL: 'assets/imgs/default.svg',
         title: '',
         trackNumber: 1,
         id: '',

@@ -19,12 +19,17 @@ const routes: Routes = [
       import('./pages/album/album.module').then((m) => m.AlbumPageModule),
   },
   {
-    path: 'library/albums',
+    path: 'library',
     loadChildren: () =>
-      import('./pages/library/albums/albums.module').then(
-        (m) => m.AlbumsPageModule
-      ),
+      import('./pages/library/library.module').then((m) => m.LibraryModule),
   },
+  // {
+  //   path: 'library/albums',
+  //   loadChildren: () =>
+  //     import('./pages/library/albums/albums.module').then(
+  //       (m) => m.AlbumsPageModule
+  //     ),
+  // },
 ];
 @NgModule({
   imports: [

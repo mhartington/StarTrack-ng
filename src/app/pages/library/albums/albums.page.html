@@ -28,7 +28,7 @@
         >
           <album-preview-item
             [album]="album"
-            [routerLink]="['/us', 'album', album.id]"
+            [routerLink]="['/library', 'albums', album.id]"
           >
             <lazy-img
               [src]="album.attributes.artwork?.url | formatArtworkUrl: 200"
