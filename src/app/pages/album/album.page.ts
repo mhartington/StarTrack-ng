@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
-import { AlbumModel } from '../../../@types/album-model';
+import { Album } from '../../../@types/album';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { Observable, of, Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { RxState } from '@rx-angular/state';
 import { mapToError, mapToAlbumResults } from '../../util/fetchUtils';
 
 interface IAlbumPageState {
-  collection: Partial<AlbumModel>;
+  collection: Partial<Album>;
   isLoading: boolean;
   hasError: boolean;
   canShare: boolean;
@@ -25,7 +25,7 @@ export class AlbumPage {
   private ionViewDidEnter$ = new Subject<boolean>();
 
   private fetchDataStream$ = this.route.params.pipe(
-    switchMap(({ type, id }) => this.api.fetchAlbumOrPlaylist(type, id)),
+    switchMap(({ id }) => this.api.fetchAlbum(id)),
     map(mapToAlbumResults),
     catchError((e) => of(mapToError(e)))
   );
@@ -36,7 +36,6 @@ export class AlbumPage {
     private player: PlayerService,
     private stateService: RxState<IAlbumPageState>
   ) {
-
     this.stateService.set({
       isLoading: true,
       hasError: false,
@@ -52,11 +51,7 @@ export class AlbumPage {
     this.ionViewDidEnter$.complete();
   }
   playSong(index: number, shuffle = false) {
-    this.player.setQueueFromItems(
-      Array.from(this.stateService.get().collection.relationships.tracks.data),
-      index,
-      shuffle
-    );
+    this.player.playAlbum(this.route.snapshot.params.id, index, shuffle);
   }
   playAlbum({ shuffle }) {
     this.playSong(0, shuffle);

@@ -4,13 +4,13 @@
       <div class="song-info">
         <ion-thumbnail>
           <lazy-img
-            [src]="state.nowPlayingItem.artworkURL | formatArtworkUrl: 60"
+            [src]="state.nowPlayingItem.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 60"
             alt="The album art work cover"
           ></lazy-img>
         </ion-thumbnail>
         <ion-label>
-          <p>{{ state.nowPlayingItem.title }}</p>
-          <ion-note>{{ state.nowPlayingItem.artistName }}</ion-note>
+          <p>{{ state.nowPlayingItem.attributes?.name }}</p>
+          <ion-note>{{ state.nowPlayingItem.attributes?.artistName }}</ion-note>
         </ion-label>
       </div>
       <ion-range

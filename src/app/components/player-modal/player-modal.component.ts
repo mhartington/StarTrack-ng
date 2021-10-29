@@ -1,55 +1,29 @@
 import {
-  animate,
-    group,
-  query,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { Song } from 'src/@types/song';
 import {
   PlaybackStates,
   PlayerService,
 } from 'src/app/providers/player/player.service2';
+import { createQueueAnimation } from './player-modal.animation';
 
-const playerAnimation = trigger('playerAnimation', [
-  // toggleing the queue to true
-  transition('0 => 1', [
-    group([
-      query('.track-player', [
-        style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }),
-        animate( '200ms ease-out', style({ opacity: 1, transform: 'scale3d(0, 0, 0);' })),
-      ]),
-      query(':enter', [
-        style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' }),
-        animate( '200ms ease-out', style({ opacity: 1, transform: 'scale3d(0, 0, 0);' })),
-      ]),
-    ]),
-  ]),
-
-  // toggleing the queue to false
-  transition('1 => 0', [
-    group([
-      query(':leave', [
-        animate( '200ms', style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' })),
-      ]),
-      query('.track-player', [
-        animate( '200ms', style({ opacity: 0, transform: 'scale3d(0.8, 0.8, 0.8)' })),
-      ]),
-    ])
-  ]),
-]);
 @Component({
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [playerAnimation],
 })
 export class PlayerModalComponent implements OnInit {
+  @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
+
+  public backgroundColor: string;
   public playbackStates = PlaybackStates;
   public state$ = this.player.select();
   public queue$ = this.player.select('queue');
@@ -58,7 +32,9 @@ export class PlayerModalComponent implements OnInit {
   public showQueue = false;
 
   private playbackTime$ = this.player.select('playbackTime');
+
   private isScrubbing = false;
+
   constructor(
     private modalCtrl: ModalController,
     public player: PlayerService
@@ -73,11 +49,23 @@ export class PlayerModalComponent implements OnInit {
       )
       .subscribe();
   }
-  ngOnInit() {}
+  ngOnInit() {
+}
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
-
+  updateColor(
+    event: [
+      [number, number, number],
+      [number, number, number],
+      [number, number, number],
+      [number, number, number],
+      [number, number, number]
+    ]
+  ) {
+    const primary = event[0];
+    this.backgroundColor = `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.5 )`;
+  }
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);
     await this.player.seekToTime(ev.target.value);
@@ -113,7 +101,8 @@ export class PlayerModalComponent implements OnInit {
     this.stopProp(e);
     this.player.skipToPreviousItem();
   }
-  toggleQueue() {
+  async toggleQueue() {
     this.showQueue = !this.showQueue;
+    await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
   }
 }

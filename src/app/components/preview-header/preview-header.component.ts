@@ -5,9 +5,7 @@ import {
   Output,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  HostBinding,
 } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 @Component({
   selector: 'preview-header',
   templateUrl: './preview-header.component.html',
@@ -18,7 +16,6 @@ export class PreviewHeaderComponent {
   @Output() playCollection: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
   public duration = 0;
   private internalCollection: any = null;
-  @HostBinding('style.background-image') bg: SafeStyle = '';
 
   @Input()
   get collection(): any {
@@ -32,17 +29,10 @@ export class PreviewHeaderComponent {
           this.duration += song.attributes.durationInMillis;
         }
       }
-      this.bg = this.sanitizer.bypassSecurityTrustStyle(
-        `url("${(window as any).MusicKit.formatArtworkURL(
-          { url: this.internalCollection.attributes.artwork.url },
-          1000,
-          1000
-        )}")`
-      );
       this.cd.markForCheck();
     }
   }
-  constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) {}
   formatDuraction(val: number): string {
     const { hours, minutes } = (window as any).MusicKit.formattedMilliseconds(
       val

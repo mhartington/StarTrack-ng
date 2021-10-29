@@ -44,7 +44,9 @@ const appInitialize = () => async () =>
     }),
     BrowserAnimationsModule,
     AppRoutingModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      backButtonText: null
+    }),
     HttpClientModule,
     RouterModule,
     TrackPlayerModule,

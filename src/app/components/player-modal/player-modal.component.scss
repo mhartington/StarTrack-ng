@@ -1,129 +1,204 @@
 :host {
-  ion-header {
-    padding-top: calc(16px + var(--ion-safe-area-top));
-    &:hover {
-      cursor: pointer;
+  --background: #5A596087;
+  background-color: var(--background);
+}
+
+.ion-page {
+  background-color: var(--background);
+  transition: all 5000ms cubic-bezier(0.32,0.72,0,1);
+}
+
+ion-header {
+  padding-top: calc(16px + var(--ion-safe-area-top));
+  &:hover {
+    cursor: pointer;
+  }
+  .dismisser {
+    margin: auto;
+    border-radius: 8px;
+    height: 6px;
+    width: 36px;
+    background: var(--ion-color-step-100);
+  }
+}
+
+ion-footer {
+  border-top: none;
+  ion-toolbar {
+    --border-width: 0;
+    --padding-start: calc(env(safe-area-inset-left) + 24px);
+    --padding-end: calc(env(safe-area-inset-left) + 24px);
+  }
+}
+
+.track-wrapper {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.track-player {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: auto;
+  padding: 30px;
+  /* background-color: var(--ion-background-color); */
+  z-index: 1;
+}
+
+ion-range {
+  margin-top: auto;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  flex: initial;
+}
+
+ion-label {
+  display: block;
+  width: 100%;
+}
+
+ion-label * {
+  font-size: 1.3em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-actions {
+  flex: initial;
+  justify-content: center;
+  height: 56px;
+
+  ion-icon {
+    font-size: 30px;
+  }
+}
+
+.song-info {
+  width: 100%;
+  flex: 1 1 100%;
+  display: grid;
+  align-content: space-evenly;
+  z-index: 1;
+
+  ion-thumbnail {
+    transform-origin: center center;
+    display: block;
+    width: 100%;
+    /* max-width: 342px; */
+    height: auto;
+    margin: auto;
+
+    &.playing {
+      lazy-img {
+        transform: scale3d(1, 1, 1);
+      }
     }
-    .dismisser {
-      margin: calc(16px + var(--ion-safe-area-top)) auto 16px auto;
-      border-radius: 8px;
-      height: 9px;
-      width: 64px;
-      background: var(--ion-color-step-100);
+
+    lazy-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 4%;
+      overflow: hidden;
+      transform-origin: center center;
+      transform: scale3d(0.85, 0.85, 0.85);
+      transition: transform 300ms cubic-bezier(0.42, 0, 0, 1.93);
     }
+  }
+}
+
+.player-queue-portrait {
+  flex: 1 1 100%;
+  width: 100%;
+  display: none;
+}
+
+.player-queue-landscape {
+  display: none;
+}
+
+.queue-inner {
+  height: 100%;
+  width: 100%;
+}
+
+.queue-scroller {
+  height: 100%;
+  overflow: auto;
+}
+
+.svg-aside {
+  width: 20px;
+  height: 20px;
+}
+
+@media (orientation: portrait) {
+
+  .track-player {
+    max-width: 500px;
   }
 
-  ion-footer {
-    border-top: none;
-    ion-toolbar {
-      --border-width: 0;
-      padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
-      --padding-start: calc(env(safe-area-inset-left) + 24px);
-      --padding-end: calc(env(safe-area-inset-left) + 24px);
+  .track-wrapper.queue-active {
+    .player-queue-portrait {
+      display: block;
+      height: 100%;
+      overflow: hidden;
+    }
+    .song-info {
+      flex: initial;
+      margin-top: unset;
+      display: grid;
+      grid-template-columns: 25% 75%;
+      align-items: center;
+
+      ion-thumbnail {
+       padding-bottom: 0;
+      lazy-img {
+        border-radius: 6px;
+        transform: scale3d(1,1,1);
+      }
+    }
+    }
+
+    ion-label {
+      padding-left: 20px;
     }
   }
-  .track-wrapper {
-    display: block;
-    height: 100%;
-    overflow: scroll;
+}
+
+@media (orientation: landscape) {
+  .track-player {
+    max-width: 500px;
+  }
+
+  .track-wrapper.queue-active {
+    display: flex;
 
     .track-player {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
+      width: 45%;
       height: 100%;
-      .song-actions {
-        flex: initial;
-        justify-content: center;
-        height: 56px;
-        ion-button {
-          height: 56px;
-          width: 56px;
-          ion-icon {
-            width: 56px;
-            height: 56px;
-          }
-        }
-      }
-      ion-range {
-        display: block !important;
-        width: 80%;
-        margin: 0 auto;
-        flex: initial;
-      }
-      .song-info {
-        overflow: visible;
-        display: block;
-        width: 100%;
-        padding: 16px;
-        ion-label {
-          * {
-            font-size: 2em;
-            line-height: 1.2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-        ion-thumbnail {
-          width: 80%;
-          max-width: 600px;
-          height: auto;
-          margin: auto;
-
-          lazy-img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            border-radius: 12px;
-            overflow: hidden;
-          }
-        }
-      }
+      transform-origin: top left;
     }
-    .player-queue {
-      max-width: 100%;
+    .player-queue-landscape {
+      width: 55%;
+
       display: block;
-      .svg-aside {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    @media (min-width: 750px) {
-      display: flex;
-      padding-top: 0;
-      padding-bottom: 0;
+      height: 100%;
       overflow: hidden;
-      justify-content: space-around;
-
-      .player-queue {
-        padding-top: var(--ion-safe-area-top);
-        padding-bottom: var(--ion-safe-area-bottom);
-        width: 50%;
-        /* transition: flex-grow 2s ease-in; */
-
-        .queue-scroller {
-          height: 100%;
-          overflow: scroll;
-        }
-      }
-      .track-player-wrapper{
-        /* transition: width 300ms ease-out; */
-        /* flex: 1 1 45%; */
-        width: 45%
-      }
-      .track-player {
-        max-width: 500px;
-        margin: auto;
-        padding: 0 16px;
-        .song-info {
-          width: 100%;
-          margin: 0 auto;
-        }
-        ion-range {
-          padding: 0;
-        }
-      }
     }
   }
+}
+
+ion-button.active {
+  --background-color: var(--ion-color-medium);
+}
+
+song-item ion-item {
+  --background: transparent;
 }

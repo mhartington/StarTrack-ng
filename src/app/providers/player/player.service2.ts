@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RxState } from '@rx-angular/state';
 import { tap } from 'rxjs/operators';
+import { Song } from 'src/@types/song';
 export enum PlaybackStates {
   NONE,
   LOADING,
@@ -15,25 +16,13 @@ export enum PlaybackStates {
   STALLED,
   COMPLETED,
 }
-interface INowPlaying {
-  albumName: string;
-  artistName: string;
-  artworkURL: string;
-  title: string;
-  trackNumber: number;
-  id: string;
-  type: string;
-  container: {
-    id: string;
-  };
-  collectionId: string;
-  assets: {
-    metadata: {
-      artistId: string;
-      playlistId: string;
-    };
-  }[];
-}
+
+// export type PlayerState = {
+//   items: Array<Partial<Song>>;
+//   length: number;
+// };
+
+// TODO: Transition over to using MK internal state
 interface IPlayerState {
   bitrate: number;
   playbackState: PlaybackStates;
@@ -44,7 +33,7 @@ interface IPlayerState {
   infiniteLoadTimeout: any;
   playbackDuration: number;
   playbackTime: number;
-  nowPlayingItem: INowPlaying;
+  nowPlayingItem: Partial<Song | any>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -65,23 +54,7 @@ export class PlayerService extends RxState<IPlayerState> {
       playbackDuration: 0,
       playbackTime: 0,
       nowPlayingItem: {
-        albumName: '',
-        artistName: '',
-        artworkURL: 'assets/imgs/default.svg',
-        title: '',
-        trackNumber: 1,
-        id: '',
-        type: '',
-        container: { id: '' },
-        collectionId: '',
-        assets: [
-          {
-            metadata: {
-              artistId: '',
-              playlistId: '',
-            },
-          },
-        ],
+        attributes: { artwork: { url: 'assets/imgs/default.svg' } },
       },
     });
 
@@ -126,14 +99,19 @@ export class PlayerService extends RxState<IPlayerState> {
     this.set((state) => ({ ...state, playbackDuration: event.duration }));
   }
   mediaItemStateDidChange(event: any) {
-    this.set((state) => ({
-      ...state,
-      nowPlayingItem: event,
-      playbackTime: 0,
-    }));
+    this.set((state) => {
+      const newState = {
+        ...state,
+        nowPlayingItem: event,
+        playbackTime: 0,
+      };
+      return newState;
+    });
     this.select('nowPlayingItem').pipe(
       tap((nowPlaying) =>
-        this.title.setTitle(`${nowPlaying.title} • ${nowPlaying.artistName}`)
+        this.title.setTitle(
+          `${nowPlaying.attributes.name} • ${nowPlaying.attributes.artistName}`
+        )
       )
     );
   }
@@ -164,7 +142,7 @@ export class PlayerService extends RxState<IPlayerState> {
       this.title.setTitle('Star Track');
     } else {
       this.title.setTitle(
-        `${currentState.nowPlayingItem.title} • ${currentState.nowPlayingItem.artistName}`
+        `${currentState.nowPlayingItem.attributes.name} • ${currentState.nowPlayingItem.attributes.artistName}`
       );
     }
   }
@@ -172,15 +150,27 @@ export class PlayerService extends RxState<IPlayerState> {
     console.log('mediaPlayBackError', event);
   }
   queueItemsDidChange(event: any): void {
-    console.log('queueItemsDidChange', event);
     this.set((state: any) => ({ ...state, queue: event }));
   }
   queuePositionDidChange(event: any): void {
-    console.log('queuePositionDidChange', event);
     this.set((state) => ({ ...state, queuePosition: event.position + 1 }));
   }
 
   // PLAYER METHODS
+  //
+  // Play Album
+  async playAlbum(album: string, startPosition: number, shuffle = false) {
+    await this.mkInstance.setQueue({ album, startPosition });
+    this.toggleShuffle(shuffle);
+    await this.play();
+  }
+  async playPlaylist(playlist: string, startPosition: number, shuffle = false) {
+    await this.mkInstance.setQueue({ playlist, startPosition });
+    this.toggleShuffle(shuffle);
+    await this.play();
+  }
+
+
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
     if (shuffle) {
       items = items.sort(() => 0.5 - Math.random());

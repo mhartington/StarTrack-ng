@@ -91,7 +91,27 @@
   --ion-color-step-850: #262626;
   --ion-color-step-900: #191919;
   --ion-color-step-950: #0d0d0d;
+
+
+
+  --ion-color-white: #ffffff;
+  --ion-color-white-rgb: 255,255,255;
+  --ion-color-white-contrast: #000000;
+  --ion-color-white-contrast-rgb: 0,0,0;
+  --ion-color-white-shade: #e0e0e0;
+  --ion-color-white-tint: #ffffff;
+
 }
+
+.ion-color-white {
+  --ion-color-base: var(--ion-color-white);
+  --ion-color-base-rgb: var(--ion-color-white-rgb);
+  --ion-color-contrast: var(--ion-color-white-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-white-contrast-rgb);
+  --ion-color-shade: var(--ion-color-white-shade);
+  --ion-color-tint: var(--ion-color-white-tint);
+}
+
 ion-content {
   --padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
 }
@@ -203,7 +223,7 @@ ion-content {
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-toolbar-background: #0d0d0d;
+    --ion-toolbar-background: #000000;
 
     // // --ion-item-background: #1c1c1c;
     // // --ion-item-background-activated: #313131;
@@ -253,10 +273,11 @@ ion-range::part(knob) {
   outline: 5px solid var(--ion-color-background);
 }
 .full-modal {
-  .ion-overlay-wrapper {
-    --width: 100%;
-    --height: 100%;
-  }
+  --width: 100% !important;
+  --height: 100% !important;
+}
+html.ios ion-modal .ion-page {
+  border-radius: 0 !important;
 }
 
 div.route-wrapper {
@@ -296,4 +317,7 @@ ion-split-pane {
   box-shadow: none !important;
   z-index: 0;
 }
-
+.header-ios ion-toolbar:last-of-type,
+ion-toolbar.ios {
+  --border-width: 0;
+}

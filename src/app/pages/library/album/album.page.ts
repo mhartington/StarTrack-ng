@@ -10,6 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { PlayerService } from 'src/app/providers/player/player.service2';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
 type AlbumPageState = {
@@ -33,7 +34,6 @@ const parseNext = (next: string, fallback: number = 0): number =>
   providers: [RxState],
 })
 export class AlbumPage implements OnInit {
-  // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   public state$: Observable<Partial<AlbumPageState>> =
     this.stateService.select();
@@ -41,19 +41,21 @@ export class AlbumPage implements OnInit {
 
   private fetchLibraryAlbum$ = this.route.params.pipe(
     switchMap(({ id }) => this.api.fetchLibraryAlbum(id)),
-    map((results) => ({
+    map((results) => {
+      console.log(results);
+      return {
       album: results,
       isloading: false,
       error: false,
-    }))
-    // map(mapToAlbumResults),
-    // catchError((e) => of(mapToError(e)))
+    };
+  })
   );
 
   constructor(
     private api: MusickitService,
     private stateService: RxState<Partial<AlbumPageState>>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private player: PlayerService
   ) {
     this.stateService.set(initialState);
   }
@@ -62,17 +64,22 @@ export class AlbumPage implements OnInit {
     this.stateService.connect(
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbum$))
     );
-
-    //   this.stateService.connect(
-    //     this.fetchMore$,
-    //     ({ total, albums }, { data, next }) => ({
-    //       albums: insert(albums, data),
-    //       offset: parseNext(next, total),
-    //     })
-    //   );
   }
   ionViewDidEnter() {
     this.ionViewDidEnter$.next();
     this.ionViewDidEnter$.complete();
   }
+
+
+  playSong(index: number, shuffle = false) {
+    this.player.playAlbum(
+      this.route.snapshot.params.id,
+      index,
+      shuffle
+    );
+  }
+  playAlbum({ shuffle }) {
+    this.playSong(0, shuffle);
+  }
+
 }

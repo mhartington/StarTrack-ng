@@ -14,22 +14,22 @@ const routes: Routes = [
       import('./pages/search/search.module').then((m) => m.SearchModule),
   },
   {
-    path: 'us/:type/:id',
+    path: 'us/album/:id',
     loadChildren: () =>
       import('./pages/album/album.module').then((m) => m.AlbumPageModule),
+  },
+  {
+    path: 'us/playlist/:id',
+    loadChildren: () =>
+      import('./pages/playlists/playlists.module').then(
+        (m) => m.PlaylistPageModule
+      ),
   },
   {
     path: 'library',
     loadChildren: () =>
       import('./pages/library/library.module').then((m) => m.LibraryModule),
   },
-  // {
-  //   path: 'library/albums',
-  //   loadChildren: () =>
-  //     import('./pages/library/albums/albums.module').then(
-  //       (m) => m.AlbumsPageModule
-  //     ),
-  // },
 ];
 @NgModule({
   imports: [

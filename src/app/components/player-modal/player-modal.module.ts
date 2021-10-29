@@ -11,6 +11,7 @@ import { LazyImgModule } from '../lazy-img/lazy-img.module';
 import { IonRangeDirectiveModule } from 'src/app/directives/ion-range/ion-range.module';
 import { FormatArtworkUrlModule } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.module';
 import { FormsModule } from '@angular/forms';
+import { ColorFromImgModule } from 'src/app/directives/color-from-img/color-from-img.module';
 
 @NgModule({
   declarations: [PlayerModalComponent],
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     IonRangeDirectiveModule,
     LazyImgModule,
     FormatArtworkUrlModule,
+    ColorFromImgModule,
   ],
   exports: [PlayerModalComponent],
 })

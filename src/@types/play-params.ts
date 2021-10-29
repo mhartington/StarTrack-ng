@@ -1,6 +1,6 @@
 export class PlayParams {
-    id: string;
-    isLibrary: boolean;
-    kind: string;
-    catalogId: string;
+  id: string;
+  isLibrary: boolean;
+  kind: string;
+  catalogId: string;
 }

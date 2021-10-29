@@ -6,12 +6,13 @@ ion-footer.mh-footer {
   }
 }
 ion-list {
-  padding-left: 10px;
-  padding-right: 10px;
+  background: transparent;
 }
 ion-item {
   margin: 10px 0;
-  // --background-hover:
+  padding-left: 10px;
+  padding-right: 10px;
+  --background: transparent;
   --border-radius: 8px;
 }
 img {
@@ -26,4 +27,12 @@ img {
     --ion-color-base: #ffffff !important;
   }
 }
-
+ion-content.ios {
+  --background: var(--ion-color-step-100);
+}
+ion-menu.ios {
+  --background: var(--ion-color-step-100);
+}
+ion-toolbar.ios {
+  --background: var(--ion-color-step-100);
+}

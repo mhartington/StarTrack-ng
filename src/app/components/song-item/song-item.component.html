@@ -1,4 +1,4 @@
-<ion-item button="true">
+<ion-item button="true" [ngClass]="{'has-index': index !== null}" detail="false">
   <ng-content></ng-content>
   <ion-text color="primary" slot="start" *ngIf="index !== null">
     <p class="index">{{ index + 1 }}</p>
@@ -26,8 +26,8 @@
 
 <ng-template #placeholder>
   <ion-label>
-    <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 88%; max-width: 300px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 70%; max-width: 250px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%; max-width: 200px;"></ion-skeleton-text>
   </ion-label>
 </ng-template>

@@ -24,7 +24,6 @@
           <album-preview-item
             *ngFor="let album of chart.topAlbums; let i = index"
             [album]="album"
-            [index]="i"
             [routerLink]="['/us', 'album', album.id]"
           >
             <lazy-img
@@ -45,7 +44,6 @@
           <album-preview-item
             *ngFor="let playlist of chart.topPlaylists; let i = index"
             [album]="playlist"
-            [index]="i"
             [routerLink]="['/us','playlist', playlist.id]"
           >
             <lazy-img

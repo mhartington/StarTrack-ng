@@ -6,7 +6,6 @@ h1 {
 ion-list-header {
   padding-left: 16px;
 }
-
 album-preview-item {
   width: 162px;
   ion-card: {
@@ -23,16 +22,16 @@ album-preview-item {
   justify-content: left;
   overflow-x: scroll;
   width: 100%;
-  // scroll-snap-type: x mandatory;
+  scroll-snap-type: x mandatory;
   &::after {
     content: '';
     width: 1px;
     margin-right: -1px;
   }
-  // album-preview-item {
-  //   scroll-snap-align: start start;
-  //   padding: 0px 16px;
-  // }
+  album-preview-item {
+    scroll-snap-align: start start;
+    padding-left: 16px;
+  }
 }
 .song-grid {
   overflow-x: scroll;
@@ -42,7 +41,7 @@ album-preview-item {
   grid-gap: 16px;
   padding: 16px;
   justify-content: left;
-  // scroll-snap-type: x mandatory;
+  scroll-snap-type: x mandatory;
   &::after {
     content: '';
     width: 1px;
@@ -51,6 +50,6 @@ album-preview-item {
 
   song-item {
     width: 350px;
-    // scroll-snap-align: start start;
+    scroll-snap-align: start start;
   }
 }

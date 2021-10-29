@@ -1,23 +1,57 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{playlist?.attributes.name}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button color="primary" (click)="share()" *ngIf="canShare && !isError">
-        <ion-icon slot="icon-only" name="share"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ng-container *rxLet="state$ as state">
+      <ion-buttons slot="end">
+        <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
+          <ion-icon slot="icon-only" name="share"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ng-container>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <preview-header [collection]="playlist" (play)="playAlbum($event)"></preview-header>
-  <ion-list *ngIf="playlist">
-    <song-item *ngFor="let song of playlist.relationships.tracks.data; let i = index" [song]="song" (click)="playSong(i)"></song-item>
-  </ion-list>
-  <div class="ion-text-center ion-padding" *ngIf="isLoading">
-    <ion-spinner></ion-spinner>
-  </div>
-  <error-emoji class="ion-text-center ion-padding" *ngIf="isError"></error-emoji>
+<ion-content [fullscreen]="true">
+  <ion-header  collapse="condense" >
+    <ion-toolbar></ion-toolbar>
+  </ion-header>
+  <ng-container *rxLet="state$ as state">
+    <ng-container *ngIf="state.collection">
+      <preview-header
+        [collection]="state.collection"
+        (playCollection)="playPlaylist($event)"
+      ></preview-header>
+      <ion-list>
+        <song-item
+          *ngFor="let song of state.collection.relationships.tracks.data; let i = index"
+          [song]="song"
+          [index]="i"
+          (click)="playSong(i)"
+        >
+          <ion-thumbnail
+            slot="start"
+            *ngIf="state.collection.type === 'playlists'"
+          >
+            <lazy-img
+              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
+            ></lazy-img>
+          </ion-thumbnail>
+        </song-item>
+      </ion-list>
+    </ng-container>
+
+    <ng-container *ngIf="state.isLoading">
+      <preview-header></preview-header>
+      <ion-list>
+        <song-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]"></song-item>
+      </ion-list>
+    </ng-container>
+
+    <error-emoji
+      class="ion-text-center ion-padding"
+      *ngIf="state.hasError"
+    ></error-emoji>
+  </ng-container>
 </ion-content>

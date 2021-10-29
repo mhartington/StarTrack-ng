@@ -4,7 +4,7 @@
 <ion-label>
   <ng-container *ngIf="album; else placeholder">
     <h3>
-      <span class="index" *ngIf="index">{{ index + 1 }}</span> {{ album.attributes.name }}
+      <span class="index" *ngIf="index != null">{{ index + 1 }}</span> {{ album.attributes.name }}
       <span class="rating" *ngIf="album.attributes.contentRating === 'explicit'"
         >E</span
       >

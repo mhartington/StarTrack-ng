@@ -3,7 +3,16 @@
   &:hover {
     cursor: pointer;
   }
+  ion-item {
 
+    &:not(.has-index){
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --padding-start: 0;
+      --padding-end: 0;
+    }
+    --background: transparent;
+  }
   ion-thumbnail {
     margin-inline-end: 15px;
   }
@@ -15,8 +24,9 @@
     }
   }
   .index {
+    width: 22px;
     font-variant-numeric: tabular-nums;
-    text-align: right;
+    text-align: center;
   }
   ion-note {
     font-variant-numeric: tabular-nums;
@@ -32,8 +42,8 @@
     font-size: 9px;
   }
 }
-:host(.active){
-  ion-item{
+:host(.active) {
+  ion-item {
     --background: var(--ion-color-step-100);
   }
 }

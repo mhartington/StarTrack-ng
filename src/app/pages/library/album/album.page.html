@@ -1,41 +1,29 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="primary"></ion-menu-button>
       <ion-back-button defaultHref="/library/albums"></ion-back-button>
     </ion-buttons>
     <ng-container *rxLet="state$ as state">
-      <!-- <ion-buttons slot="end">
-        <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
-          <ion-icon slot="icon-only" name="share"></ion-icon>
-        </ion-button>
-      </ion-buttons> -->
     </ng-container>
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-<ng-container *rxLet="state$ as state">
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar class="transparent">
-    </ion-toolbar>
-  </ion-header> -->
+  <ng-container *rxLet="state$ as state">
 
     <ng-container *ngIf="state.album">
-      <preview-header [collection]="state.album"></preview-header>
-      <!-- (playCollection)="playAlbum($event)" -->
+      <preview-header
+        [collection]="state.album"
+        (playCollection)="playAlbum($event)"
+      ></preview-header>
       <ion-list>
         <song-item
           *ngFor="let song of state.album.relationships.tracks.data; let i = index"
           [song]="song"
           [index]="i"
+          (click)="playSong(i)"
         >
-          <!-- (click)="playSong(i)" -->
-          <ion-thumbnail
-            slot="start"
-            *ngIf="state.album.type === 'playlists'"
-          >
+          <ion-thumbnail slot="start" *ngIf="state.album.type === 'playlists'">
             <lazy-img
               [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
               alt=""

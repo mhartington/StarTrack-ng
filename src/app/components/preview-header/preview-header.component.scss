@@ -1,8 +1,10 @@
 :host {
-  display: block;
-  background-repeat: no-repeat no-repeat;
-  background-size: cover;
-  background-position: center center;
+  padding: 16px 16px 24px 16px;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  /* overflow: hidden; */
+  align-items: center;
+  justify-content: flex-start;
 }
 ion-toolbar {
   --background: transparent;
@@ -15,44 +17,26 @@ ion-toolbar {
     padding-inline-end: 0;
   }
 }
-.artwork-header {
-  display: flex;
-  backdrop-filter: blur(12px);
+
+lazy-img {
+  margin: 24px;
+  height: 100%;
+  aspect-ratio: 1/1;
+  max-width: 324px;
+  max-height: 324px;
+  border-radius: 12px;
   overflow: hidden;
-  height: 300px;
-  align-items: center;
-  justify-content: flex-start;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  margin: auto;
 }
-.artwork-bg {
-  position: absolute;
-  width: 100%;
-  height: 300px;
-  z-index: 0;
-  opacity: 0.8;
-  filter: brightness(25%);
-}
-.album-info {
-  display: flex;
-  align-items: center;
-  padding-left: var(--ion-safe-area-left);
-  z-index: 1;
-  overflow: hidden;
-}
-.header-artwork {
-  border-radius: 4px;
-  display: block;
-  height: 200px;
-  width: 200px;
-  min-width: 200px;
-  margin: 0 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
+
 .album-detail {
   padding: 0 16px;
   z-index: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  width: 100%;
   h3,
   p {
     overflow: hidden;
@@ -62,11 +46,27 @@ ion-toolbar {
     font-weight: 800;
   }
   .name {
-    font-weight: bold
+    font-weight: bold;
+  }
+  ion-button {
+    width: 50%;
   }
 }
 @media (max-width: 650px) {
+  :host,
+  .album-info {
+    display: block;
+    text-align: center;
+    height: auto;
+  }
+  lazy-img {
+    max-width: 200px;
+    max-height: 200px;
+  }
   .header-artwork {
-    display: none;
+    margin: auto;
+  }
+  .album-detail {
+    width: 100%;
   }
 }

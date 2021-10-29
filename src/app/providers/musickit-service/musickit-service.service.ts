@@ -106,7 +106,7 @@ export class MusickitService {
     const searchTypes = ['songs', 'albums', 'playlists'];
     return from(
       this.http.get(
-        `${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=30`,
+        `${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=32`,
         {
           headers: this.headers,
         }
