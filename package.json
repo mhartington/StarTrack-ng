@@ -36,8 +36,6 @@
     "@rx-angular/state": "1.4.4",
     "@rx-angular/template": "1.0.0-beta.28",
     "@types/google.analytics": "0.0.40",
-    "animate-css-grid": "1.4.3",
-    "colorthief": "2.3.2",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "37.0.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
