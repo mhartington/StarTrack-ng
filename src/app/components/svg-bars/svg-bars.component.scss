@@ -1,6 +1,6 @@
 :host {
   .animated-bar {
-    --primaryColor: #000;
+    --primaryColor: currentColor;
     transform: translateY(9px);
     animation-name: none;
     animation-duration: 0.4s;
@@ -8,7 +8,7 @@
     animation-direction: alternate;
     animation-timing-function: ease-in;
     animation-iteration-count: infinite;
-    fill: var(--ion-color-step-250);
+    fill: var(--ion-color-white);
 
     &.bar-1 {
       --max-height-offset: 6px;

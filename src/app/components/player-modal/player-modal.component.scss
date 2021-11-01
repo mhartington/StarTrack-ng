@@ -1,11 +1,11 @@
 :host {
-  --background: #5A596087;
+  --background: #5a596087;
   background-color: var(--background);
 }
 
 .ion-page {
   background-color: var(--background);
-  transition: all 5000ms cubic-bezier(0.32,0.72,0,1);
+  transition: all 5000ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 ion-header {
@@ -139,7 +139,6 @@ ion-label * {
 }
 
 @media (orientation: portrait) {
-
   .track-player {
     max-width: 500px;
   }
@@ -158,12 +157,12 @@ ion-label * {
       align-items: center;
 
       ion-thumbnail {
-       padding-bottom: 0;
-      lazy-img {
-        border-radius: 6px;
-        transform: scale3d(1,1,1);
+        padding-bottom: 0;
+        lazy-img {
+          border-radius: 6px;
+          transform: scale3d(1, 1, 1);
+        }
       }
-    }
     }
 
     ion-label {
@@ -196,9 +195,10 @@ ion-label * {
 }
 
 ion-button.active {
-  --background-color: var(--ion-color-medium);
+  --background-color: #ffffff1c;
 }
 
 song-item ion-item {
+  --color: currentColor;
   --background: transparent;
 }

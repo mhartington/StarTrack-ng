@@ -9,5 +9,6 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 export class SongItemComponent {
   @Input() song: any;
   @Input() index = null;
+  @Input() color: string;
   constructor() {}
 }

@@ -1,4 +1,4 @@
-<div class="ion-page" [style.--background]="backgroundColor" >
+<div class="ion-page" [style.--background]="backgroundColor">
   <ion-header (click)="dismiss()" class="ion-no-border">
     <div class="dismisser"></div>
   </ion-header>
@@ -22,16 +22,25 @@
         </ion-thumbnail>
 
         <ion-label>
-          <h3>{{ state.nowPlayingItem.attributes.name ?? 'Not Playing' }}</h3>
-          <p>{{ state.nowPlayingItem.attributes.artistName }}</p>
+          <h3>
+            <ion-text color="white">{{
+              state.nowPlayingItem.attributes.name ?? 'Not Playing'
+            }}</ion-text>
+          </h3>
+          <p>
+            <ion-text color="white">{{
+              state.nowPlayingItem.attributes.artistName
+            }}</ion-text>
+          </p>
         </ion-label>
       </div>
 
       <div class="player-queue-portrait" *rxLet="queue$; let queue">
-        <h1>Playing Next</h1>
+        <h1><ion-text color="white">Playing Next</ion-text></h1>
         <div class="queue-inner">
           <div class="queue-scroller">
             <song-item
+              color="white"
               *ngFor="let song of queue; let i = index"
               [ngClass]="{ active: state.queuePosition === i + 1 }"
               [song]="song"
@@ -135,9 +144,10 @@
     </div>
 
     <div class="player-queue-landscape" *rxLet="queue$; let queue">
-      <h1>Playing Next</h1>
+      <h1><ion-text color="white">Playing Next</ion-text></h1>
       <div class="queue-scroller">
         <song-item
+          color="white"
           *ngFor="let song of queue; let i = index"
           [ngClass]="{ active: state.queuePosition === i + 1 }"
           [song]="song"
@@ -171,6 +181,7 @@
     <ion-toolbar color="transparent">
       <ion-buttons slot="end">
         <ion-button
+          color="white"
           (click)="toggleQueue()"
           [ngClass]="{
             activated: showQueue
