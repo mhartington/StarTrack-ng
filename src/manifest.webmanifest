@@ -9,9 +9,9 @@
   "start_url": "/browse",
   "icons": [
     {
-      "src": "assets/icons/icon-mask.png",
+      "src": "assets/icons/icon-mask.svg",
       "sizes":"any",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any"
     },
     {
