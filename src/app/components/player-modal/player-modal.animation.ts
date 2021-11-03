@@ -95,17 +95,26 @@ export const createQueueAnimation = async (
       .afterClearStyles(['transform-origin']);
 
     animationChain.push(trackPlayerAnimation);
-  } else {
+  }
+
+  else {
     const thumbnailEl = targetEl.querySelector('ion-thumbnail');
     const labelEl = targetEl.querySelector('ion-label');
-
-    const playerQueueEl = targetEl.querySelector('.player-queue-portrait .queue-inner');
+    const playerQueueEl = targetEl.querySelector('.player-queue-portrait');
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);
     const playerQueueRecPre = getRec(playerQueueEl);
 
     targetEl.classList.toggle('queue-active');
+
+    if(isOpening){
+
+    } else {
+
+    }
+
+
 
     const thumbnailRecPost = getRec(thumbnailEl);
     const labelRecPost = getRec(labelEl);
@@ -142,12 +151,7 @@ export const createQueueAnimation = async (
     const playerQueueAnimation = createAnimation()
       .addElement(playerQueueEl)
       .easing('ease-out')
-      .beforeStyles({
-        display: 'block',
-        height: playerQueueOp.to === 0 ? `${playerQueueRecPre.height}px` : `${playerQueueRecPost.height}px`
-      })
-      .fromTo('opacity', playerQueueOp.from, playerQueueOp.to)
-      .afterClearStyles(['display', 'position', 'height']);
+      .fromTo('opacity', playerQueueOp.from, playerQueueOp.to);
 
     animationChain.push(playerQueueAnimation);
   }

@@ -4,12 +4,12 @@
     cursor: pointer;
   }
   ion-item {
-    &:not(.has-index) {
-      --padding-top: 0;
-      --padding-bottom: 0;
-      --padding-start: 0;
-      --padding-end: 0;
-    }
+    /* &:not(.has-index) { */
+    /*   --padding-top: 0; */
+    /*   --padding-bottom: 0; */
+    /*   --padding-start: 0; */
+    /*   --padding-end: 0; */
+    /* } */
     --background: transparent;
   }
   ion-thumbnail {
