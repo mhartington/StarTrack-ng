@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
     private menuCtrl: MenuController,
     private metaService: Meta,
     public platform: Platform
-
   ) {
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();
@@ -33,8 +32,9 @@ export class AppComponent implements OnInit {
   authDidChange() {
     this.isAuthorized.next(this.musicKitInstance.isAuthorized);
   }
-  ngOnInit() {
-    this.swUpdate.available.subscribe(async () => {
+  async ngOnInit() {
+    const hasUpdate = await this.swUpdate.checkForUpdate();
+    if (hasUpdate) {
       const toast = await this.toastCtrl.create({
         message: 'Update available!',
         position: 'bottom',
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
         .onDidDismiss()
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
-    });
+    }
   }
   login() {
     this.musicKitInstance.authorize();

@@ -143,7 +143,7 @@ export class MusickitService {
     );
   }
   fetchLibraryAlbums(offset = 0): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {
+    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}limit=100`, {
       headers: this.headers,
     });
   }
