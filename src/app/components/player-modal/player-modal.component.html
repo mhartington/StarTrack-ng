@@ -37,7 +37,6 @@
 
       <div class="player-queue-portrait" *rxLet="queue$; let queue">
         <h1><ion-text color="white">Playing Next</ion-text></h1>
-        <div class="queue-inner">
           <div class="queue-scroller">
             <song-item
               color="white"
@@ -68,7 +67,6 @@
               </div>
             </song-item>
           </div>
-        </div>
       </div>
 
       <div class="controls-wrapper">
@@ -88,7 +86,7 @@
           (click)="stopProp($event)"
           (ionStart)="pauseSeeking($event)"
           (ionEnd)="seekToTime($event)"
-          color="medium"
+          color="white"
         ></ion-range>
 
         <ion-buttons class="song-actions">

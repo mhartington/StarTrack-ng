@@ -27,6 +27,7 @@
     "@angular/router": "13.0.0",
     "@angular/service-worker": "13.0.0",
     "@capacitor/android": "3.2.0",
+    "@capacitor/browser": "1.0.6",
     "@capacitor/core": "3.2.0",
     "@capacitor/ios": "3.2.0",
     "@capacitor/splash-screen": "1.1.1",

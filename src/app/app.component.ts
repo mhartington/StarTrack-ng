@@ -3,6 +3,9 @@ import { SwUpdate } from '@angular/service-worker';
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
+import { Browser } from '@capacitor/browser';
+import { Capacitor } from '@capacitor/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -28,6 +31,26 @@ export class AppComponent implements OnInit {
       this.musicKitEvents.authorizationStatusDidChange,
       this.authDidChange.bind(this)
     );
+    // if (Capacitor.isNativePlatform) {
+    //   this.overridewindow();
+    // }
+  }
+  overridewindow() {
+    window.open = (
+      url?: string | URL,
+      target?: string,
+      features?: string
+    ): any => {
+      console.log(url);
+      const formattedURL = new URL(url);
+      console.log(formattedURL);
+      const params = new URLSearchParams(formattedURL.search);
+      params.forEach((p) => {
+        console.log('param: ', p);
+      });
+
+      Browser.open({ url: url as string });
+    };
   }
   authDidChange() {
     this.isAuthorized.next(this.musicKitInstance.isAuthorized);
