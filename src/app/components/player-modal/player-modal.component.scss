@@ -23,7 +23,14 @@ ion-header {
 }
 
 ion-footer {
+
+
   border-top: none;
+
+  &::before {
+    content:none;
+  }
+
   ion-toolbar {
     --border-width: 0;
     --padding-start: calc(env(safe-area-inset-left) + 24px);
