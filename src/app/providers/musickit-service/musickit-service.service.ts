@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
-import { delay, retryWhen, timeout, map, shareReplay } from 'rxjs/operators';
+import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -111,7 +111,6 @@ export class MusickitService {
         topPlaylists: results.playlists[0].data,
         topSongs: results.songs[0].data,
       })),
-      shareReplay({ bufferSize: 1, refCount: true }),
       retryWhen((error) => error.pipe(delay(500))),
       timeout(5000)
     );
@@ -138,9 +137,9 @@ export class MusickitService {
     );
   }
   fetchLibraryAlbums(offset = 0): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}limit=100`, {
+    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {
       headers: this.headers,
-    }).pipe();
+    });
   }
 
 
