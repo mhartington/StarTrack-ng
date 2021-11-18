@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+
+  &::after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    border-radius: 12px;
+    top: 0;
+    z-index: -1;
+    filter: blur(12px);
+    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 12px, 0);
+  }
+
+  &.playing {
+    &::after {
+      transform: scale3d(1.05, 1.05, 1.05) translate3d(0, 12px, 0);
+    }
+  }
+}
+lazy-img {
+  clip-path: inset(0 round 4%);
+  overflow: hidden;
+}

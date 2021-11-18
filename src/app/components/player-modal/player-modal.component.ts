@@ -6,8 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { map, tap } from 'rxjs/operators';
-import { Song } from 'src/@types/song';
+import { tap } from 'rxjs/operators';
 import {
   PlaybackStates,
   PlayerService,
@@ -64,6 +63,7 @@ export class PlayerModalComponent implements OnInit {
     ]
   ) {
     const primary = event[0];
+
     this.backgroundColor = `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.5 )`;
   }
   async seekToTime(ev: any): Promise<void> {
@@ -103,6 +103,7 @@ export class PlayerModalComponent implements OnInit {
   }
   async toggleQueue() {
     this.showQueue = !this.showQueue;
+    // this.wrapper.nativeElement.classList.toggle('queue-active');
     await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
   }
 }

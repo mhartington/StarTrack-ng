@@ -1,4 +1,5 @@
 <div class="ion-page" [style.--background]="backgroundColor">
+
   <ion-header (click)="dismiss()" class="ion-no-border">
     <div class="dismisser"></div>
   </ion-header>
@@ -10,15 +11,21 @@
             playing: state.playbackState === playbackStates.PLAYING
           }"
         >
-          <lazy-img
+        <now-playing-artwork
             colorFromImg
             (newColor)="updateColor($event)"
             [src]="
               state.nowPlayingItem.attributes.artwork?.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl: 600
             "
+          [ngClass]="{
+            playing: state.playbackState === playbackStates.PLAYING
+          }"
             alt="The album art work cover"
-          ></lazy-img>
+
+          ></now-playing-artwork>
+          <!-- <lazy-img -->
+          <!-- ></lazy-img> -->
         </ion-thumbnail>
 
         <ion-label>

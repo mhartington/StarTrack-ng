@@ -26,8 +26,7 @@ const canvasImage = (image: HTMLImageElement) => {
   context.drawImage(image, 0, 0, width, height);
 
   const clear = () => context.clearRect(0, 0, width, height);
-  const update = (imageData: ImageData) =>
-    context.putImageData(imageData, 0, 0);
+  const update = (imageData: ImageData) => context.putImageData(imageData, 0, 0);
   const getPixelCount = () => width * height;
   const getImageData = () => context.getImageData(0, 0, width, height);
   const removeCanvas = () => canvas.parentNode.removeChild(canvas);
@@ -58,12 +57,14 @@ export class ColorFromImgDirective implements OnChanges {
   ngOnChanges({ src }: SimpleChanges) {
     if (src.currentValue !== 'assets/imgs/default.svg') {
       if (src.firstChange) {
+        console.log('is the first change');
         this.imgSrc = src.currentValue;
         this.getPaletteFromUrl(this.imgSrc);
       } else {
         const incomingVal = new URL(src.currentValue);
         const currentVal = new URL(this.imgSrc);
         if (currentVal.pathname !== incomingVal.pathname) {
+          console.log('next change, but different value');
           this.imgSrc = src.currentValue;
           this.getPaletteFromUrl(this.imgSrc);
         }
