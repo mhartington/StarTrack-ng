@@ -14,12 +14,12 @@
     top: 0;
     z-index: -1;
     filter: blur(12px);
-    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 12px, 0);
+    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 18px, 0);
   }
 
   &.playing {
     &::after {
-      transform: scale3d(1.05, 1.05, 1.05) translate3d(0, 12px, 0);
+      transform: scale3d(1.02, 1.02, 1.02) translate3d(0, 18px, 0);
     }
   }
 }

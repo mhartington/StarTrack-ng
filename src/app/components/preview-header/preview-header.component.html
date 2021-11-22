@@ -1,54 +1,51 @@
 <lazy-img
   alt="The artwork for the album"
   [src]="collection?.attributes.artwork.url | formatArtworkUrl: 1500"
-  ></lazy-img>
-  <div class="album-detail">
-    <ng-container *ngIf="collection; else placeholder">
-      <h3>{{ collection.attributes.name }}</h3>
-      <h3 class="name">
-        <ion-text color="primary">{{
-          collection.attributes.artistName
-            ? collection.attributes.artistName
-            : collection.attributes.curatorName
-        }}</ion-text>
-      </h3>
-      <p>
-        <ion-note>
-          {{
-            collection.attributes.description
-              ? collection.attributes.description.standard
-              : collection.attributes.genreNames[0]
-          }}
-        </ion-note>
-      </p>
-      <p>
-        <ion-note>
-          {{collection.attributes.editorialNotes?.standard}}
-        </ion-note>
-      </p>
-    </ng-container>
+></lazy-img>
+<div class="album-detail">
+  <ng-container *ngIf="collection; else placeholder">
+    <h3>{{ collection.attributes.name }}</h3>
+    <h3 class="name">
+      <ion-text color="primary">{{
+        collection.attributes.artistName
+          ? collection.attributes.artistName
+          : collection.attributes.curatorName
+      }}</ion-text>
+    </h3>
+    <p>
+      <ion-note>
+        {{
+          collection.attributes.description
+            ? collection.attributes.description.standard
+            : collection.attributes.genreNames[0]
+        }}
+      </ion-note>
+    </p>
+    <p class="editorial-notes" [innerHtml]="collection.attributes.editorialNotes?.standard">
+    </p>
+  </ng-container>
 
-    <ng-template #placeholder>
-      <h3>
-        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-      </h3>
-      <p>
-        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-      </p>
-      <p>
-        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-      </p>
-      <p>
-        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-      </p>
-    </ng-template>
+  <ng-template #placeholder>
+    <h3>
+      <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+    </h3>
+    <p>
+      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+    </p>
+    <p>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </p>
+    <p>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </p>
+  </ng-template>
 
-    <ion-button (click)="togglePlay()" color="light" fill="solid">
-      <ion-icon color="primary" slot="start" name="play"></ion-icon>
-      <ion-text color="primary">Play</ion-text>
-    </ion-button>
-    <ion-button (click)="togglePlay(true)" color="light" fill="solid">
-      <ion-icon color="primary" name="shuffle" slot="start"></ion-icon>
-      <ion-text color="primary">Shuffle</ion-text>
-    </ion-button>
-  </div>
+  <ion-button (click)="togglePlay()" color="light" fill="solid">
+    <ion-icon color="primary" slot="start" name="play"></ion-icon>
+    <ion-text color="primary">Play</ion-text>
+  </ion-button>
+  <ion-button (click)="togglePlay(true)" color="light" fill="solid">
+    <ion-icon color="primary" name="shuffle" slot="start"></ion-icon>
+    <ion-text color="primary">Shuffle</ion-text>
+  </ion-button>
+</div>

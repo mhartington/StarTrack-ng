@@ -74,11 +74,11 @@ export const createQueueAnimation = async (
 
     const playerQueueAnimation = createAnimation()
       .addElement(playerQueue)
-      // .fromTo(
-      //   'transform',
-      //   `scale3d(${playerQueueDeltaW.scaleFrom}, ${playerQueueDeltaH.scaleFrom}, ${playerQueueDeltaH.scaleFrom})`,
-      //   `scale3d(${playerQueueDeltaW.scaleTo}, ${playerQueueDeltaH.scaleTo}, ${playerQueueDeltaH.scaleTo})`
-      // )
+      .fromTo(
+        'transform',
+        `scale3d(${playerQueueDeltaW.scaleFrom}, ${playerQueueDeltaH.scaleFrom}, ${playerQueueDeltaH.scaleFrom})`,
+        `scale3d(${playerQueueDeltaW.scaleTo}, ${playerQueueDeltaH.scaleTo}, ${playerQueueDeltaH.scaleTo})`
+      )
       .fromTo(
         'opacity',
         playerQueueDeltaH.opacityFrom,
