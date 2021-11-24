@@ -10,15 +10,14 @@
   "icons": [
     {
       "src": "assets/icons/icon-mask.png",
-      "sizes":"any",
-      "type": "image/png",
-      "purpose": "any"
+      "sizes": "1024x1024",
+      "type": "image/png"
     },
     {
       "src": "assets/icons/icon.svg",
-      "sizes":"any",
+      "sizes":"192x192",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "maskable any"
     }
   ]
 }
