@@ -28,6 +28,7 @@ interface IPlayerState {
   playbackState: PlaybackStates;
   queue: any[];
   queuePosition: number;
+  upNext: any[];
   repeatMode: number;
   isShuffling: boolean;
   infiniteLoadTimeout: any;
@@ -39,7 +40,7 @@ interface IPlayerState {
 @Injectable({ providedIn: 'root' })
 export class PlayerService extends RxState<IPlayerState> {
   private mkInstance = (window as any).MusicKit.getInstance();
-  private musicKitEvents = (window as any).MusicKit.Events;
+  private mkEvents = (window as any).MusicKit.Events;
 
   constructor(private title: Title) {
     super();
@@ -47,6 +48,7 @@ export class PlayerService extends RxState<IPlayerState> {
       bitrate: 256,
       playbackState: PlaybackStates.NONE,
       queue: [],
+      upNext: [],
       queuePosition: 0,
       repeatMode: 0,
       isShuffling: false,
@@ -59,31 +61,31 @@ export class PlayerService extends RxState<IPlayerState> {
     });
 
     this.mkInstance.addEventListener(
-      this.musicKitEvents.playbackTimeDidChange,
+      this.mkEvents.playbackTimeDidChange,
       this.playbackTimeDidChange.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.playbackDurationDidChange,
+      this.mkEvents.playbackDurationDidChange,
       this.playbackDurationDidChange.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.mediaPlaybackError,
+      this.mkEvents.mediaPlaybackError,
       this.mediaPlaybackError.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.playbackStateDidChange,
+      this.mkEvents.playbackStateDidChange,
       this.playbackStateDidChange.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.mediaItemStateDidChange,
+      this.mkEvents.mediaItemStateDidChange,
       this.mediaItemStateDidChange.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.queueItemsDidChange,
+      this.mkEvents.queueItemsDidChange,
       this.queueItemsDidChange.bind(this)
     );
     this.mkInstance.addEventListener(
-      this.musicKitEvents.queuePositionDidChange,
+      this.mkEvents.queuePositionDidChange,
       this.queuePositionDidChange.bind(this)
     );
   }
@@ -99,6 +101,7 @@ export class PlayerService extends RxState<IPlayerState> {
     this.set((state) => ({ ...state, playbackDuration: event.duration }));
   }
   mediaItemStateDidChange(event: any) {
+    // console.log('item did chage', this.mkInstance.queue.unplayedUserItems)
     this.set((state) => {
       const newState = {
         ...state,
@@ -150,10 +153,16 @@ export class PlayerService extends RxState<IPlayerState> {
     console.log('mediaPlayBackError', event);
   }
   queueItemsDidChange(event: any): void {
-    this.set((state: any) => ({ ...state, queue: event }));
+    // console.log('unplayed items', this.mkInstance.queue);
+    // const upNext = this.mkInstance.queue.unplayedUserItems.filter((e, i) => i !== 0 );
+    // console.log("upNext", upNext)
+    this.set((state: any) => ({ ...state, queue: this.mkInstance.queue.items }));
   }
   queuePositionDidChange(event: any): void {
-    this.set((state) => ({ ...state, queuePosition: event.position + 1 }));
+    // console.log('unplayed items', this.mkInstance.queue.unplayedUserItems);
+    const upNext = this.mkInstance.queue.unplayedUserItems.filter((e, i) => i !== 0 );
+    // console.log("upNext", upNext)
+    this.set((state) => ({ ...state, queuePosition: event.position + 1, upNext }));
   }
 
   // PLAYER METHODS

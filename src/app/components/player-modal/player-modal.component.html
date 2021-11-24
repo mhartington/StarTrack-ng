@@ -1,5 +1,4 @@
-<div class="ion-page" [style.--background]="backgroundColor">
-
+<div class="ion-page" [style]="backgroundColor">
   <ion-header (click)="dismiss()" class="ion-no-border">
     <div class="dismisser"></div>
   </ion-header>
@@ -11,21 +10,18 @@
             playing: state.playbackState === playbackStates.PLAYING
           }"
         >
-        <now-playing-artwork
+          <now-playing-artwork
             colorFromImg
             (newColor)="updateColor($event)"
             [src]="
               state.nowPlayingItem.attributes.artwork?.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl: 600
             "
-          [ngClass]="{
-            playing: state.playbackState === playbackStates.PLAYING
-          }"
+            [ngClass]="{
+              playing: state.playbackState === playbackStates.PLAYING
+            }"
             alt="The album art work cover"
-
           ></now-playing-artwork>
-          <!-- <lazy-img -->
-          <!-- ></lazy-img> -->
         </ion-thumbnail>
 
         <ion-label>
@@ -44,36 +40,25 @@
 
       <div class="player-queue-portrait" *rxLet="queue$; let queue">
         <h1><ion-text color="white">Playing Next</ion-text></h1>
-          <div class="queue-scroller">
-            <song-item
-              color="white"
-              *ngFor="let song of queue; let i = index"
-              [ngClass]="{ active: state.queuePosition === i + 1 }"
-              [song]="song"
-              (click)="playAtIndex($event, i)"
-            >
-              <ion-thumbnail slot="start">
-                <lazy-img
-                  [src]="
-                    song.attributes.artwork?.url ?? 'assets/imgs/default.svg'
-                      | formatArtworkUrl: 60
-                  "
-                  alt="album art"
-                ></lazy-img>
-              </ion-thumbnail>
-              <div
-                class="svg-aside"
-                *ngIf="state.queuePosition === i + 1"
-                slot="end"
-              >
-                <svg-bars
-                  [ngClass]="{
-                    playing: state.playbackState === playbackStates.PLAYING
-                  }"
-                ></svg-bars>
-              </div>
-            </song-item>
-          </div>
+        <div class="queue-scroller">
+          <!-- [ngClass]="{ active: state.queuePosition === i + 1 }" -->
+          <song-item
+            color="white"
+            *ngFor="let song of queue; let i = index"
+            [song]="song"
+            (click)="playAtIndex($event, i)"
+          >
+            <ion-thumbnail slot="start">
+              <lazy-img
+                [src]="
+                  song.attributes.artwork?.url ?? 'assets/imgs/default.svg'
+                    | formatArtworkUrl: 60
+                "
+                alt="album art"
+              ></lazy-img>
+            </ion-thumbnail>
+          </song-item>
+        </div>
       </div>
 
       <div class="controls-wrapper">
@@ -150,11 +135,14 @@
 
     <div class="player-queue-landscape" *rxLet="queue$; let queue">
       <h1><ion-text color="white">Playing Next</ion-text></h1>
-      <div class="queue-scroller">
+      <div
+        class="queue-scroller"
+        (pointerdown)="$event.stopPropagation(); $event.preventDefault()"
+      >
+        <!-- [ngClass]="{ active: state.queuePosition === i + 1 }" -->
         <song-item
           color="white"
           *ngFor="let song of queue; let i = index"
-          [ngClass]="{ active: state.queuePosition === i + 1 }"
           [song]="song"
           (click)="playAtIndex($event, i)"
         >
@@ -167,17 +155,6 @@
               alt="album art"
             ></lazy-img>
           </ion-thumbnail>
-          <div
-            class="svg-aside"
-            *ngIf="state.queuePosition === i + 1"
-            slot="end"
-          >
-            <svg-bars
-              [ngClass]="{
-                playing: state.playbackState === playbackStates.PLAYING
-              }"
-            ></svg-bars>
-          </div>
         </song-item>
       </div>
     </div>

@@ -16,12 +16,14 @@ import { tap } from 'rxjs/operators';
 export class TrackPlayerComponent {
   public state$ = this.player.select();
   public playbackTime = 0;
+  public isModalOpen = false;
 
   public playbackStates = PlaybackStates;
   private playerModal: typeof PlayerModalComponent;
   private playbackTime$ = this.player.select('playbackTime');
   private clickBlock = false;
   private isScrubbing = false;
+
 
 
   constructor(public player: PlayerService, private modalCtrl: ModalController) {

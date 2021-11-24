@@ -4,7 +4,10 @@
       <div class="song-info">
         <ion-thumbnail>
           <lazy-img
-            [src]="state.nowPlayingItem.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 60"
+            [src]="
+              state.nowPlayingItem.attributes.artwork?.url ??
+                'assets/imgs/default.svg' | formatArtworkUrl: 60
+            "
             alt="The album art work cover"
           ></lazy-img>
         </ion-thumbnail>
@@ -79,3 +82,14 @@
   </div>
 </ion-footer>
 
+<!--  -->
+<!-- <ion-modal -->
+<!--   class="full-modal" -->
+<!--   [isOpen]="isModalOpen" -->
+<!--   [swipeToClose]='true' -->
+<!--   (didDismiss)="isModalOpen = false" -->
+<!-- > -->
+<!--   <ng-template> -->
+<!--     <app-player-modal></app-player-modal> -->
+<!--   </ng-template> -->
+<!-- </ion-modal> -->

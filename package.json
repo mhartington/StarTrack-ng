@@ -31,7 +31,7 @@
     "@capacitor/core": "3.2.0",
     "@capacitor/ios": "3.2.0",
     "@capacitor/splash-screen": "1.1.1",
-    "@ionic/angular": "6.0.0-dev.202111082139.6ae82e0",
+    "@ionic/angular": "6.0.0-rc.3",
     "@ionic/angular-toolkit": "5.0.0",
     "@rx-angular/cdk": "1.0.0-alpha.10",
     "@rx-angular/state": "^1.4.4",

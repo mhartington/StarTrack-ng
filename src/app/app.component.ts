@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 import { Browser } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -56,23 +57,25 @@ export class AppComponent implements OnInit {
     this.isAuthorized.next(this.musicKitInstance.isAuthorized);
   }
   async ngOnInit() {
-    const hasUpdate = await this.swUpdate.checkForUpdate();
-    if (hasUpdate) {
-      const toast = await this.toastCtrl.create({
-        message: 'Update available!',
-        position: 'bottom',
-        buttons: [
-          {
-            text: 'Reload',
-            role: 'cancel',
-          },
-        ],
-      });
-      await toast.present();
-      toast
-        .onDidDismiss()
-        .then(() => this.swUpdate.activateUpdate())
-        .then(() => window.location.reload());
+    if (environment.production) {
+      const hasUpdate = await this.swUpdate.checkForUpdate();
+      if (hasUpdate) {
+        const toast = await this.toastCtrl.create({
+          message: 'Update available!',
+          position: 'bottom',
+          buttons: [
+            {
+              text: 'Reload',
+              role: 'cancel',
+            },
+          ],
+        });
+        await toast.present();
+        toast
+          .onDidDismiss()
+          .then(() => this.swUpdate.activateUpdate())
+          .then(() => window.location.reload());
+      }
     }
   }
   login() {
