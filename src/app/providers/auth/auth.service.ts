@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { MusickitConfig } from '../musickit-config/musickit-config';
-
-@Injectable({})
-export class AuthGuard implements CanActivate {
-  constructor(
-    private musicKitService: MusickitConfig,
-    private router: Router
-  ) {}
+import { CanActivate, Router, CanLoad } from '@angular/router';
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate, CanLoad {
+  private musicKitInstance = (window as any).MusicKit.getInstance();
+  constructor(private router: Router) {}
 
   canActivate(): boolean {
-    if (this.musicKitService.isAuthorized) {
+    if (this.musicKitInstance.isAuthorized) {
       return true;
     }
 
     this.router.navigate(['/browse']);
   }
-
+  canLoad(): boolean {
+    return this.canActivate();
+  }
   canActivateChild(): boolean {
     return this.canActivate();
   }
 }
-

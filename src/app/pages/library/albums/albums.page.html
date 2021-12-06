@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-
   <ion-header collapse="condense">
     <ion-toolbar class="transparent">
       <ion-title size="large">Albums</ion-title>
@@ -55,10 +54,22 @@
   </ng-container>
 
   <ion-infinite-scroll
-    threshold="250px"
+    threshold="500px"
     (ionInfinite)="scrollTrigger$.next()"
     disabled="true"
   >
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content>
+      <ion-col
+        *ngFor="let album of [].constructor(20)"
+        size="6"
+        sizeMd="4"
+        sizeLg="3"
+        sizeXl="2"
+      >
+        <album-preview-item>
+          <lazy-img></lazy-img>
+        </album-preview-item>
+      </ion-col>
+    </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

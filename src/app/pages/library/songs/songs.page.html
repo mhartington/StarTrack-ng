@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Songs</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *rxLet="songs$ as songs">
+    <ng-container *ngIf="songs.length; else loading">
+      <song-item *ngFor="let song of songs; index as i" [song]="song" (click)="playSong(i)">
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"
+          ></lazy-img>
+        </ion-thumbnail>
+      </song-item>
+    </ng-container>
+
+    <ng-template #loading>
+      <song-item *ngFor="let song of [].constructor(50)">
+        <ion-thumbnail slot="start">
+          <lazy-img></lazy-img>
+        </ion-thumbnail>
+      </song-item>
+    </ng-template>
+  </ng-container>
+
+  <ion-infinite-scroll
+    threshold="500px"
+    (ionInfinite)="scrollTrigger$.next()"
+    disabled="true"
+  >
+    <ion-infinite-scroll-content>
+      <song-item *ngFor="let song of [].constructor(20)">
+        <ion-thumbnail slot="start">
+          <lazy-img></lazy-img>
+        </ion-thumbnail>
+      </song-item>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

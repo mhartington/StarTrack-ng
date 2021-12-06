@@ -63,6 +63,21 @@
                   Albums
                 </ion-item>
               </ion-menu-toggle>
+              <ion-menu-toggle autoHide="false">
+                <ion-item
+                  routerLink="/library/songs"
+                  routerDirection="root"
+                  routerLinkActive="selected"
+                  detail="false"
+                >
+                  <ion-icon
+                    color="primary"
+                    slot="start"
+                    name="musical-note"
+                  ></ion-icon>
+                  Songs
+                </ion-item>
+              </ion-menu-toggle>
 
               <ion-menu-toggle autoHide="false">
                 <ion-item
@@ -106,4 +121,5 @@
       <track-player></track-player>
     </div>
   </ion-split-pane>
+
 </ion-app>

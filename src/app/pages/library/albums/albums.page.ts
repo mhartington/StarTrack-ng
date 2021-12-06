@@ -41,8 +41,8 @@ export class AlbumsPage implements OnInit {
     withLatestFrom(this.stateService.$),
     switchMap(([_, { albums, total }]) => {
       if (albums.length === total) {
-        this.infiniteScroll.complete();
         this.infiniteScroll.disabled = true;
+        this.infiniteScroll.complete();
         return EMPTY;
       }
       return this.api.fetchLibraryAlbums(this.stateService.get('offset'));

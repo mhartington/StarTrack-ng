@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { LandingPage } from './pages/landing/landing.page';
+import { AuthGuard } from './providers/auth/auth.service';
 const routes: Routes = [
   { path: '', component: LandingPage },
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     path: 'library',
     loadChildren: () =>
       import('./pages/library/library.module').then((m) => m.LibraryModule),
+    canLoad: [AuthGuard],
   },
 ];
 @NgModule({

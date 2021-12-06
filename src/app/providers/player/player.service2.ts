@@ -156,13 +156,22 @@ export class PlayerService extends RxState<IPlayerState> {
     // console.log('unplayed items', this.mkInstance.queue);
     // const upNext = this.mkInstance.queue.unplayedUserItems.filter((e, i) => i !== 0 );
     // console.log("upNext", upNext)
-    this.set((state: any) => ({ ...state, queue: this.mkInstance.queue.items }));
+    this.set((state: any) => ({
+      ...state,
+      queue: this.mkInstance.queue.items,
+    }));
   }
   queuePositionDidChange(event: any): void {
     // console.log('unplayed items', this.mkInstance.queue.unplayedUserItems);
-    const upNext = this.mkInstance.queue.unplayedUserItems.filter((e, i) => i !== 0 );
+    const upNext = this.mkInstance.queue.unplayedUserItems.filter(
+      (e, i) => i !== 0
+    );
     // console.log("upNext", upNext)
-    this.set((state) => ({ ...state, queuePosition: event.position + 1, upNext }));
+    this.set((state) => ({
+      ...state,
+      queuePosition: event.position + 1,
+      upNext,
+    }));
   }
 
   // PLAYER METHODS
@@ -179,6 +188,37 @@ export class PlayerService extends RxState<IPlayerState> {
     await this.play();
   }
 
+  async playCollection(opts: any) {
+    console.log(opts);
+    await this.mkInstance.setQueue({
+      items: opts.songs.map((item: any) => this.createMediaItem(item)),
+      startPosition: opts.startPosition
+    });
+    await this.play();
+  }
+
+  createMediaItem(song: any, container: any = null) {
+    // if (container) {
+    //   const containerName =
+    //     container.type === 'albums' || container.type === 'library-albums' ? 'albums' : 'playlists';
+    //
+    //   return {
+    //     ...song,
+    //     container: {
+    //       id: container.id,
+    //       type: container.type,
+    //       name: containerName,
+    //     },
+    //   };
+    // }
+
+    return {
+      ...song,
+      container: {
+        id: song.id,
+      },
+    };
+  }
 
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
     if (shuffle) {

@@ -1,7 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { delay, retryWhen, timeout, map } from 'rxjs/operators';
+import { concat, EMPTY, from, Observable } from 'rxjs';
+import {
+  delay,
+  retryWhen,
+  timeout,
+  map,
+  tap,
+  expand,
+  reduce,
+  mergeMap,
+} from 'rxjs/operators';
+import { Song } from 'src/@types/song';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +33,9 @@ export class MusickitService {
         this.musicKitInstance.musicUserToken
       );
     }
+
+    // const el = document.querySelector('apple-music-video-player');
+    // this.musicKitInstance.videoContainerElement = el;
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
       () => {
@@ -36,11 +49,15 @@ export class MusickitService {
 
   // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
-    return this.http
-      .get(`${this.apiUrl}/albums/${id}`, {
-        headers: this.headers,
-      })
-      .pipe(map((res: any) => res.data[0]));
+    // const params = encodeURI(`extend=editorialVideo`);
+    return from(
+      this.musicKitInstance.api.music(
+        `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`
+      )
+    ).pipe(
+      tap((res: any) => console.log(res.data.data[0])),
+      map((res: any) => res.data.data[0])
+    );
   }
   fetchPlaylist(id: string): Observable<any> {
     return this.http
@@ -104,16 +121,19 @@ export class MusickitService {
   }
   fetchChart(): Observable<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
-    return this.http.get( `${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=32`, { headers: this.headers, })
-    .pipe(
-      map(({ results }: any) => ({
-        topAlbums: results.albums[0].data,
-        topPlaylists: results.playlists[0].data,
-        topSongs: results.songs[0].data,
-      })),
-      retryWhen((error) => error.pipe(delay(500))),
-      timeout(5000)
-    );
+    return this.http
+      .get(`${this.apiUrl}/charts/?types=${searchTypes.join(',')}&limit=32`, {
+        headers: this.headers,
+      })
+      .pipe(
+        map(({ results }: any) => ({
+          topAlbums: results.albums[0].data,
+          topPlaylists: results.playlists[0].data,
+          topSongs: results.songs[0].data,
+        })),
+        retryWhen((error) => error.pipe(delay(500))),
+        timeout(5000)
+      );
   }
   fetchPlaylists(offset: number): Observable<any> {
     return from(
@@ -128,25 +148,31 @@ export class MusickitService {
   }
 
   // USER LIBRARY API
-  fetchLibrarySongs(offset: number): Observable<any> {
-    return from(
-      this.musicKitInstance.api.library.songs(null, {
-        limit: 100,
-        offset,
-      })
-    );
+  // offset: number
+  fetchLibrarySongs(offset = 0): Observable<any> {
+    const url = 'v1/me/library/songs';
+    return this.fetchLibPage(url, offset);
   }
-  fetchLibraryAlbums(offset = 0): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums?offset=${offset}`, {
-      headers: this.headers,
-    });
+  fetchLibPage(url: string, offset: number) {
+    return from(
+      this.musicKitInstance.api.music(url, { offset, limit: 100 })
+    ).pipe(map((res: any) => res.data));
   }
 
+  parseNext(next: string, fallback: number = 0): number {
+    return next ? parseInt(next.match(/\d*$/)[0], 10) : fallback;
+  }
+
+  fetchLibraryAlbums(offset = 0): Observable<any> {
+    return from(
+      this.musicKitInstance.api.music('v1/me/library/albums', { offset })
+    ).pipe(map((res: any) => res.data));
+  }
 
   fetchLibraryAlbum(id: string): Observable<any> {
-    return this.http.get(`${this.libraryUrl}/albums/${id}`, {
-      headers: this.headers,
-    }).pipe(map((res: any) => res.data[0]));
+    return from(
+      this.musicKitInstance.api.music(`v1/me/library/albums/${id}`)
+    ).pipe(map((res: any) => res.data.data[0]));
   }
 
   fetchLibraryArtists(offset: number): Observable<any> {
