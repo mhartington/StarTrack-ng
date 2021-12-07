@@ -59,17 +59,6 @@
     disabled="true"
   >
     <ion-infinite-scroll-content>
-      <ion-col
-        *ngFor="let album of [].constructor(20)"
-        size="6"
-        sizeMd="4"
-        sizeLg="3"
-        sizeXl="2"
-      >
-        <album-preview-item>
-          <lazy-img></lazy-img>
-        </album-preview-item>
-      </ion-col>
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
