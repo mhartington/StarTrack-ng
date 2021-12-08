@@ -15,17 +15,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const appInitialize = () => async () =>
   await (window as any).MusicKit.configure({
     developerToken: environment.musicKitToken,
+    bitrate: (window as any).MusicKit.PlaybackBitrate.HIGH,
     app: {
       name: 'Star Track',
       build: '1.0',
-      declarativeMarkup: true,
+      declarativeMarkup: false,
       debug: false,
       storefrontId: 'us',
-      suppressErrorDialog: false,
-      app: {
-        name: 'My Cool Web App',
-        build: '1978.4.1',
-      },
+      suppressErrorDialog: true,
+      icon: 'https://startrack-ng.web.app/assets/icons/icon-mask.png'
     },
   });
 
