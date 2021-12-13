@@ -82,6 +82,7 @@ ion-range {
 ion-label {
   display: block;
   width: 100%;
+  overflow: hidden;
 }
 
 ion-label * {
