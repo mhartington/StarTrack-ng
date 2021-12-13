@@ -53,7 +53,7 @@ export class AlbumPage implements OnInit {
     );
   }
   ionViewDidEnter() {
-    this.ionViewDidEnter$.next();
+    this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }
 

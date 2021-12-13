@@ -47,7 +47,7 @@ export class AlbumPage {
     );
   }
   ionViewDidEnter() {
-    this.ionViewDidEnter$.next();
+    this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }
   playSong(index: number, shuffle = false) {

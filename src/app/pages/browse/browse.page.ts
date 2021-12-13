@@ -37,7 +37,7 @@ export class BrowsePage {
   }
 
   ionViewDidEnter() {
-    this.ionViewDidEnter$.next();
+    this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }
   playSong(index: number) {

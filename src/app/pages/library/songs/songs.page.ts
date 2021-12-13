@@ -82,7 +82,7 @@ export class SongsPage implements OnInit {
     );
   }
   ionViewDidEnter() {
-    this.ionViewDidEnter$.next();
+    this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }
 
