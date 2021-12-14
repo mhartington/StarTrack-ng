@@ -46,7 +46,7 @@
             color="white"
             *ngFor="let song of queue; let i = index"
             [song]="song"
-            (click)="playAtIndex($event, i)"
+            (click)="playAtIndex($event, song)"
           >
             <ion-thumbnail slot="start">
               <lazy-img
@@ -144,7 +144,7 @@
           color="white"
           *ngFor="let song of queue; let i = index"
           [song]="song"
-          (click)="playAtIndex($event, i)"
+          (click)="playAtIndex($event, song)"
         >
           <ion-thumbnail slot="start">
             <lazy-img

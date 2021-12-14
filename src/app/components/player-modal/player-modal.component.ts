@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Song } from 'src/@types/song';
 import {
   PlaybackStates,
   PlayerService,
@@ -19,26 +22,26 @@ import { createQueueAnimation } from './player-modal.animation';
   styleUrls: ['./player-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlayerModalComponent implements OnInit {
+export class PlayerModalComponent implements OnInit, OnDestroy {
   @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
 
   public backgroundColor = {};
   public playbackStates = PlaybackStates;
   public state$ = this.player.select();
-  public queue$ = this.player.select('queue');
+  public queue$ = this.player.select('upNext');
 
   public playbackTime = 0;
   public showQueue = false;
 
   private playbackTime$ = this.player.select('playbackTime');
-
   private isScrubbing = false;
+  private playbackTimeSub: Subscription;
 
   constructor(
     private modalCtrl: ModalController,
     public player: PlayerService
   ) {
-    this.playbackTime$
+    this.playbackTimeSub = this.playbackTime$
       .pipe(
         tap((val: any) => {
           if (!this.isScrubbing) {
@@ -48,8 +51,11 @@ export class PlayerModalComponent implements OnInit {
       )
       .subscribe();
   }
-  ngOnInit() {
-}
+  ngOnInit() {}
+  ngOnDestroy() {
+    this.playbackTimeSub.unsubscribe();
+  }
+
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
@@ -66,11 +72,10 @@ export class PlayerModalComponent implements OnInit {
     // const secondary = event[1];
     // const third = event[2];
     this.backgroundColor = {
-        '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.7 )`,
-        // '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.7 )`,
-        // '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.7 )`
-
-      };
+      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.7 )`,
+      // '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.7 )`,
+      // '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.7 )`
+    };
   }
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);
@@ -92,9 +97,10 @@ export class PlayerModalComponent implements OnInit {
       await this.player.pause();
     }
   }
-  playAtIndex(e: any, i: number) {
+  playAtIndex(e: any, song: Song) {
     this.stopProp(e);
-    this.player.skipTo(i);
+    console.log(song);
+    this.player.skipTo(song);
   }
   stopProp(e: any): void {
     e.stopPropagation();
@@ -109,7 +115,6 @@ export class PlayerModalComponent implements OnInit {
   }
   async toggleQueue() {
     this.showQueue = !this.showQueue;
-    // this.wrapper.nativeElement.classList.toggle('queue-active');
     await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
   }
 }

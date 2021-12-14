@@ -57,14 +57,12 @@ export class ColorFromImgDirective implements OnChanges {
   ngOnChanges({ src }: SimpleChanges) {
     if (src.currentValue !== 'assets/imgs/default.svg') {
       if (src.firstChange) {
-        console.log('is the first change');
         this.imgSrc = src.currentValue;
         this.getPaletteFromUrl(this.imgSrc);
       } else {
         const incomingVal = new URL(src.currentValue);
         const currentVal = new URL(this.imgSrc);
         if (currentVal.pathname !== incomingVal.pathname) {
-          console.log('next change, but different value');
           this.imgSrc = src.currentValue;
           this.getPaletteFromUrl(this.imgSrc);
         }

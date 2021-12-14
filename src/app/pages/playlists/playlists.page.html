@@ -26,7 +26,6 @@
         <song-item
           *ngFor="let song of state.collection.relationships.tracks.data; let i = index"
           [song]="song"
-          [index]="i"
           (click)="playSong(i)"
         >
           <ion-thumbnail
