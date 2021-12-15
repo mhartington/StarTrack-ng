@@ -42,43 +42,47 @@
             </ion-menu-toggle>
           </ion-item-group>
 
-          <ion-item-group *rxLet="isAuthorized; let isAuth">
+          <ng-container *rxLet="isAuthorized; let isAuth">
             <ng-container *ngIf="isAuth">
-              <ion-item-divider>
-                <ion-label>Library</ion-label>
-              </ion-item-divider>
-
-              <ion-menu-toggle autoHide="false">
-                <ion-item
-                  routerLink="/library/albums"
-                  routerDirection="root"
-                  routerLinkActive="selected"
-                  detail="false"
-                >
-                  <ion-icon
-                    color="primary"
-                    slot="start"
-                    name="albums"
-                  ></ion-icon>
-                  Albums
-                </ion-item>
-              </ion-menu-toggle>
-              <ion-menu-toggle autoHide="false">
-                <ion-item
-                  routerLink="/library/songs"
-                  routerDirection="root"
-                  routerLinkActive="selected"
-                  detail="false"
-                >
-                  <ion-icon
-                    color="primary"
-                    slot="start"
-                    name="musical-note"
-                  ></ion-icon>
-                  Songs
-                </ion-item>
-              </ion-menu-toggle>
-
+              <ion-accordion-group multiple="true" [value]="['library']">
+                <ion-accordion value="library" toggle-icon="chevron-forward">
+                  <ion-item slot="header" lines="none">
+                    <ion-label>Library</ion-label>
+                  </ion-item>
+                  <ion-list slot="content">
+                    <ion-menu-toggle autoHide="false">
+                      <ion-item
+                        routerLink="/library/albums"
+                        routerDirection="root"
+                        routerLinkActive="selected"
+                        detail="false"
+                      >
+                        <ion-icon
+                          color="primary"
+                          slot="start"
+                          name="albums"
+                        ></ion-icon>
+                        Albums
+                      </ion-item>
+                    </ion-menu-toggle>
+                    <ion-menu-toggle autoHide="false">
+                      <ion-item
+                        routerLink="/library/songs"
+                        routerDirection="root"
+                        routerLinkActive="selected"
+                        detail="false"
+                      >
+                        <ion-icon
+                          color="primary"
+                          slot="start"
+                          name="musical-note"
+                        ></ion-icon>
+                        Songs
+                      </ion-item>
+                    </ion-menu-toggle>
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
               <ion-menu-toggle autoHide="false">
                 <ion-item
                   (click)="logout()"
@@ -112,7 +116,7 @@
                 </ion-item>
               </ion-menu-toggle>
             </ng-container>
-          </ion-item-group>
+          </ng-container>
         </ion-list>
       </ion-content>
     </ion-menu>
@@ -121,5 +125,4 @@
       <track-player></track-player>
     </div>
   </ion-split-pane>
-
 </ion-app>

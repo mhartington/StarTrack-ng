@@ -92,15 +92,12 @@
   --ion-color-step-900: #191919;
   --ion-color-step-950: #0d0d0d;
 
-
-
   --ion-color-white: #ffffff;
-  --ion-color-white-rgb: 255,255,255;
+  --ion-color-white-rgb: 255, 255, 255;
   --ion-color-white-contrast: #000000;
-  --ion-color-white-contrast-rgb: 0,0,0;
+  --ion-color-white-contrast-rgb: 0, 0, 0;
   --ion-color-white-shade: #e0e0e0;
   --ion-color-white-tint: #ffffff;
-
 }
 
 .ion-color-white {
@@ -320,4 +317,18 @@ ion-split-pane {
 .header-ios ion-toolbar:last-of-type,
 ion-toolbar.ios {
   --border-width: 0;
+}
+
+ion-accordion {
+  .ion-accordion-toggle-icon {
+    color: var(--ion-color-primary);
+    width: 18px;
+    height: 18px;
+  }
+  &.accordion-expanding,
+  &.accordion-expanded {
+    .ion-accordion-toggle-icon {
+      transform: rotate(90deg) !important;
+    }
+  }
 }

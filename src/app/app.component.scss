@@ -15,6 +15,16 @@ ion-item {
   --background: transparent;
   --border-radius: 8px;
 }
+ion-accordion {
+  background: transparent;
+  /* ion-item:not(.selected) { */
+  /*   --border-radius: 0px; */
+  /* } */
+  ion-icon {
+    color: red
+  }
+}
+
 img {
   object-fit: cover;
 }
@@ -34,7 +44,7 @@ ion-menu.ios {
   --background: var(--ion-color-step-100);
 }
 ion-menu {
---side-max-width: 320px;
+  --side-max-width: 320px;
 }
 ion-toolbar.ios {
   --background: var(--ion-color-step-100);

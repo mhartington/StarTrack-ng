@@ -4,7 +4,6 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 import { Browser } from '@capacitor/browser';
-import { Capacitor } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
 
 @Component({
