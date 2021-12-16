@@ -8,6 +8,9 @@
         <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
           <ion-icon slot="icon-only" name="share"></ion-icon>
         </ion-button>
+        <ion-button (click)="addToLibrary()" color="primary">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ng-container>
   </ion-toolbar>

@@ -63,4 +63,7 @@ export class AlbumPage implements OnInit {
   playAlbum({ shuffle }) {
     this.playSong(0, shuffle);
   }
+  delete(){
+
+  }
 }

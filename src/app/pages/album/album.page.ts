@@ -71,4 +71,9 @@ export class AlbumPage {
         );
     }
   }
+
+  async addToLibrary(){
+      const album = this.stateService.get('collection');
+      await this.api.addToLibrary(album.id, album.type);
+  }
 }

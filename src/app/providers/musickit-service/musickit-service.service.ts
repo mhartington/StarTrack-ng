@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
+import { LoadingController, IonicSafeString } from '@ionic/angular';
 import { from, Observable } from 'rxjs';
-import { delay, retryWhen, timeout, map, tap } from 'rxjs/operators';
+import { delay, retryWhen, timeout, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MusickitService {
   private musicKitInstance = (window as any).MusicKit.getInstance();
-  constructor() {}
+  constructor(private loadingCtrl: LoadingController) {}
 
   // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
     // const params = encodeURI(`extend=editorialVideo`);
     return from(
-      this.musicKitInstance.api.music(
-        `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`
-      )
+this.musicKitInstance.api.music(
+  `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
+  {
+    // extend: 'artistUrl,composerUrl,trackCount,editorialVideo,editorialArtwork',
+  }
+)
     ).pipe(map((res: any) => res.data.data[0]));
   }
   fetchPlaylist(id: string): Observable<any> {
@@ -92,7 +96,6 @@ export class MusickitService {
       retryWhen((error) => error.pipe(delay(500))),
       timeout(5000)
     );
-
   }
   fetchPlaylists(offset: number): Observable<any> {
     return from(
@@ -131,7 +134,9 @@ export class MusickitService {
 
   fetchLibraryAlbum(id: string): Observable<any> {
     return from(
-      this.musicKitInstance.api.music(`v1/me/library/albums/${id}`)
+      this.musicKitInstance.api.music(`v1/me/library/albums/${id}`, {
+        extend: ['editorialVideo'],
+      })
     ).pipe(map((res: any) => res.data.data[0]));
   }
 
@@ -173,6 +178,25 @@ export class MusickitService {
   }
   fetchLibraryPlaylist(id: string): Observable<any> {
     return from(this.musicKitInstance.api.library.playlist(id));
+  }
+
+  async addToLibrary(id: string, type: string) {
+    const message = new IonicSafeString(`
+      <div>
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 52 52">
+          <path class="checkmark__check" fill="none" stroke="grey" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </svg>
+        <h1>Added to Library</h1>
+      <div>
+    `);
+    const loader = await this.loadingCtrl.create({
+      cssClass: 'loader-add-to-library',
+      message,
+      spinner: null,
+      duration: 2000,
+    });
+    await this.musicKitInstance.addToLibrary(id, type);
+    await loader.present();
   }
 
   // fetchRecentlyAdded(offset: number): Observable<any> {
