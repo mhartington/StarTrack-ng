@@ -17,6 +17,19 @@ ion-item {
 }
 ion-accordion {
   background: transparent;
+
+  [slot=header] {
+    --border-width: 0;
+    /* --border-radius: 0; */
+    /* --background-hover: transparent; */
+  }
+
+  &.accordion-expanding,
+  &.accordion-expanded {
+      [slot=header] {
+        --border-width: 0;
+    }
+  }
   ion-icon {
     color: red
   }
