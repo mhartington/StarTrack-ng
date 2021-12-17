@@ -66,7 +66,7 @@ ion-footer {
   flex-direction: column;
   justify-content: space-evenly;
   margin: auto;
-  padding: 30px;
+  padding: 0 30px;
   /* background-color: var(--ion-background-color); */
   z-index: 1;
 }
@@ -77,6 +77,7 @@ ion-range {
   width: 100%;
   margin: 0 auto;
   flex: initial;
+  padding: 0
 }
 
 ion-label {
@@ -86,11 +87,17 @@ ion-label {
 }
 
 ion-label * {
-  font-size: 1.3em;
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+ion-label h3 {
+  font-size: 1.1em;
+  font-weight: 900;
+}
+ion-label p {
+  font-size: 1em;
 }
 
 .song-actions {
@@ -107,8 +114,9 @@ ion-label * {
   width: 100%;
   flex: 1 1 100%;
   display: grid;
-  align-content: space-evenly;
+  align-content: space-around;
   z-index: 1;
+  grid-gap: 18px;
 
   ion-thumbnail {
     transform-origin: center center;
