@@ -1,6 +1,6 @@
 :host {
   --background: #5a596087;
-  background-color: var(--background);
+  background-color: #5a5960;
 }
 
 .ion-page {
@@ -19,8 +19,13 @@
 }
 
 @keyframes AnimationName {
-    0%, 100% {background-position:0% 50%}
-    50%{background-position:100% 50%}
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 ion-header {
@@ -38,12 +43,10 @@ ion-header {
 }
 
 ion-footer {
-
-
   border-top: none;
 
   &::before {
-    content:none;
+    content: none;
   }
 
   ion-toolbar {
@@ -62,13 +65,18 @@ ion-footer {
 .track-player {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
   margin: auto;
   padding: 0 30px;
-  /* background-color: var(--ion-background-color); */
   z-index: 1;
+
+  display: grid;
+  grid-template-rows: 75% 25%;
+}
+
+.controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 ion-range {
@@ -77,7 +85,7 @@ ion-range {
   width: 100%;
   margin: 0 auto;
   flex: initial;
-  padding: 0
+  padding: 0;
 }
 
 ion-label {
@@ -94,7 +102,7 @@ ion-label * {
 }
 ion-label h3 {
   font-size: 1.1em;
-  font-weight: 900;
+  font-weight: 600;
 }
 ion-label p {
   font-size: 1em;
@@ -102,43 +110,30 @@ ion-label p {
 
 .song-actions {
   flex: initial;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 56px;
-
+  ion-button {
+    width: 33%;
+    aspect-ratio: 1/1;
+    height: unset;
+  }
   ion-icon {
-    font-size: 30px;
+    font-size: 48px;
   }
 }
 
 .song-info {
   width: 100%;
-  flex: 1 1 100%;
-  display: grid;
-  align-content: space-around;
   z-index: 1;
-  grid-gap: 18px;
+  display: grid;
+  grid-auto-rows: 1fr auto;
 
   ion-thumbnail {
     transform-origin: center center;
     display: block;
     width: 100%;
-    /* max-width: 342px; */
     height: auto;
     margin: auto;
-
-      /* &::before { */
-      /*    content: ""; */
-      /*    height: 100%; */
-      /*    width: 100%; */
-      /*    background: rgba(0, 0, 0, 0.2); */
-      /*    position: absolute; */
-      /*    top: 0; */
-      /*    z-index: -1; */
-      /*    filter: blur(12px); */
-      /*   transform: scale3d(0.9, 0.9, 0.9); */
-      /*    animation: pseudoEl 3s infinite; */
-      /*  } */
-
 
     &.playing {
       now-playing-artwork {
@@ -149,37 +144,10 @@ ion-label p {
     now-playing-artwork {
       width: 100%;
       aspect-ratio: 1/1;
-      /* clip-path: inset(0 round 4%); */
-      /* overflow: hidden; */
-      /* border-radius: 4%; */
       transform-origin: center center;
       transform: scale3d(0.85, 0.85, 0.85);
       transition: transform 300ms cubic-bezier(0.42, 0, 0, 1.93);
-
-      /* animation: animateShadow 3s infinite; */
-
     }
-  }
-}
-
-@keyframes pseudoEl {
-0%, 100% {
-    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 0px, 0);
-  }
-  50% {
-    transform: scale3d(1.05, 1.05, 1.05) translate3d(0, 12px, 0);
-  }
-}
-
-@keyframes animateShadow {
-  0%,
-  100% {
-    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-  }
-  50% {
-    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
-      0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -201,7 +169,7 @@ ion-label p {
 .queue-scroller {
   flex: 1;
   overflow: auto;
-  overscroll-behavior-y: none
+  overscroll-behavior-y: none;
 }
 
 .svg-aside {
@@ -211,10 +179,14 @@ ion-label p {
 
 @media (orientation: portrait) {
   .track-player {
-    max-width: 500px;
+    max-width: 80%;
   }
 
   .track-wrapper.queue-active {
+    .track-player {
+      grid-template-rows: 15% 60% 25%;
+    }
+
     .player-queue-portrait {
       display: flex;
       flex-direction: column;
@@ -225,7 +197,7 @@ ion-label p {
       flex: initial;
       margin-top: unset;
       display: grid;
-      grid-template-columns: 25% 75%;
+      grid-template-columns: 18% auto;
       align-items: center;
 
       ion-thumbnail {
@@ -246,6 +218,7 @@ ion-label p {
 @media (orientation: landscape) {
   .track-player {
     max-width: 500px;
+    width: 45%;
   }
 
   .track-wrapper.queue-active {
@@ -271,7 +244,9 @@ ion-button.active {
   background-color: #ffffff1c;
 }
 
-song-item ion-item {
-  --color: currentColor;
-  --background: transparent;
+song-item {
+  --padding-begin: 0;
+  ion-item {
+    --padding-start: 0;
+  }
 }

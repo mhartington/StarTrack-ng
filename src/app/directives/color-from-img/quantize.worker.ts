@@ -541,7 +541,29 @@ const MMCQ = (() => {
 })();
 
 addEventListener('message', ({ data }) => {
-  const cmap = MMCQ.quantize(data.pixelArray, data.colorCount);
+  // this.worker.postMessage({ pixels, pixelCount, colorCount });
+  const { pixels, pixelCount, colorCount, quality } = data;
+  // Store the RGB values in an array format suitable for quantize function
+  const pixelArray = [];
+  for (
+    let i = 0, offset: number, r: number, g: number, b: number, a: number;
+    i < pixelCount;
+    i = i + quality
+  ) {
+    offset = i * 4;
+    r = pixels[offset + 0];
+    g = pixels[offset + 1];
+    b = pixels[offset + 2];
+    a = pixels[offset + 3];
+    // If pixel is mostly opaque and not white
+    if (a >= 125) {
+      if (!(r > 250 && g > 250 && b > 250)) {
+        pixelArray.push([r, g, b]);
+      }
+    }
+  }
+
+  const cmap = MMCQ.quantize(pixelArray, colorCount);
   const palette = cmap ? cmap.palette() : null;
   postMessage(palette);
 });

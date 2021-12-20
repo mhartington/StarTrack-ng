@@ -61,7 +61,7 @@ export class ColorFromImgDirective implements OnChanges {
         this.getPaletteFromUrl(this.imgSrc);
       } else {
         const incomingVal = new URL(src.currentValue);
-        const currentVal = new URL(this.imgSrc);
+        const currentVal = new URL(src.previousValue);
         if (currentVal.pathname !== incomingVal.pathname) {
           this.imgSrc = src.currentValue;
           this.getPaletteFromUrl(this.imgSrc);
@@ -91,30 +91,7 @@ export class ColorFromImgDirective implements OnChanges {
     const imageData = this.image.getImageData();
     const pixels = imageData.data;
     const pixelCount = this.image.getPixelCount();
-
-    // Store the RGB values in an array format suitable for quantize function
-    const pixelArray = [];
-    for (
-      let i = 0, offset: number, r: number, g: number, b: number, a: number;
-      i < pixelCount;
-      i = i + quality
-    ) {
-      offset = i * 4;
-      r = pixels[offset + 0];
-      g = pixels[offset + 1];
-      b = pixels[offset + 2];
-      a = pixels[offset + 3];
-      // If pixel is mostly opaque and not white
-      if (a >= 125) {
-        if (!(r > 250 && g > 250 && b > 250)) {
-          pixelArray.push([r, g, b]);
-        }
-      }
-    }
-
-    // Send array to quantize function which clusters values
-    // using median cut algorithm
-    this.worker.postMessage({ pixelArray, colorCount });
+    this.worker.postMessage({ pixels, pixelCount, colorCount, quality });
   }
 
   getPaletteFromUrl(imageUrl: string, quality = 10) {

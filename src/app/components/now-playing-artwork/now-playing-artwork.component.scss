@@ -1,7 +1,7 @@
 :host {
   display: block;
-  height: 100%;
   width: 100%;
+  height: auto;
   background: transparent;
 
   &::after {
@@ -26,4 +26,8 @@
 lazy-img {
   clip-path: inset(0 round 4%);
   overflow: hidden;
+}
+
+.queue-active :host.playing::after {
+    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 18px, 0);
 }

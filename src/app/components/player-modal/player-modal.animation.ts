@@ -96,8 +96,7 @@ export const createQueueAnimation = async (
 
     animationChain.push(trackPlayerAnimation);
   }
-
-  else {
+  if(isPortait) {
     const thumbnailEl = targetEl.querySelector('ion-thumbnail');
     const labelEl = targetEl.querySelector('ion-label');
     const playerQueueEl = targetEl.querySelector('.player-queue-portrait');

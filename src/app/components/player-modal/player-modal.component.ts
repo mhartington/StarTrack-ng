@@ -1,4 +1,12 @@
 import {
+  animate,
+  group,
+  query,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -7,7 +15,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
 import {
@@ -16,11 +24,45 @@ import {
 } from 'src/app/providers/player/player.service2';
 import { createQueueAnimation } from './player-modal.animation';
 
+
+
 @Component({
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('listAnimation', [
+      transition(':increment', [
+        group([
+          query('song-item', [
+            style({
+              transform: 'translate3d(0, calc(-100% + 1px), 0)',
+            }),
+            animate(
+              '300ms ease-out',
+              style({
+                transform: 'translate3d(0, 0, 0)',
+              })
+            ),
+          ]),
+        ]),
+      ]),
+      transition(':decrement', [
+        group([
+          query(':leave', [animate('300ms ease-out', style({ opacity: 0 }))]),
+          query('song-item', [
+            animate(
+              '300ms ease-out',
+              style({
+                transform: 'translate3d(0, calc(-100% + 1px), 0)',
+              })
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class PlayerModalComponent implements OnInit, OnDestroy {
   @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
@@ -69,12 +111,12 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     ]
   ) {
     const primary = event[0];
-    // const secondary = event[1];
-    // const third = event[2];
+    const secondary = event[1];
+    const third = event[2];
     this.backgroundColor = {
-      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.7 )`,
-      // '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.7 )`,
-      // '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.7 )`
+      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.8 )`,
+      '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.8 )`,
+      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.8 )`
     };
   }
   async seekToTime(ev: any): Promise<void> {

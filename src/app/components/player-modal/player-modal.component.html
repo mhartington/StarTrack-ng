@@ -15,7 +15,7 @@
             (newColor)="updateColor($event)"
             [src]="
               state.nowPlayingItem.attributes.artwork?.url ??
-                'assets/imgs/default.svg' | formatArtworkUrl: 600
+                'assets/imgs/default.svg' | formatArtworkUrl: 1000
             "
             [ngClass]="{
               playing: state.playbackState === playbackStates.PLAYING
@@ -40,7 +40,7 @@
 
       <div class="player-queue-portrait" *rxLet="queue$; let queue">
         <h1><ion-text color="white">Playing Next</ion-text></h1>
-        <div class="queue-scroller">
+        <div class="queue-scroller" [@listAnimation]="queue.length">
           <!-- [ngClass]="{ active: state.queuePosition === i + 1 }" -->
           <song-item
             color="white"
@@ -83,7 +83,6 @@
 
         <ion-buttons class="song-actions">
           <ion-button
-            size="large"
             shape="round"
             color="white"
             fill="clear"
@@ -93,7 +92,6 @@
             <ion-icon name="play-back" slot="icon-only"></ion-icon>
           </ion-button>
           <ion-button
-            size="large"
             shape="round"
             color="white"
             fill="clear"
@@ -111,7 +109,6 @@
             ></ion-spinner>
             <ng-template #buttonTemplate>
               <ion-icon
-                size="large"
                 [name]="
                   state.playbackState === playbackStates.PLAYING
                     ? 'pause'
@@ -138,8 +135,8 @@
       <div
         class="queue-scroller"
         (pointerdown)="$event.stopPropagation(); $event.preventDefault()"
+        [@listAnimation]="queue.length"
       >
-        <!-- [ngClass]="{ active: state.queuePosition === i + 1 }" -->
         <song-item
           color="white"
           *ngFor="let song of queue; let i = index"
