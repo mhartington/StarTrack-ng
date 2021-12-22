@@ -64,9 +64,8 @@ ion-footer {
 
 .track-player {
   height: 100%;
-  width: 100%;
+  width: min(80%, 500px);
   margin: auto;
-  padding: 0 30px;
   z-index: 1;
 
   display: grid;
@@ -133,6 +132,7 @@ ion-label p {
     display: block;
     width: 100%;
     height: auto;
+    object-fit: contain;
     margin: auto;
 
     &.playing {
@@ -179,7 +179,7 @@ ion-label p {
 
 @media (orientation: portrait) {
   .track-player {
-    max-width: 80%;
+    /* max-width: 80%; */
   }
 
   .track-wrapper.queue-active {
@@ -219,6 +219,7 @@ ion-label p {
   .track-player {
     max-width: 500px;
     width: 45%;
+    padding: 0 30px;
   }
 
   .track-wrapper.queue-active {
