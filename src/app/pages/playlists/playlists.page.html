@@ -4,6 +4,9 @@
       <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
     </ion-buttons>
     <ng-container *rxLet="state$ as state">
+      <ion-title>
+        {{state.collection.attributes.name}}
+      </ion-title>
       <ion-buttons slot="end">
         <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
           <ion-icon slot="icon-only" name="share"></ion-icon>
@@ -14,7 +17,9 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-header  collapse="condense" >
-    <ion-toolbar></ion-toolbar>
+    <ion-toolbar>
+        <ion-title size="large"></ion-title>
+    </ion-toolbar>
   </ion-header>
   <ng-container *rxLet="state$ as state">
     <ng-container *ngIf="state.collection">

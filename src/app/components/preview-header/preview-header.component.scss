@@ -17,7 +17,9 @@ ion-toolbar {
     padding-inline-end: 0;
   }
 }
-
+ion-skeleton-text {
+  margin: auto;
+}
 lazy-img {
   margin: 24px;
   height: 100%;

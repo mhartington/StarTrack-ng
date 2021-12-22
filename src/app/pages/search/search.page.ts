@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
@@ -25,11 +25,11 @@ interface ICollection {
 interface ISearchPageState {
   hasError: boolean;
   isLoading: boolean;
-  collection: ICollection;
+  collection: Partial<ICollection>;
 }
 
 const stateFixtures: { [key: string]: Partial<ISearchPageState> } = {
-  idle: { isLoading: false, collection: {}, hasError: false },
+  idle: { isLoading: false, collection: null, hasError: false },
   error: { isLoading: false, hasError: true },
   loading: { isLoading: true },
   success: { isLoading: false, hasError: false },
@@ -65,6 +65,11 @@ export class SearchPage {
   public searchClearTrigger$ = new Subject();
   public playSongTrigger$ = new Subject();
 
+  public segmentFilter = new FormControl('songs');
+
+  private segmentFilterUpdate = this.segmentFilter.valueChanges.pipe(
+    tap((val) => console.log(val))
+  );
   private searchTerm$ = this.searchForm.valueChanges.pipe(
     map(({ search }) => search),
     distinctUntilChanged()
@@ -117,7 +122,7 @@ export class SearchPage {
       this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
     );
     this.stateService.connect(this.clearCollection$);
-
+    this.stateService.connect(this.segmentFilterUpdate);
     // Data Actions
     // Read the url and set the search
     this.stateService.hold(this.readUrlEffect$.pipe(take(1)));

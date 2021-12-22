@@ -21,8 +21,10 @@
         }}
       </ion-note>
     </p>
-    <p class="editorial-notes" [innerHtml]="collection.attributes.editorialNotes?.standard">
-    </p>
+    <p
+      class="editorial-notes"
+      [innerHtml]="collection.attributes.editorialNotes?.standard"
+    ></p>
   </ng-container>
 
   <ng-template #placeholder>
@@ -31,9 +33,6 @@
     </h3>
     <p>
       <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-    </p>
-    <p>
-      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
     </p>
     <p>
       <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
