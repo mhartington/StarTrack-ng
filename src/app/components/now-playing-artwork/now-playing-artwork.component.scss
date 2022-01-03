@@ -15,6 +15,7 @@
     z-index: -1;
     filter: blur(12px);
     transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 18px, 0);
+    transition: all 500ms cubic-bezier(0.42, 0, 0, 1.93);
   }
 
   &.playing {
@@ -28,6 +29,9 @@ lazy-img {
   overflow: hidden;
 }
 
-.queue-active :host.playing::after {
-    transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 0, 0);
+
+@media (orientation: portrait) {
+  .queue-active :host.playing::after {
+    opacity: 0;
+  }
 }

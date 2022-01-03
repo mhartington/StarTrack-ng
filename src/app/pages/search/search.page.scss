@@ -4,8 +4,11 @@ ion-segment {
   position: sticky;
   top: 0px;
   z-index: 101;
+  justify-content: center;
+  width: 100%;
 
   ion-segment-button {
+    min-width: unset;
     &.ios {
       --background-checked: transparent;
       --indicator-color: var(--ion-color-primary);
@@ -21,9 +24,5 @@ ion-segment {
       }
     }
 
-    &.md {
-      min-height: 32px;
-      height: 32px;
-    }
   }
 }

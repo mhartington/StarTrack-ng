@@ -42,7 +42,7 @@
             <song-item
               *ngFor="let song of songs; let i = index"
               [song]="song"
-              (click)="playSong(i)"
+              (click)="playSong(song)"
             >
               <ion-thumbnail slot="start">
                 <lazy-img

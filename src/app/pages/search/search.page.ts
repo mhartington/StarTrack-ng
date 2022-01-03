@@ -14,6 +14,7 @@ import {
   tap,
   filter,
 } from 'rxjs/operators';
+import { Song } from 'src/@types/song';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 
@@ -132,10 +133,7 @@ export class SearchPage {
     this.stateService.connect(this.fetchDataSideEffect$);
   }
 
-  playSong(index: number): void {
-    this.player.setQueueFromItems(
-      this.stateService.get().collection.songs,
-      index
-    );
+  playSong(song: Song): void {
+    this.player.setQueueFromItems([song]);
   }
 }

@@ -4,6 +4,8 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
+  SimpleChanges,
   ViewChild,
   ɵmarkDirty as markDirty,
 } from '@angular/core';
@@ -14,7 +16,7 @@ import {
   styleUrls: ['./lazy-img.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LazyImgComponent implements AfterViewInit {
+export class LazyImgComponent  {
 
   @Input() src = '';
   @Input() alt = '';
@@ -28,21 +30,28 @@ export class LazyImgComponent implements AfterViewInit {
   private observer: IntersectionObserver;
 
   constructor() {}
-  async ngAfterViewInit(): Promise<void> {
-    if ('loading' in HTMLImageElement.prototype) {
-      this.lazyImage.nativeElement.src = this.src;
-      this.lazyImage.nativeElement.alt = this.alt;
-    } else if ('IntersectionObserver' in window) {
-      const options: IntersectionObserverInit = { root: this.lazyImage.nativeElement.closest(this.lazyParent) };
-      this.observer = new IntersectionObserver(
-        await this.onObserve.bind(this),
-        options
-      );
-      this.observer.observe(this.lazyImage.nativeElement);
-    } else {
-      setTimeout(() => this.preload(this.lazyImage.nativeElement), 200);
-    }
-  }
+  // async ngAfterViewInit(): Promise<void> {
+  // }
+  // async ngOnChanges({ src, alt }: SimpleChanges) {
+  //   if ('loading' in HTMLImageElement.prototype) {
+  //     this.lazyImage.nativeElement.src = src.currentValue;
+  //     this.lazyImage.nativeElement.alt = alt.currentValue;
+  //   }
+  //
+  //   // else if ('IntersectionObserver' in window) {
+  //   //   const options: IntersectionObserverInit = { root: this.lazyImage.nativeElement.closest(this.lazyParent) };
+  //   //   this.observer = new IntersectionObserver(
+  //   //     await this.onObserve.bind(this),
+  //   //     options
+  //   //   );
+  //   //   this.observer.observe(this.lazyImage.nativeElement);
+  //   // }
+  //
+  //   else {
+  //     setTimeout(() => this.preload(this.lazyImage.nativeElement), 200);
+  //   }
+  //
+  // }
 
   async onObserve(
     data: IntersectionObserverEntry[]
