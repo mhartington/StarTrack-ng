@@ -18,9 +18,9 @@
     >
       E
     </p>
-    <ion-note slot="end" *ngIf="song.attributes.durationInMillis">{{
-      song.attributes.durationInMillis | msToMins
-    }}</ion-note>
+    <ion-note slot="end" *ngIf="song.attributes.durationInMillis">
+      {{ song.attributes.durationInMillis | msToMins }}
+    </ion-note>
   </ng-container>
 </ion-item>
 
