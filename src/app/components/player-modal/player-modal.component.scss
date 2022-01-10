@@ -1,6 +1,7 @@
 :host {
   --background: #5a596087;
   background-color: #5a5960;
+
 }
 
 .ion-page {
@@ -246,6 +247,8 @@ ion-button.active {
 }
 
 song-item {
+  --text-color: #fff;
+  --item-border-color: #fff;
   --padding-begin: 0;
   ion-item {
     --padding-start: 0;

@@ -5,6 +5,8 @@
     cursor: pointer;
   }
   ion-item {
+    --color: var(--text-color);
+    --border-color: var(--item-border-color, var(--ion-item-border-color, var(--ion-border-color)));
     --padding-start: var(--padding-begin);
     /* &:not(.has-index) { */
     /*   --padding-top: 0; */

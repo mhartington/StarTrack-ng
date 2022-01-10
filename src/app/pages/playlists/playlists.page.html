@@ -5,7 +5,7 @@
     </ion-buttons>
     <ng-container *rxLet="state$ as state">
       <ion-title>
-        {{state.collection.attributes.name}}
+        {{state.collection?.attributes.name}}
       </ion-title>
       <ion-buttons slot="end">
         <ion-button color="primary" *ngIf="state.canShare" (click)="share()">
