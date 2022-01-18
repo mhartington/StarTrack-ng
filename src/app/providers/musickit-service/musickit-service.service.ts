@@ -199,6 +199,11 @@ this.musicKitInstance.api.music(
     await loader.present();
   }
 
+  fetchRecentlyAdded(): Observable<any> {
+    return from(
+      this.musicKitInstance.api.music('v1/me/library/recently-added', {limit: 25})
+    ).pipe(map((res: any) => res.data.data));
+  }
   // fetchRecentlyAdded(offset: number): Observable<any> {
   //   return from(
   //    this.musicKitInstance.api.library.collection(

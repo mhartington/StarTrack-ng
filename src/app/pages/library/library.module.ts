@@ -22,6 +22,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./songs/songs.module').then((m) => m.SongsPageModule),
   },
+  {
+    path: 'recently-added',
+    loadChildren: () =>
+      import('./recently-added/recently-added.module').then(
+        (m) => m.RecentlyAddedPageModule
+      ),
+  },
 ];
 
 @NgModule({

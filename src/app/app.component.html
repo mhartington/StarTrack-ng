@@ -52,6 +52,23 @@
                     </ion-label>
                   </ion-item>
                   <ion-list slot="content">
+
+                    <ion-menu-toggle autoHide="false">
+                      <ion-item
+                        routerLink="/library/recently-added"
+                        routerDirection="root"
+                        routerLinkActive="selected"
+                        detail="false"
+                      >
+                        <ion-icon
+                          color="primary"
+                          slot="start"
+                          name="time-outline"
+                          style="transform: scale(-1, 1);"
+                        ></ion-icon>
+                        Recently Added
+                      </ion-item>
+                    </ion-menu-toggle>
                     <ion-menu-toggle autoHide="false">
                       <ion-item
                         routerLink="/library/albums"

@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recently Added</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+      State
+  <ng-container *rxLet="state$ as state">
+      <pre>{{state | json}}</pre>
+  </ng-container>
+</ion-content>

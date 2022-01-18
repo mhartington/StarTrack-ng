@@ -5,12 +5,7 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/index.html",
-          "/*.css",
-          "/main-*.js",
-          "/runtime-*.js"
-        ]
+        "files": ["/index.html", "/*.css", "/main-*.js", "/runtime-*.js"]
       }
     },
     {
@@ -19,6 +14,24 @@
       "updateMode": "lazy",
       "resources": {
         "files": ["/assets/**", "*.svg", "/*.js"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "music api response",
+      "urls": ["https://api.music.apple.com/**/*"],
+      "cacheConfig": {
+        "maxSize": "5",
+        "maxAge": "2d"
+      }
+    },
+    {
+      "name": "musickit.js",
+      "urls": ["https://js-cdn.music.apple.com/musickit/v3/musickit.js"],
+      "cacheConfig": {
+        "maxSize": "5",
+        "maxAge": "2d"
       }
     }
   ]
