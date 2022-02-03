@@ -68,9 +68,6 @@ export class SearchPage {
 
   public segmentFilter = new FormControl('songs');
 
-  private segmentFilterUpdate = this.segmentFilter.valueChanges.pipe(
-    tap((val) => console.log(val))
-  );
   private searchTerm$ = this.searchForm.valueChanges.pipe(
     map(({ search }) => search),
     distinctUntilChanged()
@@ -123,7 +120,6 @@ export class SearchPage {
       this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
     );
     this.stateService.connect(this.clearCollection$);
-    this.stateService.connect(this.segmentFilterUpdate);
     // Data Actions
     // Read the url and set the search
     this.stateService.hold(this.readUrlEffect$.pipe(take(1)));
