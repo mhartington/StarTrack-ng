@@ -10,7 +10,7 @@
 <ion-content>
   <ng-container *rxLet="songs$ as songs">
     <ng-container *ngIf="songs.length; else loading">
-      <song-item *ngFor="let song of songs; index as i" [song]="song" (click)="playSong(i)">
+      <song-item *ngFor="let song of songs; index as i; trackBy:trackByItem" [song]="song" (click)="playSong(i)">
         <ion-thumbnail slot="start">
           <lazy-img
             [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"

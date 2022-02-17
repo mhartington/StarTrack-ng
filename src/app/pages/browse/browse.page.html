@@ -22,7 +22,7 @@
         </ion-list-header>
         <div class="album-grid">
           <album-preview-item
-            *ngFor="let album of chart.topAlbums; let i = index"
+            *ngFor="let album of chart.topAlbums; let i = index; trackBy:trackByItem"
             [album]="album"
             [routerLink]="['/us', 'album', album.id]"
           >
@@ -42,7 +42,7 @@
         </ion-list-header>
         <div class="album-grid">
           <album-preview-item
-            *ngFor="let playlist of chart.topPlaylists; let i = index"
+            *ngFor="let playlist of chart.topPlaylists; let i = index; trackBy:trackByItem"
             [album]="playlist"
             [routerLink]="['/us','playlist', playlist.id]"
           >
@@ -62,7 +62,7 @@
         </ion-list-header>
         <div class="song-grid">
           <song-item
-            *ngFor="let song of chart.topSongs; let i = index"
+            *ngFor="let song of chart.topSongs; let i = index; trackBy:trackByItem"
             [song]="song"
             (click)="playSong(i)"
           >

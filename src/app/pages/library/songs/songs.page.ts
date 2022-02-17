@@ -87,6 +87,10 @@ export class SongsPage implements OnInit {
   }
 
 
+  trackByItem(_idx: number,item: any){
+    return item.id;
+  }
+
   playSong(index: number, shuffle = false) {
     const songs = this.stateService.get('songs');
     this.player.playCollection({songs, startPosition: index});

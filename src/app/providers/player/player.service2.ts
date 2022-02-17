@@ -51,6 +51,7 @@ export class PlayerService extends RxState<IPlayerState> {
   );
 
   private playbackStateDidChange$ = fromEvent(this.mkInstance, this.mkEvents.playbackStateDidChange).pipe(
+    tap(event => console.log(event)),
     map((event: any)=> ({playbackState: PlaybackStates[PlaybackStates[event.state]]})),
   );
 

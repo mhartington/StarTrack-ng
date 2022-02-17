@@ -35,7 +35,9 @@ export class BrowsePage {
     this.stateService.connect(this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$)));
 
   }
-
+  trackByItem(_idx: number,item: any){
+    return item.id;
+  }
   ionViewDidEnter() {
     this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
