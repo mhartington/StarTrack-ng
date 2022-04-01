@@ -11,6 +11,14 @@
     {
       "src": "assets/icons/icon-mask.png",
       "sizes": "1024x1024",
-      "type": "image/png"
-    }  ]
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
