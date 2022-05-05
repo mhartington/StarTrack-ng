@@ -14,12 +14,12 @@ export class MusickitService {
   fetchAlbum(id: string): Observable<any> {
     // const params = encodeURI(`extend=editorialVideo`);
     return from(
-this.musicKitInstance.api.music(
-  `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
-  {
-    // extend: 'artistUrl,composerUrl,trackCount,editorialVideo,editorialArtwork',
-  }
-)
+      this.musicKitInstance.api.music(
+        `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
+        {
+          // extend: 'artistUrl,composerUrl,trackCount,editorialVideo,editorialArtwork',
+        }
+      )
     ).pipe(map((res: any) => res.data.data[0]));
   }
   fetchPlaylist(id: string): Observable<any> {
@@ -201,7 +201,9 @@ this.musicKitInstance.api.music(
 
   fetchRecentlyAdded(): Observable<any> {
     return from(
-      this.musicKitInstance.api.music('v1/me/library/recently-added', {limit: 25})
+      this.musicKitInstance.api.music('v1/me/library/recently-added', {
+        limit: 25,
+      })
     ).pipe(map((res: any) => res.data.data));
   }
   // fetchRecentlyAdded(offset: number): Observable<any> {
