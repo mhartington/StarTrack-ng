@@ -36,14 +36,10 @@ import { createQueueAnimation } from './player-modal.animation';
       transition(':increment', [
         group([
           query('song-item', [
-            style({
-              transform: 'translate3d(0, calc(-100% + 1px), 0)',
-            }),
+            style({ transform: 'translate3d(0, calc(-100% + 1px), 0)', }),
             animate(
               '300ms ease-out',
-              style({
-                transform: 'translate3d(0, 0, 0)',
-              })
+              style({ transform: 'translate3d(0, 0, 0)', })
             ),
           ]),
         ]),
@@ -114,9 +110,9 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     const secondary = event[1];
     const third = event[2];
     this.backgroundColor = {
-      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.5)`,
-      '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.5)`,
-      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.5)`
+      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.8)`,
+      '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.8)`,
+      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.8)`
     };
   }
   async seekToTime(ev: any): Promise<void> {

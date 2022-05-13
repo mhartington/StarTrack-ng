@@ -5,7 +5,7 @@
 }
 
 .ion-page {
-  background-color: var(--background1);
+  background-color: var(--background3);
   transition: background 5000ms cubic-bezier(0.32, 0.72, 0, 1);
   z-index: unset;
 
@@ -58,12 +58,14 @@ ion-footer {
 }
 
 .track-wrapper {
+  position: relative;
   height: 100%;
   overflow: hidden;
   width: 100%;
 }
 
 .track-player {
+  position: relative;
   height: 100%;
   width: min(80%, 500px);
   margin: auto;
@@ -136,18 +138,10 @@ ion-label p {
     object-fit: contain;
     margin: auto;
 
-    &.paused {
-      now-playing-artwork {
-        transform: scale3d(0.85, 0.85, 0.85);
-      }
-    }
 
     now-playing-artwork {
       width: 100%;
       aspect-ratio: 1/1;
-      transform-origin: center center;
-      transform: scale3d(1, 1, 1);
-      transition: transform 500ms cubic-bezier(0.42, 0, 0, 1.93);
     }
   }
 }
@@ -205,7 +199,6 @@ ion-label p {
         padding-bottom: 0;
         now-playing-artwork {
           border-radius: 6px;
-          transform: scale3d(1, 1, 1);
         }
       }
     }

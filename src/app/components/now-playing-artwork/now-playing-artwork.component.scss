@@ -1,11 +1,12 @@
 :host {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   background: transparent;
+  transform-origin: center center;
+  position: relative;
 
-  &::after {
-    content: '';
+  .shadow {
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.2);
@@ -14,21 +15,27 @@
     top: 0;
     z-index: -1;
     filter: blur(12px);
-    transform: scale3d(1.02, 1.02, 1.02) translate3d(0, 18px, 0);
-    transition: all 500ms cubic-bezier(0.42, 0, 0, 1.93);
+    transform: scale3d(0.9, 1.02, 1.02) translate3d(0, 18px, 0);
+    transition: transform 500ms cubic-bezier(0.42, 0, 0, 1.93);
+  }
+
+  lazy-img {
+    clip-path: inset(0 round 4%);
+    overflow: hidden;
+    transform-origin: center center;
+    transform: scale3d(1, 1, 1);
+    transition: transform 500ms cubic-bezier(0.42, 0, 0, 1.93);
   }
 
   &.paused {
-    &::after {
-      transform: scale3d(0.9, 0.9, 0.9) translate3d(0, 18px, 0);
+    lazy-img {
+      transform: scale3d(0.85, 0.85, 0.85);
+    }
+    .shadow {
+      transform: scale3d(0.8, 0.8, 0.8) translate3d(0, 0, 0);
     }
   }
 }
-
-
-
-
-
 
 // :host {
 //   animation: animateShadow 3s infinite;
@@ -68,16 +75,16 @@
 //     transform: scale3d(1.05, 1.05, 1.05) translate3d(0, 12px, 0);
 //   }
 // }
-
-
-lazy-img {
-  clip-path: inset(0 round 4%);
-  overflow: hidden;
-}
-
+//
 
 @media (orientation: portrait) {
-  .queue-active :host.playing::after {
-    opacity: 0;
+  .queue-active {
+    :host {
+      .shadow { transform: scale3d(0.8, 1, 1) translate3d(0, 0, 0) !important; }
+    }
+    :host(.paused) {
+      lazy-img { transform: scale3d(1, 1, 1) !important; }
+      .shadow { transform: scale3d(0.8, 1, 1) translate3d(0, 0, 0) !important; }
+    }
   }
 }
