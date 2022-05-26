@@ -15,8 +15,17 @@
     top: 0;
     z-index: -1;
     filter: blur(12px);
-    transform: scale3d(0.9, 1.02, 1.02) translate3d(0, 18px, 0);
-    transition: transform 500ms cubic-bezier(0.42, 0, 0, 1.93);
+    transition: all 5s cubic-bezier(0.42, 0, 0, 1.93);
+
+    &.shadow_1{
+      transform: scale3d(0.9, 1.02, 1.02) translate3d(0, 18px, 0);
+    }
+    &.shadow_2{
+      transform: scale3d(0.9, 1.02, 1.02) translate3d(19px, 5px, 0);
+    }
+    &.shadow_3{
+      transform: scale3d(0.9, 1.02, 1.02) translate3d(-19px, 5px, 0);
+    }
   }
 
   lazy-img {
@@ -24,7 +33,7 @@
     overflow: hidden;
     transform-origin: center center;
     transform: scale3d(1, 1, 1);
-    transition: transform 500ms cubic-bezier(0.42, 0, 0, 1.93);
+    transition: transform 5s cubic-bezier(0.42, 0, 0, 1.93);
   }
 
   &.paused {
@@ -32,7 +41,8 @@
       transform: scale3d(0.85, 0.85, 0.85);
     }
     .shadow {
-      transform: scale3d(0.8, 0.8, 0.8) translate3d(0, 0, 0);
+      transform:  translate3d(0, 0, 0);
+      opacity: 0;
     }
   }
 }

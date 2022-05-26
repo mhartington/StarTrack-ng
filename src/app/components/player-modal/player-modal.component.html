@@ -6,7 +6,11 @@
     <div class="track-player">
       <div class="song-info">
         <ion-thumbnail
-          [ngClass]="{  paused: state.playbackState === playbackStates.PAUSED || state.playbackState === playbackStates.NONE }"
+          [ngClass]="{
+          paused: state.playbackState === playbackStates.PAUSED ||
+          state.playbackState === playbackStates.NONE  ||
+          state.playbackState === playbackStates.STOPPED
+          }"
         >
           <now-playing-artwork
             colorFromImg
@@ -15,9 +19,11 @@
               state.nowPlayingItem.attributes.artwork?.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl: 1000
             "
-            [ngClass]="{
-              paused: state.playbackState === playbackStates.PAUSED || state.playbackState === playbackStates.NONE
-            }"
+          [ngClass]="{
+          paused: state.playbackState === playbackStates.PAUSED ||
+          state.playbackState === playbackStates.NONE  ||
+          state.playbackState === playbackStates.STOPPED
+          }"
             alt="The album art work cover"
           ></now-playing-artwork>
         </ion-thumbnail>
