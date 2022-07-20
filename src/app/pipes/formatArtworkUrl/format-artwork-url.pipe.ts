@@ -1,8 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-@Pipe({ name: 'formatArtworkUrl', pure: true })
+@Pipe({
+  name: 'formatArtworkUrl',
+  pure: true,
+  standalone: true
+})
 export class FormatArtworkUrlPipe implements PipeTransform {
   transform(url: string, dim: number): string {
-    if (!url) {return '';}
+    if (!url) {
+      return '';
+    }
     return url.replace(/\{w\}|\{h\}/g, dim.toString());
   }
 }

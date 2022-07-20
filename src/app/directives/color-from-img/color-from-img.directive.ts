@@ -36,6 +36,7 @@ const canvasImage = (image: HTMLImageElement) => {
 
 @Directive({
   selector: '[colorFromImg]',
+  standalone: true
 })
 export class ColorFromImgDirective implements OnChanges {
   @Input()

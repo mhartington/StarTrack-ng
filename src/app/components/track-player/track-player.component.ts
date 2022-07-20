@@ -1,17 +1,34 @@
 import { Component, HostListener } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import {
   PlaybackStates,
   PlayerService,
 } from '../../providers/player/player.service2';
 import { PlayerModalComponent } from '../player-modal/player-modal.component';
 import { tap } from 'rxjs/operators';
+import { LetModule } from '@rx-angular/template';
+import { IonRangeDirective } from '../../directives/ion-range/ion-range.directive';
+import { CommonModule } from '@angular/common';
+import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { LazyImgComponent } from '../lazy-img/lazy-img.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   // eslint-disable-next-line
   selector: 'track-player',
   templateUrl: './track-player.component.html',
   styleUrls: ['./track-player.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    LazyImgComponent,
+    FormatArtworkUrlPipe,
+    IonicModule,
+    CommonModule,
+    IonRangeDirective,
+    LetModule,
+    PlayerModalComponent,
+  ],
 })
 export class TrackPlayerComponent {
   public state$ = this.player.select();
@@ -24,9 +41,10 @@ export class TrackPlayerComponent {
   private clickBlock = false;
   private isScrubbing = false;
 
-
-
-  constructor(public player: PlayerService, private modalCtrl: ModalController) {
+  constructor(
+    public player: PlayerService,
+    private modalCtrl: ModalController
+  ) {
     this.playbackTime$
       .pipe(
         tap((val: any) => {
@@ -42,7 +60,9 @@ export class TrackPlayerComponent {
   async toggle() {
     if (!this.playerModal && !this.clickBlock) {
       this.clickBlock = true;
-      this.playerModal  = await import( '../player-modal/player-modal.component').then(m => m.PlayerModalComponent);
+      this.playerModal = await import(
+        '../player-modal/player-modal.component'
+      ).then((m) => m.PlayerModalComponent);
     }
 
     const modalInstance = await this.modalCtrl.create({

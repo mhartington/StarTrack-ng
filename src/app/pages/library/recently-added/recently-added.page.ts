@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { RxState } from '@rx-angular/state';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { map } from 'rxjs';
-import { MusickitService } from 'src/app/providers/musickit-service/musickit-service.service';
+import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
 type RecentlyAddedPageState = {
   collection: any[];
@@ -11,6 +15,14 @@ type RecentlyAddedPageState = {
   templateUrl: './recently-added.page.html',
   styleUrls: ['./recently-added.page.scss'],
   providers: [RxState],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    LetModule,
+    PushModule,
+    RouterModule
+  ],
 })
 export class RecentlyAddedPage implements OnInit {
   public state$ = this.stateService.select();

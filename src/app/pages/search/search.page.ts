@@ -1,7 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormControl,
+} from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { RxState } from '@rx-angular/state';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -15,6 +22,11 @@ import {
   filter,
 } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
+import { ErrorComponent } from 'src/app/components/error/error.component';
+import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
+import { SongItemComponent } from 'src/app/components/song-item/song-item.component';
+import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { MsToMinsPipe } from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 
@@ -58,15 +70,28 @@ const successState = (state: Partial<ISearchPageState>, val: ICollection) => ({
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
   providers: [RxState],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    SongItemComponent,
+    FormatArtworkUrlPipe,
+    LazyImgComponent,
+    ErrorComponent,
+    MsToMinsPipe,
+    ReactiveFormsModule,
+    PushModule,
+    LetModule,
+    RouterModule
+  ],
 })
 export class SearchPage {
-
   public state$: Observable<ISearchPageState> = this.stateService.select();
   public searchForm = this.fb.group({ search: '' });
   public searchClearTrigger$ = new Subject();
   public playSongTrigger$ = new Subject();
 
-  public segmentFilter = new FormControl('songs');
+  public segmentFilter = new UntypedFormControl('songs');
 
   private searchTerm$ = this.searchForm.valueChanges.pipe(
     map(({ search }) => search),
@@ -105,9 +130,8 @@ export class SearchPage {
     private player: PlayerService,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
-
     // UI Actions
     // Set init state
     this.stateService.set(idleState);

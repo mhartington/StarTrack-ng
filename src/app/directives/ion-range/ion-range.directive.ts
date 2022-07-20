@@ -8,6 +8,7 @@ import {
 import { IonRange } from '@ionic/angular';
 @Directive({
   selector: 'ion-range',
+  standalone: true
 })
 export class IonRangeDirective {
   @Output() public ionEnd: EventEmitter<Event> = new EventEmitter();

@@ -1,9 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { RxState } from '@rx-angular/state';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { Observable, Subject } from 'rxjs';
 import { map, switchMap, switchMapTo } from 'rxjs/operators';
-import { PlayerService } from 'src/app/providers/player/player.service2';
+import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
+import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
+import { SongItemComponent } from '../../../components/song-item/song-item.component';
+import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { PlayerService } from '../../../providers/player/player.service2';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
 type AlbumPageState = {
@@ -23,6 +30,20 @@ const initialState: AlbumPageState = {
   templateUrl: './album.page.html',
   styleUrls: ['./album.page.scss'],
   providers: [RxState],
+  standalone: true,
+
+  imports: [
+    CommonModule,
+    IonicModule,
+    LetModule,
+    PushModule,
+    PreviewHeaderComponent,
+    SongItemComponent,
+    LazyImgComponent,
+    FormatArtworkUrlPipe,
+    RouterModule,
+
+  ],
 })
 export class AlbumPage implements OnInit {
   public state$: Observable<Partial<AlbumPageState>> =
@@ -45,14 +66,12 @@ export class AlbumPage implements OnInit {
     private player: PlayerService
   ) {
     this.stateService.set(initialState);
-  }
-
-  ngOnInit() {
     this.stateService.connect(
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbum$))
     );
   }
-  ionViewDidEnter() {
+
+  ngOnInit(){
     this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }

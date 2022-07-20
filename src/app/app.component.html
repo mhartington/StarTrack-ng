@@ -52,7 +52,6 @@
                     </ion-label>
                   </ion-item>
                   <ion-list slot="content">
-
                     <ion-menu-toggle autoHide="false">
                       <ion-item
                         routerLink="/library/recently-added"
@@ -140,7 +139,8 @@
       </ion-content>
     </ion-menu>
     <div id="main" class="route-wrapper">
-      <ion-router-outlet></ion-router-outlet>
+      <!-- <ion-router-outlet></ion-router-outlet> -->
+      <router-outlet> </router-outlet>
       <track-player></track-player>
     </div>
   </ion-split-pane>

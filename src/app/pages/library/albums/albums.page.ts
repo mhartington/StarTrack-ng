@@ -1,6 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
 import { insert, RxState } from '@rx-angular/state';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { EMPTY, Observable, Subject } from 'rxjs';
 import {
   map,
@@ -9,6 +13,9 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { AlbumPreviewItemsComponent } from '../../../components/album-preview-items/album-preview-items.component';
+import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
+import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
 type AlbumsPageState = {
@@ -30,6 +37,19 @@ const parseNext = (next: string, fallback: number = 0): number =>
   templateUrl: './albums.page.html',
   styleUrls: ['./albums.page.scss'],
   providers: [RxState],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    IonicModule,
+    LetModule,
+    PushModule,
+    AlbumPreviewItemsComponent,
+    LazyImgComponent,
+    FormatArtworkUrlPipe,
+
+  ],
 })
 export class AlbumsPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -70,7 +90,7 @@ export class AlbumsPage implements OnInit {
 
   ngOnInit() {
     this.stateService.connect(
-      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbums$))
+      this.fetchLibraryAlbums$
     );
 
     this.stateService.connect(

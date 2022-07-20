@@ -6,6 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,32 +15,55 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
+import { ColorFromImgDirective } from '../../directives/color-from-img/color-from-img.directive';
+import { IonRangeDirective } from '../../directives/ion-range/ion-range.directive';
+import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
   PlaybackStates,
   PlayerService,
-} from 'src/app/providers/player/player.service2';
+  RepeatMode
+} from '../../providers/player/player.service2';
+import { LazyImgComponent } from '../lazy-img/lazy-img.component';
+import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
+import { SongItemComponent } from '../song-item/song-item.component';
+import { SvgBarsComponent } from '../svg-bars/svg-bars.component';
 import { createQueueAnimation } from './player-modal.animation';
-
-
 
 @Component({
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    LetModule,
+    PushModule,
+    SongItemComponent,
+    FormsModule,
+    SvgBarsComponent,
+    IonRangeDirective,
+    LazyImgComponent,
+    FormatArtworkUrlPipe,
+    ColorFromImgDirective,
+    NowPlayingArtworkComponent,
+  ],
   animations: [
     trigger('listAnimation', [
       transition(':increment', [
         group([
           query('song-item', [
-            style({ transform: 'translate3d(0, calc(-100% + 1px), 0)', }),
+            style({ transform: 'translate3d(0, calc(-100% + 1px), 0)' }),
             animate(
               '300ms ease-out',
-              style({ transform: 'translate3d(0, 0, 0)', })
+              style({ transform: 'translate3d(0, 0, 0)' })
             ),
           ]),
         ]),
@@ -65,6 +89,7 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
 
   public backgroundColor = {};
   public playbackStates = PlaybackStates;
+  public repeatMode = RepeatMode;
   public state$ = this.player.select();
   public queue$ = this.player.select('upNext');
 
@@ -112,7 +137,7 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     this.backgroundColor = {
       '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.8)`,
       '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.8)`,
-      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.8)`
+      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.8)`,
     };
   }
   async seekToTime(ev: any): Promise<void> {
@@ -137,7 +162,8 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   }
   playAtIndex(e: any, song: Song) {
     this.stopProp(e);
-    console.log(song);
+    const parent: HTMLElement = e.target.closest('.queue-scroller')
+    parent.scrollTo({top: 0, behavior: 'smooth'});
     this.player.skipTo(song);
   }
   stopProp(e: any): void {
@@ -154,5 +180,11 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   async toggleQueue() {
     this.showQueue = !this.showQueue;
     await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
+  }
+  toggleShuffle(shuffleMode: boolean){
+    this.player.toggleShuffle(!shuffleMode);
+  }
+  toggleRepeatMode(){
+    this.player.toggleRepeat();
   }
 }

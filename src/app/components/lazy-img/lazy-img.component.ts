@@ -10,6 +10,8 @@ import {
   templateUrl: './lazy-img.component.html',
   styleUrls: ['./lazy-img.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+
 })
 export class LazyImgComponent {
   @Input() src = '';

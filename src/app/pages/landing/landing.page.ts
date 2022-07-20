@@ -1,11 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.page.html',
   styleUrls: ['./landing.page.scss'],
+  standalone: true,
+  imports: [IonicModule, RouterModule, CommonModule]
 })
 export class LandingPage implements OnInit {
   ev: any;

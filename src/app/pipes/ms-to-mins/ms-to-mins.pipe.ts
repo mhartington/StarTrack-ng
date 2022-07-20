@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'msToMins',
-  pure: true
+  pure: true,
+  standalone: true
 })
 export class MsToMinsPipe implements PipeTransform {
   transform(value?: number) {

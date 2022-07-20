@@ -16,12 +16,12 @@ const getQueueVectors = (pre: number, post: number) => {
     opacityTo: null,
   };
   if (pre < post) {
-    val.scaleFrom = 0.8;
+    val.scaleFrom = 0.5;
     val.scaleTo = 1;
     val.opacityFrom = 0;
     val.opacityTo = 1;
   } else {
-    val.scaleTo = 0.8;
+    val.scaleTo = 0.5;
     val.scaleFrom = 1;
     val.opacityFrom = 1;
     val.opacityTo = 0;
@@ -34,34 +34,71 @@ const getRec = (el: Element) => {
   return rect;
 };
 
+const getOffset = (el: HTMLElement) => {
+  const top = el.offsetTop;
+  const left = el.offsetLeft;
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
+
+  return { top, left, width, height};
+};
 export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
 ): Promise<void> => {
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
-  console.log(isPortait);
-  console.log('is opening', isOpening);
   const animationChain = [];
   const baseAnimation = createAnimation()
-  .duration(500)
-  .easing('cubic-bezier(0.32,0.72,0,1)');
+    .duration(300)
+    .fill('none')
+    .easing('cubic-bezier(.42,0,.58,1)');
 
-
+  let playerQueueStarting: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    y?: number;
+  };
+  let nowPlayingStarting: { top: number; left: number; width: number };
+  const nowPlaying = targetEl.querySelector('.track-player');
   if (!isPortait) {
     /// Player
     const playerQueue = targetEl.querySelector('.player-queue-landscape');
-    const trackPlayer = targetEl.querySelector('.track-player');
 
-    const playerRecPre = getRec(trackPlayer);
+    const playerRecPre = getRec(nowPlaying);
     const playerQueueRecPre = getRec(playerQueue);
 
     targetEl.classList.toggle('queue-active');
 
-    const playerRecPost = getRec(trackPlayer);
+    const playerRecPost = getRec(nowPlaying);
     const playerQueueRecPost = getRec(playerQueue);
 
-    const playerDeltaX = playerRecPre.left - playerRecPost.left;
-    const playerDeltaY = playerRecPre.top - playerRecPost.top;
+    if (isOpening) {
+      playerQueueStarting = {
+        top: playerQueueRecPost.top,
+        left: playerQueueRecPost.left,
+        width: playerQueueRecPost.width,
+        height: playerQueueRecPost.height,
+      };
+      nowPlayingStarting = {
+        top: playerRecPre.top,
+        left: playerRecPre.left,
+        width: playerRecPre.width,
+      };
+    } else {
+      playerQueueStarting = {
+        top: playerQueueRecPre.top,
+        left: playerQueueRecPre.left,
+        width: playerQueueRecPre.width,
+        height: playerQueueRecPre.height,
+      };
+      nowPlayingStarting = {
+        top: playerRecPre.top,
+        left: playerRecPre.left,
+        width: playerRecPre.width,
+      };
+    }
 
     const playerQueueDeltaW = getQueueVectors(
       playerQueueRecPre.width,
@@ -74,85 +111,157 @@ export const createQueueAnimation = async (
 
     const playerQueueAnimation = createAnimation()
       .addElement(playerQueue)
-      .fromTo(
+      .beforeStyles({
+        position: 'absolute',
+        left: `${playerQueueStarting.left}px`,
+        width: `${playerQueueStarting.width}px`,
+        height: `${playerQueueStarting.height}px`,
+        display: 'flex',
+        'transform-origin': 'center',
+        transform: `scale3d(${playerQueueDeltaW.scaleFrom}, ${playerQueueDeltaH.scaleFrom}, ${playerQueueDeltaH.scaleFrom})`,
+        opacity: playerQueueDeltaH.opacityFrom,
+      })
+      .to(
         'transform',
-        `scale3d(${playerQueueDeltaW.scaleFrom}, ${playerQueueDeltaH.scaleFrom}, ${playerQueueDeltaH.scaleFrom})`,
         `scale3d(${playerQueueDeltaW.scaleTo}, ${playerQueueDeltaH.scaleTo}, ${playerQueueDeltaH.scaleTo})`
       )
-      .fromTo(
+      .to('opacity', playerQueueDeltaH.opacityTo)
+      .afterClearStyles([
+        'position',
+        'left',
+        'transform-origin',
+        'width',
+        'display',
+        'height',
         'opacity',
-        playerQueueDeltaH.opacityFrom,
-        playerQueueDeltaH.opacityTo
-      );
+        'transform',
+        'top',
+      ]);
     animationChain.push(playerQueueAnimation);
 
-    const trackPlayerAnimation = createAnimation()
-      .addElement(trackPlayer)
+    const playerDeltaX = playerRecPost.left - playerRecPre.left;
+    const nowPlayingAnimation = createAnimation()
+      .addElement(nowPlaying)
       .beforeStyles({
         'transform-origin': 'top left',
+        position: 'absolute',
+        left: `${nowPlayingStarting.left}px`,
+        // top: `${nowPlayingStarting.top}px`,
       })
-      .from('transform', `translate3d(${playerDeltaX}px, ${playerDeltaY}px, 0)`)
-      .afterClearStyles(['transform-origin']);
+      .fromTo(
+        'transform',
+        `translate3d(0px, 0, 0)`,
+        `translate3d(${playerDeltaX}px, 0,0)`
+      )
+      .afterClearStyles(['transform-origin', 'position', 'left', 'top']);
 
-    animationChain.push(trackPlayerAnimation);
+    animationChain.push(nowPlayingAnimation);
   }
-  if(isPortait) {
+
+  if (isPortait) {
     const thumbnailEl = targetEl.querySelector('ion-thumbnail');
     const labelEl = targetEl.querySelector('ion-label');
-    const playerQueueEl = targetEl.querySelector('.player-queue-portrait');
+    const playerQueueEl = targetEl.querySelector('.player-queue-portrait') as HTMLElement;
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);
-    const playerQueueRecPre = getRec(playerQueueEl);
+    const playerQueueRecPre = getOffset(playerQueueEl);
 
     targetEl.classList.toggle('queue-active');
 
-    if(isOpening){
-
-    } else {
-
-    }
-
-
-
     const thumbnailRecPost = getRec(thumbnailEl);
     const labelRecPost = getRec(labelEl);
-    const playerQueueRecPost = getRec(playerQueueEl);
+    const playerQueueRecPost = getOffset(playerQueueEl);
 
-    const thumbnailDeltaX = thumbnailRecPre.left - thumbnailRecPost.left;
-    const thumbnailDeltaY = thumbnailRecPre.top - thumbnailRecPost.top;
-    const thumbnailDeltaW = thumbnailRecPre.width / thumbnailRecPost.width;
-    const thumbnailDeltaH = thumbnailRecPre.height / thumbnailRecPost.height;
+    if (isOpening) {
+      playerQueueStarting = {
+        top: playerQueueRecPost.top,
+        left: playerQueueRecPost.left,
+        width: playerQueueRecPost.width,
+        height: playerQueueRecPost.height,
+        y: 0,
+      };
+    } else {
+      playerQueueStarting = {
+        top: playerQueueRecPre.top,
+        left: playerQueueRecPre.left,
+        width: playerQueueRecPre.width,
+        height: playerQueueRecPre.height,
+        y: 100,
+      };
+    }
+
+    const thumbnailDelta = {
+      x: thumbnailRecPre.left - thumbnailRecPost.left,
+      y: thumbnailRecPre.top - thumbnailRecPost.top,
+      w: thumbnailRecPre.width / thumbnailRecPost.width,
+      h: thumbnailRecPre.height / thumbnailRecPost.height,
+    };
     const thumbnailAnimation = createAnimation()
       .addElement(thumbnailEl)
-      .beforeStyles({'transform-origin': 'top left'})
+      .beforeStyles({ 'transform-origin': 'top left', '--lazy-img-transition': 'none' })
       .from(
         'transform',
-        `translate3d(${thumbnailDeltaX}px, ${thumbnailDeltaY}px, 0) scale3d(${thumbnailDeltaW}, ${thumbnailDeltaH}, ${thumbnailDeltaW})`
+        `translate3d(${thumbnailDelta.x}px, ${thumbnailDelta.y}px, 0) scale3d(${thumbnailDelta.w}, ${thumbnailDelta.h}, ${thumbnailDelta.w})`
       )
-      .afterClearStyles(['transform-origin']);
+      .afterClearStyles(['transform-origin', '--lazy-img-transition']);
     animationChain.push(thumbnailAnimation);
 
-    const labelDeltaX = labelRecPre.left - labelRecPost.left;
-    const labelDeltaY = labelRecPre.top - labelRecPost.top;
-
+    const labelDelta = {
+      x: labelRecPre.left - labelRecPost.left,
+      y: labelRecPre.top - labelRecPost.top,
+    };
     const labelAnimation = createAnimation()
       .addElement(labelEl)
-      .from(
-        'transform',
-        `translate3d(${labelDeltaX}px, ${labelDeltaY}px, ${0})`
-      );
+      .from( 'transform', `translate3d(${0}px, ${labelDelta.y}px, ${0})`)
+      .fromTo( 'opacity', 0, 1);
 
     animationChain.push(labelAnimation);
 
-    const playerQueueOp = getOpacity(playerQueueRecPre);
+    const playerQueueOPDelta = {
+      from: isOpening ? 0 : 1,
+      to: isOpening ? 1 : 0,
+    }
+
+    const playerQueueXDelta = {
+      from: isOpening ? 100 : 0,
+      to: isOpening ? 0 : 100,
+    };
 
     const playerQueueAnimation = createAnimation()
       .addElement(playerQueueEl)
+      .beforeStyles({
+        position: 'absolute',
+        top: `${playerQueueStarting.top}px`,
+        width: `${playerQueueStarting.width}px`,
+        height: `${playerQueueStarting.height}px`,
+        overflow: 'hidden',
+        display: 'block',
+        opacity: playerQueueOPDelta.from,
+        // transform: `translate3d(0, ${playerQueueStarting.y}%, 0)`,
+        'transform-origin': 'center center',
+      })
       .easing('ease-out')
-      .fromTo('opacity', playerQueueOp.from, playerQueueOp.to);
+      .fromTo('opacity', playerQueueOPDelta.from, playerQueueOPDelta.to)
+      .fromTo('transform', `translate3d(0, ${playerQueueXDelta.from}%, 0)`, `translate3d(0, ${playerQueueXDelta.to}%, 0)`)
+      .delay(isOpening ? 100 : 0)
+      .afterClearStyles([
+        'position',
+        'top',
+        'width',
+        'height',
+        'overflow',
+        'display',
+        'transform',
+        'transform-origin',
+        'opacity'
+      ]);
 
     animationChain.push(playerQueueAnimation);
   }
-  baseAnimation.addAnimation(animationChain).play();
+
+  baseAnimation
+    .addAnimation(animationChain)
+    .play()
+    .then(() => console.log('animation done'));
 };

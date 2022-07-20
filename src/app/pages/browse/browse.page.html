@@ -7,7 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true">
+<ion-content fullscreen="true" class='ion-padding-start ion-padding-top ion-padding-bottom'>
+
   <ion-header collapse="condense">
     <ion-toolbar class="transparent">
       <ion-title size="large">Browse</ion-title>
@@ -16,7 +17,7 @@
 
   <ng-container *rxLet="state$; let state;">
     <ng-container *ngIf="state.collection as chart">
-      <ion-list>
+      <ion-list >
         <ion-list-header>
           <h1>Top Albums</h1>
         </ion-list-header>
