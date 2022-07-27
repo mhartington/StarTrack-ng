@@ -1,0 +1,17 @@
+  <img
+    class="odd"
+    [src]="odd"
+    *ngIf="odd"
+    [@imageFade]="!!showOdd"
+    (load)="onOddLoad()"
+    (@imageFade.done)="onOddAnimationDone($event)"
+  />
+  <img
+    class="even"
+    [src]="even"
+    *ngIf="even"
+    [@imageFade]="!!showEven"
+    (load)="onEvenLoad()"
+    (@imageFade.done)="onEvenAnimationDone($event)"
+  />
+

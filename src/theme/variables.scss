@@ -113,8 +113,8 @@ ion-content {
   --padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
 }
 ion-content::part(scroll) {
-  bottom: calc(var(--ion-safe-area-bottom) + var(--ion-toolbar-height));
-  padding-bottom: calc(var(--ion-safe-area-bottom) + var(--ion-toolbar-height));
+  bottom: calc(var(--ion-safe-area-bottom) + 58px);
+  padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
 }
 .md {
   --ion-toolbar-height: 56px;
@@ -276,9 +276,9 @@ ion-range::part(knob) {
 .full-modal {
   --width: 100% !important;
   --height: 100% !important;
-
   &::part(content) {
     border-radius: 0;
+   --background: #5a5960;
   }
 }
 html.ios ion-modal .ion-page {

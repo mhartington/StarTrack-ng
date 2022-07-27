@@ -263,5 +263,4 @@ export const createQueueAnimation = async (
   baseAnimation
     .addAnimation(animationChain)
     .play()
-    .then(() => console.log('animation done'));
 };

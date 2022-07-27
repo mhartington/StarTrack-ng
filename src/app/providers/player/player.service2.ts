@@ -249,16 +249,16 @@ export class PlayerService extends RxState<IPlayerState> {
   async skipToNextItem() {
     const state = this.get();
     if (state.repeatMode === 1) {
-      return this.seekToTime(0);
+      return await this.seekToTime(0);
     }
-    await this.mkInstance.skipToNextItem();
+    return await this.mkInstance.skipToNextItem();
   }
   async skipToPreviousItem() {
     const state = this.get();
     if (state.repeatMode === 1) {
-      return this.seekToTime(0);
+      return await this.seekToTime(0);
     }
-    await this.mkInstance.skipToPreviousItem();
+    return await this.mkInstance.skipToPreviousItem();
   }
   async seekToTime(time: number) {
     await this.mkInstance.seekToTime(time);

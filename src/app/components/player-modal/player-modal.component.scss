@@ -1,31 +1,12 @@
-:host {
-  --background: #5a596087;
-  background-color: #5a5960;
-}
+// :host {
+//   --background: #5a5960;
+//   // background-color: #5a5960;
+// }
 
 .ion-page {
-  background-color: var(--background1);
-  transition: background 5000ms cubic-bezier(0.32, 0.72, 0, 1);
-
-  /* background: radial-gradient( */
-  /*   ellipse at top, */
-  /*   var(--background1), */
-  /*   var(--background2), */
-  /*   var(--background3) */
-  /* ); */
-  /* background-size: 600% 600%; */
-  /* animation: AnimationName 100s ease infinite alternate; */
+  background: #000;
 }
 
-@keyframes AnimationName {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
 ion-header {
   padding-top: calc(16px + env(safe-area-inset-top));

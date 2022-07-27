@@ -21,7 +21,6 @@ import { LetModule, PushModule } from '@rx-angular/template';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
-import { ColorFromImgDirective } from '../../directives/color-from-img/color-from-img.directive';
 import { IonRangeDirective } from '../../directives/ion-range/ion-range.directive';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
@@ -29,6 +28,7 @@ import {
   PlayerService,
   RepeatMode
 } from '../../providers/player/player.service2';
+import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
 import { SongItemComponent } from '../song-item/song-item.component';
@@ -52,8 +52,8 @@ import { createQueueAnimation } from './player-modal.animation';
     IonRangeDirective,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    ColorFromImgDirective,
     NowPlayingArtworkComponent,
+    BackgroundGlow
   ],
   animations: [
     trigger('listAnimation', [
@@ -169,13 +169,13 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   stopProp(e: any): void {
     e.stopPropagation();
   }
-  next(e: any): void {
+  async next(e: any): Promise<void> {
     this.stopProp(e);
-    this.player.skipToNextItem();
+    await this.player.skipToNextItem();
   }
-  prev(e: any): void {
+  async prev(e: any): Promise<void> {
     this.stopProp(e);
-    this.player.skipToPreviousItem();
+    await this.player.skipToPreviousItem();
   }
   async toggleQueue() {
     this.showQueue = !this.showQueue;
