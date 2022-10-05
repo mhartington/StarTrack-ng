@@ -7,7 +7,6 @@ import {
 import { PlayerModalComponent } from '../player-modal/player-modal.component';
 import { tap } from 'rxjs/operators';
 import { LetModule } from '@rx-angular/template';
-import { IonRangeDirective } from '../../directives/ion-range/ion-range.directive';
 import { CommonModule } from '@angular/common';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
@@ -25,7 +24,6 @@ import { FormsModule } from '@angular/forms';
     FormatArtworkUrlPipe,
     IonicModule,
     CommonModule,
-    IonRangeDirective,
     LetModule,
     PlayerModalComponent,
   ],
@@ -67,7 +65,7 @@ export class TrackPlayerComponent {
 
     const modalInstance = await this.modalCtrl.create({
       component: this.playerModal,
-      swipeToClose: false,
+      canDismiss: true,
       cssClass: 'full-modal',
     });
     await modalInstance.present();

@@ -14,15 +14,15 @@
   perspective: 1000px;
   perspective-origin: 50% 50%;
 }
-img {
+canvas {
   position: absolute;
-  height: 150%;
+  height: 200%;
   max-width: unset;
   aspect-ratio: 1/1;
   transform: rotateZ(0deg) translate3d(0, 0, 0);
   transform-origin: center center;
-  // animation: rotateBg 105s linear infinite;
-  filter: brightness(85%) saturate(95%) contrast(0.9) blur(180px);
+  // animation: rotateBg 125s linear infinite;
+  filter: brightness(85%) saturate(95%) contrast(0.9) blur(150px);
 }
 .next {
   z-index: 1;
@@ -32,6 +32,12 @@ img {
   z-index: 0;
 }
 @keyframes rotateBg {
-  0%, 23% { transform: rotateZ(0deg); }
-  75%, 100% { transform: rotateZ(360deg); }
+  0%,
+  23% {
+    transform: rotateZ(0deg);
+  }
+  75%,
+  100% {
+    transform: rotateZ(360deg);
+  }
 }

@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { LoadingController, IonicSafeString } from '@ionic/angular';
-import { from, Observable } from 'rxjs';
-import { delay, retryWhen, timeout, map } from 'rxjs/operators';
+import { EMPTY, from, Observable } from 'rxjs';
+import {
+  scan,
+  delay,
+  retryWhen,
+  timeout,
+  map,
+  expand,
+  reduce,
+  catchError,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MusickitService {
-  private musicKitInstance = (window as any).MusicKit.getInstance();
+  private musicKitInstance = (window as any).MusicKit?.getInstance();
   constructor(private loadingCtrl: LoadingController) {}
 
   // API/Apple Music
@@ -126,7 +135,29 @@ export class MusickitService {
     return next ? parseInt(next.match(/\d*$/)[0], 10) : fallback;
   }
 
+  fetchPage(
+    url: string,
+    offset: number
+  ): Observable<{ collection: any[]; offset: number; total: number }> {
+    return from(this.musicKitInstance.api.music(url, { offset })).pipe(
+      map(({ data }: any) => {
+        return {
+          collection: data.data,
+          offset: this.parseNext(data.next),
+          total: data.meta.total,
+        };
+      })
+    );
+  }
+
   fetchLibraryAlbums(offset = 0): Observable<any> {
+    // const page = 'v1/me/library/albums';
+    //   return this.fetchPage(page, offset)
+    //     .pipe(
+    //       expand((data) => data.offset ? this.fetchPage(page, data.offset) : EMPTY),
+    //       reduce((acc, data) => acc.concat(data.collection), []),
+    //     )
+
     return from(
       this.musicKitInstance.api.music('v1/me/library/albums', { offset })
     ).pipe(map((res: any) => res.data));
@@ -199,12 +230,16 @@ export class MusickitService {
     await loader.present();
   }
 
-  fetchRecentlyAdded(): Observable<any> {
+  async deleteFromLibrary(href: string) {
+    console.log(href);
+    // await this.musicKitInstance.api.music(href, {}, { fetchOptions: { method: "DELETE" } })
+  }
+  fetchRecentlyAdded(offset = 0): Observable<any> {
     return from(
       this.musicKitInstance.api.music('v1/me/library/recently-added', {
-        limit: 25,
+        limit: 25,offset
       })
-    ).pipe(map((res: any) => res.data.data));
+    ).pipe(map((res: any) => res.data));
   }
   // fetchRecentlyAdded(offset: number): Observable<any> {
   //   return from(

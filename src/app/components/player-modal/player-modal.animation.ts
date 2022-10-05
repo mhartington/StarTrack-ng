@@ -49,7 +49,7 @@ export const createQueueAnimation = async (
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
-    .duration(300)
+    .duration(250)
     .fill('none')
     .easing('cubic-bezier(.42,0,.58,1)');
 

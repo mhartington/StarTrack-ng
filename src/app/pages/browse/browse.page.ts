@@ -53,7 +53,7 @@ export class BrowsePage {
     map(mapToResults),
     catchError((e) => of(mapToError(e)))
   );
-  // private ionViewDidEnter$ = new Subject<boolean>();
+  private ionViewDidEnter$ = new Subject<boolean>();
   constructor(
     private api: MusickitService,
     private player: PlayerService,
@@ -64,19 +64,19 @@ export class BrowsePage {
       hasError: false,
       collection: null,
     });
-    // this.stateService.connect(
-    //   this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
-    // );
+    this.stateService.connect(
+      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
+    );
   }
-  ngOnInit(){
-    this.stateService.connect(this.fetchDataStream$);
-  }
+  // ngOnInit(){
+  //   this.stateService.connect(this.fetchDataStream$);
+  // }
   trackByItem(_idx: number, item: any) {
     return item.id;
   }
   ionViewDidEnter() {
-    // this.ionViewDidEnter$.next(null);
-    // this.ionViewDidEnter$.complete();
+    this.ionViewDidEnter$.next(null);
+    this.ionViewDidEnter$.complete();
   }
   playSong(index: number) {
     this.player.setQueueFromItems(

@@ -22,8 +22,8 @@
         [max]="state.playbackDuration"
         [(ngModel)]="playbackTime"
         (click)="stopProp($event)"
-        (ionStart)="pauseSeeking($event)"
-        (ionEnd)="seekToTime($event)"
+        (ionKnobMoveStart)="pauseSeeking($event)"
+        (ionKnobMoveEnd)="seekToTime($event)"
         [disabled]="
           state.playbackDuration === 0 ||
           state.playbackState === playbackStates.NONE ||

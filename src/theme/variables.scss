@@ -278,7 +278,44 @@ ion-range::part(knob) {
   --height: 100% !important;
   &::part(content) {
     border-radius: 0;
-   --background: #5a5960;
+    --background: #5a5960;
+  }
+
+  ion-range {
+    --knob-size: 16px;
+    --bar-border-radius: 8px;
+    --transform-value: scale3d(1, 1,1);
+    --opacity: 0.5;
+    transition: opacity 250ms ease-in-out;
+    opacity: var(--opacity);
+    border-radius: 8px;
+
+    &::part(bar-active) {
+      height: 10px;
+      top: 11px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      transform:var(--transform-value);
+      transition: transform 250ms ease-in-out;
+    }
+    &::part(bar) {
+      height: 10px;
+      top: 11px;
+      transform:var(--transform-value);
+    transition: transform 250ms ease-in-out;
+    }
+    &::part(knob) {
+      top: 6px;
+      transform:var(--transform-value);
+    transition: transform 250ms ease-in-out;
+      --knob-size: 10px;
+      --knob-box-shadow: none;
+    }
+
+    &.range-pressed {
+      --transform-value: scale3d(1, 1.5, 1);
+      --opacity: 1;
+    }
   }
 }
 html.ios ion-modal .ion-page {
@@ -301,7 +338,7 @@ ion-split-pane {
 }
 
 .split-pane-md.split-pane-visible > .split-pane-side {
-  max-width: 375px;
+  max-width: 300px;
   border-right: none;
   ion-content {
     border-right: 1px solid

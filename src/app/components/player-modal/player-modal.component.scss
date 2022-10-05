@@ -7,7 +7,6 @@
   background: #000;
 }
 
-
 ion-header {
   padding-top: calc(16px + env(safe-area-inset-top));
   &:hover {
@@ -18,7 +17,7 @@ ion-header {
     border-radius: 8px;
     height: 6px;
     width: 36px;
-    background: var(--ion-color-step-100);
+    background: #eae9e947;
   }
 }
 
@@ -53,8 +52,9 @@ ion-footer {
   margin: auto;
   z-index: 1;
 
-  display: grid;
-  grid-template-rows: 75% 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .controls-wrapper {
@@ -62,6 +62,7 @@ ion-footer {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 25%;
 }
 
 ion-range {
@@ -71,6 +72,22 @@ ion-range {
   margin: 0 auto;
   flex: initial;
   padding: 0;
+
+  .duration-label {
+    width: unset;
+    display: unset;
+    position: absolute;
+    bottom: -15px;
+    font-variant-numeric: tabular-nums;
+
+    &[slot='start'] {
+      left: 0;
+    }
+
+    &[slot='end'] {
+      right: 0;
+    }
+  }
 }
 
 ion-label {
@@ -91,6 +108,13 @@ ion-label h3 {
 }
 ion-label p {
   font-size: 1em;
+}
+
+ion-badge {
+  font-size: 8px;
+  position: absolute;
+  background: none;
+  color: var(--ion-color-step-500) !important;
 }
 
 .song-actions {
@@ -114,6 +138,8 @@ ion-label p {
   display: grid;
   grid-auto-rows: 1fr auto;
 
+  height: 75%;
+
   ion-thumbnail {
     transform-origin: center center;
     display: block;
@@ -130,7 +156,6 @@ ion-label p {
 }
 
 .player-queue-portrait {
-  flex: 1 1 100%;
   width: 100%;
   display: none;
   z-index: -1;
@@ -144,6 +169,11 @@ ion-label p {
     p {
       margin: 0;
       font-weight: bold;
+    }
+
+    ion-badge {
+      top: 3px;
+      right: -3px;
     }
   }
 }
@@ -184,12 +214,13 @@ ion-label p {
     }
 
     .player-queue-portrait {
+      height: 60%;
       display: flex;
       flex-direction: column;
-      height: 100%;
       overflow: hidden;
     }
     .song-info {
+      height: 15%;
       grid-row: 1/2;
       flex: initial;
       margin-top: unset;
@@ -204,12 +235,12 @@ ion-label p {
           border-radius: 6px;
         }
       }
+      ion-label {
+        padding-left: 20px;
+      }
     }
     .controls-wrapper {
-      grid-row: 3/3;
-    }
-    ion-label {
-      padding-left: 20px;
+      height: 25%;
     }
   }
 }
@@ -223,7 +254,6 @@ ion-label p {
 
   .track-wrapper.queue-active {
     display: flex;
-
     .track-player {
       width: 45%;
       height: 100%;
@@ -258,16 +288,13 @@ ion-label p {
   ion-icon {
     font-size: 40px;
   }
+
+  ion-badge {
+    top: 7px;
+    right: -3px;
+  }
 }
 
-ion-badge {
-  position: absolute;
-  top: 1px;
-  background: none;
-  left: 10px;
-  font-size: 8px;
-  color: var(--ion-color-step-500) !important;
-}
 ion-button {
   border-radius: 8px;
   overflow: hidden;

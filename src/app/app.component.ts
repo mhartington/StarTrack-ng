@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   IonicModule,
@@ -31,8 +31,8 @@ import { Capacitor } from '@capacitor/core';
   ],
 })
 export class AppComponent implements OnInit {
-  musicKitInstance = (window as any).MusicKit.getInstance();
-  musicKitEvents = (window as any).MusicKit.Events;
+  musicKitInstance = (window as any).MusicKit?.getInstance();
+  musicKitEvents = (window as any).MusicKit?.Events;
   isAuthorized = new BehaviorSubject(this.musicKitInstance.isAuthorized);
 
   constructor(
@@ -40,7 +40,8 @@ export class AppComponent implements OnInit {
     private toastCtrl: ToastController,
     private menuCtrl: MenuController,
     private metaService: Meta,
-    public platform: Platform
+    public platform: Platform,
+    public environmentInjector: EnvironmentInjector
   ) {
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();
@@ -51,9 +52,10 @@ export class AppComponent implements OnInit {
       this.musicKitEvents.authorizationStatusDidChange,
       this.authDidChange.bind(this)
     );
-    if (Capacitor.isNativePlatform) {
-      this.overridewindow();
-    }
+    console.log(Capacitor.isNativePlatform)
+    // if (Capacitor.isNativePlatform) {
+    //   this.overridewindow();
+    // }
   }
   overridewindow() {
     const og =  window.open;
@@ -62,19 +64,17 @@ export class AppComponent implements OnInit {
       target?: string,
       features?: string
     ): any => {
-      console.log(url);
       const formattedURL = new URL(url);
       const params = formattedURL.searchParams;
       let referrer = params.get('referrer')
-      if(referrer.includes('http://192.168.1.216:8100/')){
-        referrer = referrer.replace('http://192.168.1.216:8100/', 'startrack-ng://app/')
+      if(!referrer.includes('http://startrack-ng.web.app/')){
+        referrer = 'startrack-ng://app/'
       }
       params.set('referrer', referrer);
       formattedURL.search = params.toString();
-      console.log(formattedURL.toString());
-      og(formattedURL)
-      return;
-      // Browser.open({ url: formattedURL.toString(), });
+      // og(formattedURL)
+      // return;
+      Browser.open({ url: formattedURL.toString(),presentationStyle: 'popover' });
     };
   }
   authDidChange() {

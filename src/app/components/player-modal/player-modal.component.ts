@@ -21,7 +21,7 @@ import { LetModule, PushModule } from '@rx-angular/template';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
-import { IonRangeDirective } from '../../directives/ion-range/ion-range.directive';
+import { MsToMinsPipe, SecondsToMins } from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
   PlaybackStates,
@@ -49,11 +49,12 @@ import { createQueueAnimation } from './player-modal.animation';
     SongItemComponent,
     FormsModule,
     SvgBarsComponent,
-    IonRangeDirective,
     LazyImgComponent,
     FormatArtworkUrlPipe,
     NowPlayingArtworkComponent,
-    BackgroundGlow
+    BackgroundGlow,
+    MsToMinsPipe,
+    SecondsToMins
   ],
   animations: [
     trigger('listAnimation', [
@@ -70,8 +71,8 @@ import { createQueueAnimation } from './player-modal.animation';
       ]),
       transition(':decrement', [
         group([
-          query(':leave', [animate('300ms ease-out', style({ opacity: 0 }))]),
-          query('song-item', [
+          query(':leave', [animate('250ms ease-out', style({ opacity: 0 }))]),
+          query('song-item:not(:leave)', [
             animate(
               '300ms ease-out',
               style({
@@ -121,24 +122,6 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
 
   async dismiss() {
     await this.modalCtrl.dismiss();
-  }
-  updateColor(
-    event: [
-      [number, number, number],
-      [number, number, number],
-      [number, number, number],
-      [number, number, number],
-      [number, number, number]
-    ]
-  ) {
-    const primary = event[0];
-    const secondary = event[1];
-    const third = event[2];
-    this.backgroundColor = {
-      '--background1': `rgba(${primary[0]},${primary[1]},${primary[2]}, 0.8)`,
-      '--background2': `rgba(${secondary[0]},${secondary[1]},${secondary[2]}, 0.8)`,
-      '--background3': `rgba(${third[0]},${third[1]},${third[2]}, 0.8)`,
-    };
   }
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);

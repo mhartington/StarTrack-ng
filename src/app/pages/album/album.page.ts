@@ -67,7 +67,7 @@ export class AlbumPage {
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
     );
   }
-  ngOnInit() {
+  ionViewDidEnter() {
     this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }

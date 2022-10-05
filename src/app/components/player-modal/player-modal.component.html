@@ -1,4 +1,4 @@
-<div class="ion-page" [style]="backgroundColor" *rxLet="state$; let state">
+<div class="ion-page" *rxLet="state$; let state">
   <ion-header (click)="dismiss()" class="ion-no-border">
     <div class="dismisser"></div>
   </ion-header>
@@ -16,7 +16,7 @@
           <now-playing-artwork
             [src]="
               state.nowPlayingItem.attributes.artwork?.url ??
-                'assets/imgs/default.svg' | formatArtworkUrl: 1000
+                'assets/imgs/default.svg' | formatArtworkUrl: 500
             "
             [ngClass]="{
               paused:
@@ -66,7 +66,6 @@
           </ion-buttons>
         </div>
         <div class="queue-scroller" [@listAnimation]="queue.length">
-          <!-- [ngClass]="{ active: state.queuePosition === i + 1 }" -->
           <song-item
             color="white"
             *ngFor="let song of queue; let i = index"
@@ -101,10 +100,17 @@
           [max]="state.playbackDuration"
           [(ngModel)]="playbackTime"
           (click)="stopProp($event)"
-          (ionStart)="pauseSeeking($event)"
-          (ionEnd)="seekToTime($event)"
+          (ionKnobMoveStart)="pauseSeeking($event)"
+          (ionKnobMoveEnd)="seekToTime($event)"
           color="white"
-        ></ion-range>
+        >
+          <ion-label inert class="duration-label" slot="start">{{
+            playbackTime | secToMins
+          }}</ion-label>
+          <ion-label inert class="duration-label" slot="end"
+            >-{{ state.playbackDuration - playbackTime | secToMins }}</ion-label
+          >
+        </ion-range>
 
         <ion-buttons class="song-actions">
           <ion-button
@@ -199,6 +205,8 @@
         </song-item>
       </div>
     </div>
+
+
   </div>
   <ion-footer>
     <ion-toolbar color="transparent">
@@ -215,11 +223,10 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
-
   <background-glow
     [src]="
       state.nowPlayingItem.attributes.artwork?.url ?? 'assets/imgs/default.svg'
-        | formatArtworkUrl: 1000
+        | formatArtworkUrl: 250
     "
   ></background-glow>
 </div>

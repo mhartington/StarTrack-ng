@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { RxState } from '@rx-angular/state';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap, switchMapTo } from 'rxjs/operators';
+import { map, switchMap, switchMapTo, tap } from 'rxjs/operators';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
@@ -45,13 +45,14 @@ const initialState: AlbumPageState = {
 
   ],
 })
-export class AlbumPage implements OnInit {
+export class AlbumPage {
   public state$: Observable<Partial<AlbumPageState>> =
     this.stateService.select();
   private ionViewDidEnter$ = new Subject<boolean>();
 
   private fetchLibraryAlbum$ = this.route.params.pipe(
     switchMap(({ id }) => this.api.fetchLibraryAlbum(id)),
+    tap(res => console.log(res)),
     map((results) => ({
       album: results,
       isloading: false,
@@ -71,18 +72,20 @@ export class AlbumPage implements OnInit {
     );
   }
 
-  ngOnInit(){
+  ionViewDidEnter(){
     this.ionViewDidEnter$.next(null);
     this.ionViewDidEnter$.complete();
   }
 
   playSong(index: number, shuffle = false) {
-    this.player.playAlbum(this.route.snapshot.params.id, index, shuffle);
+    const {type} = this.stateService.get().album
+    this.player.playAlbum(type, this.route.snapshot.params.id, index, shuffle);
   }
   playAlbum({ shuffle }) {
     this.playSong(0, shuffle);
   }
   delete(){
-
+    const {href} = this.stateService.get().album;
+    this.api.deleteFromLibrary(href);
   }
 }

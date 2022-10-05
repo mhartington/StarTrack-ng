@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ɵmarkDirty as markDirty,
+  ChangeDetectorRef
 } from '@angular/core';
-
 @Component({
   selector: 'lazy-img',
   templateUrl: './lazy-img.component.html',
@@ -19,9 +18,9 @@ export class LazyImgComponent {
 
   public isLoaded = false;
 
-  constructor() {}
+  constructor(private cdf: ChangeDetectorRef) {}
   markForChange() {
     this.isLoaded = true;
-    markDirty(this);
+    this.cdf.markForCheck();
   }
 }

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { routes } from './app/routes';
@@ -14,7 +14,9 @@ import { AppComponent } from './app/app.component';
 
 import { environment } from './environments/environment';
 
-if (environment.production) { enableProdMode(); }
+if (environment.production) {
+  enableProdMode();
+}
 
 const appInitialize = () => async () =>
   await (window as any).MusicKit.configure({
@@ -29,7 +31,7 @@ const appInitialize = () => async () =>
       suppressErrorDialog: true,
       icon: 'https://startrack-ng.web.app/assets/icons/icon-mask.png',
     },
- });
+  });
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -38,7 +40,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(IonicModule.forRoot({})),
     importProvidersFrom(HttpClientModule),
-    importProvidersFrom(RouterModule.forRoot(routes)),
+    provideRouter(routes),
     importProvidersFrom(
       ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: environment.production,

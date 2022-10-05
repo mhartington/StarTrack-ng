@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RxState } from '@rx-angular/state';
 import { fromEvent } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
 export type QueueOpts = {
   url: string;
@@ -40,20 +40,22 @@ interface IPlayerState {
   infiniteLoadTimeout: any;
   playbackDuration: number;
   playbackTime: number;
+  playbackTimeRemaining: number;
   nowPlayingItem: Partial<Song | any>;
 }
 
 @Injectable({ providedIn: 'root' })
-export class PlayerService extends RxState<IPlayerState> {
-  private mkInstance = (window as any).MusicKit.getInstance();
-  private mkEvents = (window as any).MusicKit.Events;
+export class PlayerService extends RxState<IPlayerState>{
+  private mkInstance = (window as any).MusicKit?.getInstance();
+  private mkEvents = (window as any).MusicKit?.Events;
 
   private playbackTimeDidChange$ = fromEvent(
     this.mkInstance,
     this.mkEvents.playbackTimeDidChange
   ).pipe(
-    map(({ currentPlaybackTime }: any) => ({
+    map(({ currentPlaybackTime, currentPlaybackTimeRemaining }: any) => ({
       playbackTime: currentPlaybackTime,
+      playbackTimeRemaining: currentPlaybackTimeRemaining,
     }))
   );
 
@@ -62,39 +64,17 @@ export class PlayerService extends RxState<IPlayerState> {
     this.mkEvents.playbackDurationDidChange
   ).pipe(map((event: any) => ({ playbackDuration: event.duration })));
 
-  private mediaItemsStateDidChange$ = fromEvent(
-    this.mkInstance,
-    this.mkEvents.mediaItemStateDidChange
-  ).pipe(map((event: any) => ({ nowPlayingItem: event, playbackTime: 0 })));
+  private mediaItemsStateDidChange$ = fromEvent( this.mkInstance, this.mkEvents.mediaItemStateDidChange)
+  .pipe(map((event: any) => ({ nowPlayingItem: event, playbackTime: 0 })));
 
-  private playbackStateDidChange$ = fromEvent(
-    this.mkInstance,
-    this.mkEvents.playbackStateDidChange
-  ).pipe(
-    map((event: any) => ({
-      playbackState: PlaybackStates[PlaybackStates[event.state]],
-    }))
-  );
+  private playbackStateDidChange$ = fromEvent( this.mkInstance, this.mkEvents.playbackStateDidChange)
+  .pipe(map((event: any) => ({ playbackState: PlaybackStates[PlaybackStates[event.state]], })));
 
-  private queueItemsDidChange$ = fromEvent(
-    this.mkInstance,
-    this.mkEvents.queueItemsDidChange
-  ).pipe(
-    map(() => ({
-      queue: this.mkInstance.queue.items,
-      upNext: this.mkInstance.queue.unplayedUserItems.slice(1),
-    }))
-  );
+  private queueItemsDidChange$ = fromEvent( this.mkInstance, this.mkEvents.queueItemsDidChange)
+  .pipe( map(() => ({ queue: this.mkInstance.queue.items, upNext: this.mkInstance.queue.unplayedUserItems.slice(1), })));
 
-  private queuePositionDidChange$ = fromEvent(
-    this.mkInstance,
-    this.mkEvents.queuePositionDidChange
-  ).pipe(
-    map((e: any) => ({
-      queuePosition: e.position + 1,
-      upNext: this.mkInstance.queue.unplayedUserItems.slice(1),
-    }))
-  );
+  private queuePositionDidChange$ = fromEvent(this.mkInstance, this.mkEvents.queuePositionDidChange)
+  .pipe( map((e: any) => ({ queuePosition: e.position + 1, upNext: this.mkInstance.queue.unplayedUserItems.slice(1), })));
 
   // Doesnt modify state
   private playbackState$ = this.select('playbackState').pipe(
@@ -152,9 +132,10 @@ export class PlayerService extends RxState<IPlayerState> {
 
   // PLAYER METHODS
   // Play Album
-  async playAlbum(album: string, startPosition: number, shuffle = false) {
+  async playAlbum(type: string, album: string, startPosition: number, shuffle = false) {
     this.toggleShuffle(shuffle);
-    await this.mkInstance.setQueue({ album, startPosition });
+    console.log([type])
+    await this.mkInstance.setQueue({ album });
     await this.play();
   }
   async playPlaylist(playlist: string, startPosition: number, shuffle = false) {
@@ -162,41 +143,14 @@ export class PlayerService extends RxState<IPlayerState> {
     this.toggleShuffle(shuffle);
     await this.play();
   }
-  createMediaItem(song: any, container: any = null) {
-    if (container) {
-      const containerName =
-        container.type === 'albums' || container.type === 'library-albums' ? 'albums' : 'playlists';
-
-      return {
-        ...song,
-        container: {
-          id: container.id,
-          type: container.type,
-          name: containerName,
-        },
-      };
-    }
-
-    return {
-      ...song,
-      container: {
-        id: song.id,
-      },
-    };
-  }
-
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
-    if (shuffle) {
-      items = items.sort(() => 0.5 - Math.random());
-    }
-    const newItems = items.map((item) => ({
-      ...item,
-      container: { id: item.id },
-    }));
+    if (shuffle) { items = items.sort(() => 0.5 - Math.random()); }
+    const newItems = items.map((item) => new (window as any).MusicKit.MediaItem(item))
     await this.mkInstance.setQueue({ items: newItems });
     await this.mkInstance.changeToMediaAtIndex(startPosition);
   }
 
+  // Eventually try to move this all together
   async playCollection(opts: any) {
     let queueOpts: QueueOpts = {
       shuffle: opts.shuffle ?? false,
@@ -209,7 +163,6 @@ export class PlayerService extends RxState<IPlayerState> {
     this.toggleShuffle(opts.shuffle);
     await this.play();
   }
-
 
   async play() {
     await this.mkInstance.play();
@@ -226,12 +179,11 @@ export class PlayerService extends RxState<IPlayerState> {
     let nextRepeatMode: RepeatMode;
     const currentMode = this.mkInstance.repeatMode;
     if (currentMode === RepeatMode.NONE) {
-      nextRepeatMode = RepeatMode.ALL
-    }
-    else if (currentMode === RepeatMode.ALL){
-      nextRepeatMode = RepeatMode.ONE
+      nextRepeatMode = RepeatMode.ALL;
+    } else if (currentMode === RepeatMode.ALL) {
+      nextRepeatMode = RepeatMode.ONE;
     } else if (currentMode === RepeatMode.ONE) {
-      nextRepeatMode = RepeatMode.NONE
+      nextRepeatMode = RepeatMode.NONE;
     }
     this.mkInstance.repeatMode = nextRepeatMode;
     this.set((state: Partial<IPlayerState>) => ({
@@ -247,6 +199,7 @@ export class PlayerService extends RxState<IPlayerState> {
     }));
   }
   async skipToNextItem() {
+    await this.stop();
     const state = this.get();
     if (state.repeatMode === 1) {
       return await this.seekToTime(0);
@@ -254,6 +207,7 @@ export class PlayerService extends RxState<IPlayerState> {
     return await this.mkInstance.skipToNextItem();
   }
   async skipToPreviousItem() {
+    await this.stop();
     const state = this.get();
     if (state.repeatMode === 1) {
       return await this.seekToTime(0);
@@ -265,6 +219,7 @@ export class PlayerService extends RxState<IPlayerState> {
   }
   async skipTo(song: Song) {
     const index = this.get('queue').indexOf(song);
+    await this.stop();
     await this.mkInstance.changeToMediaAtIndex(index);
   }
   //

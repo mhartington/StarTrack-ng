@@ -139,8 +139,8 @@
       </ion-content>
     </ion-menu>
     <div id="main" class="route-wrapper">
-      <!-- <ion-router-outlet></ion-router-outlet> -->
-      <router-outlet> </router-outlet>
+      <ion-router-outlet [environmentInjector]="environmentInjector"></ion-router-outlet>
+      <!-- <router-outlet> </router-outlet> -->
       <track-player></track-player>
     </div>
   </ion-split-pane>

@@ -3,7 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
-import { insert, RxState } from '@rx-angular/state';
+import { RxState } from '@rx-angular/state';
+import { insert } from '@rx-angular/cdk/transformations'
 import { LetModule, PushModule } from '@rx-angular/template';
 import { EMPTY, Observable, Subject } from 'rxjs';
 import {
@@ -53,9 +54,9 @@ const parseNext = (next: string, fallback: number = 0): number =>
 })
 export class AlbumsPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  public scrollTrigger$ = new Subject();
 
   public albums$: Observable<any[]> = this.stateService.select('albums');
-  public scrollTrigger$ = new Subject();
 
   public fetchMore$ = this.scrollTrigger$.pipe(
     withLatestFrom(this.stateService.$),
@@ -71,6 +72,7 @@ export class AlbumsPage implements OnInit {
   );
 
   private fetchLibraryAlbums$ = this.api.fetchLibraryAlbums().pipe(
+    tap(res => console.log(res)),
     map((res: { data: any[]; next: string; meta: { total: number } }) => ({
       albums: res.data,
       offset: parseNext(res.next),
@@ -86,13 +88,11 @@ export class AlbumsPage implements OnInit {
     private stateService: RxState<AlbumsPageState>
   ) {
     this.stateService.set(initialState);
-  }
-
-  ngOnInit() {
     this.stateService.connect(
-      this.fetchLibraryAlbums$
+      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbums$))
     );
-
+  }
+  ngOnInit() {
     this.stateService.connect(
       this.fetchMore$,
       ({ total, albums }, { data, next }) => ({
