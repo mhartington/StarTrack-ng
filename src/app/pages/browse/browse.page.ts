@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMapTo } from 'rxjs/operators';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
@@ -15,7 +16,6 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
 import { AlbumPreviewItemsComponent } from '../../components/album-preview-items/album-preview-items.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { RouterModule } from '@angular/router';
-import { useState } from 'src/app/util/useState';
 
 interface IBrowsePageState {
   collection: any;
@@ -43,21 +43,17 @@ interface IBrowsePageState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrowsePage {
+  private api = inject(MusickitService)
+  private player = inject(PlayerService)
+  private stateService = inject(RxState<IBrowsePageState>)
   public state$: Observable<IBrowsePageState> = this.stateService.select();
-  // public state = useState<IBrowsePageState>({
-  //   isLoading: true,
-  //   hasError: false,
-  //   collection: null,
-  // });
+
   private fetchDataStream$ = this.api.fetchChart().pipe(
     map(mapToResults),
     catchError((e) => of(mapToError(e)))
   );
   private ionViewDidEnter$ = new Subject<boolean>();
   constructor(
-    private api: MusickitService,
-    private player: PlayerService,
-    private stateService: RxState<IBrowsePageState>
   ) {
     this.stateService.set({
       isLoading: true,

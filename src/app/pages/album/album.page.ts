@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { Album } from '../../../@types/album';
@@ -42,6 +42,12 @@ interface IAlbumPageState {
   ],
 })
 export class AlbumPage {
+
+  private api =inject(MusickitService);
+  private route =inject(ActivatedRoute);
+  private player =inject(PlayerService);
+  private stateService =inject(RxState<IAlbumPageState>);
+
   public state$: Observable<IAlbumPageState> = this.stateService.select();
   private ionViewDidEnter$ = new Subject<boolean>();
 
@@ -51,12 +57,7 @@ export class AlbumPage {
     catchError((e) => of(mapToError(e)))
   );
 
-  constructor(
-    private api: MusickitService,
-    private route: ActivatedRoute,
-    private player: PlayerService,
-    private stateService: RxState<IAlbumPageState>
-  ) {
+  constructor() {
     this.stateService.set({
       isLoading: true,
       hasError: false,

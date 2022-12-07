@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   IonicModule,
@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
 import { CommonModule } from '@angular/common';
-import { Capacitor } from '@capacitor/core';
+// import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -31,17 +31,20 @@ import { Capacitor } from '@capacitor/core';
   ],
 })
 export class AppComponent implements OnInit {
+
+    private swUpdate = inject(SwUpdate);
+    private toastCtrl = inject(ToastController);
+    private menuCtrl = inject(MenuController);
+    private metaService = inject(Meta);
+    public platform = inject(Platform);
+    public environmentInjector = inject(EnvironmentInjector);
+
+
   musicKitInstance = (window as any).MusicKit?.getInstance();
   musicKitEvents = (window as any).MusicKit?.Events;
   isAuthorized = new BehaviorSubject(this.musicKitInstance.isAuthorized);
 
   constructor(
-    private swUpdate: SwUpdate,
-    private toastCtrl: ToastController,
-    private menuCtrl: MenuController,
-    private metaService: Meta,
-    public platform: Platform,
-    public environmentInjector: EnvironmentInjector
   ) {
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();
@@ -52,7 +55,7 @@ export class AppComponent implements OnInit {
       this.musicKitEvents.authorizationStatusDidChange,
       this.authDidChange.bind(this)
     );
-    console.log(Capacitor.isNativePlatform)
+    // console.log(Capacitor.isNativePlatform)
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
@@ -65,13 +68,23 @@ export class AppComponent implements OnInit {
       features?: string
     ): any => {
       const formattedURL = new URL(url);
+      console.log('url: ', formattedURL.href)
       const params = formattedURL.searchParams;
+      params.forEach(param => console.log('param: ', param));
+
       let referrer = params.get('referrer')
+      console.log('referrer: ', referrer)
       if(!referrer.includes('http://startrack-ng.web.app/')){
+        console.log('referrer should be reset')
         referrer = 'startrack-ng://app/'
+      console.log('referrer: ', referrer)
       }
       params.set('referrer', referrer);
+      let newReferrer = params.get('referrer')
+      console.log('new referrer: ', newReferrer)
+
       formattedURL.search = params.toString();
+      console.log('updated url: ', formattedURL)
       // og(formattedURL)
       // return;
       Browser.open({ url: formattedURL.toString(),presentationStyle: 'popover' });
@@ -122,7 +135,6 @@ export class AppComponent implements OnInit {
     App.addListener('appUrlOpen', (data: URLOpenListenerEvent) => {
       console.log('App opened with URL:', JSON.stringify(data));
       const openUrl = data.url;
-      alert(openUrl);
       // Use URL for routing to the right page!
     });
 

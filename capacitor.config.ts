@@ -7,6 +7,8 @@ const config: CapacitorConfig = {
   webDir: 'dist/browser',
   backgroundColor: '#000000FF',
   plugins: {
+    LocalNotifications: {
+    },
     Keyboard: {
       resize: 'none',
       style: 'dark',

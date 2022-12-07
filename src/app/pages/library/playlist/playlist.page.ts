@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RxState } from '@rx-angular/state';
@@ -13,22 +13,22 @@ import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-art
 import { PlayerService } from '../../../providers/player/player.service2';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 
-type AlbumPageState = {
+type PlaylistPageState = {
   isloading: boolean;
   error: boolean;
-  album: any;
+  playlist: any;
 };
 
-const initialState: AlbumPageState = {
-  album: null,
+const initialState: PlaylistPageState = {
+  playlist: null,
   isloading: true,
   error: false,
 };
 
 @Component({
-  selector: 'app-library-albums',
-  templateUrl: './album.page.html',
-  styleUrls: ['./album.page.scss'],
+  selector: 'app-library-playlist',
+  templateUrl: './playlist.page.html',
+  styleUrls: ['./playlist.page.scss'],
   providers: [RxState],
   standalone: true,
 
@@ -45,22 +45,21 @@ const initialState: AlbumPageState = {
 
   ],
 })
-export class AlbumPage {
+export class PlaylistPage {
     private api = inject(MusickitService);
-    private stateService = inject(RxState<Partial<AlbumPageState>>);
+    private stateService = inject(RxState<Partial<PlaylistPageState>>);
     private route = inject(ActivatedRoute);
     private player = inject(PlayerService);
 
 
-  public state$: Observable<Partial<AlbumPageState>> =
-    this.stateService.select();
+  public state$: Observable<Partial<PlaylistPageState>> = this.stateService.select();
   private ionViewDidEnter$ = new Subject<boolean>();
 
-  private fetchLibraryAlbum$ = this.route.params.pipe(
-    switchMap(({ id }) => this.api.fetchLibraryAlbum(id)),
+  private fetchLibraryPlaylist$ = this.route.params.pipe(
+    switchMap(({ id }) => this.api.fetchLibraryPlaylist(id)),
     tap(res => console.log(res)),
     map((results) => ({
-      album: results,
+      playlist: results,
       isloading: false,
       error: false,
     }))
@@ -70,7 +69,7 @@ export class AlbumPage {
   ) {
     this.stateService.set(initialState);
     this.stateService.connect(
-      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryAlbum$))
+      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibraryPlaylist$))
     );
   }
 

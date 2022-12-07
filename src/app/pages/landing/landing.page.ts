@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -9,15 +9,13 @@ import { RouterModule } from '@angular/router';
   templateUrl: './landing.page.html',
   styleUrls: ['./landing.page.scss'],
   standalone: true,
-  imports: [IonicModule, RouterModule, CommonModule]
+  imports: [IonicModule, RouterModule, CommonModule],
 })
 export class LandingPage implements OnInit {
   ev: any;
   items = Array.from(new Array(50).keys());
-  constructor(
-    // tslint:disable-next-line: ban-types
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  private platformId = inject(PLATFORM_ID);
+  constructor() {}
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       fromEvent(window, 'beforeinstallprompt').subscribe((res: any) => {
@@ -27,6 +25,10 @@ export class LandingPage implements OnInit {
     }
   }
   push() {
+    Notification.requestPermission().then((result) => {
+      console.log('push: ', result);
+    });
+
     if (this.ev) {
       this.ev.preventDefault();
       this.ev.prompt();

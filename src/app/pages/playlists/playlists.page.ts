@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
@@ -40,6 +40,10 @@ interface IPlaylistPage {
   ],
 })
 export class PlaylistPage {
+  private api = inject(MusickitService);
+  private route = inject(ActivatedRoute);
+  private player = inject(PlayerService);
+  private stateService = inject(RxState<IPlaylistPage>);
   public state$: Observable<IPlaylistPage> = this.stateService.select();
   private ionViewDidEnter$ = new Subject<boolean>();
   private fetchDataStream$ = this.route.params.pipe( switchMap(({id }) => this.api.fetchPlaylist(id)),
@@ -48,10 +52,6 @@ export class PlaylistPage {
   );
 
   constructor(
-    private api: MusickitService,
-    private route: ActivatedRoute,
-    private player: PlayerService,
-    private stateService: RxState<IPlaylistPage>
   ) { this.stateService.set({
       isLoading: true, hasError: false,
       collection: null,

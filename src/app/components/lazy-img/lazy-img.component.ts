@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
 @Component({
   selector: 'lazy-img',
@@ -17,8 +18,8 @@ export class LazyImgComponent {
   @Input() alt = '';
 
   public isLoaded = false;
-
-  constructor(private cdf: ChangeDetectorRef) {}
+  private cdf = inject(ChangeDetectorRef)
+  
   markForChange() {
     this.isLoaded = true;
     this.cdf.markForCheck();

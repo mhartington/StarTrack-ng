@@ -11,6 +11,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,12 +22,15 @@ import { LetModule, PushModule } from '@rx-angular/template';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
-import { MsToMinsPipe, SecondsToMins } from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
+import {
+  MsToMinsPipe,
+  SecondsToMins,
+} from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
   PlaybackStates,
   PlayerService,
-  RepeatMode
+  RepeatMode,
 } from '../../providers/player/player.service2';
 import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
@@ -54,7 +58,7 @@ import { createQueueAnimation } from './player-modal.animation';
     NowPlayingArtworkComponent,
     BackgroundGlow,
     MsToMinsPipe,
-    SecondsToMins
+    SecondsToMins,
   ],
   animations: [
     trigger('listAnimation', [
@@ -88,6 +92,9 @@ import { createQueueAnimation } from './player-modal.animation';
 export class PlayerModalComponent implements OnInit, OnDestroy {
   @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
 
+  private modalCtrl = inject(ModalController);
+  public player = inject(PlayerService);
+
   public backgroundColor = {};
   public playbackStates = PlaybackStates;
   public repeatMode = RepeatMode;
@@ -100,11 +107,7 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   private playbackTime$ = this.player.select('playbackTime');
   private isScrubbing = false;
   private playbackTimeSub: Subscription;
-
-  constructor(
-    private modalCtrl: ModalController,
-    public player: PlayerService
-  ) {
+  constructor() {
     this.playbackTimeSub = this.playbackTime$
       .pipe(
         tap((val: any) => {
@@ -119,7 +122,6 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.playbackTimeSub.unsubscribe();
   }
-
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
@@ -128,13 +130,11 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     await this.player.seekToTime(ev.target.value);
     this.isScrubbing = false;
   }
-
   pauseSeeking(ev: any): void {
     this.stopProp(ev);
     this.isScrubbing = true;
     this.playbackTime = ev.target.value;
   }
-
   async togglePlay(e: any): Promise<void> {
     this.stopProp(e);
     if (this.player.get().playbackState === this.playbackStates.PAUSED) {
@@ -145,8 +145,8 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   }
   playAtIndex(e: any, song: Song) {
     this.stopProp(e);
-    const parent: HTMLElement = e.target.closest('.queue-scroller')
-    parent.scrollTo({top: 0, behavior: 'smooth'});
+    const parent: HTMLElement = e.target.closest('.queue-scroller');
+    parent.scrollTo({ top: 0, behavior: 'smooth' });
     this.player.skipTo(song);
   }
   stopProp(e: any): void {
@@ -164,10 +164,11 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     this.showQueue = !this.showQueue;
     await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
   }
-  toggleShuffle(shuffleMode: boolean){
+  toggleShuffle(shuffleMode: boolean) {
     this.player.toggleShuffle(!shuffleMode);
   }
-  toggleRepeatMode(){
+  toggleRepeatMode() {
     this.player.toggleRepeat();
   }
+
 }

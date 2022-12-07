@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LoadingController, IonicSafeString } from '@ionic/angular';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
@@ -17,7 +17,7 @@ import {
 })
 export class MusickitService {
   private musicKitInstance = (window as any).MusicKit?.getInstance();
-  constructor(private loadingCtrl: LoadingController) {}
+  private loadingCtrl = inject(LoadingController);
 
   // API/Apple Music
   fetchAlbum(id: string): Observable<any> {
@@ -208,7 +208,9 @@ export class MusickitService {
     );
   }
   fetchLibraryPlaylist(id: string): Observable<any> {
-    return from(this.musicKitInstance.api.library.playlist(id));
+    return from(
+      this.musicKitInstance.api.music(`v1/me/library/playlists/${id}`)
+    ).pipe(map((res: any) => { console.log(res); return res.data.data[0] }));
   }
 
   async addToLibrary(id: string, type: string) {

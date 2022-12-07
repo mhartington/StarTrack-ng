@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
 import { RxState} from '@rx-angular/state';
@@ -41,6 +41,9 @@ const parseNext = (next: string, fallback: number = 0): number =>
   ],
 })
 export class RecentlyAddedPage implements OnInit {
+private stateService = inject(RxState<RecentlyAddedPageState>);
+private api = inject(MusickitService);
+
   public albums$ = this.stateService.select('albums');
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -72,8 +75,6 @@ export class RecentlyAddedPage implements OnInit {
   );
 
   constructor(
-    private stateService: RxState<RecentlyAddedPageState>,
-    private api: MusickitService
   ) {
     this.stateService.set(initialState);
   }

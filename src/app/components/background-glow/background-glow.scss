@@ -22,7 +22,8 @@ canvas {
   transform: rotateZ(0deg) translate3d(0, 0, 0);
   transform-origin: center center;
   // animation: rotateBg 125s linear infinite;
-  filter: brightness(85%) saturate(95%) contrast(0.9) blur(150px);
+  // filter: brightness(85%) saturate(95%) contrast(0.9) blur(150px);
+  filter: blur(180px) saturate(1.7) brightness(70%) contrast(130%);
 }
 .next {
   z-index: 1;

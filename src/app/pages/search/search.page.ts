@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -86,6 +86,15 @@ const successState = (state: Partial<ISearchPageState>, val: ICollection) => ({
   ],
 })
 export class SearchPage {
+
+  private stateService = inject(RxState<ISearchPageState>);
+  private api = inject(MusickitService);
+  private player = inject(PlayerService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private fb = inject(UntypedFormBuilder);
+
+
   public state$: Observable<ISearchPageState> = this.stateService.select();
   public searchForm = this.fb.group({ search: '' });
   public searchClearTrigger$ = new Subject();
@@ -125,12 +134,6 @@ export class SearchPage {
   );
 
   constructor(
-    private stateService: RxState<ISearchPageState>,
-    private api: MusickitService,
-    private player: PlayerService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: UntypedFormBuilder
   ) {
     // UI Actions
     // Set init state

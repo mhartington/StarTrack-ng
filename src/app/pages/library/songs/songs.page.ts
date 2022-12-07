@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
@@ -54,6 +54,11 @@ const initialState: SongsPageState = {
   ],
 })
 export class SongsPage implements OnInit {
+  public stateService = inject(RxState<SongsPageState>);
+  private api = inject(MusickitService);
+  private player = inject(PlayerService);
+
+
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   public scrollTrigger$ = new Subject();
   public songs$: Observable<Song[]> = this.stateService.select('songs');
@@ -82,9 +87,6 @@ export class SongsPage implements OnInit {
   );
   private ionViewDidEnter$ = new Subject<boolean>();
   constructor(
-    public stateService: RxState<SongsPageState>,
-    private api: MusickitService,
-    private player: PlayerService
   ) {
     this.stateService.set(initialState);
     this.stateService.connect(
