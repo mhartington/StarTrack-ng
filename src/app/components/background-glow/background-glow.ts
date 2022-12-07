@@ -47,6 +47,7 @@ export class BackgroundGlow {
     if (this.opacity < 1) {
       this.ctx.globalAlpha = 1;
       this.ctx.drawImage( this.source, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      // this.ctx.drawImage( this.source, -100, -10, this.ctx.canvas.width, this.ctx.canvas.height);
       this.ctx.globalAlpha = this.opacity;
       this.ctx.drawImage( this.dest, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       this.opacity += this.speed;
