@@ -25,13 +25,6 @@ canvas {
   // filter: brightness(85%) saturate(95%) contrast(0.9) blur(150px);
   filter: blur(180px) saturate(1.7) brightness(70%) contrast(130%);
 }
-.next {
-  z-index: 1;
-}
-
-.current {
-  z-index: 0;
-}
 @keyframes rotateBg {
   0%,
   23% {

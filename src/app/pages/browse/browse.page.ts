@@ -11,11 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { LetModule } from '@rx-angular/template';
-import { ErrorComponent } from '../../components/error/error.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { AlbumPreviewItemsComponent } from '../../components/album-preview-items/album-preview-items.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { RouterModule } from '@angular/router';
+import { ErrorComponent } from "../../components/error/error.component";
 
 interface IBrowsePageState {
   collection: any;
@@ -23,24 +23,24 @@ interface IBrowsePageState {
   hasError: boolean;
 }
 @Component({
-  selector: 'app-browse-page',
-  templateUrl: './browse.page.html',
-  styleUrls: ['./browse.page.scss'],
-  providers: [RxState],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SongItemComponent,
-    AlbumPreviewItemsComponent,
-    FormatArtworkUrlPipe,
-    ErrorComponent,
-    LetModule,
-    LazyImgComponent,
-    RouterModule,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-browse-page',
+    templateUrl: './browse.page.html',
+    styleUrls: ['./browse.page.scss'],
+    providers: [RxState],
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        SongItemComponent,
+        AlbumPreviewItemsComponent,
+        FormatArtworkUrlPipe,
+        LetModule,
+        LazyImgComponent,
+        RouterModule,
+        ErrorComponent
+    ]
 })
 export class BrowsePage {
   private api = inject(MusickitService)

@@ -30,7 +30,7 @@
 
   <ion-infinite-scroll
     (ionInfinite)="scrollTrigger$.next(null)"
-    disabled="true"
+    threshold="60%"
   >
     <ion-infinite-scroll-content>
     </ion-infinite-scroll-content>

@@ -3,7 +3,8 @@ import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
-import { insert, RxState } from '@rx-angular/state';
+import { RxState } from '@rx-angular/state';
+import { insert } from '@rx-angular/cdk/transformations'
 import { LetModule, PushModule } from '@rx-angular/template';
 import { EMPTY, Observable, Subject } from 'rxjs';
 import {
@@ -65,15 +66,19 @@ export class SongsPage implements OnInit {
 
   public fetchMore$ = this.scrollTrigger$.pipe(
     withLatestFrom(this.stateService.$),
-    // switchMap(([_, { songs, total }]) => {
-    //   if (songs.length === total) {
-    //     this.infiniteScroll.complete();
-    //     this.infiniteScroll.disabled = true;
-    //     return EMPTY;
-    //   }
-      // return this.api.fetchLibrarySongs(this.stateService.get('offset'));
-    // }),
-    // tap(() => this.infiniteScroll.complete())
+    switchMap(([_, { songs, total }]) => {
+      console.log("length: ", songs.length);
+      console.log("total: ", total);
+
+      if (songs.length === total) {
+        
+        this.infiniteScroll.complete();
+        this.infiniteScroll.disabled = true;
+        return EMPTY;
+      }
+      return this.api.fetchLibrarySongs(this.stateService.get('offset'));
+    }),
+    tap(() => this.infiniteScroll.complete()),
     tap(() => console.log('should end'))
   );
 
@@ -93,13 +98,12 @@ export class SongsPage implements OnInit {
       this.ionViewDidEnter$.pipe(switchMapTo(this.fetchLibrarySongs$))
     );
 
-    this.stateService.hold(
-      this.fetchMore$
-      // ,
-      // ({ total, songs }, { data, next }) => ({
-      //   songs: insert(songs, data),
-      //   offset: parseNext(next, total),
-      // })
+    this.stateService.connect(
+      this.fetchMore$,
+      ({ total, songs }, { data, next }) => ({
+        songs: insert(songs, data),
+        offset: parseNext(next, total),
+      })
     );
   }
 
