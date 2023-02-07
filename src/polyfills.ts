@@ -49,7 +49,6 @@ import './zone-flags';
  */
 
 import 'zone.js';  // Included with Angular CLI.
-import 'zone.js/plugins/webapis-media-query';
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
