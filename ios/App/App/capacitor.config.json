@@ -5,6 +5,9 @@
 	"webDir": "dist/browser",
 	"backgroundColor": "#000000FF",
 	"plugins": {
+		"CapacitorHttp": {
+			"enabled": true
+		},
 		"LocalNotifications": {},
 		"Keyboard": {
 			"resize": "none",

@@ -24,6 +24,7 @@
         (click)="stopProp($event)"
         (ionKnobMoveStart)="pauseSeeking($event)"
         (ionKnobMoveEnd)="seekToTime($event)"
+        aria-label="main track player"
         [disabled]="
           state.playbackDuration === 0 ||
           state.playbackState === playbackStates.NONE ||

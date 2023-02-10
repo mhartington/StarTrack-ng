@@ -4,7 +4,8 @@
 // }
 
 .ion-page {
-  background: #000;
+  // background: #000;
+  background: #5a5960
 }
 
 ion-header {
@@ -78,14 +79,18 @@ ion-range {
     display: unset;
     position: absolute;
     bottom: -15px;
+    font-size: .75em;
     font-variant-numeric: tabular-nums;
-
+    color: #ffffff;
     &[slot='start'] {
       left: 0;
+      text-align: left;
     }
 
     &[slot='end'] {
       right: 0;
+      text-align: right;
+      
     }
   }
 }

@@ -103,6 +103,7 @@
           (ionKnobMoveStart)="pauseSeeking($event)"
           (ionKnobMoveEnd)="seekToTime($event)"
           color="white"
+          aria-label="fullpage player control"
         >
           <ion-label inert class="duration-label" slot="start">{{
             playbackTime | secToMins
@@ -119,7 +120,7 @@
             [ngClass]="{ active: state.isShuffling }"
             (click)="toggleShuffle(state.isShuffling)"
           >
-            <ion-icon name="shuffle"></ion-icon>
+            <ion-icon name="shuffle" slot="icon-only"></ion-icon>
           </ion-button>
 
           <ion-button
