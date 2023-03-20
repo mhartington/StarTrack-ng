@@ -157,6 +157,7 @@ ion-badge {
       width: 100%;
       aspect-ratio: 1/1;
     }
+  
   }
 }
 
@@ -209,9 +210,9 @@ ion-badge {
 }
 
 @media (orientation: portrait) {
-  // .track-player {
-  //   /* max-width: 80%; */
-  // }
+  .track-player {
+    max-width: 80%;
+  }
 
   .track-wrapper.queue-active {
     .track-player {
@@ -252,7 +253,7 @@ ion-badge {
 
 @media (orientation: landscape) {
   .track-player {
-    max-width: 500px;
+    max-width: 40%;
     width: 45%;
     padding: 0 30px;
   }
@@ -321,17 +322,3 @@ song-item {
   }
 }
 
-// TODO: Move background colors to blurrd image
-//
-// filter: brightness(85%) saturate(95%) blur(180px) contrast(0.9) opacity(0.9);
-//
-// animation: rotateBg 35s linear infinite;
-//
-// @keyframes rotateBG{
-// 0% {
-//     transform: rotate(0deg);
-// }
-// 100% {
-//     transform: rotate(360deg);
-// }
-// }

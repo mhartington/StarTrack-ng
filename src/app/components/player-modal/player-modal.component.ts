@@ -8,30 +8,18 @@ import {
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { LetModule, PushModule } from '@rx-angular/template';
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
-import {
-  MsToMinsPipe,
-  SecondsToMins,
-} from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
+import { MsToMinsPipe, SecondsToMins, } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
-import {
-  PlaybackStates,
-  PlayerService,
-  RepeatMode,
-} from '../../providers/player/player.service2';
+import { PlaybackStates, PlayerService, RepeatMode, } from '../../providers/player/player.service2';
 import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
@@ -43,13 +31,10 @@ import { createQueueAnimation } from './player-modal.animation';
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
     IonicModule,
-    LetModule,
-    PushModule,
     SongItemComponent,
     FormsModule,
     SvgBarsComponent,
@@ -89,42 +74,37 @@ import { createQueueAnimation } from './player-modal.animation';
     ]),
   ],
 })
-export class PlayerModalComponent implements OnInit, OnDestroy {
+export class PlayerModalComponent implements OnInit {
   @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
 
   private modalCtrl = inject(ModalController);
+  private isScrubbing = false;
+  private _playbackTime: any;
+
   public player = inject(PlayerService);
 
-  public backgroundColor = {};
   public playbackStates = PlaybackStates;
   public repeatMode = RepeatMode;
-  public state$ = this.player.select();
-  public queue$ = this.player.select('upNext');
 
-  public playbackTime = 0;
+  public queue = this.player.upNext;
+
   public showQueue = false;
 
-  private playbackTime$ = this.player.select('playbackTime');
-  private isScrubbing = false;
-  private playbackTimeSub: Subscription;
-  constructor() {
-    this.playbackTimeSub = this.playbackTime$
-      .pipe(
-        tap((val: any) => {
-          if (!this.isScrubbing) {
-            this.playbackTime = val;
-          }
-        })
-      )
-      .subscribe();
-  }
   ngOnInit() {}
-  ngOnDestroy() {
-    this.playbackTimeSub.unsubscribe();
-  }
   async dismiss() {
     await this.modalCtrl.dismiss();
   }
+
+  get playbackTime() {
+    if (this.isScrubbing) {
+      return this._playbackTime;
+    }
+    return this.player.playbackTime();
+  }
+  set playbackTime(val: number) {
+    this._playbackTime = val;
+  }
+
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);
     await this.player.seekToTime(ev.target.value);
@@ -135,13 +115,10 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
     this.isScrubbing = true;
     this.playbackTime = ev.target.value;
   }
+
   async togglePlay(e: any): Promise<void> {
     this.stopProp(e);
-    if (this.player.get().playbackState === this.playbackStates.PAUSED) {
-      await this.player.play();
-    } else {
-      await this.player.pause();
-    }
+    await this.player.togglePlay();
   }
   playAtIndex(e: any, song: Song) {
     this.stopProp(e);
@@ -170,5 +147,4 @@ export class PlayerModalComponent implements OnInit, OnDestroy {
   toggleRepeatMode() {
     this.player.toggleRepeat();
   }
-
 }

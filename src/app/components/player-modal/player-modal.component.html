@@ -1,5 +1,4 @@
-<div class="ion-page" *rxLet="state$; let state">
-  <ion-header (click)="dismiss()" class="ion-no-border">
+<div class="ion-page">  <ion-header (click)="dismiss()" class="ion-no-border">
     <div class="dismisser"></div>
   </ion-header>
   <div class="track-wrapper" #wrapper>
@@ -8,21 +7,21 @@
         <ion-thumbnail
           [ngClass]="{
             paused:
-              state.playbackState === playbackStates.PAUSED ||
-              state.playbackState === playbackStates.NONE ||
-              state.playbackState === playbackStates.STOPPED
+              player.playbackState() === playbackStates.PAUSED ||
+              player.playbackState() === playbackStates.NONE ||
+              player.playbackState() === playbackStates.STOPPED
           }"
         >
           <now-playing-artwork
             [src]="
-              state.nowPlayingItem.attributes.artwork?.url ??
-                'assets/imgs/default.svg' | formatArtworkUrl: 500
+              player.nowPlaying().attributes.artwork.url ??
+                'assets/imgs/default.svg' | formatArtworkUrl : 500
             "
             [ngClass]="{
               paused:
-                state.playbackState === playbackStates.PAUSED ||
-                state.playbackState === playbackStates.NONE ||
-                state.playbackState === playbackStates.STOPPED
+                player.playbackState() === playbackStates.PAUSED ||
+                player.playbackState() === playbackStates.NONE ||
+                player.playbackState() === playbackStates.STOPPED
             }"
             alt="The album art work cover"
           ></now-playing-artwork>
@@ -30,36 +29,32 @@
 
         <ion-label>
           <h3>
-            <ion-text color="white">{{
-              state.nowPlayingItem.attributes.name ?? 'Not Playing'
-            }}</ion-text>
+            <ion-text color="white">{{ player.nowPlaying().attributes.name ?? 'Not Playing' }}</ion-text>
           </h3>
           <p>
-            <ion-text color="white">{{
-              state.nowPlayingItem.attributes.artistName
-            }}</ion-text>
+            <ion-text color="white">{{player.nowPlaying().attributes.artistName}}</ion-text>
           </p>
         </ion-label>
       </div>
 
-      <div class="player-queue-portrait" *rxLet="queue$; let queue">
+      <div class="player-queue-portrait">
         <div class="queue-header">
           <p><ion-text color="white">Playing Next</ion-text></p>
           <ion-buttons class="toggle-buttons">
             <ion-button
               color="white"
-              [ngClass]="{ active: state.isShuffling }"
-              (click)="toggleShuffle(state.isShuffling)"
+              [ngClass]="{ active: player.isShuffling() }"
+              (click)="toggleShuffle(player.isShuffling())"
             >
               <ion-icon name="shuffle"></ion-icon>
             </ion-button>
             <ion-button
               color="white"
-              [ngClass]="{ active: state.repeatMode !== repeatMode.NONE }"
+              [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
               (click)="toggleRepeatMode()"
             >
               <ion-icon name="repeat"></ion-icon>
-              <ion-badge *ngIf="state.repeatMode === repeatMode.ONE"
+              <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
                 >1</ion-badge
               >
             </ion-button>
@@ -68,7 +63,7 @@
         <div class="queue-scroller" [@listAnimation]="queue.length">
           <song-item
             color="white"
-            *ngFor="let song of queue; let i = index"
+            *ngFor="let song of queue(); let i = index"
             [song]="song"
             (click)="playAtIndex($event, song)"
           >
@@ -76,7 +71,7 @@
               <lazy-img
                 [src]="
                   song.attributes.artwork?.url ?? 'assets/imgs/default.svg'
-                    | formatArtworkUrl: 60
+                    | formatArtworkUrl : 60
                 "
                 alt="album art"
               ></lazy-img>
@@ -90,35 +85,31 @@
           step="1"
           min="0"
           [disabled]="
-            state.playbackDuration === 0 ||
-            state.playbackState === playbackStates.NONE ||
-            state.playbackState === playbackStates.LOADING ||
-            state.playbackState === playbackStates.ENDED ||
-            state.playbackState === playbackStates.WAITING ||
-            state.playbackState === playbackStates.STALLED
+            player.playbackDuration() === 0 ||
+            player.playbackState() === playbackStates.NONE ||
+            player.playbackState() === playbackStates.LOADING ||
+            player.playbackState() === playbackStates.ENDED ||
+            player.playbackState() === playbackStates.WAITING ||
+            player.playbackState() === playbackStates.STALLED
           "
-          [max]="state.playbackDuration"
-          [(ngModel)]="playbackTime"
+          [max]="player.playbackDuration()"
+          [value]="playbackTime"
           (click)="stopProp($event)"
           (ionKnobMoveStart)="pauseSeeking($event)"
           (ionKnobMoveEnd)="seekToTime($event)"
           color="white"
           aria-label="fullpage player control"
         >
-          <ion-label inert class="duration-label" slot="start">{{
-            playbackTime | secToMins
-          }}</ion-label>
-          <ion-label inert class="duration-label" slot="end"
-            >-{{ state.playbackDuration - playbackTime | secToMins }}</ion-label
-          >
+          <ion-label inert class="duration-label" slot="start">{{ playbackTime | secToMins }}</ion-label>
+          <ion-label inert class="duration-label" slot="end" >-{{ player.playbackDuration() - playbackTime | secToMins }}</ion-label>
         </ion-range>
 
         <ion-buttons class="song-actions">
           <ion-button
             class="shuffle-button"
             color="white"
-            [ngClass]="{ active: state.isShuffling }"
-            (click)="toggleShuffle(state.isShuffling)"
+            [ngClass]="{ active: player.isShuffling() }"
+            (click)="toggleShuffle(player.isShuffling())"
           >
             <ion-icon name="shuffle" slot="icon-only"></ion-icon>
           </ion-button>
@@ -141,17 +132,17 @@
             <ion-spinner
               color="white"
               *ngIf="
-                state.playbackState === playbackStates.LOADING ||
-                  state.playbackState === playbackStates.ENDED ||
-                  state.playbackState === playbackStates.WAITING ||
-                  state.playbackState === playbackStates.STALLED;
+                  player.playbackState() === playbackStates.LOADING ||
+                  player.playbackState() === playbackStates.ENDED ||
+                  player.playbackState() === playbackStates.WAITING ||
+                  player.playbackState() === playbackStates.STALLED;
                 else buttonTemplate
               "
             ></ion-spinner>
             <ng-template #buttonTemplate>
               <ion-icon
                 [name]="
-                  state.playbackState === playbackStates.PLAYING
+                  player.playbackState() === playbackStates.PLAYING
                     ? 'pause'
                     : 'play'
                 "
@@ -171,26 +162,26 @@
           <ion-button
             class="repeat-button"
             color="white"
-            [ngClass]="{ active: state.repeatMode !== repeatMode.NONE }"
+            [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
             (click)="toggleRepeatMode()"
           >
             <ion-icon name="repeat"></ion-icon>
-            <ion-badge *ngIf="state.repeatMode === repeatMode.ONE">1</ion-badge>
+            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE" >1</ion-badge>
           </ion-button>
         </ion-buttons>
       </div>
     </div>
 
-    <div class="player-queue-landscape" *rxLet="queue$; let queue">
+    <div class="player-queue-landscape">
       <h1><ion-text color="white">Playing Next</ion-text></h1>
       <div
         class="queue-scroller"
         (pointerdown)="$event.stopPropagation(); $event.preventDefault()"
-        [@listAnimation]="queue.length"
+        [@listAnimation]="queue().length"
       >
         <song-item
           color="white"
-          *ngFor="let song of queue; let i = index"
+          *ngFor="let song of queue(); let i = index"
           [song]="song"
           (click)="playAtIndex($event, song)"
         >
@@ -198,7 +189,7 @@
             <lazy-img
               [src]="
                 song.attributes.artwork?.url ?? 'assets/imgs/default.svg'
-                  | formatArtworkUrl: 60
+                  | formatArtworkUrl : 60
               "
               alt="album art"
             ></lazy-img>
@@ -206,8 +197,6 @@
         </song-item>
       </div>
     </div>
-
-
   </div>
   <ion-footer>
     <ion-toolbar color="transparent">
@@ -215,9 +204,7 @@
         <ion-button
           color="white"
           (click)="toggleQueue()"
-          [ngClass]="{
-            active: showQueue
-          }"
+          [ngClass]="{ active: showQueue }"
         >
           <ion-icon name="list"></ion-icon>
         </ion-button>
@@ -226,8 +213,8 @@
   </ion-footer>
   <background-glow
     [src]="
-      state.nowPlayingItem.attributes.artwork?.url ?? 'assets/imgs/default.svg'
-        | formatArtworkUrl: 250
+      player.nowPlaying().attributes.artwork.url ?? 'assets/imgs/default.svg'
+        | formatArtworkUrl : 250
     "
   ></background-glow>
 </div>

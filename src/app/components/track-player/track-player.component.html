@@ -1,37 +1,37 @@
 <ion-footer class="mh-footer" translucent="true">
-  <div class="track-wrapper" *rxLet="state$; let state">
+  <div class="track-wrapper">
     <div class="track-player">
       <div class="song-info">
         <ion-thumbnail>
           <lazy-img
             [src]="
-              state.nowPlayingItem.attributes.artwork?.url ??
+              player.nowPlaying().attributes.artwork.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl: 60
             "
             alt="The album art work cover"
           ></lazy-img>
         </ion-thumbnail>
         <ion-label>
-          <p>{{ state.nowPlayingItem.attributes?.name }}</p>
-          <ion-note>{{ state.nowPlayingItem.attributes?.artistName }}</ion-note>
+          <p>{{player.nowPlaying().attributes.name }}</p>
+          <ion-note>{{player.nowPlaying().attributes.artistName }}</ion-note>
         </ion-label>
       </div>
       <ion-range
         step="1"
         min="0"
-        [max]="state.playbackDuration"
-        [(ngModel)]="playbackTime"
+        [max]="player.playbackDuration()"
+        [value]="playbackTime"
         (click)="stopProp($event)"
         (ionKnobMoveStart)="pauseSeeking($event)"
         (ionKnobMoveEnd)="seekToTime($event)"
         aria-label="main track player"
         [disabled]="
-          state.playbackDuration === 0 ||
-          state.playbackState === playbackStates.NONE ||
-          state.playbackState === playbackStates.LOADING ||
-          state.playbackState === playbackStates.ENDED ||
-          state.playbackState === playbackStates.WAITING ||
-          state.playbackState === playbackStates.STALLED
+          player.playbackDuration() === 0 ||
+          player.playbackState() === playbackStates.NONE ||
+          player.playbackState() === playbackStates.LOADING ||
+          player.playbackState() === playbackStates.ENDED ||
+          player.playbackState() === playbackStates.WAITING ||
+          player.playbackState() === playbackStates.STALLED
         "
       ></ion-range>
       <ion-buttons class="song-actions">
@@ -52,17 +52,17 @@
         >
           <ion-spinner
             *ngIf="
-              state.playbackState === playbackStates.LOADING ||
-                state.playbackState === playbackStates.ENDED ||
-                state.playbackState === playbackStates.WAITING ||
-                state.playbackState === playbackStates.STALLED;
+                player.playbackState() === playbackStates.LOADING ||
+                player.playbackState() === playbackStates.ENDED ||
+                player.playbackState() === playbackStates.WAITING ||
+                player.playbackState() === playbackStates.STALLED;
               else buttonTemplate
             "
           ></ion-spinner>
           <ng-template #buttonTemplate>
             <ion-icon
               [name]="
-                state.playbackState === playbackStates.PLAYING
+                player.playbackState() === playbackStates.PLAYING
                   ? 'pause'
                   : 'play'
               "
@@ -82,15 +82,3 @@
     </div>
   </div>
 </ion-footer>
-
-<!--  -->
-<!-- <ion-modal -->
-<!--   class="full-modal" -->
-<!--   [isOpen]="isModalOpen" -->
-<!--   [swipeToClose]='true' -->
-<!--   (didDismiss)="isModalOpen = false" -->
-<!-- > -->
-<!--   <ng-template> -->
-<!--     <app-player-modal></app-player-modal> -->
-<!--   </ng-template> -->
-<!-- </ion-modal> -->

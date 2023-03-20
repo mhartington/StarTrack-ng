@@ -20,25 +20,16 @@ export class MusickitService {
   private loadingCtrl = inject(LoadingController);
 
   // API/Apple Music
-  fetchAlbum(id: string): Observable<any> {
+  async fetchAlbum(id: string): Promise<any> {
     // const params = encodeURI(`extend=editorialVideo`);
-    return from(
-      this.musicKitInstance.api.music(
-        `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
-        {
-          // extend: 'artistUrl,composerUrl,trackCount,editorialVideo,editorialArtwork',
-        }
-      )
-    ).pipe(map((res: any) => res.data.data[0]));
+    const res = await this.musicKitInstance.api.music( `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`, {});
+    return res.data.data[0];
   }
-  fetchPlaylist(id: string): Observable<any> {
-    return from(
-      this.musicKitInstance.api.music(
-        `v1/catalog/${this.musicKitInstance.storefrontId}/playlists/${id}`
-      )
-    ).pipe(map((res: any) => res.data.data[0]));
+  async fetchPlaylist(id: string): Promise<any> {
+    const res = await this.musicKitInstance.api.music( `v1/catalog/${this.musicKitInstance.storefrontId}/playlists/${id}`, {});
+    return res.data.data[0];
   }
-  fetchAlbumOrPlaylist(type: string, id: string): Observable<any> {
+  fetchAlbumOrPlaylist(type: string, id: string): Promise<any> {
     if (type === 'playlist') {
       return this.fetchPlaylist(id);
     } else {
@@ -86,25 +77,27 @@ export class MusickitService {
   fetchHeavyRotation(): Observable<any> {
     return from(this.musicKitInstance.api.historyHeavyRotation());
   }
-  fetchChart(): Observable<any> {
+  fetchChart(): Promise<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
-    return from(
-      this.musicKitInstance.api.music(
-        `v1/catalog/${this.musicKitInstance.storefrontId}/charts`,
-        {
-          types: searchTypes,
-          limit: 32,
-        }
-      )
-    ).pipe(
-      map(({ data }: any) => ({
+    return this.musicKitInstance.api
+      .music(`v1/catalog/${this.musicKitInstance.storefrontId}/charts`, {
+        types: searchTypes,
+        limit: 32,
+      })
+      .then(({ data }: any) => ({
         topAlbums: data.results.albums[0].data,
         topPlaylists: data.results.playlists[0].data,
         topSongs: data.results.songs[0].data,
-      })),
-      retryWhen((error) => error.pipe(delay(500))),
-      timeout(5000)
-    );
+      }));
+    //   .pipe(
+    //   map(({ data }: any) => ({
+    //     topAlbums: data.results.albums[0].data,
+    //     topPlaylists: data.results.playlists[0].data,
+    //     topSongs: data.results.songs[0].data,
+    //   })),
+    //   retryWhen((error) => error.pipe(delay(500))),
+    //   timeout(5000)
+    // );
   }
   fetchPlaylists(offset: number): Observable<any> {
     return from(
@@ -210,7 +203,12 @@ export class MusickitService {
   fetchLibraryPlaylist(id: string): Observable<any> {
     return from(
       this.musicKitInstance.api.music(`v1/me/library/playlists/${id}`)
-    ).pipe(map((res: any) => { console.log(res); return res.data.data[0] }));
+    ).pipe(
+      map((res: any) => {
+        console.log(res);
+        return res.data.data[0];
+      })
+    );
   }
 
   async addToLibrary(id: string, type: string) {
@@ -239,7 +237,8 @@ export class MusickitService {
   fetchRecentlyAdded(offset = 0): Observable<any> {
     return from(
       this.musicKitInstance.api.music('v1/me/library/recently-added', {
-        limit: 25,offset
+        limit: 25,
+        offset,
       })
     ).pipe(map((res: any) => res.data));
   }

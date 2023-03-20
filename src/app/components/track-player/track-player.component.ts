@@ -1,19 +1,13 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
-import {
-  PlaybackStates,
-  PlayerService,
-} from '../../providers/player/player.service2';
+import { PlaybackStates, PlayerService, } from '../../providers/player/player.service2';
 import { PlayerModalComponent } from '../player-modal/player-modal.component';
-import { tap } from 'rxjs/operators';
-import { LetModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  // eslint-disable-next-line
   selector: 'track-player',
   templateUrl: './track-player.component.html',
   styleUrls: ['./track-player.component.scss'],
@@ -24,35 +18,20 @@ import { FormsModule } from '@angular/forms';
     FormatArtworkUrlPipe,
     IonicModule,
     CommonModule,
-    LetModule,
     PlayerModalComponent,
   ],
 })
 export class TrackPlayerComponent {
-  public state$ = this.player.select();
-  public playbackTime = 0;
+  public player = inject(PlayerService);
+  private modalCtrl = inject(ModalController);
+
   public isModalOpen = false;
 
   public playbackStates = PlaybackStates;
   private playerModal: typeof PlayerModalComponent;
-  private playbackTime$ = this.player.select('playbackTime');
   private clickBlock = false;
   private isScrubbing = false;
-
-  constructor(
-    public player: PlayerService,
-    private modalCtrl: ModalController
-  ) {
-    this.playbackTime$
-      .pipe(
-        tap((val: any) => {
-          if (!this.isScrubbing) {
-            this.playbackTime = val;
-          }
-        })
-      )
-      .subscribe();
-  }
+  private _playbackTime: any;
 
   @HostListener('click')
   async toggle() {
@@ -78,6 +57,14 @@ export class TrackPlayerComponent {
     this.isScrubbing = false;
   }
 
+  get playbackTime() {
+    if (this.isScrubbing) { return this._playbackTime; }
+    return this.player.playbackTime();
+  }
+  set playbackTime(val: number) {
+    this._playbackTime = val;
+  }
+
   pauseSeeking(ev: any): void {
     this.stopProp(ev);
     this.isScrubbing = true;
@@ -86,11 +73,7 @@ export class TrackPlayerComponent {
 
   async togglePlay(e: any): Promise<void> {
     this.stopProp(e);
-    if (this.player.get().playbackState === this.playbackStates.PAUSED) {
-      await this.player.play();
-    } else {
-      await this.player.pause();
-    }
+    await this.player.togglePlay();
   }
   stopProp(e: any): void {
     e.stopPropagation();

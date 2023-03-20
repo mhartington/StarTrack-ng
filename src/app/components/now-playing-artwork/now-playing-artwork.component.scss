@@ -5,8 +5,7 @@
   background: transparent;
   transform-origin: center center;
   position: relative;
-
-  --lazy-img-transition: transform 250ms cubic-bezier(0.42, 0, 0.58, 1);
+  --lazy-img-transition: var(--lazy-img-transition, all 500ms cubic-bezier(0.42, 0, 0.58, 1));
 
   .shadow {
     height: 100%;
@@ -40,21 +39,17 @@
     transform-origin: center center;
     transform: scale3d(1, 1, 1);
     transition: var(--lazy-img-transition);
-    // transition: transform 500ms ease-in;
   }
 
   &.paused {
     lazy-img {
-      transform: scale3d(0.75, 0.75, 0.75);
+      transform: scale3d(0.625, 0.625, 0.625);
     }
     .shadow {
       transform: scale3D(0.6, 0.6, 0.6) !important;
     }
   }
 }
-
-
-
 
 // lazy-img {
 //   animation: animateShadow 3s infinite;
@@ -72,9 +67,6 @@
 //                 0 9px 46px 8px rgba(255,0,0,1);
 //   }
 // }
-
-
-
 
 // lazy-img::after {
 //   content: '';
@@ -98,20 +90,17 @@
 //   }
 // }
 
-
 @media (orientation: portrait) {
+  // .animation-started;
   .queue-active {
     :host {
+      --lazy-img-transition: none;
       .shadow {
         opacity: 0;
       }
-    }
-    :host(.paused) {
       lazy-img {
-        transform: scale3d(1, 1, 1) !important;
-      }
-      .shadow {
-        transform: scale3d(0.8, 1, 1) translate3d(0, 0, 0) !important;
+        transform-origin: top left;
+        transform: scale3d(1, 1, 1);
       }
     }
   }

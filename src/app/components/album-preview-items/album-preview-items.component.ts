@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
@@ -15,7 +14,6 @@ import { LazyImgComponent } from '../lazy-img/lazy-img.component';
     CommonModule,
     IonicModule,
     FormatArtworkUrlPipe,
-    RouterModule,
     LazyImgComponent
   ]
 })

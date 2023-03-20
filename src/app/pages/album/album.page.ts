@@ -1,12 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { Album } from '../../../@types/album';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-import { Observable, of, Subject } from 'rxjs';
 import { RxState } from '@rx-angular/state';
-import { mapToError, mapToAlbumResults } from '../../util/fetchUtils';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ErrorComponent } from '../../components/error/error.component';
@@ -16,12 +13,6 @@ import { LetModule, PushModule } from '@rx-angular/template';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 
-interface IAlbumPageState {
-  collection: Partial<Album>;
-  isLoading: boolean;
-  hasError: boolean;
-  canShare: boolean;
-}
 @Component({
   selector: 'app-album',
   templateUrl: './album.page.html',
@@ -42,51 +33,35 @@ interface IAlbumPageState {
   ],
 })
 export class AlbumPage {
+  private api = inject(MusickitService);
+  private route = inject(ActivatedRoute);
+  private player = inject(PlayerService);
 
-  private api =inject(MusickitService);
-  private route =inject(ActivatedRoute);
-  private player =inject(PlayerService);
-  private stateService =inject(RxState<IAlbumPageState>);
+  public isLoading = signal(true);
+  public hasError = signal(false);
+  public collection = signal<Partial<Album>>(null);
+  public canShare = !!('share' in navigator);
 
-  public state$: Observable<IAlbumPageState> = this.stateService.select();
-  private ionViewDidEnter$ = new Subject<boolean>();
-
-  private fetchDataStream$ = this.route.params.pipe(
-    switchMap(({ id }) => this.api.fetchAlbum(id)),
-    map(mapToAlbumResults),
-    catchError((e) => of(mapToError(e)))
-  );
-
-  constructor() {
-    this.stateService.set({
-      isLoading: true,
-      hasError: false,
-      collection: null,
-    });
-
-    this.stateService.connect(
-      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
-    );
-  }
-  ionViewDidEnter() {
-    this.ionViewDidEnter$.next(null);
-    this.ionViewDidEnter$.complete();
+  async ionViewDidEnter() {
+    const id = this.route.snapshot.params.id;
+    const data = await this.api.fetchAlbum(id);
+    this.collection.set(data);
+    this.isLoading.set(false);
   }
   playSong(startPosition: number, shuffle = false) {
-    const { url } = this.stateService.get().collection.attributes;
+    const url = this.collection().attributes.url;
     this.player.playCollection({ shuffle, url, startPosition });
   }
   playAlbum({ shuffle }) {
     this.playSong(null, shuffle);
   }
   share() {
-    const { collection, canShare } = this.stateService.get();
-    if (canShare) {
+    if (this.canShare) {
       (navigator as any)
         .share({
           title: 'Star Track',
-          text: `Check out "${collection.attributes.name}" by ${collection.attributes.artistName}. Via Star Track.`,
-          url: `${window.location.origin}/album/${collection.id}`,
+          text: `Check out "${this.collection().attributes.name}" by ${this.collection().attributes.artistName}. Via Star Track.`,
+          url: `${window.location.origin}/album/${this.collection().id}`,
         })
         .then(
           () => console.log('Successful share'),
@@ -96,7 +71,7 @@ export class AlbumPage {
   }
 
   async addToLibrary() {
-    const album = this.stateService.get('collection');
+    const album = this.collection();
     await this.api.addToLibrary(album.id, album.type);
   }
 }

@@ -14,9 +14,7 @@
       <ion-title size="large">Browse</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <ng-container *rxLet="state$; let state;">
-    <ng-container *ngIf="state.collection as chart">
+    <ng-container *ngIf="state().collection as chart">
       <ion-list >
         <ion-list-header>
           <h1>Top Albums</h1>
@@ -79,12 +77,12 @@
       </ion-list>
     </ng-container>
 
-    <ng-container *ngIf="state.hasError">
+    <ng-container *ngIf="state().hasError">
       <h1>Error</h1>
       <error-emoji class="ion-padding ion-text-center"></error-emoji>
     </ng-container>
 
-    <ng-container *ngIf="state.isLoading">
+    <ng-container *ngIf="state().isLoading">
       <ion-list>
         <ion-list-header>
           <h1>Top Albums</h1>
@@ -118,5 +116,4 @@
         </div>
       </ion-list>
     </ng-container>
-  </ng-container>
 </ion-content>

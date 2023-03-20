@@ -49,9 +49,11 @@ export const createQueueAnimation = async (
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
+  .addElement(targetEl)
+  .beforeAddClass('animation-started').beforeRemoveClass('animation-done')
     .duration(250)
     .fill('none')
-    .easing('cubic-bezier(.42,0,.58,1)');
+    .easing('cubic-bezier(0.42, 0, 0.58, 1)');
 
   let playerQueueStarting: {
     top: number;
@@ -197,6 +199,7 @@ export const createQueueAnimation = async (
       w: thumbnailRecPre.width / thumbnailRecPost.width,
       h: thumbnailRecPre.height / thumbnailRecPost.height,
     };
+
     const thumbnailAnimation = createAnimation()
       .addElement(thumbnailEl)
       .beforeStyles({ 'transform-origin': 'top left', '--lazy-img-transition': 'none' })
@@ -241,10 +244,9 @@ export const createQueueAnimation = async (
         // transform: `translate3d(0, ${playerQueueStarting.y}%, 0)`,
         'transform-origin': 'center center',
       })
-      .easing('ease-out')
       .fromTo('opacity', playerQueueOPDelta.from, playerQueueOPDelta.to)
       .fromTo('transform', `translate3d(0, ${playerQueueXDelta.from}%, 0)`, `translate3d(0, ${playerQueueXDelta.to}%, 0)`)
-      .delay(isOpening ? 100 : 0)
+      .delay(isOpening ? 200 : 0)
       .afterClearStyles([
         'position',
         'top',
@@ -261,6 +263,8 @@ export const createQueueAnimation = async (
   }
 
   baseAnimation
+    .afterAddClass('animation-done')
+    .afterRemoveClass('animation-started')
     .addAnimation(animationChain)
     .play()
 };

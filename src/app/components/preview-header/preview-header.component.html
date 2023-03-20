@@ -1,13 +1,13 @@
 <lazy-img
   alt="The artwork for the album"
-  [src]="collection?.attributes.artwork.url | formatArtworkUrl: 1500"
+  [src]="collection?.attributes?.artwork?.url ?? null | formatArtworkUrl : 1500"
 ></lazy-img>
 <div class="album-detail">
   <ng-container *ngIf="collection; else placeholder">
-    <h3>{{ collection.attributes.name }}</h3>
+    <h3>{{ collection?.attributes?.name }}</h3>
     <h3 class="name">
       <ion-text color="primary">{{
-        collection.attributes.artistName
+        collection?.attributes?.artistName
           ? collection.attributes.artistName
           : collection.attributes.curatorName
       }}</ion-text>
@@ -15,7 +15,7 @@
     <p>
       <ion-note>
         {{
-          collection.attributes.description
+          collection?.attributes?.description
             ? collection.attributes.description.standard
             : collection.attributes.genreNames[0]
         }}
