@@ -1,13 +1,4 @@
 import { createAnimation } from '@ionic/angular';
-const getOpacity = ({ top }) => {
-  let from = 0;
-  let to = 1;
-  if (top !== 0) {
-    from = 1;
-    to = 0;
-  }
-  return { from, to };
-};
 const getQueueVectors = (pre: number, post: number) => {
   const val = {
     scaleFrom: null,
@@ -40,8 +31,10 @@ const getOffset = (el: HTMLElement) => {
   const width = el.offsetWidth;
   const height = el.offsetHeight;
 
-  return { top, left, width, height};
+  return { top, left, width, height };
 };
+
+const ANIMATION_START = 'animation-start';
 export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
@@ -49,11 +42,11 @@ export const createQueueAnimation = async (
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
-  .addElement(targetEl)
-  .beforeAddClass('animation-started').beforeRemoveClass('animation-done')
     .duration(250)
     .fill('none')
-    .easing('cubic-bezier(0.42, 0, 0.58, 1)');
+    .easing('cubic-bezier(.42,0,.58,1)');
+
+  targetEl.classList.add(ANIMATION_START);
 
   let playerQueueStarting: {
     top: number;
@@ -62,7 +55,13 @@ export const createQueueAnimation = async (
     height: number;
     y?: number;
   };
-  let nowPlayingStarting: { top: number; left: number; width: number };
+  let nowPlayingStarting: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
+
   const nowPlaying = targetEl.querySelector('.track-player');
   if (!isPortait) {
     /// Player
@@ -87,6 +86,7 @@ export const createQueueAnimation = async (
         top: playerRecPre.top,
         left: playerRecPre.left,
         width: playerRecPre.width,
+        height: playerRecPre.height,
       };
     } else {
       playerQueueStarting = {
@@ -99,6 +99,7 @@ export const createQueueAnimation = async (
         top: playerRecPre.top,
         left: playerRecPre.left,
         width: playerRecPre.width,
+        height: playerRecPre.height,
       };
     }
 
@@ -148,32 +149,32 @@ export const createQueueAnimation = async (
         'transform-origin': 'top left',
         position: 'absolute',
         left: `${nowPlayingStarting.left}px`,
-        // top: `${nowPlayingStarting.top}px`,
       })
       .fromTo(
         'transform',
         `translate3d(0px, 0, 0)`,
         `translate3d(${playerDeltaX}px, 0,0)`
       )
-      .afterClearStyles(['transform-origin', 'position', 'left', 'top']);
-
+      .afterClearStyles(['transform-origin', 'position', 'left']);
     animationChain.push(nowPlayingAnimation);
   }
 
   if (isPortait) {
     const thumbnailEl = targetEl.querySelector('ion-thumbnail');
     const labelEl = targetEl.querySelector('ion-label');
-    const playerQueueEl = targetEl.querySelector('.player-queue-portrait') as HTMLElement;
+    const playerQueueEl = targetEl.querySelector( '.player-queue-portrait') as HTMLElement;
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);
     const playerQueueRecPre = getOffset(playerQueueEl);
+  
 
     targetEl.classList.toggle('queue-active');
 
     const thumbnailRecPost = getRec(thumbnailEl);
     const labelRecPost = getRec(labelEl);
     const playerQueueRecPost = getOffset(playerQueueEl);
+
 
     if (isOpening) {
       playerQueueStarting = {
@@ -193,6 +194,7 @@ export const createQueueAnimation = async (
       };
     }
 
+
     const thumbnailDelta = {
       x: thumbnailRecPre.left - thumbnailRecPost.left,
       y: thumbnailRecPre.top - thumbnailRecPost.top,
@@ -202,29 +204,33 @@ export const createQueueAnimation = async (
 
     const thumbnailAnimation = createAnimation()
       .addElement(thumbnailEl)
-      .beforeStyles({ 'transform-origin': 'top left', '--lazy-img-transition': 'none' })
+      .beforeStyles({ 'transform-origin': 'top left', })
       .from(
         'transform',
         `translate3d(${thumbnailDelta.x}px, ${thumbnailDelta.y}px, 0) scale3d(${thumbnailDelta.w}, ${thumbnailDelta.h}, ${thumbnailDelta.w})`
       )
-      .afterClearStyles(['transform-origin', '--lazy-img-transition']);
+      .afterClearStyles(['transform-origin']);
     animationChain.push(thumbnailAnimation);
 
+
+    // Label
     const labelDelta = {
       x: labelRecPre.left - labelRecPost.left,
       y: labelRecPre.top - labelRecPost.top,
     };
+
     const labelAnimation = createAnimation()
       .addElement(labelEl)
-      .from( 'transform', `translate3d(${0}px, ${labelDelta.y}px, ${0})`)
-      .fromTo( 'opacity', 0, 1);
+      .from('transform', `translate3d(${0}px, ${labelDelta.y}px, ${0})`)
+      .fromTo('opacity', 0, 1);
 
     animationChain.push(labelAnimation);
 
+    //Queue List
     const playerQueueOPDelta = {
       from: isOpening ? 0 : 1,
       to: isOpening ? 1 : 0,
-    }
+    };
 
     const playerQueueXDelta = {
       from: isOpening ? 100 : 0,
@@ -241,12 +247,16 @@ export const createQueueAnimation = async (
         overflow: 'hidden',
         display: 'block',
         opacity: playerQueueOPDelta.from,
-        // transform: `translate3d(0, ${playerQueueStarting.y}%, 0)`,
         'transform-origin': 'center center',
       })
+      .easing('ease-out')
       .fromTo('opacity', playerQueueOPDelta.from, playerQueueOPDelta.to)
-      .fromTo('transform', `translate3d(0, ${playerQueueXDelta.from}%, 0)`, `translate3d(0, ${playerQueueXDelta.to}%, 0)`)
-      .delay(isOpening ? 200 : 0)
+      .fromTo(
+        'transform',
+        `translate3d(0, ${playerQueueXDelta.from}%, 0)`,
+        `translate3d(0, ${playerQueueXDelta.to}%, 0)`
+      )
+      .delay(isOpening ? 100 : 0)
       .afterClearStyles([
         'position',
         'top',
@@ -254,17 +264,16 @@ export const createQueueAnimation = async (
         'height',
         'overflow',
         'display',
-        'transform',
         'transform-origin',
-        'opacity'
+        'opacity',
       ]);
 
     animationChain.push(playerQueueAnimation);
   }
 
   baseAnimation
-    .afterAddClass('animation-done')
-    .afterRemoveClass('animation-started')
+    .addElement(targetEl)
     .addAnimation(animationChain)
-    .play()
+    .afterRemoveClass(ANIMATION_START)
+    .play();
 };

@@ -30,9 +30,9 @@ export enum RepeatMode {
 }
 const nowPlayingInit = {
   attributes: {
-    name: '',
-    artistName: '',
-    albumName: '',
+    name: null,
+    artistName: null,
+    albumName: null,
     artwork: { url: 'assets/imgs/default.svg' },
   },
 };
@@ -127,16 +127,18 @@ export class PlayerService {
   async playAlbum(
     _type: string,
     album: string,
-    _startPosition: number,
+    startWith: number,
     shuffle = false
   ) {
     this.toggleShuffle(shuffle);
-    await this.mkInstance.setQueue({ album });
+    await this.mkInstance.setQueue({ album, startWith });
     await this.play();
   }
-  async playPlaylist(playlist: string, startPosition: number, shuffle = false) {
-    await this.mkInstance.setQueue({ playlist, startPosition });
+
+
+  async playPlaylist(playlist: string, startWith: number, shuffle = false) {
     this.toggleShuffle(shuffle);
+    await this.mkInstance.setQueue({ playlist, startWith });
     await this.play();
   }
   async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {

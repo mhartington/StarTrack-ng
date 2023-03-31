@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   IonicModule,
@@ -37,23 +37,22 @@ export class AppComponent implements OnInit {
     private menuCtrl = inject(MenuController);
     private metaService = inject(Meta);
     public platform = inject(Platform);
-    public environmentInjector = inject(EnvironmentInjector);
 
 
   musicKitInstance = (window as any).MusicKit?.getInstance();
   musicKitEvents = (window as any).MusicKit?.Events;
-  isAuthorized = new BehaviorSubject(this.musicKitInstance.isAuthorized);
+  isAuthorized = signal(this.musicKitInstance.isAuthorized);
 
   constructor(
   ) {
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();
-    this.setupListener();
+    // this.setupListener();
     prefersDark.addEventListener('change', () => this.setMetaTheme());
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
-      this.authDidChange.bind(this)
+      ()=> this.isAuthorized.set(this.musicKitInstance.isAuthorized)
     );
     // console.log(Capacitor.isNativePlatform)
     // if (Capacitor.isNativePlatform) {
@@ -89,9 +88,6 @@ export class AppComponent implements OnInit {
       // return;
       Browser.open({ url: formattedURL.toString(),presentationStyle: 'popover' });
     };
-  }
-  authDidChange() {
-    this.isAuthorized.next(this.musicKitInstance.isAuthorized);
   }
   async ngOnInit() {
     if (environment.production) {
@@ -130,16 +126,16 @@ export class AppComponent implements OnInit {
 
     this.metaService.updateTag({ content: color, name: 'theme-color' });
   }
-  async setupListener() {
-    console.log('is here')
-    App.addListener('appUrlOpen', (data: URLOpenListenerEvent) => {
-      console.log('App opened with URL:', JSON.stringify(data));
-      const openUrl = data.url;
-      // Use URL for routing to the right page!
-    });
-
-    // Alternative easy way to access the value once
-    let res = await App.getLaunchUrl();
-    console.log(res);
-  }
+  // async setupListener() {
+  //   console.log('is here')
+  //   App.addListener('appUrlOpen', (data: URLOpenListenerEvent) => {
+  //     console.log('App opened with URL:', JSON.stringify(data));
+  //     const openUrl = data.url;
+  //     // Use URL for routing to the right page!
+  //   });
+  //
+  //   // Alternative easy way to access the value once
+  //   let res = await App.getLaunchUrl();
+  //   console.log(res);
+  // }
 }

@@ -8,31 +8,28 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *rxLet="songs$ as songs">
-    <ng-container *ngIf="songs.length; else loading">
-      <song-item *ngFor="let song of songs; index as i; trackBy:trackByItem" [song]="song" (click)="playSong(i)">
-        <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"
-          ></lazy-img>
-        </ion-thumbnail>
-      </song-item>
-    </ng-container>
-
-    <ng-template #loading>
-      <song-item *ngFor="let song of [].constructor(50)">
-        <ion-thumbnail slot="start">
-          <lazy-img></lazy-img>
-        </ion-thumbnail>
-      </song-item>
-    </ng-template>
+  <ng-container *ngIf="songs().length; else loading">
+    <song-item
+      *ngFor="let song of songs(); index as i; trackBy:trackByItem"
+      [song]="song"
+      (click)="playSong(i)"
+    >
+      <ion-thumbnail slot="start">
+        <lazy-img
+          [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"
+        ></lazy-img>
+      </ion-thumbnail>
+    </song-item>
   </ng-container>
+  <ng-template #loading>
+    <song-item *ngFor="let song of [].constructor(50)">
+      <ion-thumbnail slot="start">
+        <lazy-img></lazy-img>
+      </ion-thumbnail>
+    </song-item>
+  </ng-template>
 
-  <ion-infinite-scroll
-    (ionInfinite)="scrollTrigger$.next(null)"
-    threshold="60%"
-  >
-    <ion-infinite-scroll-content>
-    </ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="fetchNext()" threshold="60%">
+    <ion-infinite-scroll-content> </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

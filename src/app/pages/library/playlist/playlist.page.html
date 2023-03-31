@@ -1,5 +1,6 @@
 <ion-header translucent="true">
   <ion-toolbar>
+    <ion-title>{{collection()?.attributes?.name ?? ''}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/library/albums"></ion-back-button>
     </ion-buttons>
@@ -7,45 +8,42 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ng-container *rxLet="state$ as state">
-
-    <ng-container *ngIf="state.playlist">
-      <preview-header
-        [collection]="state.playlist"
-        (playCollection)="playAlbum($event)"
-      ></preview-header>
-      <ion-list>
-        <song-item
-          *ngFor="let song of state.playlist.relationships.tracks.data; let i = index"
-          [song]="song"
-          [index]="i"
-          (click)="playSong(i)"
-        >
-          <ion-thumbnail slot="start" *ngIf="state.playlist.type === 'playlists'">
-            <lazy-img
-              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-              alt=""
-            ></lazy-img>
-          </ion-thumbnail>
-        </song-item>
-      </ion-list>
-    </ng-container>
-
-    <!-- <ng-container *ngIf="albums.isLoading">
-      <preview-header></preview-header>
-      <ion-list>
-        <ion-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]">
-          <ion-label>
-            <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ng-container>
-
-    <error-emoji
-      class="ion-text-center ion-padding"
-      *ngIf="albums.hasError"
-    ></error-emoji> -->
+  <ng-container *ngIf="collection(); else isLoading">
+    <preview-header
+      [collection]="collection()"
+      (playCollection)="playAlbum($event)"
+    ></preview-header>
+    <ion-list>
+      <song-item
+        *ngFor="let song of playlistTracks(); let i = index"
+        [song]="song"
+        [index]="i"
+        (click)="playSong(i)"
+      >
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+          ></lazy-img>
+        </ion-thumbnail>
+      </song-item>
+    </ion-list>
   </ng-container>
+
+  <ng-template #isLoading>
+    <preview-header></preview-header>
+    <ion-list>
+      <ion-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]">
+        <ion-label>
+          <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+  <!-- <error-emoji -->
+  <!--   class="ion-text-center ion-padding" -->
+  <!--   *ngIf="albums.hasError" -->
+  <!-- ></error-emoji> -->
 </ion-content>

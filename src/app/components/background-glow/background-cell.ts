@@ -22,7 +22,6 @@ import {
         justify-content: center;
         align-content: center;
         filter: blur(180px) brightness(70%) saturate(1.7);
-
       }
       canvas {
         height: 100%;
@@ -30,16 +29,10 @@ import {
       }
 
       :host(.cell-1) {
-        height: 100%;
         width: 100%;
-        aspect-ratio: unset;
       }
 
       :host(.cell-1) canvas {
-        height: 175%;
-        width: 175%;
-        transform-origin: center center;
-        transform: rotate(90deg);
       }
 
       :host(.cell-2) {
@@ -51,6 +44,8 @@ import {
 
       :host(.cell-3) {
         height: 50%;
+        top: 0;
+        left: 10%;
       }
 
       :host(.cell-3) canvas {
@@ -67,7 +62,7 @@ export class BackgroundCell {
   @Input() src: string;
   @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
 
-  private readonly speed = 0.01;
+  private readonly speed = 0.02;
   private opacity = 0;
   private source: HTMLImageElement;
   private dest: HTMLImageElement;

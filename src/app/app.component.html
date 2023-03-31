@@ -42,8 +42,7 @@
             </ion-menu-toggle>
           </ion-item-group>
 
-          <ng-container *rxLet="isAuthorized; let isAuth">
-            <ng-container *ngIf="isAuth">
+            <ng-container *ngIf="isAuthorized(); else notAuthorized">
               <ion-accordion-group multiple="true" [value]="['library']">
                 <ion-accordion value="library" toggle-icon="chevron-forward">
                   <ion-item slot="header">
@@ -117,7 +116,7 @@
                 </ion-item>
               </ion-menu-toggle>
             </ng-container>
-            <ng-container *ngIf="!isAuth">
+            <ng-template #notAuthorized>
               <ion-menu-toggle autoHide="false">
                 <ion-item
                   (click)="login()"
@@ -133,13 +132,12 @@
                   Log In
                 </ion-item>
               </ion-menu-toggle>
-            </ng-container>
-          </ng-container>
+            </ng-template>
         </ion-list>
       </ion-content>
     </ion-menu>
     <div id="main" class="route-wrapper">
-      <ion-router-outlet [environmentInjector]="environmentInjector"></ion-router-outlet>
+      <ion-router-outlet></ion-router-outlet>
       <track-player></track-player>
     </div>
   </ion-split-pane>

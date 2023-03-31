@@ -1,11 +1,3 @@
-import {
-  animate,
-  group,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -26,6 +18,7 @@ import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-a
 import { SongItemComponent } from '../song-item/song-item.component';
 import { SvgBarsComponent } from '../svg-bars/svg-bars.component';
 import { createQueueAnimation } from './player-modal.animation';
+import { QueueListComponent } from '../queue-list/queue-list.component';
 
 @Component({
   selector: 'app-player-modal',
@@ -44,34 +37,7 @@ import { createQueueAnimation } from './player-modal.animation';
     BackgroundGlow,
     MsToMinsPipe,
     SecondsToMins,
-  ],
-  animations: [
-    trigger('listAnimation', [
-      transition(':increment', [
-        group([
-          query('song-item', [
-            style({ transform: 'translate3d(0, calc(-100% + 1px), 0)' }),
-            animate(
-              '300ms ease-out',
-              style({ transform: 'translate3d(0, 0, 0)' })
-            ),
-          ]),
-        ]),
-      ]),
-      transition(':decrement', [
-        group([
-          query(':leave', [animate('250ms ease-out', style({ opacity: 0 }))]),
-          query('song-item:not(:leave)', [
-            animate(
-              '300ms ease-out',
-              style({
-                transform: 'translate3d(0, calc(-100% + 1px), 0)',
-              })
-            ),
-          ]),
-        ]),
-      ]),
-    ]),
+    QueueListComponent
   ],
 })
 export class PlayerModalComponent implements OnInit {
@@ -120,12 +86,14 @@ export class PlayerModalComponent implements OnInit {
     this.stopProp(e);
     await this.player.togglePlay();
   }
-  playAtIndex(e: any, song: Song) {
-    this.stopProp(e);
-    const parent: HTMLElement = e.target.closest('.queue-scroller');
+  playAtIndex(e: any) {
+    console.log(e.$event)
+    this.stopProp(e.$event);
+    const parent: HTMLElement = e.$event.target.closest('.queue-scroller');
     parent.scrollTo({ top: 0, behavior: 'smooth' });
-    this.player.skipTo(song);
+    this.player.skipTo(e.song);
   }
+
   stopProp(e: any): void {
     e.stopPropagation();
   }

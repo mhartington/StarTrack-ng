@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
@@ -17,14 +17,15 @@ import { SongItemComponent } from '../../components/song-item/song-item.componen
 import { LetModule, PushModule } from '@rx-angular/template';
 
 interface IPlaylistPage {
-  collection: Partial<Playlist>; isLoading: boolean;
-  hasError: boolean; canShare: boolean;
+  collection: Partial<Playlist>;
+  isLoading: boolean;
+  hasError: boolean;
+  canShare: boolean;
 }
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlists.page.html',
   styleUrls: ['./playlists.page.scss'],
-  providers: [RxState],
   standalone: true,
   imports: [
     RouterModule,
@@ -33,8 +34,6 @@ interface IPlaylistPage {
     ErrorComponent,
     PreviewHeaderComponent,
     SongItemComponent,
-    LetModule,
-    PushModule,
     LazyImgComponent,
     FormatArtworkUrlPipe,
   ],
@@ -43,38 +42,26 @@ export class PlaylistPage {
   private api = inject(MusickitService);
   private route = inject(ActivatedRoute);
   private player = inject(PlayerService);
-  private stateService = inject(RxState<IPlaylistPage>);
-  public state$: Observable<IPlaylistPage> = this.stateService.select();
-  private ionViewDidEnter$ = new Subject<boolean>();
-  private fetchDataStream$ = this.route.params.pipe( switchMap(({id }) => this.api.fetchPlaylist(id)),
-    map(mapToAlbumResults),
-    catchError((e) => of(mapToError(e)))
-  );
 
-  constructor(
-  ) { this.stateService.set({
-      isLoading: true, hasError: false,
-      collection: null,
-    });
+  public collection = signal(null);
+  public canShare = !!('share' in navigator);
 
-    this.stateService.connect(
-      this.ionViewDidEnter$.pipe(switchMapTo(this.fetchDataStream$))
-    );
+  async ionViewDidEnter() {
+    const id = this.route.snapshot.params.id;
+    const data = await this.api.fetchPlaylist(id);
+    this.collection.set(data);
   }
-  ngOnInit() {
-    this.ionViewDidEnter$.next(null);
-    this.ionViewDidEnter$.complete();
-  }
+
   playSong(startPosition: number, shuffle = false) {
-    const {url}  = this.stateService.get().collection.attributes;
-    this.player.playCollection({shuffle, url, startPosition});
+    const { url } = this.collection().attributes;
+    this.player.playCollection({ shuffle, url, startPosition });
   }
   playPlaylist({ shuffle }) {
     this.playSong(null, shuffle);
   }
   share() {
-    const { collection, canShare } = this.stateService.get();
-    if (canShare) {
+    const collection = this.collection();
+    if (this.canShare) {
       (navigator as any)
         .share({
           title: 'Star Track',

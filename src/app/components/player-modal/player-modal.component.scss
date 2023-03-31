@@ -1,11 +1,5 @@
-// :host {
-//   --background: #5a5960;
-//   // background-color: #5a5960;
-// }
-
 .ion-page {
-  // background: #000;
-  background: #5a5960
+  background: #5a5960;
 }
 
 ion-header {
@@ -56,6 +50,49 @@ ion-footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+
+
+.song-info {
+  grid-row: 1/2;
+  width: 100%;
+  z-index: 1;
+  display: grid;
+  grid-auto-rows: 1fr auto;
+
+  height: 75%;
+
+  ion-thumbnail {
+    transform-origin: center center;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: auto;
+    --thumbnail-transition-duration: 500ms;
+    now-playing-artwork {
+      aspect-ratio: 1/1;
+    }
+  }
+
+  ion-label {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    * {
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    h3 {
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+    p {
+      font-size: 1em;
+    }
+  }
 }
 
 .controls-wrapper {
@@ -64,57 +101,42 @@ ion-footer {
   flex-direction: column;
   justify-content: space-around;
   height: 25%;
-}
 
-ion-range {
-  margin-top: auto;
-  display: block;
-  width: 100%;
-  margin: 0 auto;
-  flex: initial;
-  padding: 0;
+  ion-range {
+    margin-top: auto;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    flex: initial;
+    padding: 0;
 
-  .duration-label {
-    width: unset;
-    display: unset;
-    position: absolute;
-    bottom: -15px;
-    font-size: .75em;
-    font-variant-numeric: tabular-nums;
-    color: #ffffff;
-    &[slot='start'] {
-      left: 0;
-      text-align: left;
-    }
+    .duration-label {
+      width: unset;
+      display: unset;
+      position: absolute;
+      bottom: -15px;
+      font-size: 0.75em;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      &[slot='start'] {
+        left: 0;
+        text-align: left;
+      }
 
-    &[slot='end'] {
-      right: 0;
-      text-align: right;
-      
+      &[slot='end'] {
+        right: 0;
+        text-align: right;
+      }
     }
   }
 }
-
-ion-label {
-  display: block;
-  width: 100%;
-  overflow: hidden;
 }
 
-ion-label * {
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-ion-label h3 {
-  font-size: 1.1em;
-  font-weight: 600;
-}
-ion-label p {
-  font-size: 1em;
-}
 
+
+
+
+// shared
 ion-badge {
   font-size: 8px;
   position: absolute;
@@ -136,141 +158,6 @@ ion-badge {
   }
 }
 
-.song-info {
-  grid-row: 1/2;
-  width: 100%;
-  z-index: 1;
-  display: grid;
-  grid-auto-rows: 1fr auto;
-
-  height: 75%;
-
-  ion-thumbnail {
-    transform-origin: center center;
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    margin: auto;
-
-    now-playing-artwork {
-      width: 100%;
-      aspect-ratio: 1/1;
-    }
-  
-  }
-}
-
-.player-queue-portrait {
-  width: 100%;
-  display: none;
-  z-index: -1;
-
-  .queue-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-
-    p {
-      margin: 0;
-      font-weight: bold;
-    }
-
-    ion-badge {
-      top: 3px;
-      right: -3px;
-    }
-  }
-}
-
-.player-queue-landscape {
-  display: none;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  width: 55%;
-  padding: 0 16px;
-}
-
-.queue-inner {
-  height: 100%;
-  width: 100%;
-}
-
-.queue-scroller {
-  flex: 1;
-  overflow: auto;
-  overscroll-behavior-y: none;
-}
-
-.svg-aside {
-  width: 20px;
-  height: 20px;
-}
-
-@media (orientation: portrait) {
-  .track-player {
-    max-width: 80%;
-  }
-
-  .track-wrapper.queue-active {
-    .track-player {
-      grid-template-rows: 15% 60% 25%;
-    }
-
-    .player-queue-portrait {
-      height: 60%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .song-info {
-      height: 15%;
-      grid-row: 1/2;
-      flex: initial;
-      margin-top: unset;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      ion-thumbnail {
-        width: 18%;
-        padding-bottom: 0;
-        now-playing-artwork {
-          border-radius: 6px;
-        }
-      }
-      ion-label {
-        padding-left: 20px;
-      }
-    }
-    .controls-wrapper {
-      height: 25%;
-    }
-  }
-}
-
-@media (orientation: landscape) {
-  .track-player {
-    max-width: 40%;
-    width: 45%;
-    padding: 0 30px;
-  }
-
-  .track-wrapper.queue-active {
-    display: flex;
-    .track-player {
-      width: 45%;
-      height: 100%;
-      transform-origin: top left;
-    }
-    .player-queue-landscape {
-      display: flex;
-    }
-  }
-}
-
 @media (min-width: 320px) {
   .song-actions .shuffle-button,
   .song-actions .repeat-button {
@@ -278,10 +165,6 @@ ion-badge {
   }
 }
 @media (min-width: 600px) {
-  .toggle-buttons {
-    display: none;
-  }
-
   .song-actions .shuffle-button,
   .song-actions .repeat-button {
     display: unset;
@@ -296,8 +179,8 @@ ion-badge {
   }
 
   ion-badge {
-    top: 7px;
-    right: -3px;
+    top: 5px;
+    right: -6px;
   }
 }
 
@@ -313,12 +196,68 @@ ion-button.active {
   }
 }
 
-song-item {
-  --text-color: #fff;
-  --item-border-color: #fff;
-  --padding-begin: 0;
-  ion-item {
-    --padding-start: 0;
+@media (orientation: portrait) {
+  .track-wrapper.animation-start {
+    ion-thumbnail {
+      --thumbnail-transition-duration: 250ms !important
+    }
+  }  
+  .track-wrapper.queue-active {
+    .track-player {
+      grid-template-rows: 15% 60% 25%;
+    }
+
+    .player-queue-portrait {
+      height: 60%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      ion-badge {
+        top: 3px;
+        right: -7px;
+      }
+    }
+    .song-info {
+      height: 15%;
+      grid-row: 1/2;
+      flex: initial;
+      margin-top: unset;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      ion-thumbnail {
+        width: 18%;
+        padding-bottom: 0;
+      }
+      ion-label {
+        padding-left: 20px;
+      }
+    }
+    .controls-wrapper {
+      height: 25%;
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  .track-player {
+    max-width: 500px;
+    width: 45%;
+    padding: 0 30px;
+  }
+
+  .track-wrapper.queue-active {
+    display: flex;
+    .track-player {
+      width: 45%;
+      height: 100%;
+      transform-origin: top left;
+    }
+    .player-queue-landscape {
+      display: flex;
+    }
   }
 }
 

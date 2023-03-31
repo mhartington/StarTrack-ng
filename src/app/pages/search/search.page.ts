@@ -1,75 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormControl,
-} from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { RxState } from '@rx-angular/state';
-import { LetModule, PushModule } from '@rx-angular/template';
-import { Observable, of, Subject } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged,
-  map,
-  mapTo,
-  switchMap,
-  take,
-  tap,
   filter,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
 import { Song } from 'src/@types/song';
 import { ErrorComponent } from 'src/app/components/error/error.component';
 import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
 import { SongItemComponent } from 'src/app/components/song-item/song-item.component';
 import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
-import { MsToMinsPipe } from 'src/app/pipes/ms-to-mins/ms-to-mins.pipe';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-
-interface ICollection {
-  songs?: any[];
-  albums?: any[];
-  playlists?: any[];
-}
-interface ISearchPageState {
-  hasError: boolean;
-  isLoading: boolean;
-  collection: Partial<ICollection>;
-}
-
-const stateFixtures: { [key: string]: Partial<ISearchPageState> } = {
-  idle: { isLoading: false, collection: null, hasError: false },
-  error: { isLoading: false, hasError: true },
-  loading: { isLoading: true },
-  success: { isLoading: false, hasError: false },
-};
-const idleState = (state: Partial<ISearchPageState>) => ({
-  ...state,
-  ...stateFixtures.idle,
-});
-const errorState = (state: Partial<ISearchPageState>) => ({
-  ...state,
-  ...stateFixtures.error,
-});
-const loadingState = (state: Partial<ISearchPageState>) => ({
-  ...state,
-  ...stateFixtures.loading,
-});
-const successState = (state: Partial<ISearchPageState>, val: ICollection) => ({
-  ...state,
-  ...stateFixtures.success,
-  collection: val,
-});
 
 @Component({
   selector: 'app-search-page',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
-  providers: [RxState],
   standalone: true,
   imports: [
     CommonModule,
@@ -78,85 +31,57 @@ const successState = (state: Partial<ISearchPageState>, val: ICollection) => ({
     FormatArtworkUrlPipe,
     LazyImgComponent,
     ErrorComponent,
-    MsToMinsPipe,
     ReactiveFormsModule,
-    PushModule,
-    LetModule,
-    RouterModule
+    RouterModule,
   ],
 })
 export class SearchPage {
-
-  private stateService = inject(RxState<ISearchPageState>);
   private api = inject(MusickitService);
   private player = inject(PlayerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private fb = inject(UntypedFormBuilder);
 
+  public searchForm = new FormControl('');
+  public segmentFilter = new FormControl('songs');
 
-  public state$: Observable<ISearchPageState> = this.stateService.select();
-  public searchForm = this.fb.group({ search: '' });
-  public searchClearTrigger$ = new Subject();
-  public playSongTrigger$ = new Subject();
+  public albums = signal(null);
+  public playlists = signal(null);
+  public songs = signal(null);
+  public isLoading = signal(false);
 
-  public segmentFilter = new UntypedFormControl('songs');
+  constructor() {
+    this.searchForm.valueChanges
+      .pipe(
+        filter((search) => !!search),
+        debounceTime(500),
+        tap((v) => {
+          this.router.navigate([], { queryParams: { query: v } });
+          this.isLoading.set(true);
+          return v;
+        }),
+        switchMap((v) => this.api.search(v)),
+        catchError(() => EMPTY)
+      )
+      .subscribe((results) => {
+        this.albums.set(results?.albums);
+        this.playlists.set(results?.playlists);
+        this.songs.set(results?.songs);
+        this.isLoading.set(false);
+      });
 
-  private searchTerm$ = this.searchForm.valueChanges.pipe(
-    map(({ search }) => search),
-    distinctUntilChanged()
-  );
-
-  private writeUrlEffect$ = this.searchTerm$.pipe(
-    debounceTime(16),
-    tap((term) => {
-      const navExtras = term ? { queryParams: { query: term } } : {};
-      this.router.navigate([], { ...navExtras });
-    })
-  );
-
-  private readUrlEffect$ = this.route.queryParams.pipe(
-    map(({ query }) => this.searchForm.setValue({ search: query ?? '' }))
-  );
-
-  private clearCollection$ = this.searchTerm$.pipe(
-    filter((term) => !term),
-    mapTo(idleState({}))
-  );
-
-  private fetchDataSideEffect$ = this.searchTerm$.pipe(
-    filter((term) => !!term),
-    debounceTime(500),
-    tap(() => this.stateService.set(loadingState.bind(this))),
-    switchMap((term) => this.api.search(term)),
-    map((results) => successState({}, results)),
-    catchError(() => of(errorState.bind(this)))
-  );
-
-  constructor(
-  ) {
-    // UI Actions
-    // Set init state
-    this.stateService.set(idleState);
-    // Listen to play button trigger
-    this.stateService.hold(
-      this.playSongTrigger$.pipe(tap(this.playSong.bind(this)))
-    );
-    // Listen to clear button trigger
-    this.stateService.connect(
-      this.searchClearTrigger$.pipe(mapTo(idleState.bind(this)))
-    );
-    this.stateService.connect(this.clearCollection$);
-    // Data Actions
-    // Read the url and set the search
-    this.stateService.hold(this.readUrlEffect$.pipe(take(1)));
-    // Write the url based on search
-    this.stateService.hold(this.writeUrlEffect$);
-    // Fetch some data
-    this.stateService.connect(this.fetchDataSideEffect$);
+    const qp = this.route.snapshot.queryParams.query;
+    this.searchForm.setValue(qp ?? '');
   }
 
   playSong(song: Song): void {
     this.player.setQueueFromItems([song]);
+  }
+  clearSearch() {
+    this.segmentFilter.setValue('songs');
+    this.searchForm.setValue('');
+    this.albums.set(null);
+    this.playlists.set(null);
+    this.songs.set(null);
+    this.router.navigate([]);
   }
 }

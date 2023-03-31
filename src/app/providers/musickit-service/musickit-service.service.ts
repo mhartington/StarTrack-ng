@@ -1,15 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { LoadingController, IonicSafeString } from '@ionic/angular';
-import { EMPTY, from, Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
-  scan,
   delay,
   retryWhen,
   timeout,
   map,
-  expand,
-  reduce,
-  catchError,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -22,11 +18,17 @@ export class MusickitService {
   // API/Apple Music
   async fetchAlbum(id: string): Promise<any> {
     // const params = encodeURI(`extend=editorialVideo`);
-    const res = await this.musicKitInstance.api.music( `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`, {});
+    const res = await this.musicKitInstance.api.music(
+      `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
+      {}
+    );
     return res.data.data[0];
   }
   async fetchPlaylist(id: string): Promise<any> {
-    const res = await this.musicKitInstance.api.music( `v1/catalog/${this.musicKitInstance.storefrontId}/playlists/${id}`, {});
+    const res = await this.musicKitInstance.api.music(
+      `v1/catalog/${this.musicKitInstance.storefrontId}/playlists/${id}`,
+      {}
+    );
     return res.data.data[0];
   }
   fetchAlbumOrPlaylist(type: string, id: string): Promise<any> {
@@ -113,15 +115,17 @@ export class MusickitService {
 
   // USER LIBRARY API
   // offset: number
-  fetchLibrarySongs(offset = 0): Observable<any> {
+  async fetchLibrarySongs(offset = 0): Promise<any> {
     const url = 'v1/me/library/songs';
     return this.fetchLibPage(url, offset);
   }
 
-  fetchLibPage(url: string, offset: number) {
-    return from(
-      this.musicKitInstance.api.music(url, { offset, limit: 100 })
-    ).pipe(map((res: any) => res.data));
+  async fetchLibPage(url: string, offset: number) {
+    const res = await this.musicKitInstance.api.music(url, {
+      offset,
+      limit: 100,
+    });
+    return res.data;
   }
 
   parseNext(next: string, fallback: number = 0): number {
@@ -143,25 +147,19 @@ export class MusickitService {
     );
   }
 
-  fetchLibraryAlbums(offset = 0): Observable<any> {
-    // const page = 'v1/me/library/albums';
-    //   return this.fetchPage(page, offset)
-    //     .pipe(
-    //       expand((data) => data.offset ? this.fetchPage(page, data.offset) : EMPTY),
-    //       reduce((acc, data) => acc.concat(data.collection), []),
-    //     )
-
-    return from(
-      this.musicKitInstance.api.music('v1/me/library/albums', { offset })
-    ).pipe(map((res: any) => res.data));
+  async fetchLibraryAlbums(offset = 0): Promise<any> {
+    const res = await this.musicKitInstance.api.music('v1/me/library/albums', {
+      offset,
+    });
+    return res.data;
   }
 
-  fetchLibraryAlbum(id: string): Observable<any> {
-    return from(
-      this.musicKitInstance.api.music(`v1/me/library/albums/${id}`, {
-        extend: ['editorialVideo'],
-      })
-    ).pipe(map((res: any) => res.data.data[0]));
+  async fetchLibraryAlbum(id: string): Promise<any> {
+    const res = await this.musicKitInstance.api.music(
+      `v1/me/library/albums/${id}`,
+      { extend: ['editorialVideo'] }
+    );
+    return res.data.data[0];
   }
 
   fetchLibraryArtists(offset: number): Observable<any> {
@@ -200,15 +198,13 @@ export class MusickitService {
       }))
     );
   }
-  fetchLibraryPlaylist(id: string): Observable<any> {
-    return from(
-      this.musicKitInstance.api.music(`v1/me/library/playlists/${id}`)
-    ).pipe(
-      map((res: any) => {
-        console.log(res);
-        return res.data.data[0];
-      })
-    );
+  async fetchLibraryPlaylist(id: string): Promise<any> {
+    const res = await this.musicKitInstance.api.music(`v1/me/library/playlists/${id}`)
+    return res.data.data[0];
+  }
+  async fetchLibraryPlaylistTracks(id: string): Promise<any> {
+    const res = await this.musicKitInstance.api.music(`v1/me/library/playlists/${id}/tracks`)
+    return res.data.data;
   }
 
   async addToLibrary(id: string, type: string) {
@@ -234,13 +230,15 @@ export class MusickitService {
     console.log(href);
     // await this.musicKitInstance.api.music(href, {}, { fetchOptions: { method: "DELETE" } })
   }
-  fetchRecentlyAdded(offset = 0): Observable<any> {
-    return from(
-      this.musicKitInstance.api.music('v1/me/library/recently-added', {
+  async fetchRecentlyAdded(offset = 0): Promise<any> {
+    const res = await this.musicKitInstance.api.music(
+      'v1/me/library/recently-added',
+      {
         limit: 25,
         offset,
-      })
-    ).pipe(map((res: any) => res.data));
+      }
+    );
+    return res.data;
   }
   // fetchRecentlyAdded(offset: number): Observable<any> {
   //   return from(

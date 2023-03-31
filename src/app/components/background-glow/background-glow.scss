@@ -6,8 +6,8 @@
   right: 0;
   width: 100%;
   height: 100%;
-  display: block;
   z-index: -1;
-  perspective: 1000px;
-  perspective-origin: 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -5,16 +5,15 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *rxLet="albums$ as albums">
     <ion-grid>
       <ion-row>
-        <ng-container *ngIf="albums.length; else loading"></ng-container>
+        <ng-container *ngIf="collection().length; else loading"></ng-container>
         <ion-col
           size="6"
           sizeMd="4"
           sizeLg="3"
           sizeXl="2"
-          *ngFor="let album of albums"
+          *ngFor="let album of collection()"
         >
           <album-preview-item
             [album]="album"
@@ -29,6 +28,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
     <ng-template #loading>
       <ion-col
         *ngFor="let album of [].constructor(20)"
@@ -42,12 +42,9 @@
         </album-preview-item>
       </ion-col>
     </ng-template>
-  </ng-container>
-
   <ion-infinite-scroll
     threshold="500px"
-    (ionInfinite)="scrollTrigger$.next(null)"
-    disabled="true"
+    (ionInfinite)="fetchNext()"
   >
     <ion-infinite-scroll-content>
     </ion-infinite-scroll-content>
