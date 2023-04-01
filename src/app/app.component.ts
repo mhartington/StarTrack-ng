@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import {
   IonicModule,
@@ -6,13 +6,11 @@ import {
   Platform,
   ToastController,
 } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent} from '@capacitor/app'
 import { environment } from 'src/environments/environment';
 import { RouterModule } from '@angular/router';
-import { LetModule } from '@rx-angular/template';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
 import { CommonModule } from '@angular/common';
 // import { Capacitor } from '@capacitor/core';
@@ -26,7 +24,6 @@ import { CommonModule } from '@angular/common';
     IonicModule,
     RouterModule,
     TrackPlayerComponent,
-    LetModule,
     CommonModule,
   ],
 })

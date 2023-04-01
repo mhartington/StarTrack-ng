@@ -13,12 +13,11 @@
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "start": "ionic serve --external",
+    "start": "ionic serve --external --no-open",
     "test": "ng test"
   },
   "dependencies": {
     "@angular/animations": "16.0.0-next.2",
-    "@angular/cdk": "16.0.0-next.1",
     "@angular/common": "16.0.0-next.2",
     "@angular/core": "16.0.0-next.2",
     "@angular/forms": "16.0.0-next.2",
@@ -35,13 +34,10 @@
     "@capacitor/splash-screen": "^4.0.0",
     "@ionic/angular": "7.0.0",
     "@ionic/angular-toolkit": "9.0.0",
-    "@rx-angular/cdk": "1.0.0-rc.1",
-    "@rx-angular/state": "1.6.1",
-    "@rx-angular/template": "1.0.0-beta.33",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "37.0.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "rxjs": "7.4.0",
+    "rxjs": "7.8.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.13.0"
   },

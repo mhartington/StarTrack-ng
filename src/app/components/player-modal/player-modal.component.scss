@@ -222,18 +222,9 @@ ion-button.active {
       height: 15%;
       grid-row: 1/2;
       flex: initial;
-      margin-top: unset;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-
-      ion-thumbnail {
-        width: 18%;
-        padding-bottom: 0;
-      }
-      ion-label {
-        padding-left: 20px;
-      }
+      grid-template-columns: 18% auto;
+      grid-gap: 20px;
     }
     .controls-wrapper {
       height: 25%;

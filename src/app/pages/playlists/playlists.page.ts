@@ -1,11 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { catchError, switchMap, map, switchMapTo } from 'rxjs/operators';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-import { Observable, of, Subject } from 'rxjs';
-import { RxState } from '@rx-angular/state';
-import { mapToError, mapToAlbumResults } from '../../util/fetchUtils';
 import { Playlist } from 'src/@types/playlist';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
@@ -14,14 +10,7 @@ import { IonicModule } from '@ionic/angular';
 import { ErrorComponent } from '../../components/error/error.component';
 import { PreviewHeaderComponent } from '../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
-import { LetModule, PushModule } from '@rx-angular/template';
 
-interface IPlaylistPage {
-  collection: Partial<Playlist>;
-  isLoading: boolean;
-  hasError: boolean;
-  canShare: boolean;
-}
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlists.page.html',

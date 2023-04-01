@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
-import { LetModule, PushModule } from '@rx-angular/template';
 import { AlbumPreviewItemsComponent } from 'src/app/components/album-preview-items/album-preview-items.component';
 import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
@@ -18,8 +17,6 @@ import { parseNext } from 'src/app/util';
   imports: [
     CommonModule,
     IonicModule,
-    LetModule,
-    PushModule,
     RouterModule,
     AlbumPreviewItemsComponent,
     LazyImgComponent,
@@ -27,7 +24,6 @@ import { parseNext } from 'src/app/util';
   ],
 })
 export class RecentlyAddedPage {
-
   private api = inject(MusickitService);
   private offset = 0;
   private total = 0;
