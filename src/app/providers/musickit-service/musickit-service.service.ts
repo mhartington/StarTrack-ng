@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { LoadingController, IonicSafeString } from '@ionic/angular';
+import { LoadingController, IonicSafeString, ToastController } from '@ionic/angular';
 import { from, Observable } from 'rxjs';
 import {
   delay,
@@ -13,7 +13,7 @@ import {
 })
 export class MusickitService {
   private musicKitInstance = (window as any).MusicKit?.getInstance();
-  private loadingCtrl = inject(LoadingController);
+  private toastCtrl = inject(ToastController);
 
   // API/Apple Music
   async fetchAlbum(id: string): Promise<any> {
@@ -208,18 +208,10 @@ export class MusickitService {
   }
 
   async addToLibrary(id: string, type: string) {
-    const message = new IonicSafeString(`
-      <div>
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 52 52">
-          <path class="checkmark__check" fill="none" stroke="grey" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-        </svg>
-        <h1>Added to Library</h1>
-      <div>
-    `);
-    const loader = await this.loadingCtrl.create({
+    const loader = await this.toastCtrl.create({
       cssClass: 'loader-add-to-library',
-      message,
-      spinner: null,
+      message: "Added to Library",
+      icon: 'checkmark-circle',
       duration: 2000,
     });
     await this.musicKitInstance.addToLibrary(id, type);

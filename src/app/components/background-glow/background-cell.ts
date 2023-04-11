@@ -21,7 +21,7 @@ import {
         display: flex;
         justify-content: center;
         align-content: center;
-        filter: blur(180px) brightness(70%) saturate(1.7);
+        filter: blur(180px) brightness(70%) saturate(1.9);
       }
       canvas {
         height: 100%;

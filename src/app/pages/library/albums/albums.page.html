@@ -25,7 +25,7 @@
             sizeXl="2"
             *ngFor="let album of albums()"
           >
-            <album-preview-item
+            <a album-preview-item
               [album]="album"
               [routerLink]="['/library', 'albums', album.id]"
             >
@@ -34,7 +34,7 @@
                 lazyParent="album-grid"
                 alt="Album Artwork"
               ></lazy-img>
-            </album-preview-item>
+            </a>
           </ion-col>
         </ng-container>
       </ion-row>
@@ -49,9 +49,9 @@
       sizeLg="3"
       sizeXl="2"
     >
-      <album-preview-item>
+      <a album-preview-item>
         <lazy-img></lazy-img>
-      </album-preview-item>
+      </a>
     </ion-col>
   </ng-template>
   <ion-infinite-scroll

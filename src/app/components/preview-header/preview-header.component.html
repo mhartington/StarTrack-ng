@@ -1,6 +1,6 @@
 <lazy-img
   alt="The artwork for the album"
-  [src]="collection?.attributes?.artwork?.url ?? null | formatArtworkUrl : 1500"
+  [src]="collection?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl : 1500"
 ></lazy-img>
 <div class="album-detail">
   <ng-container *ngIf="collection; else placeholder">

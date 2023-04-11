@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
     <ion-title>Recently Added</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +18,7 @@
           sizeXl="2"
           *ngFor="let album of collection()"
         >
-          <album-preview-item
+          <a album-preview-item
             [album]="album"
             [routerLink]="['/library', album.attributes.playParams.kind + 's', album.id]"
           >
@@ -24,7 +27,7 @@
               lazyParent="album-grid"
               alt="Album Artwork"
             ></lazy-img>
-          </album-preview-item>
+          </a>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -37,9 +40,9 @@
         sizeLg="3"
         sizeXl="2"
       >
-        <album-preview-item>
+        <a album-preview-item>
           <lazy-img></lazy-img>
-        </album-preview-item>
+        </a>
       </ion-col>
     </ng-template>
   <ion-infinite-scroll

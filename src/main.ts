@@ -14,14 +14,17 @@ import { AppComponent } from './app/app.component';
 
 import { environment } from './environments/environment';
 
+import { RM } from '@request-metrics/browser-agent';
+
 if (environment.production) {
   enableProdMode();
+  RM.install({ token: 'g7kp7mi:y8ty9gm' });
 }
 
 const appInitialize = () => async () =>
   await (window as any).MusicKit.configure({
     developerToken: environment.musicKitToken,
-    bitrate: (window as any).MusicKit.PlaybackBitrate.HIGH,
+    bitrate: globalThis.MusicKit.PlaybackBitrate.HIGH,
     app: {
       name: 'Star Track',
       build: '1.0',

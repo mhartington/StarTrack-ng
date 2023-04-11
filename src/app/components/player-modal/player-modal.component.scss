@@ -27,7 +27,6 @@ ion-footer {
     --border-width: 0;
     --padding-start: calc(env(safe-area-inset-left) + 24px);
     --padding-end: calc(env(safe-area-inset-left) + 24px);
-    --padding-bottom: calc(16px + env(safe-area-inset-bottom));
   }
 }
 
@@ -42,7 +41,7 @@ ion-footer {
 .track-player {
   position: relative;
   height: 100%;
-  width: 80%;
+  width: 85%;
   max-width: 500px;
   margin: auto;
   z-index: 1;
@@ -51,90 +50,87 @@ ion-footer {
   flex-direction: column;
   justify-content: space-between;
 
-
-
-.song-info {
-  grid-row: 1/2;
-  width: 100%;
-  z-index: 1;
-  display: grid;
-  grid-auto-rows: 1fr auto;
-
-  height: 75%;
-
-  ion-thumbnail {
-    transform-origin: center center;
-    display: block;
+  .song-info {
+    grid-row: 1/2;
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    margin: auto;
-    --thumbnail-transition-duration: 500ms;
-    now-playing-artwork {
-      aspect-ratio: 1/1;
+    z-index: 1;
+    display: grid;
+    grid-auto-rows: 1fr auto;
+
+    height: 75%;
+
+    ion-thumbnail {
+      transform-origin: center center;
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      margin: auto;
+      --thumbnail-transition-duration: 500ms;
+      now-playing-artwork {
+        aspect-ratio: 1/1;
+      }
     }
-  }
 
-  ion-label {
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    * {
-      line-height: 1.2;
-      white-space: nowrap;
+    ion-label {
+      display: block;
+      width: 95%;
       overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    h3 {
-      font-size: 1.1em;
-      font-weight: 600;
-    }
-    p {
-      font-size: 1em;
-    }
-  }
-}
-
-.controls-wrapper {
-  grid-row: 2/2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 25%;
-
-  ion-range {
-    margin-top: auto;
-    display: block;
-    width: 100%;
-    margin: 0 auto;
-    flex: initial;
-    padding: 0;
-
-    .duration-label {
-      width: unset;
-      display: unset;
-      position: absolute;
-      bottom: -15px;
-      font-size: 0.75em;
-      font-variant-numeric: tabular-nums;
-      color: #ffffff;
-      &[slot='start'] {
-        left: 0;
-        text-align: left;
+      * {
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-
-      &[slot='end'] {
-        right: 0;
-        text-align: right;
+      h3 {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+      p {
+        font-size: 1em;
       }
     }
   }
+
+  .controls-wrapper {
+    grid-row: 2/2;
+    display: flex;
+    width: 95%;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 25%;
+        margin-left: auto;
+    margin-right: auto;
+
+    ion-range {
+      margin-top: auto;
+      // display: block;
+      width: 100%;
+      margin: 0 auto;
+      // flex: initial;
+      padding: 0;
+
+      .duration-label {
+        width: unset;
+        display: unset;
+        position: absolute;
+        bottom: -15px;
+        font-size: 0.75em;
+        font-variant-numeric: tabular-nums;
+        color: #ffffff;
+        &[slot='start'] {
+          left: 0;
+          text-align: left;
+        }
+
+        &[slot='end'] {
+          right: 0;
+          text-align: right;
+        }
+      }
+    }
+  }
 }
-}
-
-
-
-
 
 // shared
 ion-badge {
@@ -152,9 +148,10 @@ ion-badge {
     width: 70px;
     aspect-ratio: 1/1;
     height: unset;
-  }
-  ion-icon {
-    font-size: 48px;
+
+    ion-icon {
+      font-size: 48px;
+    }
   }
 }
 
@@ -199,9 +196,9 @@ ion-button.active {
 @media (orientation: portrait) {
   .track-wrapper.animation-start {
     ion-thumbnail {
-      --thumbnail-transition-duration: 250ms !important
+      --thumbnail-transition-duration: 250ms !important;
     }
-  }  
+  }
   .track-wrapper.queue-active {
     .track-player {
       grid-template-rows: 15% 60% 25%;
@@ -251,4 +248,3 @@ ion-button.active {
     }
   }
 }
-

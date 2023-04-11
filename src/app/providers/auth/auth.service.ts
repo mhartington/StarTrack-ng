@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, CanLoad } from '@angular/router';
+import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate, CanLoad {
+export class AuthGuard  {
   private musicKitInstance = (window as any).MusicKit.getInstance();
   constructor(private router: Router) {}
 

@@ -15,7 +15,7 @@
         >
           <now-playing-artwork
             [src]="
-              player.nowPlaying().attributes.artwork.url ??
+              player.nowPlaying()?.attributes?.artwork?.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl : 500
             "
             [ngClass]="{
@@ -30,13 +30,24 @@
 
         <ion-label>
           <h3>
-            <ion-text color="white">{{player.nowPlaying().attributes.name ?? 'Not Playing' }}</ion-text>
+            <ion-text color="white">{{
+              player.nowPlaying().attributes.name ?? 'Not Playing'
+            }}</ion-text>
           </h3>
           <p>
-            <ion-text color="white">{{player.nowPlaying().attributes.artistName}}</ion-text>
+            <ion-text color="white">{{
+              player.nowPlaying().attributes.artistName
+            }}</ion-text>
           </p>
         </ion-label>
       </div>
+
+      <ion-popover trigger="artist-extra" triggerAction="click" alignment="start">
+        <ng-template>
+          <ion-item> Go to Album </ion-item>
+          <ion-item> Go to Artist </ion-item>
+        </ng-template>
+      </ion-popover>
 
       <queue-list
         class="player-queue-portrait"
@@ -44,7 +55,11 @@
         (playAt)="playAtIndex($event)"
       >
         <ion-buttons class="toggle-buttons">
-          <ion-button color="white" [ngClass]="{ active: player.isShuffling() }" (click)="toggleShuffle(player.isShuffling())" >
+          <ion-button
+            color="white"
+            [ngClass]="{ active: player.isShuffling() }"
+            (click)="toggleShuffle(player.isShuffling())"
+          >
             <ion-icon name="shuffle"></ion-icon>
           </ion-button>
           <ion-button
@@ -53,7 +68,9 @@
             (click)="toggleRepeatMode()"
           >
             <ion-icon name="repeat"></ion-icon>
-            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE" >1</ion-badge >
+            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
+              >1</ion-badge
+            >
           </ion-button>
         </ion-buttons>
       </queue-list>
@@ -77,6 +94,7 @@
           (ionKnobMoveEnd)="seekToTime($event)"
           color="white"
           aria-label="fullpage player control"
+          class="progress-control"
         >
           <ion-label inert class="duration-label" slot="start">{{
             playbackTime | secToMins
@@ -139,8 +157,11 @@
             color="white"
             fill="clear"
             (click)="next($event)"
+            class="forward"
           >
             <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+            <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
+            <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
           </ion-button>
 
           <ion-button
@@ -150,9 +171,24 @@
             (click)="toggleRepeatMode()"
           >
             <ion-icon name="repeat"></ion-icon>
-            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE" >1</ion-badge >
+            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
+              >1</ion-badge
+            >
           </ion-button>
         </ion-buttons>
+
+        <ion-range
+          color="white"
+          aria-label="fullpage player volume control"
+          step="0.01"
+          min="0"
+          max="1"
+          (ionInput)="setVol($event)"
+          [value]="player.volume()"
+        >
+          <ion-icon slot="start" name="volume-off"></ion-icon>
+          <ion-icon slot="end" name="volume-high"></ion-icon>
+        </ion-range>
       </div>
     </div>
     <queue-list
@@ -176,7 +212,7 @@
   </ion-footer>
   <background-glow
     [src]="
-      player.nowPlaying().attributes.artwork.url ?? 'assets/imgs/default.svg'
+      player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'
         | formatArtworkUrl : 250
     "
   />

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -35,11 +35,12 @@ import { PlayerService } from '../../providers/player/player.service2';
     RouterModule,
   ],
 })
-export class SearchPage {
+export class SearchPage implements OnDestroy {
   private api = inject(MusickitService);
   private player = inject(PlayerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private search$: Subscription;
 
   public searchForm = new FormControl('');
   public segmentFilter = new FormControl('songs');
@@ -50,7 +51,7 @@ export class SearchPage {
   public isLoading = signal(false);
 
   constructor() {
-    this.searchForm.valueChanges
+    this.search$ = this.searchForm.valueChanges
       .pipe(
         filter((search) => !!search),
         debounceTime(500),
@@ -79,9 +80,14 @@ export class SearchPage {
   clearSearch() {
     this.segmentFilter.setValue('songs');
     this.searchForm.setValue('');
+
     this.albums.set(null);
     this.playlists.set(null);
     this.songs.set(null);
+
     this.router.navigate([]);
+  }
+  ngOnDestroy() {
+    this.search$.unsubscribe();
   }
 }

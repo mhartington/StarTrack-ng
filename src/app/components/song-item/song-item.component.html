@@ -11,13 +11,7 @@
         <p>{{ song.attributes.artistName }}</p>
       </ion-note>
     </ion-label>
-    <p
-      slot="end"
-      class="rating"
-      *ngIf="song.attributes.contentRating === 'explicit'"
-    >
-      E
-    </p>
+    <p slot="end" class="rating" *ngIf="song.attributes.contentRating === 'explicit'" > E </p>
     <ion-note slot="end" *ngIf="song.attributes.durationInMillis">
       {{ song.attributes.durationInMillis | msToMins }}
     </ion-note>

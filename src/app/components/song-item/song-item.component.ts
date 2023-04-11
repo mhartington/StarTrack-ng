@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { MsToMinsPipe } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 

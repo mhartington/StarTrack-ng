@@ -5,15 +5,15 @@
         <ion-thumbnail>
           <lazy-img
             [src]="
-              player.nowPlaying().attributes.artwork.url ??
+              player.nowPlaying()?.attributes?.artwork?.url ??
                 'assets/imgs/default.svg' | formatArtworkUrl: 60
             "
             alt="The album art work cover"
           ></lazy-img>
         </ion-thumbnail>
         <ion-label>
-          <p>{{player.nowPlaying().attributes.name }}</p>
-          <ion-note>{{player.nowPlaying().attributes.artistName }}</ion-note>
+          <p>{{player.nowPlaying()?.attributes?.name }}</p>
+          <ion-note>{{player.nowPlaying()?.attributes?.artistName }}</ion-note>
         </ion-label>
       </div>
       <ion-range

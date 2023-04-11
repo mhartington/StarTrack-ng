@@ -20,7 +20,7 @@
           <h1>Top Albums</h1>
         </ion-list-header>
         <div class="album-grid">
-          <album-preview-item
+          <a album-preview-item
             *ngFor="let album of chart.topAlbums; let i = index; trackBy:trackByItem"
             [album]="album"
             [routerLink]="['/us', 'album', album.id]"
@@ -31,7 +31,7 @@
               [style.background]="'#' + album.attributes.artwork.bgColor + 'aa'"
               alt="Album Artwork"
             ></lazy-img>
-          </album-preview-item>
+          </a>
         </div>
       </ion-list>
 
@@ -40,7 +40,7 @@
           <h1>Top Playlists</h1>
         </ion-list-header>
         <div class="album-grid">
-          <album-preview-item
+          <a album-preview-item
             *ngFor="let playlist of chart.topPlaylists; let i = index; trackBy:trackByItem"
             [album]="playlist"
             [routerLink]="['/us','playlist', playlist.id]"
@@ -51,7 +51,7 @@
               [style.background]="'#' + playlist.attributes.artwork.bgColor + 'aa'"
               alt="Album Artwork"
             ></lazy-img>
-          </album-preview-item>
+          </a>
         </div>
       </ion-list>
 
@@ -88,9 +88,9 @@
           <h1>Top Albums</h1>
         </ion-list-header>
         <div class="album-grid">
-          <album-preview-item *ngFor="let album of [].constructor(20)">
+          <a album-preview-item *ngFor="let album of [].constructor(20)">
             <lazy-img></lazy-img>
-          </album-preview-item>
+          </a>
         </div>
       </ion-list>
       <ion-list>
@@ -98,9 +98,9 @@
           <h1>Top Playlists</h1>
         </ion-list-header>
         <div class="album-grid">
-          <album-preview-item *ngFor="let album of [].constructor(20)">
+          <a album-preview-item *ngFor="let album of [].constructor(20)">
             <lazy-img></lazy-img>
-          </album-preview-item>
+          </a>
         </div>
       </ion-list>
       <ion-list>

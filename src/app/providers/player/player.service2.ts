@@ -56,11 +56,15 @@ export class PlayerService {
   public playbackTimeRemaining = signal(0);
   public nowPlaying = signal(nowPlayingInit);
 
+  public volume = signal(this.mkInstance.volume);
+
   constructor() {
     this.mkInstance.addEventListener(this.mkEvents.mediaPlaybackError, () => {
       this.nowPlaying.set(nowPlayingInit);
       this.queue.set([]);
     });
+    
+
     // Time has incremented
     this.mkInstance.addEventListener(
       this.mkEvents.playbackTimeDidChange,
@@ -69,6 +73,8 @@ export class PlayerService {
         this.playbackTimeRemaining.set(currentPlaybackTimeRemaining);
       }
     );
+
+
     // Song duration has changed
     this.mkInstance.addEventListener(
       this.mkEvents.playbackDurationDidChange,
@@ -88,6 +94,7 @@ export class PlayerService {
     this.mkInstance.addEventListener(
       this.mkEvents.nowPlayingItemDidChange,
       ({ item }) => {
+          console.log(item)
         if (item) {
           this.nowPlaying.set(item);
           this.playbackTime.set(0);
@@ -120,6 +127,12 @@ export class PlayerService {
         this.title.setTitle('Star Track');
       }
     });
+
+    effect(()=> {
+        this.mkInstance.volume = this.volume();
+    })
+    
+
   }
 
   // PLAYER METHODS

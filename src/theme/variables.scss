@@ -72,7 +72,7 @@
   --ion-text-color: #000000;
   --ion-text-color-rgb: 0, 0, 0;
 
-  --ion-color-step-50:  #f2f2f2;
+  --ion-color-step-50: #f2f2f2;
   --ion-color-step-100: #e6e6e6;
   --ion-color-step-150: #d9d9d9;
   --ion-color-step-200: #cccccc;
@@ -264,7 +264,6 @@ ion-content::part(scroll) {
     // --ion-item-background: #1a1b1e;
   }
 }
-
 body,
 html {
   padding: 0;
@@ -282,54 +281,62 @@ ion-range::part(knob) {
   }
 
   ion-range {
+
+
+
     --bar-height: 10px;
-    --knob-size: 15px;
     --bar-border-radius: 8px;
+    --bar-background: #ffffff63;
+
+    --knob-size: 10px;
+    --knob-border-radius: 8px;
+    --knob-box-shadow: none;
+    --knob-background: none;
+    --knob-handle-size: 10px;
+
     --transform-value: scale3d(1, 1, 1);
     --opacity: 0.5;
 
-    transition: opacity,transform 250ms ease-in-out;
+    transition: background, transform 250ms ease-in-out;
     opacity: var(--opacity);
-    border-radius: 8px;
+
 
     &::part(bar-active) {
-    //   height: 10px;
-    //   top: 11px;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
       transform: var(--transform-value);
       transition: transform 250ms ease-in-out;
     }
+
     &::part(bar) {
-      height: 10px;
-      // top: 11px;
       transform: var(--transform-value);
       transition: transform 250ms ease-in-out;
     }
+
     &::part(knob) {
+      opacity: 0;
       transform: var(--transform-value);
       transition: transform 250ms ease-in-out;
-      --knob-size: 10px;
-      --knob-box-shadow: none;
 
       &::before {
         opacity: 0;
       }
-
     }
 
     &.range-pressed {
       --transform-value: scale3d(1, 2, 1);
-    // --bar-border-radius: 8px;
       --opacity: 1;
-        &::part(knob) {
-      &::before {
-        opacity: 0;
-      }
-          // transform: scale(0.67);
+      &::part(knob) {
+        &::before {
+          opacity: 0;
+        }
       }
     }
+  
   }
+  ion-range:has(:focus-visible){
+      --transform-value: scale3d(1, 2, 1);
+      --opacity: 1;
+    }
+
 }
 html.ios ion-modal .ion-page {
   border-radius: 0 !important;

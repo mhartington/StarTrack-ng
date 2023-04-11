@@ -1,11 +1,13 @@
 :host {
   display: block;
   margin: auto;
+  text-decoration: none;
+  color: unset;
   &:hover {
     cursor: pointer;
   }
-  &:focus {
-    outline: none;
+  &:focus-visible {
+    outline: thin solid var(--ion-color-primary);
   }
 }
 ion-card {

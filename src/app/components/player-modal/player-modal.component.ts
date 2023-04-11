@@ -74,8 +74,8 @@ export class PlayerModalComponent implements OnInit {
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);
     await this.player.seekToTime(ev.target.value);
-    this.isScrubbing = false;
   }
+
   pauseSeeking(ev: any): void {
     this.stopProp(ev);
     this.isScrubbing = true;
@@ -115,4 +115,9 @@ export class PlayerModalComponent implements OnInit {
   toggleRepeatMode() {
     this.player.toggleRepeat();
   }
+
+  setVol(e: any){
+    this.player.volume.set(e.detail.value)
+  }
+
 }
