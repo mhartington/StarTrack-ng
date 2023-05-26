@@ -8,13 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        #if targetEnvironment(macCatalyst)
-        if let titlebar = window?.windowScene?.titlebar {
-              titlebar.titleVisibility = .hidden
-              titlebar.toolbar = nil
-            }
-        #endif
         return true
     }
 
@@ -53,6 +46,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
     }
 
-
 }
-

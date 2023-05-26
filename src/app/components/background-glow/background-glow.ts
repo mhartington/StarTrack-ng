@@ -8,6 +8,7 @@ import { BackgroundCell } from './background-cell';
     <background-cell class="cell-1" [src]="src" />
     <background-cell class="cell-2" [src]="src" />
     <background-cell class="cell-3" [src]="src" />
+    <background-cell class="cell-4" [src]="src" />
   `,
   styleUrls: ['./background-glow.scss'],
   imports: [BackgroundCell],

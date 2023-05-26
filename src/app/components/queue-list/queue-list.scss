@@ -1,5 +1,9 @@
 :host {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
   song-item {
     --text-color: #fff;
     --item-border-color: #ffffff0b;
@@ -8,16 +12,6 @@
       --padding-start: 0;
     }
   }
-
-  .queue-scroller {
-    flex: 1;
-    overflow: auto;
-    overscroll-behavior-y: none;
-  }
-}
-:host(.player-queue-portrait) {
-  width: 100%;
-  z-index: -1;
 
   .queue-header {
     display: flex;
@@ -34,18 +28,13 @@
       top: 3px;
       right: -3px;
     }
+
   }
-}
-:host(.player-queue-landscape) {
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  width: 55%;
-  padding: 0 16px;
+  .queue-scroller {
+    flex: 1;
+    overflow: auto;
+    overscroll-behavior-y: none;
+    height: 100%;
+  }
 }
 
-@media (min-width: 600px) {
-  .toggle-buttons {
-    display: none;
-  }
-}

@@ -12,10 +12,15 @@
       </ion-note>
     </ion-label>
     <p slot="end" class="rating" *ngIf="song.attributes.contentRating === 'explicit'" > E </p>
-    <ion-note slot="end" *ngIf="song.attributes.durationInMillis">
-      {{ song.attributes.durationInMillis | msToMins }}
-    </ion-note>
+    <!-- <ion-note slot="end" *ngIf="song.attributes.durationInMillis"> -->
+    <!--   {{ song.attributes.durationInMillis | msToMins }} -->
+    <!-- </ion-note> -->
   </ng-container>
+
+
+  <ion-button slot="end" fill="clear" color="dark" (click)="showMore($event)">
+    <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+  </ion-button>
 </ion-item>
 
 <ng-template #placeholder>

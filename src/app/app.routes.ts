@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './providers/auth/auth.service';
 export const routes: Routes = [
   {
     path: '',
@@ -28,8 +27,11 @@ export const routes: Routes = [
   },
   {
     path: 'library',
-    loadChildren: () =>
-      import('./pages/library/library-routes').then((m) => m.routes),
-    canLoad: [AuthGuard],
+    loadChildren: () => import('./pages/library/library-routes').then((m) => m.routes),
+    canMatch: [() => globalThis.MusicKit.getInstance().isAuthorized],
+  },
+  {
+    path: '**',
+    redirectTo: '/browse',
   },
 ];

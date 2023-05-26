@@ -42,103 +42,99 @@
             </ion-menu-toggle>
           </ion-item-group>
 
-            <ng-container *ngIf="isAuthorized(); else notAuthorized">
-              <ion-accordion-group multiple="true" [value]="['library']">
-                <ion-accordion value="library" toggle-icon="chevron-forward">
-                  <ion-item slot="header">
-                    <ion-label>
-                      <h1>Library</h1>
-                    </ion-label>
-                  </ion-item>
-                  <ion-list slot="content">
-                    <ion-menu-toggle autoHide="false">
-                      <ion-item
-                        routerLink="/library/recently-added"
-                        routerDirection="root"
-                        routerLinkActive="selected"
-                        detail="false"
-                      >
-                        <ion-icon
-                          color="primary"
-                          slot="start"
-                          name="time-outline"
-                          style="transform: scale(-1, 1);"
-                        ></ion-icon>
-                        Recently Added
-                      </ion-item>
-                    </ion-menu-toggle>
-                    <ion-menu-toggle autoHide="false">
-                      <ion-item
-                        routerLink="/library/albums"
-                        routerDirection="root"
-                        routerLinkActive="selected"
-                        detail="false"
-                      >
-                        <ion-icon
-                          color="primary"
-                          slot="start"
-                          name="albums-outline"
-                        ></ion-icon>
-                        Albums
-                      </ion-item>
-                    </ion-menu-toggle>
-                    <ion-menu-toggle autoHide="false">
-                      <ion-item
-                        routerLink="/library/songs"
-                        routerDirection="root"
-                        routerLinkActive="selected"
-                        detail="false"
-                      >
-                        <ion-icon
-                          color="primary"
-                          slot="start"
-                          name="musical-note"
-                        ></ion-icon>
-                        Songs
-                      </ion-item>
-                    </ion-menu-toggle>
-                  </ion-list>
-                </ion-accordion>
-              </ion-accordion-group>
-              <ion-menu-toggle autoHide="false">
-                <ion-item
-                  (click)="logout()"
-                  lines="none"
-                  button="true"
-                  detail="false"
-                >
-                  <ion-icon
-                    color="primary"
-                    slot="start"
-                    name="log-out"
-                  ></ion-icon>
-                  Log Out
+          <ng-container *ngIf="isAuthorized(); else notAuthorized">
+            <ion-accordion-group multiple="true" [value]="['library']">
+              <ion-accordion value="library" toggle-icon="chevron-forward">
+                <ion-item slot="header">
+                  <ion-label>
+                    <h1>Library</h1>
+                  </ion-label>
                 </ion-item>
-              </ion-menu-toggle>
-            </ng-container>
-            <ng-template #notAuthorized>
-              <ion-menu-toggle autoHide="false">
-                <ion-item
-                  (click)="login()"
-                  lines="none"
-                  button="true"
-                  detail="false"
-                >
-                  <ion-icon
-                    color="primary"
-                    slot="start"
-                    name="log-in"
-                  ></ion-icon>
-                  Log In
-                </ion-item>
-              </ion-menu-toggle>
-            </ng-template>
+                <ion-list slot="content">
+                  <ion-menu-toggle autoHide="false">
+                    <ion-item
+                      routerLink="/library/recently-added"
+                      routerDirection="root"
+                      routerLinkActive="selected"
+                      detail="false"
+                    >
+                      <ion-icon
+                        color="primary"
+                        slot="start"
+                        name="time-outline"
+                        style="transform: scale(-1, 1)"
+                      ></ion-icon>
+                      Recently Added
+                    </ion-item>
+                  </ion-menu-toggle>
+                  <ion-menu-toggle autoHide="false">
+                    <ion-item
+                      routerLink="/library/albums"
+                      routerDirection="root"
+                      routerLinkActive="selected"
+                      detail="false"
+                    >
+                      <ion-icon
+                        color="primary"
+                        slot="start"
+                        name="albums-outline"
+                      ></ion-icon>
+                      Albums
+                    </ion-item>
+                  </ion-menu-toggle>
+                  <ion-menu-toggle autoHide="false">
+                    <ion-item
+                      routerLink="/library/songs"
+                      routerDirection="root"
+                      routerLinkActive="selected"
+                      detail="false"
+                    >
+                      <ion-icon
+                        color="primary"
+                        slot="start"
+                        name="musical-note"
+                      ></ion-icon>
+                      Songs
+                    </ion-item>
+                  </ion-menu-toggle>
+                </ion-list>
+              </ion-accordion>
+            </ion-accordion-group>
+            <ion-menu-toggle autoHide="false">
+              <ion-item
+                (click)="logout()"
+                lines="none"
+                button="true"
+                detail="false"
+              >
+                <ion-icon
+                  color="primary"
+                  slot="start"
+                  name="log-out"
+                ></ion-icon>
+                Log Out
+              </ion-item>
+            </ion-menu-toggle>
+          </ng-container>
+          <ng-template #notAuthorized>
+            <ion-menu-toggle autoHide="false">
+              <ion-item
+                (click)="login()"
+                lines="none"
+                button="true"
+                detail="false"
+              >
+                <ion-icon color="primary" slot="start" name="log-in"></ion-icon>
+                Log In
+              </ion-item>
+            </ion-menu-toggle>
+          </ng-template>
         </ion-list>
       </ion-content>
     </ion-menu>
     <div id="main" class="route-wrapper">
-      <ion-router-outlet></ion-router-outlet>
-      <track-player></track-player>
+      <ion-router-outlet />
+      <track-player />
     </div>
   </ion-split-pane>
 </ion-app>

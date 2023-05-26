@@ -1,13 +1,9 @@
 {
 	"appId": "com.startrack.app",
 	"appName": "Star Track",
-	"bundledWebRuntime": false,
 	"webDir": "dist/browser",
 	"backgroundColor": "#000000FF",
 	"plugins": {
-		"CapacitorHttp": {
-			"enabled": true
-		},
 		"LocalNotifications": {},
 		"Keyboard": {
 			"resize": "none",

@@ -1,0 +1,46 @@
+PODS:
+  - Capacitor (5.0.0):
+    - CapacitorCordova
+  - CapacitorApp (5.0.0):
+    - Capacitor
+  - CapacitorBrowser (5.0.0):
+    - Capacitor
+  - CapacitorCordova (5.0.0)
+  - CapacitorLocalNotifications (5.0.0):
+    - Capacitor
+  - CapacitorSplashScreen (5.0.0):
+    - Capacitor
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
+  - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorApp:
+    :path: "../../node_modules/@capacitor/app"
+  CapacitorBrowser:
+    :path: "../../node_modules/@capacitor/browser"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorLocalNotifications:
+    :path: "../../node_modules/@capacitor/local-notifications"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
+
+SPEC CHECKSUMS:
+  Capacitor: b332cb737d447561e854039fb72195206685dce2
+  CapacitorApp: 16e189e0463976060ccf34868e3083858c977e2b
+  CapacitorBrowser: 53c2279785c2f67059439445647c8ad90150e1ae
+  CapacitorCordova: 4ea17670ee562680988a7ce9db68dee5160fe564
+  CapacitorLocalNotifications: 8620df7dfc20d028a0c3a1e61acab9bf44462e7c
+  CapacitorSplashScreen: 22779612c60d1cb2e4f143fdbc096e7056450386
+
+PODFILE CHECKSUM: cee0e4527ef3fcc56b65dc2de9f062e51d45c74c
+
+COCOAPODS: 1.11.3

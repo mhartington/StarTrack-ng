@@ -8,10 +8,16 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { Song } from 'src/@types/song';
-import { MsToMinsPipe, SecondsToMins, } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+import {
+  MsToMinsPipe,
+  SecondsToMins,
+} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
-import { PlaybackStates, PlayerService, RepeatMode, } from '../../providers/player/player.service2';
+import {
+  PlaybackStates,
+  PlayerService,
+  RepeatMode,
+} from '../../providers/player/player.service2';
 import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
@@ -19,6 +25,7 @@ import { SongItemComponent } from '../song-item/song-item.component';
 import { SvgBarsComponent } from '../svg-bars/svg-bars.component';
 import { createQueueAnimation } from './player-modal.animation';
 import { QueueListComponent } from '../queue-list/queue-list.component';
+import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-from-img.directive';
 
 @Component({
   selector: 'app-player-modal',
@@ -37,7 +44,8 @@ import { QueueListComponent } from '../queue-list/queue-list.component';
     BackgroundGlow,
     MsToMinsPipe,
     SecondsToMins,
-    QueueListComponent
+    QueueListComponent,
+    ColorFromImgDirective,
   ],
 })
 export class PlayerModalComponent implements OnInit {
@@ -87,7 +95,7 @@ export class PlayerModalComponent implements OnInit {
     await this.player.togglePlay();
   }
   playAtIndex(e: any) {
-    console.log(e.$event)
+    console.log(e.$event);
     this.stopProp(e.$event);
     const parent: HTMLElement = e.$event.target.closest('.queue-scroller');
     parent.scrollTo({ top: 0, behavior: 'smooth' });
@@ -116,8 +124,7 @@ export class PlayerModalComponent implements OnInit {
     this.player.toggleRepeat();
   }
 
-  setVol(e: any){
-    this.player.volume.set(e.detail.value)
+  setVol(e: any) {
+    this.player.volume.set(e.detail.value);
   }
-
 }

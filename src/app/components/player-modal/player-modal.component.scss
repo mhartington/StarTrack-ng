@@ -1,7 +1,3 @@
-.ion-page {
-  background: #5a5960;
-}
-
 ion-header {
   padding-top: calc(16px + env(safe-area-inset-top));
   &:hover {
@@ -31,33 +27,35 @@ ion-footer {
 }
 
 .track-wrapper {
-  position: relative;
   height: 100%;
   overflow: hidden;
   width: 100%;
   z-index: 1;
+  padding: 20px;
 }
 
 .track-player {
-  position: relative;
   height: 100%;
   width: 85%;
   max-width: 500px;
   margin: auto;
   z-index: 1;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 75% 25%;
+  grid-template-areas:
+    'now-playing'
+    'controls';
 
   .song-info {
-    grid-row: 1/2;
     width: 100%;
+    grid-area: now-playing;
     z-index: 1;
     display: grid;
-    grid-auto-rows: 1fr auto;
-
-    height: 75%;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: "artwork" "title";
+    margin-left: auto;
+    margin-right: auto;
 
     ion-thumbnail {
       transform-origin: center center;
@@ -91,23 +89,26 @@ ion-footer {
       }
     }
   }
+  queue-list {
+    margin-left: auto;
+    margin-right: auto;
 
+    grid-area: queue;
+    display: none;
+  }
   .controls-wrapper {
-    grid-row: 2/2;
-    display: flex;
     width: 95%;
+    grid-area: controls;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 25%;
-        margin-left: auto;
+    margin-left: auto;
     margin-right: auto;
 
     ion-range {
       margin-top: auto;
-      // display: block;
       width: 100%;
       margin: 0 auto;
-      // flex: initial;
       padding: 0;
 
       .duration-label {
@@ -166,6 +167,10 @@ ion-badge {
   .song-actions .repeat-button {
     display: unset;
   }
+
+  queue-list .toggle-buttons {
+    display: none;
+  }
 }
 
 .song-actions .shuffle-button,
@@ -192,6 +197,11 @@ ion-button.active {
     color: var(--ion-color-step-500) !important;
   }
 }
+.track-wrapper.track-wrapper.queue-active{
+    queue-list {
+      display: flex;
+    }
+}
 
 @media (orientation: portrait) {
   .track-wrapper.animation-start {
@@ -202,49 +212,46 @@ ion-button.active {
   .track-wrapper.queue-active {
     .track-player {
       grid-template-rows: 15% 60% 25%;
-    }
-
-    .player-queue-portrait {
-      height: 60%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-
-      ion-badge {
-        top: 3px;
-        right: -7px;
-      }
+      grid-template-areas:
+        'now-playing'
+        'queue'
+        'controls';
     }
     .song-info {
-      height: 15%;
-      grid-row: 1/2;
       flex: initial;
       align-items: center;
       grid-template-columns: 18% auto;
       grid-gap: 20px;
     }
-    .controls-wrapper {
-      height: 25%;
+    queue-list {
+      ion-badge {
+        top: 3px;
+        right: -7px;
+      }
     }
   }
 }
-
 @media (orientation: landscape) {
   .track-player {
-    max-width: 500px;
-    width: 45%;
-    padding: 0 30px;
+    width: 100%;
+    max-width: unset;
+    grid-template-columns: 1fr minmax(45%, 500px) 1fr;
+    grid-template-areas:
+      '. now-playing .'
+      '. controls .';
+    .song-info,
+    .controls-wrapper {
+      width: 85%;
+      max-width: 500px;
+    }
   }
 
   .track-wrapper.queue-active {
-    display: flex;
     .track-player {
-      width: 45%;
-      height: 100%;
-      transform-origin: top left;
-    }
-    .player-queue-landscape {
-      display: flex;
+      grid-template-columns: minmax(45%, 500px) auto;
+      grid-template-areas:
+        'now-playing queue'
+        'controls    queue';
     }
   }
 }

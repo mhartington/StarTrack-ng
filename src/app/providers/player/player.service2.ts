@@ -39,8 +39,8 @@ const nowPlayingInit = {
 
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
-  private mkInstance = (window as any).MusicKit?.getInstance();
-  private mkEvents = (window as any).MusicKit?.Events;
+  private mkInstance = globalThis.MusicKit?.getInstance();
+  private mkEvents = globalThis.MusicKit?.Events;
   private title = inject(Title);
 
   public bitrate = signal(256);
@@ -94,7 +94,6 @@ export class PlayerService {
     this.mkInstance.addEventListener(
       this.mkEvents.nowPlayingItemDidChange,
       ({ item }) => {
-          console.log(item)
         if (item) {
           this.nowPlaying.set(item);
           this.playbackTime.set(0);
@@ -159,7 +158,7 @@ export class PlayerService {
       items = items.sort(() => 0.5 - Math.random());
     }
     const newItems = items.map(
-      (item) => new (window as any).MusicKit.MediaItem(item)
+      (item) => new globalThis.MusicKit.MediaItem(item)
     );
     await this.mkInstance.setQueue({ items: newItems });
     await this.mkInstance.changeToMediaAtIndex(startPosition);

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
@@ -34,6 +34,8 @@ export class PlaylistPage {
 
   public collection = signal(null);
   public canShare = !!('share' in navigator);
+
+  // @Input() id: string = '';
 
   async ionViewDidEnter() {
     const id = this.route.snapshot.params.id;

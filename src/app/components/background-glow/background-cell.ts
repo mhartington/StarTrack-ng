@@ -22,6 +22,11 @@ import {
         justify-content: center;
         align-content: center;
         filter: blur(180px) brightness(70%) saturate(1.9);
+        animation: rotate 1500s infinite ease;
+      }
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
       }
       canvas {
         height: 100%;
@@ -53,6 +58,11 @@ import {
         aspect-ratio: 1/1;
         width: unset;
         height: 126%;
+      }
+      :host(.cell-4) {
+        width: 200%;
+        height: 200%;
+        z-index: -1;
       }
     `,
   ],
@@ -91,21 +101,9 @@ export class BackgroundCell {
   renderImage() {
     if (this.opacity < 1) {
       this.ctx.globalAlpha = 1;
-      this.ctx.drawImage(
-        this.source,
-        0,
-        0,
-        this.ctx.canvas.width,
-        this.ctx.canvas.height
-      );
+      this.ctx.drawImage( this.source, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       this.ctx.globalAlpha = this.opacity;
-      this.ctx.drawImage(
-        this.dest,
-        0,
-        0,
-        this.ctx.canvas.width,
-        this.ctx.canvas.height
-      );
+      this.ctx.drawImage( this.dest, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       this.opacity += this.speed;
       requestAnimationFrame(this.renderImage.bind(this));
     } else {

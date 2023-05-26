@@ -11,10 +11,10 @@ ion-toolbar {
   color: #ffffff;
 
   ion-title {
-    -webkit-padding-start: 0;
-    padding-inline-start: 0;
-    -webkit-padding-end: 0;
-    padding-inline-end: 0;
+    // -webkit-padding-start: 0;
+    // padding-inline-start: 0;
+    // -webkit-padding-end: 0;
+    // padding-inline-end: 0;
   }
 }
 ion-skeleton-text {
@@ -29,7 +29,9 @@ lazy-img {
   box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
   margin: auto;
 }
-
+#editorial-notes:hover{ 
+  cursor: pointer; 
+}
 .album-detail {
   padding: 0 16px;
   z-index: 1;

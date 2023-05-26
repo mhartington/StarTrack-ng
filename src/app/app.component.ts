@@ -36,8 +36,8 @@ export class AppComponent implements OnInit {
     public platform = inject(Platform);
 
 
-  musicKitInstance = (window as any).MusicKit?.getInstance();
-  musicKitEvents = (window as any).MusicKit?.Events;
+  musicKitInstance = globalThis.MusicKit?.getInstance();
+  musicKitEvents = globalThis.MusicKit?.Events;
   isAuthorized = signal(this.musicKitInstance.isAuthorized);
 
   constructor(
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
         toast
           .onDidDismiss()
           .then(() => this.swUpdate.activateUpdate())
-          .then(() => window.location.reload());
+          .then(() => globalThis.location.reload());
       }
     }
   }

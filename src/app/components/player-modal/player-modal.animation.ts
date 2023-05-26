@@ -61,19 +61,28 @@ export const createQueueAnimation = async (
     width: number;
     height: number;
   };
+  let controlsStarting: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
 
-  const nowPlaying = targetEl.querySelector('.track-player');
   if (!isPortait) {
     /// Player
-    const playerQueue = targetEl.querySelector('.player-queue-landscape');
+    const nowPlaying = targetEl.querySelector('.song-info');
+    const controls = targetEl.querySelector('.controls-wrapper');
+    const playerQueue = targetEl.querySelector('queue-list');
 
     const playerRecPre = getRec(nowPlaying);
     const playerQueueRecPre = getRec(playerQueue);
+    const controlsRecPre = getRec(controls);
 
     targetEl.classList.toggle('queue-active');
 
     const playerRecPost = getRec(nowPlaying);
     const playerQueueRecPost = getRec(playerQueue);
+    const controlsRecPost = getRec(controls);
 
     if (isOpening) {
       playerQueueStarting = {
@@ -88,6 +97,12 @@ export const createQueueAnimation = async (
         width: playerRecPre.width,
         height: playerRecPre.height,
       };
+      controlsStarting = {
+        top: controlsRecPre.top,
+        left: controlsRecPre.left,
+        width: controlsRecPre.width,
+        height: controlsRecPre.height,
+      }
     } else {
       playerQueueStarting = {
         top: playerQueueRecPre.top,
@@ -101,6 +116,12 @@ export const createQueueAnimation = async (
         width: playerRecPre.width,
         height: playerRecPre.height,
       };
+      controlsStarting = {
+        top: controlsRecPre.top,
+        left: controlsRecPre.left,
+        width: controlsRecPre.width,
+        height: controlsRecPre.height,
+      }
     }
 
     const playerQueueDeltaW = getQueueVectors(
@@ -143,26 +164,50 @@ export const createQueueAnimation = async (
     animationChain.push(playerQueueAnimation);
 
     const playerDeltaX = playerRecPost.left - playerRecPre.left;
+
     const nowPlayingAnimation = createAnimation()
       .addElement(nowPlaying)
       .beforeStyles({
         'transform-origin': 'top left',
         position: 'absolute',
         left: `${nowPlayingStarting.left}px`,
+        top: `${nowPlayingStarting.top}px`,
+        width: `${nowPlayingStarting.width}px`,
+        height: `${nowPlayingStarting.height}px`,
       })
       .fromTo(
         'transform',
         `translate3d(0px, 0, 0)`,
         `translate3d(${playerDeltaX}px, 0,0)`
       )
-      .afterClearStyles(['transform-origin', 'position', 'left']);
+      .afterClearStyles(['transform-origin', 'position', 'left', 'width', 'height', 'top']);
     animationChain.push(nowPlayingAnimation);
+
+
+
+    const controlsAnimation = createAnimation()
+      .addElement(controls)
+      .beforeStyles({
+        'transform-origin': 'top left',
+        position: 'absolute',
+        left: `${controlsStarting.left}px`,
+        top: `${controlsStarting.top}px`,
+        width: `${controlsStarting.width}px`,
+        height: `${controlsStarting.height}px`,
+      })
+      .fromTo(
+        'transform',
+        `translate3d(0px, 0, 0)`,
+        `translate3d(${playerDeltaX}px, 0,0)`
+      )
+      .afterClearStyles(['transform-origin', 'position', 'left', 'width', 'height', 'top']);
+    animationChain.push(controlsAnimation);
   }
 
   if (isPortait) {
     const thumbnailEl = targetEl.querySelector('ion-thumbnail');
     const labelEl = targetEl.querySelector('ion-label');
-    const playerQueueEl = targetEl.querySelector( '.player-queue-portrait') as HTMLElement;
+    const playerQueueEl = targetEl.querySelector( 'queue-list') as HTMLElement;
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);

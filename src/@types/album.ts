@@ -1,5 +1,6 @@
+import { Artist } from './artist';
 import { Artwork } from './artwork';
-import { EditorialNotes, PlayParameters, Preview } from './song';
+import { EditorialNotes, PlayParameters, Preview, Song } from './song';
 
 export type AlbumAttributes = {
   albumName: string;
@@ -27,12 +28,15 @@ export type AlbumAttributes = {
   artistUrl: string;
 };
 
-export type AlbumRelationship = { href: string; next: string; data: Album[] };
+export type AlbumRelationship = { 
+  tracks: { href: string; data: Song[]},
+  artists: { href: string; data: Artist[]}
+}
 
 export type Album = {
   attributes: AlbumAttributes;
   id: string;
   type: string;
   href: string;
-  relationships: any;
+  relationships: AlbumRelationship;
 };

@@ -9,7 +9,7 @@
   --lazy-transition-property: var(--thumbnail-transition-property, transform);
   --lazy-transition-timing-function: var(
     --thumbnail-transition-timing-function,
-    cubic-bezier(0.42, 0, 0.58, 1)
+    cubic-bezier(0.42, 0, 0.58, 1.24)
   );
 
   .shadow {
@@ -17,24 +17,27 @@
     width: 100%;
     background: rgba(0, 0, 0, 0.2);
     position: absolute;
-    border-radius: 12px;
+    border-radius: 6px;
     top: 0;
     z-index: -1;
-    filter: blur(12px);
     transition: var(--lazy-transition-property) var(--lazy-transition-duration)
       var(--lazy-transition-timing-function);
 
     &.shadow_1 {
-      transform: scale3d(0.9, 1.02, 1.02) translate3d(0, 8px, 0);
+      transform: scale3d(0.95, 1, 1) translate3d(0, 4px, 0);
       background: rgba(0, 0, 0, 0.2);
+      filter: blur(15px);
     }
     &.shadow_2 {
-      transform: scale3d(1.01, 1, 1) translate3d(0px, 27px, 0);
+      transform: scale3d(1.03, 1, 1) translate3d(0px, 27px, 0);
       background: rgba(0, 0, 0, 0.14);
+      filter: blur(38px);
     }
     &.shadow_3 {
-      transform: scale3d(1, 1.01, 1) translate3d(0px, 13px, 0);
+      transform: scale3d(1.07, 1.05, 1) translate3d(0px, 7px, 0);
       background: rgba(0, 0, 0, 0.12);
+      border-radius: 17px;
+      filter: blur(46px);
     }
   }
 
@@ -53,14 +56,10 @@
       transform: scale3d(0.75, 0.75, 0.75);
     }
     .shadow {
-      transform: scale3D(0.6, 0.6, 0.6);
+      transform: scale3D(0.7, 0.7, 0.7) translate(0);
     }
   }
 }
-
-
-
-
 
 // lazy-img {
 //   animation: animateShadow 3s infinite;
@@ -68,34 +67,29 @@
 // @keyframes animateShadow {
 //   0%,
 //   100% {
-//     box-shadow: 0 2px 1px -1px rgba(255,0,0,1),
-//                 0 1px 1px 0 rgba(255,0,0,1),
-//                 0 1px 3px 0 rgba(255,0,0,1);
+//     box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),
+//                 0 1px 1px 0 rgba(0,0,0,.14),
+//                 0 1px 3px 0 rgba(0,0,0,.12);
 //   }
 //   50% {
-//     box-shadow: 0 11px 15px -7px rgba(255,0,0,1),
-//                 0 24px 38px 3px rgba(255,0,0,1),
-//                 0 9px 46px 8px rgba(255,0,0,1);
+    // box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    //             0 24px 38px 3px rgba(0, 0, 0, 0.14), 
+    //             0 9px 46px 8px rgba(0, 0, 0, 0.12);
 //   }
 // }
-
-
-
-
-
 
 // lazy-img::after {
 //   content: '';
 //   height: 100%;
 //   width: 100%;
-//   background: rgba(255, 0, 0, 0.8);
+//   background: rgba(0,0,0,.12);
 //   position: absolute;
 //   border-radius: 12px;
 //   top: 0;
 //   z-index: -1;
 //   filter: blur(12px);
 //   transform: scale3d(0.9, 0.9, 0.9);
-//   animation: pseudoEl 3s infinite;
+//   transform: scale3d(1.1, 1.1, 1.1) translate3d(0, 12px, 0);
 // }
 // @keyframes pseudoEl {
 //   0%, 100% {
@@ -109,8 +103,12 @@
 @media (orientation: portrait) {
   .queue-active {
     :host {
-      .shadow { opacity: 0; }
-      lazy-img { transform: scale3d(1, 1, 1); }
+      .shadow {
+        opacity: 0;
+      }
+      lazy-img {
+        transform: scale3d(1, 1, 1);
+      }
     }
   }
 }

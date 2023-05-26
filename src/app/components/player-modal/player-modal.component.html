@@ -1,219 +1,206 @@
-<div class="ion-page">
-  <ion-header (click)="dismiss()" class="ion-no-border">
-    <div class="dismisser"></div>
-  </ion-header>
-  <div class="track-wrapper" #wrapper>
-    <div class="track-player">
-      <div class="song-info">
-        <ion-thumbnail
+<ion-header (click)="dismiss()" class="ion-no-border">
+  <div class="dismisser"></div>
+</ion-header>
+
+<div class="track-wrapper" #wrapper>
+  <div class="track-player">
+    <div class="song-info">
+      <ion-thumbnail
+        [ngClass]="{
+          paused:
+            player.playbackState() === playbackStates.PAUSED ||
+            player.playbackState() === playbackStates.NONE ||
+            player.playbackState() === playbackStates.STOPPED
+        }"
+      >
+        <now-playing-artwork
+          [src]="
+            player.nowPlaying()?.attributes?.artwork?.url ??
+              'assets/imgs/default.svg' | formatArtworkUrl : 500
+          "
           [ngClass]="{
             paused:
               player.playbackState() === playbackStates.PAUSED ||
               player.playbackState() === playbackStates.NONE ||
               player.playbackState() === playbackStates.STOPPED
           }"
-        >
-          <now-playing-artwork
-            [src]="
-              player.nowPlaying()?.attributes?.artwork?.url ??
-                'assets/imgs/default.svg' | formatArtworkUrl : 500
-            "
-            [ngClass]="{
-              paused:
-                player.playbackState() === playbackStates.PAUSED ||
-                player.playbackState() === playbackStates.NONE ||
-                player.playbackState() === playbackStates.STOPPED
-            }"
-            alt="The album art work cover"
-          ></now-playing-artwork>
-        </ion-thumbnail>
+          alt="The album art work cover"
+        ></now-playing-artwork>
+      </ion-thumbnail>
 
-        <ion-label>
-          <h3>
-            <ion-text color="white">{{
-              player.nowPlaying().attributes.name ?? 'Not Playing'
-            }}</ion-text>
-          </h3>
-          <p>
-            <ion-text color="white">{{
-              player.nowPlaying().attributes.artistName
-            }}</ion-text>
-          </p>
-        </ion-label>
-      </div>
-
-      <ion-popover trigger="artist-extra" triggerAction="click" alignment="start">
-        <ng-template>
-          <ion-item> Go to Album </ion-item>
-          <ion-item> Go to Artist </ion-item>
-        </ng-template>
-      </ion-popover>
-
-      <queue-list
-        class="player-queue-portrait"
-        [queue]="queue()"
-        (playAt)="playAtIndex($event)"
-      >
-        <ion-buttons class="toggle-buttons">
-          <ion-button
-            color="white"
-            [ngClass]="{ active: player.isShuffling() }"
-            (click)="toggleShuffle(player.isShuffling())"
-          >
-            <ion-icon name="shuffle"></ion-icon>
-          </ion-button>
-          <ion-button
-            color="white"
-            [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
-            (click)="toggleRepeatMode()"
-          >
-            <ion-icon name="repeat"></ion-icon>
-            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
-              >1</ion-badge
-            >
-          </ion-button>
-        </ion-buttons>
-      </queue-list>
-
-      <div class="controls-wrapper">
-        <ion-range
-          step="1"
-          min="0"
-          [disabled]="
-            player.playbackDuration() === 0 ||
-            player.playbackState() === playbackStates.NONE ||
-            player.playbackState() === playbackStates.LOADING ||
-            player.playbackState() === playbackStates.ENDED ||
-            player.playbackState() === playbackStates.WAITING ||
-            player.playbackState() === playbackStates.STALLED
-          "
-          [max]="player.playbackDuration()"
-          [value]="playbackTime"
-          (click)="stopProp($event)"
-          (ionKnobMoveStart)="pauseSeeking($event)"
-          (ionKnobMoveEnd)="seekToTime($event)"
-          color="white"
-          aria-label="fullpage player control"
-          class="progress-control"
-        >
-          <ion-label inert class="duration-label" slot="start">{{
-            playbackTime | secToMins
-          }}</ion-label>
-          <ion-label inert class="duration-label" slot="end"
-            >-{{
-              player.playbackDuration() - playbackTime | secToMins
-            }}</ion-label
-          >
-        </ion-range>
-
-        <ion-buttons class="song-actions">
-          <ion-button
-            class="shuffle-button"
-            color="white"
-            [ngClass]="{ active: player.isShuffling() }"
-            (click)="toggleShuffle(player.isShuffling())"
-          >
-            <ion-icon name="shuffle" slot="icon-only"></ion-icon>
-          </ion-button>
-
-          <ion-button
-            shape="round"
-            color="white"
-            fill="clear"
-            class="prev-button"
-            (click)="prev($event)"
-          >
-            <ion-icon name="play-back" slot="icon-only"></ion-icon>
-          </ion-button>
-          <ion-button
-            shape="round"
-            color="white"
-            fill="clear"
-            (click)="togglePlay($event)"
-          >
-            <ion-spinner
-              color="white"
-              *ngIf="
-                player.playbackState() === playbackStates.LOADING ||
-                  player.playbackState() === playbackStates.ENDED ||
-                  player.playbackState() === playbackStates.WAITING ||
-                  player.playbackState() === playbackStates.STALLED;
-                else buttonTemplate
-              "
-            ></ion-spinner>
-            <ng-template #buttonTemplate>
-              <ion-icon
-                [name]="
-                  player.playbackState() === playbackStates.PLAYING
-                    ? 'pause'
-                    : 'play'
-                "
-                slot="icon-only"
-              ></ion-icon>
-            </ng-template>
-          </ion-button>
-          <ion-button
-            shape="round"
-            color="white"
-            fill="clear"
-            (click)="next($event)"
-            class="forward"
-          >
-            <ion-icon name="play-forward" slot="icon-only"></ion-icon>
-            <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
-            <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
-          </ion-button>
-
-          <ion-button
-            class="repeat-button"
-            color="white"
-            [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
-            (click)="toggleRepeatMode()"
-          >
-            <ion-icon name="repeat"></ion-icon>
-            <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
-              >1</ion-badge
-            >
-          </ion-button>
-        </ion-buttons>
-
-        <ion-range
-          color="white"
-          aria-label="fullpage player volume control"
-          step="0.01"
-          min="0"
-          max="1"
-          (ionInput)="setVol($event)"
-          [value]="player.volume()"
-        >
-          <ion-icon slot="start" name="volume-off"></ion-icon>
-          <ion-icon slot="end" name="volume-high"></ion-icon>
-        </ion-range>
-      </div>
+      <ion-label>
+        <h3>
+          <ion-text color="white">{{
+            player.nowPlaying().attributes.name ?? 'Not Playing'
+          }}</ion-text>
+        </h3>
+        <p>
+          <ion-text color="white">{{
+            player.nowPlaying().attributes.artistName
+          }}</ion-text>
+        </p>
+      </ion-label>
     </div>
+
     <queue-list
-      class="player-queue-landscape"
+      class="player-queue-portrait"
       [queue]="queue()"
       (playAt)="playAtIndex($event)"
-    />
-  </div>
-  <ion-footer>
-    <ion-toolbar color="transparent">
-      <ion-buttons slot="end">
+    >
+      <ion-buttons class="toggle-buttons">
         <ion-button
           color="white"
-          (click)="toggleQueue()"
-          [ngClass]="{ active: showQueue }"
+          [ngClass]="{ active: player.isShuffling() }"
+          (click)="toggleShuffle(player.isShuffling())"
         >
-          <ion-icon name="list"></ion-icon>
+          <ion-icon name="shuffle"></ion-icon>
+        </ion-button>
+        <ion-button
+          color="white"
+          [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
+          (click)="toggleRepeatMode()"
+        >
+          <ion-icon name="repeat"></ion-icon>
+          <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
+            >1</ion-badge
+          >
         </ion-button>
       </ion-buttons>
-    </ion-toolbar>
-  </ion-footer>
-  <background-glow
-    [src]="
-      player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'
-        | formatArtworkUrl : 250
-    "
-  />
+    </queue-list>
+
+    <div class="controls-wrapper">
+      <ion-range
+        step="1"
+        min="0"
+        [disabled]="
+          player.playbackDuration() === 0 ||
+          player.playbackState() === playbackStates.NONE ||
+          player.playbackState() === playbackStates.LOADING ||
+          player.playbackState() === playbackStates.ENDED ||
+          player.playbackState() === playbackStates.WAITING ||
+          player.playbackState() === playbackStates.STALLED
+        "
+        [max]="player.playbackDuration()"
+        [value]="playbackTime"
+        (click)="stopProp($event)"
+        (ionKnobMoveStart)="pauseSeeking($event)"
+        (ionKnobMoveEnd)="seekToTime($event)"
+        color="white"
+        aria-label="fullpage player control"
+        class="progress-control"
+      >
+        <ion-label inert class="duration-label" slot="start">{{
+          playbackTime | secToMins
+        }}</ion-label>
+        <ion-label inert class="duration-label" slot="end"
+          >-{{
+            player.playbackDuration() - playbackTime | secToMins
+          }}</ion-label
+        >
+      </ion-range>
+
+      <ion-buttons class="song-actions">
+        <ion-button
+          class="shuffle-button"
+          color="white"
+          [ngClass]="{ active: player.isShuffling() }"
+          (click)="toggleShuffle(player.isShuffling())"
+        >
+          <ion-icon name="shuffle" slot="icon-only"></ion-icon>
+        </ion-button>
+
+        <ion-button
+          shape="round"
+          color="white"
+          fill="clear"
+          class="prev-button"
+          (click)="prev($event)"
+        >
+          <ion-icon name="play-back" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button
+          shape="round"
+          color="white"
+          fill="clear"
+          (click)="togglePlay($event)"
+        >
+          <ion-spinner
+            color="white"
+            *ngIf="
+              player.playbackState() === playbackStates.LOADING ||
+                player.playbackState() === playbackStates.ENDED ||
+                player.playbackState() === playbackStates.WAITING ||
+                player.playbackState() === playbackStates.STALLED;
+              else buttonTemplate
+            "
+          ></ion-spinner>
+          <ng-template #buttonTemplate>
+            <ion-icon
+              [name]="
+                player.playbackState() === playbackStates.PLAYING
+                  ? 'pause'
+                  : 'play'
+              "
+              slot="icon-only"
+            ></ion-icon>
+          </ng-template>
+        </ion-button>
+        <ion-button
+          shape="round"
+          color="white"
+          fill="clear"
+          (click)="next($event)"
+          class="forward"
+        >
+          <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+          <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
+          <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
+        </ion-button>
+
+        <ion-button
+          class="repeat-button"
+          color="white"
+          [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
+          (click)="toggleRepeatMode()"
+        >
+          <ion-icon name="repeat"></ion-icon>
+          <ion-badge *ngIf="player.repeatMode() === repeatMode.ONE"
+            >1</ion-badge
+          >
+        </ion-button>
+      </ion-buttons>
+
+      <ion-range
+        color="white"
+        aria-label="fullpage player volume control"
+        step="0.01"
+        min="0"
+        max="1"
+        (ionInput)="setVol($event)"
+        [value]="player.volume()"
+      >
+        <ion-icon slot="start" name="volume-off"></ion-icon>
+        <ion-icon slot="end" name="volume-high"></ion-icon>
+      </ion-range>
+    </div>
+  </div>
 </div>
+<ion-footer>
+  <ion-toolbar color="transparent">
+    <ion-buttons slot="end">
+      <ion-button
+        color="white"
+        (click)="toggleQueue()"
+        [ngClass]="{ active: showQueue }"
+      >
+        <ion-icon name="list"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+<background-glow
+  [src]="
+    player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'
+      | formatArtworkUrl : 250
+  "
+/>

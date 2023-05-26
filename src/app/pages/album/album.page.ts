@@ -44,20 +44,23 @@ export class AlbumPage {
     this.collection.set(data);
     this.isLoading.set(false);
   }
+
   playSong(startPosition: number, shuffle = false) {
     const url = this.collection().attributes.url;
     this.player.playCollection({ shuffle, url, startPosition });
   }
+
   playAlbum({ shuffle }) {
     this.playSong(null, shuffle);
   }
+
   share() {
     if (this.canShare) {
       (navigator as any)
         .share({
           title: 'Star Track',
           text: `Check out "${this.collection().attributes.name}" by ${this.collection().attributes.artistName}. Via Star Track.`,
-          url: `${window.location.origin}/album/${this.collection().id}`,
+          url: `${globalThis.location.origin}/album/${this.collection().id}`,
         })
         .then(
           () => console.log('Successful share'),

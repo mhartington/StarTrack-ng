@@ -1,10 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import {
   APP_INITIALIZER,
   enableProdMode,
   importProvidersFrom,
 } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
+import {
+  bootstrapApplication,
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -22,7 +24,7 @@ if (environment.production) {
 }
 
 const appInitialize = () => async () =>
-  await (window as any).MusicKit.configure({
+  await globalThis.MusicKit.configure({
     developerToken: environment.musicKitToken,
     bitrate: globalThis.MusicKit.PlaybackBitrate.HIGH,
     app: {
@@ -42,7 +44,7 @@ bootstrapApplication(AppComponent, {
     { provide: APP_INITIALIZER, useFactory: appInitialize, multi: true },
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(IonicModule.forRoot({})),
-    importProvidersFrom(HttpClientModule),
+    provideHttpClient(),
     provideRouter(routes),
     importProvidersFrom(
       ServiceWorkerModule.register('ngsw-worker.js', {

@@ -6,78 +6,84 @@
     <ion-title>Search</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-      <ion-searchbar
-        enterkeyhint="search"
-        placeholder="Artists, Songs, Lyrics, and More"
-        [formControl]="searchForm"
-        showCancelButton="focus"
-        animated="true"
-        (ionClear)="clearSearch()"
-      >
-      </ion-searchbar>
+    <ion-searchbar
+      enterkeyhint="search"
+      placeholder="Artists, Songs, Lyrics, and More"
+      [formControl]="searchForm"
+      showCancelButton="focus"
+      animated="true"
+      (ionClear)="clearSearch()"
+    >
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true">
-    <div class="ion-text-center ion-padding" *ngIf="isLoading()">
-      <ion-spinner></ion-spinner>
-    </div>
+  <div class="ion-text-center ion-padding" *ngIf="isLoading()">
+    <ion-spinner></ion-spinner>
+  </div>
   <!--   <error-emoji -->
   <!--     class="ion-text-center ion-padding" -->
   <!--     *ngIf="state.hasError" -->
   <!--   ></error-emoji> -->
-    <ion-segment scrollable [formControl]="segmentFilter">
-        <ion-segment-button *ngIf="songs()" value="songs"> Songs </ion-segment-button>
-        <ion-segment-button *ngIf="albums()" value="albums"> Albums </ion-segment-button>
-        <ion-segment-button *ngIf="playlists()" value="playlists"> Playlists </ion-segment-button>
-      </ion-segment>
-      <ng-container [ngSwitch]="segmentFilter.value">
-        <ng-container *ngSwitchCase="'songs'">
-          <ion-item-group *ngIf="songs() as songs">
-            <song-item
-              *ngFor="let song of songs; let i = index"
-              [song]="song"
-              (click)="playSong(song)"
-            >
-              <ion-thumbnail slot="start">
-                <lazy-img
-                  [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-                  alt=""
-                ></lazy-img>
-              </ion-thumbnail>
-            </song-item>
-          </ion-item-group>
-        </ng-container>
-        <ng-container *ngSwitchCase="'albums'">
-          <ion-item-group *ngIf="albums() as albums">
-            <song-item
-              *ngFor="let album of albums"
-              [song]="album"
-              [routerLink]="['/us', 'album', album.id]"
-            >
-              <ion-thumbnail slot="start">
-                <lazy-img
-                  [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
-                  alt=""
-                ></lazy-img>
-              </ion-thumbnail>
-            </song-item>
-          </ion-item-group>
-        </ng-container>
-        <ng-container *ngSwitchCase="'playlists'">
-          <ion-item-group *ngIf="playlists() as playlists">
-            <song-item
-              *ngFor="let playlist of playlists"
-              [song]="playlist"
-              [routerLink]="['/us','playlist', playlist.id]"
-            >
-              <ion-thumbnail slot="start">
-                <lazy-img
-                  [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
-                  alt=""
-                ></lazy-img>
-              </ion-thumbnail>
-            </song-item>
-          </ion-item-group>
-        </ng-container>
-      </ng-container>
+  <ion-segment scrollable [formControl]="segmentFilter">
+    <ion-segment-button *ngIf="songs()" value="songs">
+      Songs
+    </ion-segment-button>
+    <ion-segment-button *ngIf="albums()" value="albums">
+      Albums
+    </ion-segment-button>
+    <ion-segment-button *ngIf="playlists()" value="playlists">
+      Playlists
+    </ion-segment-button>
+  </ion-segment>
+  <ng-container [ngSwitch]="segmentFilter.value">
+    <ng-container *ngSwitchCase="'songs'">
+      <ion-item-group *ngIf="songs() as songs">
+        <song-item
+          *ngFor="let song of songs; let i = index"
+          [song]="song"
+          (click)="playSong(song)"
+        >
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
+            ></lazy-img>
+          </ion-thumbnail>
+        </song-item>
+      </ion-item-group>
+    </ng-container>
+    <ng-container *ngSwitchCase="'albums'">
+      <ion-item-group *ngIf="albums() as albums">
+        <song-item
+          *ngFor="let album of albums"
+          [song]="album"
+          [routerLink]="['/us', 'album', album.id]"
+        >
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
+            ></lazy-img>
+          </ion-thumbnail>
+        </song-item>
+      </ion-item-group>
+    </ng-container>
+    <ng-container *ngSwitchCase="'playlists'">
+      <ion-item-group *ngIf="playlists() as playlists">
+        <song-item
+          *ngFor="let playlist of playlists"
+          [song]="playlist"
+          [routerLink]="['/us','playlist', playlist.id]"
+        >
+          <ion-thumbnail slot="start">
+            <lazy-img
+              [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
+              alt=""
+            ></lazy-img>
+          </ion-thumbnail>
+        </song-item>
+      </ion-item-group>
+    </ng-container>
+  </ng-container>
 </ion-content>

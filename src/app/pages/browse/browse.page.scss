@@ -28,7 +28,7 @@ ion-list-header {
     width: 1px;
     margin-right: -1px;
   }
-  album-preview-item {
+  [album-preview-item] {
     scroll-snap-align: start start;
     padding-left: 16px;
   }
@@ -36,9 +36,9 @@ ion-list-header {
 .song-grid {
   overflow-x: scroll;
   display: grid;
-  grid-auto-flow: column dense;
-  grid-template-rows: auto auto auto auto;
-  grid-gap: 16px;
+  grid-template-columns: repeat(8, min(90%, 320px));
+  grid-template-rows: repeat(4, auto);
+  grid-gap: 8px 16px;
   padding: 16px;
   justify-content: left;
   scroll-snap-type: x mandatory;
@@ -49,8 +49,7 @@ ion-list-header {
   }
 
   song-item {
-    width: 320px;
-    padding-left: 16px;
+    --item-border-color: #ffffff0b;
     scroll-snap-align: start start;
   }
 }

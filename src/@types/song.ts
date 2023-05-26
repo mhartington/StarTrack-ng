@@ -61,6 +61,7 @@ export type SongAttributes = {
   url?: string;
   workName?: string;
   artistUrl?: string;
+  inLibrary?: boolean;
 };
 
 export type SongRelationships = {

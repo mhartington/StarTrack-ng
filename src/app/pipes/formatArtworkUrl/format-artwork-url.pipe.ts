@@ -9,6 +9,6 @@ export class FormatArtworkUrlPipe implements PipeTransform {
     if (!url) {
       return '';
     }
-    return url.replace(/\{w\}|\{h\}/g, dim.toString());
+    return url.replace(/\{w\}|\{h\}/g, dim.toString()).replace(/\{f\}/, 'webp') //.replace('.jpg', '.webp');
   }
 }

@@ -12,6 +12,7 @@ ion-segment {
     &.ios {
       --background-checked: transparent;
       --indicator-color: var(--ion-color-primary);
+      --color-checked: white;
       &::before {
         display: none;
       }
