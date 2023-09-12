@@ -10,7 +10,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/browser",
             "index": "src/index.html",
@@ -22,11 +22,6 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              },
-              {
-                "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
               },
               "src/manifest.webmanifest"
             ],
@@ -43,7 +38,7 @@
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
+            "buildOptimizer": true,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
@@ -53,7 +48,7 @@
             "production": {
               "outputHashing": "all",
               "sourceMap": false,
-              "namedChunks": false,
+              "namedChunks": true,
               "extractLicenses": true,
               "commonChunk": true,
               "buildOptimizer": true,
@@ -77,8 +72,27 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            }, 
+            "dev": {
+
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "commonChunk": true,
+              "buildOptimizer": false,
+              "optimization": {
+                "scripts": false,
+                "styles": {
+                  "minify": false,
+                  "inlineCritical": false
+                },
+                "fonts": false
+              },
+              "serviceWorker": false,
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -87,7 +101,7 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "browserTarget": "app:build:dev"
             }
           }
         },

@@ -8,7 +8,7 @@ import {
 } from '@angular/animations';
 import { NgForOf, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonText, IonThumbnail } from '@ionic/angular/standalone';
 import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { SongItemComponent } from '../song-item/song-item.component';
@@ -18,7 +18,7 @@ import { SongItemComponent } from '../song-item/song-item.component';
   templateUrl: `./queue-list.html`,
   styleUrls: ['./queue-list.scss'],
   standalone: true,
-  imports: [SongItemComponent, FormatArtworkUrlPipe, IonicModule, NgForOf, NgIf, LazyImgComponent],
+  imports: [SongItemComponent, FormatArtworkUrlPipe, NgForOf, NgIf, LazyImgComponent, IonText, IonThumbnail],
   animations: [
     trigger('listAnimation', [
       transition(':increment', [

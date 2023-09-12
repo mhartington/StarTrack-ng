@@ -43,18 +43,18 @@
           </ion-item-group>
 
           <ng-container *ngIf="isAuthorized(); else notAuthorized">
-            <ion-accordion-group multiple="true" [value]="['library']">
-              <ion-accordion value="library" toggle-icon="chevron-forward">
+            <ion-accordion-group multiple="true" value="library">
+              <ion-accordion value="library" toggleIcon="chevron-forward">
                 <ion-item slot="header">
                   <ion-label>
                     <h1>Library</h1>
                   </ion-label>
                 </ion-item>
                 <ion-list slot="content">
-                  <ion-menu-toggle autoHide="false">
+                  <ion-menu-toggle [autoHide]="false">
                     <ion-item
                       routerLink="/library/recently-added"
-                      routerDirection="root"
+                      [routerDirection]="'root'"
                       routerLinkActive="selected"
                       detail="false"
                     >
@@ -67,7 +67,7 @@
                       Recently Added
                     </ion-item>
                   </ion-menu-toggle>
-                  <ion-menu-toggle autoHide="false">
+                  <ion-menu-toggle [autoHide]="false">
                     <ion-item
                       routerLink="/library/albums"
                       routerDirection="root"
@@ -82,7 +82,7 @@
                       Albums
                     </ion-item>
                   </ion-menu-toggle>
-                  <ion-menu-toggle autoHide="false">
+                  <ion-menu-toggle [autoHide]="false">
                     <ion-item
                       routerLink="/library/songs"
                       routerDirection="root"

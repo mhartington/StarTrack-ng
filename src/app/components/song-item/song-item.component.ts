@@ -5,7 +5,18 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { IonicModule, PopoverController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonIcon,
+  IonLabel,
+  IonNote,
+  IonSkeletonText,
+  IonText,
+  PopoverController,
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { ellipsisHorizontal } from 'ionicons/icons';
 import { Song } from 'src/@types/song';
 import { MsToMinsPipe } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-menu.component';
@@ -16,7 +27,17 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
   styleUrls: ['./song-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, IonicModule, MsToMinsPipe],
+  imports: [
+    CommonModule,
+    MsToMinsPipe,
+    IonButton,
+    IonButtons,
+    IonLabel,
+    IonSkeletonText,
+    IonIcon,
+    IonNote,
+    IonText,
+  ],
 })
 export class SongItemComponent {
   @Input() song: Song;
@@ -24,13 +45,16 @@ export class SongItemComponent {
   @Input() color: string;
 
   private popoverCtrl = inject(PopoverController);
-
+  ngOnInit() {
+    addIcons({
+      ellipsisHorizontal,
+    });
+  }
   async showMore(e: any) {
-    
     e.stopPropagation();
     const popover = await this.popoverCtrl.create({
       component: SongContextMenuComponent,
-      componentProps: { song: this.song, },
+      componentProps: { song: this.song },
       event: e,
     });
     await popover.present();

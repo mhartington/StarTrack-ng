@@ -6,7 +6,8 @@
   &:hover {
     cursor: pointer;
   }
-  &:focus-visible {
+  &:focus-visible,
+  &:focus {
     outline: thin solid var(--ion-color-primary);
   }
 }

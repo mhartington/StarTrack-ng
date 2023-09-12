@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
@@ -9,6 +8,19 @@ import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-art
 import { PlayerService } from '../../../providers/player/player.service2';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { Album } from 'src/@types/album';
+import {
+  IonHeader,
+  IonToolbar,
+  IonContent,
+  IonBackButton,
+  IonList,
+  IonThumbnail,
+  IonSkeletonText,
+  IonItem,
+  IonLabel,
+  IonTitle,
+  IonButtons,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-library-playlist',
@@ -18,12 +30,22 @@ import { Album } from 'src/@types/album';
 
   imports: [
     CommonModule,
-    IonicModule,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
     RouterModule,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonBackButton,
+    IonList,
+    IonThumbnail,
+    IonSkeletonText,
+    IonItem,
+    IonLabel,
+    IonTitle,
+    IonButtons,
   ],
 })
 export class PlaylistPage {
@@ -34,7 +56,7 @@ export class PlaylistPage {
   public hasError = signal(false);
   public collection = signal<Partial<Album>>(null);
   public collectionTracks = signal<Partial<Album>>(null);
-  public playlistTracks = signal(null)
+  public playlistTracks = signal(null);
 
   public canShare = !!('share' in navigator);
 
@@ -42,11 +64,11 @@ export class PlaylistPage {
     const id = this.route.snapshot.params.id;
     const [playlistInfo, playlistTracks] = await Promise.all([
       await this.api.fetchLibraryPlaylist(id),
-      await this.api.fetchLibraryPlaylistTracks(id)
-    ])
+      await this.api.fetchLibraryPlaylistTracks(id),
+    ]);
 
     this.collection.set(playlistInfo);
-    this.playlistTracks.set(playlistTracks)
+    this.playlistTracks.set(playlistTracks);
   }
 
   playSong(index: number, shuffle = false) {

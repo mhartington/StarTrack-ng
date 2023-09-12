@@ -5,29 +5,31 @@
 <div class="track-wrapper" #wrapper>
   <div class="track-player">
     <div class="song-info">
-      <ion-thumbnail
-        [ngClass]="{
-          paused:
-            player.playbackState() === playbackStates.PAUSED ||
-            player.playbackState() === playbackStates.NONE ||
-            player.playbackState() === playbackStates.STOPPED
-        }"
-      >
-        <now-playing-artwork
-          [src]="
-            player.nowPlaying()?.attributes?.artwork?.url ??
-              'assets/imgs/default.svg' | formatArtworkUrl : 500
-          "
+      <!-- <div class="thumbnail-wrapper"> -->
+        <ion-thumbnail
           [ngClass]="{
             paused:
               player.playbackState() === playbackStates.PAUSED ||
               player.playbackState() === playbackStates.NONE ||
               player.playbackState() === playbackStates.STOPPED
           }"
-          alt="The album art work cover"
-        ></now-playing-artwork>
-      </ion-thumbnail>
-
+        >
+          <now-playing-artwork
+            [src]="
+              player.nowPlaying()?.attributes?.artwork?.url ??
+                'assets/imgs/default.svg' | formatArtworkUrl : 500
+            "
+            [ngClass]="{
+              paused:
+                player.playbackState() === playbackStates.PAUSED ||
+                player.playbackState() === playbackStates.NONE ||
+                player.playbackState() === playbackStates.STOPPED
+            }"
+            alt="The album art work cover"
+          ></now-playing-artwork>
+        </ion-thumbnail>
+      <!-- </div> -->
+      <!---->
       <ion-label>
         <h3>
           <ion-text color="white">{{
@@ -108,7 +110,6 @@
         >
           <ion-icon name="shuffle" slot="icon-only"></ion-icon>
         </ion-button>
-
         <ion-button
           shape="round"
           color="white"
@@ -124,26 +125,22 @@
           fill="clear"
           (click)="togglePlay($event)"
         >
-          <ion-spinner
-            color="white"
-            *ngIf="
-              player.playbackState() === playbackStates.LOADING ||
-                player.playbackState() === playbackStates.ENDED ||
-                player.playbackState() === playbackStates.WAITING ||
-                player.playbackState() === playbackStates.STALLED;
-              else buttonTemplate
-            "
-          ></ion-spinner>
-          <ng-template #buttonTemplate>
-            <ion-icon
-              [name]="
-                player.playbackState() === playbackStates.PLAYING
-                  ? 'pause'
-                  : 'play'
-              "
-              slot="icon-only"
-            ></ion-icon>
-          </ng-template>
+          <!-- <ion-spinner -->
+          <!--   color="white" -->
+          <!--   *ngIf=" -->
+          <!--     player.playbackState() === playbackStates.LOADING || -->
+          <!--       player.playbackState() === playbackStates.ENDED || -->
+          <!--       player.playbackState() === playbackStates.WAITING || -->
+          <!--       player.playbackState() === playbackStates.STALLED; -->
+          <!--     else buttonTemplate -->
+          <!--   " -->
+          <!-- ></ion-spinner> -->
+          <!-- <ng-template #buttonTemplate> -->
+            <!-- <ion-icon [name]="player.playbackState() === playbackStates.PLAYING ? 'pause' : 'play' " slot="icon-only" ></ion-icon> -->
+            <ion-icon *ngIf="player.playbackState() === playbackStates.PLAYING" name="pause" slot="icon-only" ></ion-icon>
+            <ion-icon *ngIf="player.playbackState() !== playbackStates.PLAYING"  name="play" slot="icon-only" ></ion-icon>
+            <!-- <ion-icon [name]=" player.playbackState() === playbackStates.PLAYING ? 'pause' : 'play' " slot="icon-only" ></ion-icon> -->
+          <!-- </ng-template> -->
         </ion-button>
         <ion-button
           shape="round"
@@ -156,7 +153,6 @@
           <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
           <!-- <ion-icon name="play" slot="icon-only"></ion-icon> -->
         </ion-button>
-
         <ion-button
           class="repeat-button"
           color="white"
@@ -179,8 +175,8 @@
         (ionInput)="setVol($event)"
         [value]="player.volume()"
       >
-        <ion-icon slot="start" name="volume-off"></ion-icon>
-        <ion-icon slot="end" name="volume-high"></ion-icon>
+        <ion-icon color="white" slot="start" name="volume-off"></ion-icon>
+        <ion-icon color="white" slot="end" name="volume-high"></ion-icon>
       </ion-range>
     </div>
   </div>

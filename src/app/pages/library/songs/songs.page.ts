@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
 import { Song } from 'src/@types/song';
 import { parseNext } from 'src/app/util';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
@@ -11,6 +10,20 @@ import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-art
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../../providers/player/player.service2';
 
+import {
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonInfiniteScroll,
+  IonMenuButton,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+  IonInfiniteScrollContent,
+  IonThumbnail,
+} from '@ionic/angular/standalone';
 @Component({
   selector: 'app-songs',
   templateUrl: './songs.page.html',
@@ -20,10 +33,18 @@ import { PlayerService } from '../../../providers/player/player.service2';
     RouterModule,
     CommonModule,
     FormsModule,
-    IonicModule,
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
+    IonThumbnail,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonInfiniteScroll,
+    IonMenuButton,
+    IonTitle,
+    IonToolbar,
+    IonInfiniteScrollContent,
   ],
 })
 export class SongsPage {

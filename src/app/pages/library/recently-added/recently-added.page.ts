@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
 import { AlbumPreviewItemsComponent } from 'src/app/components/album-preview-items/album-preview-items.component';
 import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { Album } from 'src/@types/album';
 import { parseNext } from 'src/app/util';
+import { IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInfiniteScroll, IonMenuButton, IonRow, IonTitle, IonToolbar, IonInfiniteScrollContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-recently-added',
@@ -16,11 +16,11 @@ import { parseNext } from 'src/app/util';
   standalone: true,
   imports: [
     CommonModule,
-    IonicModule,
     RouterModule,
     AlbumPreviewItemsComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
+    IonInfiniteScroll, IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonContent, IonGrid, IonRow, IonCol,IonInfiniteScrollContent
   ],
 })
 export class RecentlyAddedPage {

@@ -1,11 +1,27 @@
-import { Component, HostListener, inject } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
-import { PlaybackStates, PlayerService, } from '../../providers/player/player.service2';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
+import {
+  PlaybackStates,
+  PlayerService,
+} from '../../providers/player/player.service2';
 import { PlayerModalComponent } from '../player-modal/player-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { FormsModule } from '@angular/forms';
+import {
+  IonButton,
+  IonButtons,
+  IonFooter,
+  IonIcon,
+  IonLabel,
+  IonNote,
+  IonRange,
+  IonSpinner,
+  IonThumbnail,
+  ModalController,
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { playForward, play, pause, playBack } from 'ionicons/icons';
 
 @Component({
   selector: 'track-player',
@@ -16,15 +32,23 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    IonicModule,
     CommonModule,
     PlayerModalComponent,
+    IonFooter,
+    IonThumbnail,
+    IonLabel,
+    IonNote,
+    IonRange,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonSpinner,
   ],
 })
 export class TrackPlayerComponent {
   public player = inject(PlayerService);
   private modalCtrl = inject(ModalController);
-
+  private el = inject<ElementRef<HTMLElement>>(ElementRef);
   public isModalOpen = false;
 
   public playbackStates = PlaybackStates;
@@ -33,6 +57,9 @@ export class TrackPlayerComponent {
   private isScrubbing = false;
   private _playbackTime: any;
 
+  ngOnInit() {
+    addIcons({ playForward, play, pause, playBack });
+  }
   @HostListener('click')
   async toggle() {
     if (!this.playerModal && !this.clickBlock) {
@@ -46,6 +73,7 @@ export class TrackPlayerComponent {
       component: this.playerModal,
       canDismiss: true,
       cssClass: 'full-modal',
+      // presentingElement: this.el.nativeElement.closest('ion-split-pane'),
     });
     await modalInstance.present();
     this.clickBlock = false;
@@ -58,7 +86,9 @@ export class TrackPlayerComponent {
   }
 
   get playbackTime() {
-    if (this.isScrubbing) { return this._playbackTime; }
+    if (this.isScrubbing) {
+      return this._playbackTime;
+    }
     return this.player.playbackTime();
   }
   set playbackTime(val: number) {

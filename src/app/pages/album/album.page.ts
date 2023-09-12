@@ -1,15 +1,31 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Album } from '../../../@types/album';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonMenuButton,
+  IonThumbnail,
+  IonTitle,
+  IonToolbar,
+  IonBackButton,
+  IonIcon,
+  IonList,
+  IonRouterOutlet,
+} from '@ionic/angular/standalone';
 import { ErrorComponent } from '../../components/error/error.component';
 import { PreviewHeaderComponent } from '../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+
+import { share, add } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-album',
@@ -17,14 +33,25 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
   styleUrls: ['./album.page.scss'],
   standalone: true,
   imports: [
+    RouterModule,
     CommonModule,
-    IonicModule,
     ErrorComponent,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    RouterModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonMenuButton,
+    IonThumbnail,
+    IonBackButton,
+    IonButton,
+    IonContent,
+    IonIcon,
+    IonList,
+    IonRouterOutlet,
   ],
 })
 export class AlbumPage {
@@ -37,7 +64,9 @@ export class AlbumPage {
   public collection = signal<Partial<Album>>(null);
 
   public canShare = !!('share' in navigator);
-
+  ngOnInit(){
+    addIcons({ share, add });
+  }
   async ionViewDidEnter() {
     const id = this.route.snapshot.params.id;
     const data = await this.api.fetchAlbum(id);
@@ -59,7 +88,9 @@ export class AlbumPage {
       (navigator as any)
         .share({
           title: 'Star Track',
-          text: `Check out "${this.collection().attributes.name}" by ${this.collection().attributes.artistName}. Via Star Track.`,
+          text: `Check out "${this.collection().attributes.name}" by ${
+            this.collection().attributes.artistName
+          }. Via Star Track.`,
           url: `${globalThis.location.origin}/album/${this.collection().id}`,
         })
         .then(

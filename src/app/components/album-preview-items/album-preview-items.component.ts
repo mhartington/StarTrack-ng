@@ -1,6 +1,11 @@
 import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonCard,
+  IonLabel,
+  IonNote,
+  IonSkeletonText,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: '[album-preview-item]',
@@ -8,7 +13,7 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./album-preview-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, IonicModule],
+  imports: [NgIf, IonCard, IonLabel, IonNote, IonSkeletonText],
 })
 export class AlbumPreviewItemsComponent {
   @Input() album: any;

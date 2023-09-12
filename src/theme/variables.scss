@@ -99,14 +99,18 @@
   --ion-color-white-shade: #e0e0e0;
   --ion-color-white-tint: #ffffff;
 }
-
+html {
+  view-transition-name: none;
+}
 ion-content {
   --padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
 }
 ion-content::part(scroll) {
   // bottom: calc(var(--ion-safe-area-bottom) + 58px);
   // padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
-  padding-bottom: calc(var(--padding-bottom) + var(--keyboard-offset) + var(--offset-bottom) + 58px);
+  padding-bottom: calc(
+    var(--padding-bottom) + var(--keyboard-offset) + var(--offset-bottom) + 58px
+  );
 }
 .md {
   --ion-toolbar-height: 56px;
@@ -184,12 +188,12 @@ ion-content::part(scroll) {
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
 
-  --ion-color-white: #ffffff82;
-  --ion-color-white-rgb: 255, 255, 255;
-  --ion-color-white-contrast: #000000;
-  --ion-color-white-contrast-rgb: 0, 0, 0;
-  --ion-color-white-shade: #e0e0e0;
-  --ion-color-white-tint: #ffffff;
+    --ion-color-white: #ffffff82;
+    --ion-color-white-rgb: 255, 255, 255;
+    --ion-color-white-contrast: #000000;
+    --ion-color-white-contrast-rgb: 0, 0, 0;
+    --ion-color-white-shade: #e0e0e0;
+    --ion-color-white-tint: #ffffff;
 
     ion-item {
       // --transition: none;
@@ -262,11 +266,7 @@ ion-content::part(scroll) {
 
     // --ion-item-background: #1a1b1e;
   }
-
 }
-
-
-
 .ion-color-white {
   --ion-color-base: var(--ion-color-white);
   --ion-color-base-rgb: var(--ion-color-white-rgb);
@@ -293,9 +293,6 @@ ion-range::part(knob) {
   }
 
   ion-range {
-
-
-
     --bar-height: 10px;
     --bar-border-radius: 8px;
     --bar-background: #ffffff63;
@@ -311,7 +308,6 @@ ion-range::part(knob) {
 
     transition: background, transform 250ms ease-in-out;
     opacity: var(--opacity);
-
 
     &::part(bar-active) {
       transform: var(--transform-value);
@@ -342,13 +338,11 @@ ion-range::part(knob) {
         }
       }
     }
-  
   }
-  ion-range:focus-within{
-      --transform-value: scale3d(1, 2, 1);
-      --opacity: 1;
-    }
-
+  ion-range:focus-within {
+    --transform-value: scale3d(1, 2, 1);
+    --opacity: 1;
+  }
 }
 html.ios ion-modal .ion-page {
   border-radius: 0 !important;
@@ -369,9 +363,9 @@ ion-split-pane {
   overflow: hidden;
 }
 
-.split-pane-md.split-pane-visible > .split-pane-side {
+.split-pane-md.split-pane-visible:not(.plt-desktop) > .split-pane-side {
   max-width: 300px;
-  border-right: none;
+  // border-right: none;
   ion-content {
     border-right: 1px solid
       var(
@@ -435,8 +429,7 @@ ion-accordion {
   }
 }
 
-
-.loader-play-next{
+.loader-play-next {
   --width: 150px;
   --max-width: 150px;
   --min-width: auto;
@@ -446,4 +439,67 @@ song-item {
     margin-inline-end: 15px;
     clip-path: inset(0 round 6px);
   }
+}
+
+@keyframes scale {
+  from {
+    transform: scale3d(0.6, 0.6, 0.6);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slide {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+::view-transition-group(*) {
+  animation-timing-function: linear;
+  mix-blend-mode: normal;
+}
+::view-transition-group(thumbnail) {
+  --thumbnail-transition-duration: 0;
+  --thumbnail-transition-property: unset;
+  --thumbnail-transition-timing-function: unset;
+  --thumbnail-shadow-opacity: 0;
+  transform-origin: top left;
+}
+::view-transition-new(thumbnail),
+::view-transition-old(thumbnail) {
+  --thumbnail-transition-duration: 0;
+  mix-blend-mode: normal;
+}
+@media (orientation: landscape) {
+  ::view-transition-old(queue):only-child {
+    animation: scale 250ms ease reverse, fade 250ms ease reverse;
+  }
+  ::view-transition-new(queue):only-child {
+    opacity: 0;
+    transform: scale3d(0.6, 0.6, 0.6);
+    animation: scale 250ms ease-out, fade 250ms ease-out;
+  }
+}
+@media (orientation: portrait) {
+  ::view-transition-old(queue):only-child {
+    animation: slide 250ms ease-out reverse, fade 250ms ease-out reverse;
+  }
+  ::view-transition-new(queue):only-child {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    animation: slide 250ms ease-out, fade 250ms ease-out;
+    animation-delay: 50ms;
+  }
+
 }

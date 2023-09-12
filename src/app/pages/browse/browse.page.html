@@ -17,7 +17,7 @@
     <ng-container *ngIf="state().collection as chart">
       <ion-list >
         <ion-list-header>
-          <h1>Top Albums</h1>
+          <h2>Top Albums</h2>
         </ion-list-header>
         <div class="album-grid">
           <a album-preview-item
@@ -37,7 +37,7 @@
 
       <ion-list>
         <ion-list-header>
-          <h1>Top Playlists</h1>
+          <h2>Top Playlists</h2>
         </ion-list-header>
         <div class="album-grid">
           <a album-preview-item
@@ -57,7 +57,7 @@
 
       <ion-list>
         <ion-list-header>
-          <h1>Top Songs</h1>
+          <h2>Top Songs</h2>
         </ion-list-header>
         <div class="song-grid">
           <song-item
@@ -78,14 +78,14 @@
     </ng-container>
 
     <ng-container *ngIf="state().hasError">
-      <h1>Error</h1>
+      <h2>Error</h2>
       <error-emoji class="ion-padding ion-text-center"></error-emoji>
     </ng-container>
 
     <ng-container *ngIf="state().isLoading">
       <ion-list>
         <ion-list-header>
-          <h1>Top Albums</h1>
+          <h2>Top Albums</h2>
         </ion-list-header>
         <div class="album-grid">
           <a album-preview-item *ngFor="let album of [].constructor(20)">
@@ -95,7 +95,7 @@
       </ion-list>
       <ion-list>
         <ion-list-header>
-          <h1>Top Playlists</h1>
+          <h2>Top Playlists</h2>
         </ion-list-header>
         <div class="album-grid">
           <a album-preview-item *ngFor="let album of [].constructor(20)">
@@ -105,7 +105,7 @@
       </ion-list>
       <ion-list>
         <ion-list-header>
-          <h1>Top Songs</h1>
+          <h2>Top Songs</h2>
         </ion-list-header>
         <div class="song-grid">
           <song-item *ngFor="let song of [].constructor(20)">

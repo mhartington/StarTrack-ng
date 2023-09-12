@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { IonicModule, PopoverController } from '@ionic/angular';
+import { IonItem, IonList, PopoverController } from '@ionic/angular/standalone';
 import { Song } from 'src/@types/song';
 import { MusickitService } from 'src/app/providers/musickit-service/musickit-service.service';
 import { PlayerService } from 'src/app/providers/player/player.service2';
@@ -22,7 +22,7 @@ import { PlayerService } from 'src/app/providers/player/player.service2';
     </ion-list>
   `,
   standalone: true,
-  imports: [IonicModule, NgIf],
+  imports: [IonList, IonItem, NgIf],
 })
 export class SongContextMenuComponent {
   @Input() song: Song;

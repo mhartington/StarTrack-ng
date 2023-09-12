@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { IonicModule, IonInfiniteScroll } from '@ionic/angular';
 import { AlbumPreviewItemsComponent } from '../../../components/album-preview-items/album-preview-items.component';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { Album } from 'src/@types/album';
 import { parseNext } from 'src/app/util';
+import { IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInfiniteScroll, IonInfiniteScrollContent, IonMenuButton, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-library-albums',
@@ -19,10 +19,10 @@ import { parseNext } from 'src/app/util';
     CommonModule,
     RouterModule,
     FormsModule,
-    IonicModule,
     AlbumPreviewItemsComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
+    IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonContent, IonGrid, IonRow, IonCol, IonInfiniteScrollContent, IonInfiniteScroll
   ],
 })
 export class AlbumsPage {

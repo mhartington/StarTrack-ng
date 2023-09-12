@@ -22,7 +22,7 @@ import {
         justify-content: center;
         align-content: center;
         filter: blur(180px) brightness(70%) saturate(1.9);
-        animation: rotate 1500s infinite ease;
+        animation: rotate 150s infinite ease;
       }
       @keyframes rotate {
         from { transform: rotate(0deg); }

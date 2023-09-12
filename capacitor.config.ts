@@ -5,9 +5,12 @@ const config: CapacitorConfig = {
   appName: 'Star Track',
   webDir: 'dist/browser',
   backgroundColor: '#000000FF',
+  server: {
+    allowNavigation: ['*.apple.com'],
+  },
   plugins: {
-    LocalNotifications: { },
-    Keyboard: { resize: 'none', style: 'dark', },
+    LocalNotifications: {},
+    Keyboard: { resize: 'none', style: 'dark' },
   },
 };
 

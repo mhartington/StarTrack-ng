@@ -39,6 +39,15 @@ export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
 ): Promise<void> => {
+  if ((document as any)?.startViewTransition) {
+    (document as any).startViewTransition(() => {
+      targetEl.classList.toggle('animation-start');
+      targetEl.classList.toggle('queue-active');
+      setTimeout(() => {
+        targetEl.classList.toggle('animation-start');
+      }, 250);
+    });
+  } else {
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
@@ -48,6 +57,13 @@ export const createQueueAnimation = async (
 
   targetEl.classList.add(ANIMATION_START);
 
+  let thumbnailStarting: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    y?: number;
+  };
   let playerQueueStarting: {
     top: number;
     left: number;
@@ -67,7 +83,6 @@ export const createQueueAnimation = async (
     width: number;
     height: number;
   };
-
   if (!isPortait) {
     /// Player
     const nowPlaying = targetEl.querySelector('.song-info');
@@ -102,7 +117,7 @@ export const createQueueAnimation = async (
         left: controlsRecPre.left,
         width: controlsRecPre.width,
         height: controlsRecPre.height,
-      }
+      };
     } else {
       playerQueueStarting = {
         top: playerQueueRecPre.top,
@@ -121,7 +136,7 @@ export const createQueueAnimation = async (
         left: controlsRecPre.left,
         width: controlsRecPre.width,
         height: controlsRecPre.height,
-      }
+      };
     }
 
     const playerQueueDeltaW = getQueueVectors(
@@ -180,10 +195,15 @@ export const createQueueAnimation = async (
         `translate3d(0px, 0, 0)`,
         `translate3d(${playerDeltaX}px, 0,0)`
       )
-      .afterClearStyles(['transform-origin', 'position', 'left', 'width', 'height', 'top']);
+      .afterClearStyles([
+        'transform-origin',
+        'position',
+        'left',
+        'width',
+        'height',
+        'top',
+      ]);
     animationChain.push(nowPlayingAnimation);
-
-
 
     const controlsAnimation = createAnimation()
       .addElement(controls)
@@ -200,26 +220,35 @@ export const createQueueAnimation = async (
         `translate3d(0px, 0, 0)`,
         `translate3d(${playerDeltaX}px, 0,0)`
       )
-      .afterClearStyles(['transform-origin', 'position', 'left', 'width', 'height', 'top']);
+      .afterClearStyles([
+        'transform-origin',
+        'position',
+        'left',
+        'width',
+        'height',
+        'top',
+      ]);
     animationChain.push(controlsAnimation);
   }
-
   if (isPortait) {
-    const thumbnailEl = targetEl.querySelector('ion-thumbnail');
+    const thumbnailEl = targetEl.querySelector('now-playing-artwork');
     const labelEl = targetEl.querySelector('ion-label');
-    const playerQueueEl = targetEl.querySelector( 'queue-list') as HTMLElement;
+    const playerQueueEl = targetEl.querySelector('queue-list') as HTMLElement;
+    const musicControls = targetEl.querySelector(
+      '.controls-wrapper'
+    ) as HTMLElement;
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);
     const playerQueueRecPre = getOffset(playerQueueEl);
-  
+    const musicControlsRecPre = getOffset(musicControls);
 
     targetEl.classList.toggle('queue-active');
 
     const thumbnailRecPost = getRec(thumbnailEl);
     const labelRecPost = getRec(labelEl);
     const playerQueueRecPost = getOffset(playerQueueEl);
-
+    const musicControlsPostPre = getOffset(musicControls);
 
     if (isOpening) {
       playerQueueStarting = {
@@ -239,31 +268,60 @@ export const createQueueAnimation = async (
       };
     }
 
-
+    thumbnailStarting = {
+      top: thumbnailRecPre.top,
+      left: thumbnailRecPre.left,
+      width: thumbnailRecPre.width,
+      height: thumbnailRecPre.height,
+      y: 0,
+    };
     const thumbnailDelta = {
       x: thumbnailRecPre.left - thumbnailRecPost.left,
       y: thumbnailRecPre.top - thumbnailRecPost.top,
-      w: thumbnailRecPre.width / thumbnailRecPost.width,
-      h: thumbnailRecPre.height / thumbnailRecPost.height,
+      w: thumbnailRecPost.width / thumbnailRecPre.width,
+      h: thumbnailRecPost.height / thumbnailRecPre.height,
     };
-
+    const thumbnailDelta2 = {
+      x:  thumbnailRecPost.left - thumbnailRecPre.left,
+      y: thumbnailRecPost.top - thumbnailRecPre.top ,
+      w: thumbnailRecPost.width / thumbnailStarting.width ,
+      h: thumbnailRecPost.height / thumbnailStarting.height ,
+    };
     const thumbnailAnimation = createAnimation()
       .addElement(thumbnailEl)
-      .beforeStyles({ 'transform-origin': 'top left', })
-      .from(
+      .easing('linear')
+      .beforeStyles({
+        transform: 'scale3d(1,1,1)',
+        position: 'absolute',
+        top: `${thumbnailStarting.top}px`,
+        left: `${thumbnailStarting.left}px`,
+        width: `${thumbnailStarting.width}px`,
+        height: `${thumbnailStarting.height}px`,
+        'transform-origin': 'top left',
+        overflow: 'initial',
+      })
+      .fromTo('opacity', 1, 1)
+      .to(
         'transform',
-        `translate3d(${thumbnailDelta.x}px, ${thumbnailDelta.y}px, 0) scale3d(${thumbnailDelta.w}, ${thumbnailDelta.h}, ${thumbnailDelta.w})`
+        `translate3d(${thumbnailDelta2.x}px, ${thumbnailDelta2.y}px, 0) scale3d(${thumbnailDelta2.w}, ${thumbnailDelta2.h}, ${thumbnailDelta2.w})`
       )
-      .afterClearStyles(['transform-origin']);
+      .afterClearStyles([
+        'transform-origin',
+        'overflow',
+        'position',
+        'left',
+        'top',
+        'width',
+        'height',
+        'transform'
+      ]);
     animationChain.push(thumbnailAnimation);
-
 
     // Label
     const labelDelta = {
       x: labelRecPre.left - labelRecPost.left,
       y: labelRecPre.top - labelRecPost.top,
     };
-
     const labelAnimation = createAnimation()
       .addElement(labelEl)
       .from('transform', `translate3d(${0}px, ${labelDelta.y}px, ${0})`)
@@ -312,8 +370,20 @@ export const createQueueAnimation = async (
         'transform-origin',
         'opacity',
       ]);
-
     animationChain.push(playerQueueAnimation);
+
+    const musicControlsAnimation = createAnimation()
+      .addElement(musicControls)
+      .beforeStyles({
+        position: 'absolute',
+        top: `${musicControlsRecPre.top}px`,
+        left: `${musicControlsRecPre.left}px`,
+        width: `${musicControlsRecPre.width}px`,
+        height: `${musicControlsRecPre.height}px`,
+      })
+      .fromTo('opacity', '1', '1')
+      .afterClearStyles(['position', 'top', 'left', 'width', 'height']);
+    animationChain.push(musicControlsAnimation);
   }
 
   baseAnimation
@@ -321,4 +391,5 @@ export const createQueueAnimation = async (
     .addAnimation(animationChain)
     .afterRemoveClass(ANIMATION_START)
     .play();
+  }
 };

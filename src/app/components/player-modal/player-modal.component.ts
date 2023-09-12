@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
 import {
   MsToMinsPipe,
   SecondsToMins,
@@ -26,6 +25,33 @@ import { SvgBarsComponent } from '../svg-bars/svg-bars.component';
 import { createQueueAnimation } from './player-modal.animation';
 import { QueueListComponent } from '../queue-list/queue-list.component';
 import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-from-img.directive';
+import {
+  IonBadge,
+  IonButton,
+  IonButtons,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRange,
+  IonSpinner,
+  IonText,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular/standalone';
+
+import { addIcons } from 'ionicons';
+import {
+  playForward,
+  play,
+  pause,
+  playBack,
+  volumeOff,
+  volumeHigh,
+  list,
+  repeat,
+  shuffle,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-player-modal',
@@ -34,7 +60,6 @@ import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-f
   standalone: true,
   imports: [
     CommonModule,
-    IonicModule,
     SongItemComponent,
     FormsModule,
     SvgBarsComponent,
@@ -46,6 +71,17 @@ import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-f
     SecondsToMins,
     QueueListComponent,
     ColorFromImgDirective,
+    IonHeader,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonBadge,
+    IonRange,
+    IonLabel,
+    IonSpinner,
+    IonFooter,
+    IonToolbar,
+    IonText,
   ],
 })
 export class PlayerModalComponent implements OnInit {
@@ -64,7 +100,19 @@ export class PlayerModalComponent implements OnInit {
 
   public showQueue = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    addIcons({
+      list,
+      play,
+      pause,
+      playBack,
+      playForward,
+      volumeHigh,
+      shuffle,
+      volumeOff,
+      repeat,
+    });
+  }
   async dismiss() {
     await this.modalCtrl.dismiss();
   }

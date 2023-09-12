@@ -2,7 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonItemGroup,
+  IonMenuButton,
+  IonSearchbar,
+  IonSegment,
+  IonSegmentButton,
+  IonSpinner,
+  IonThumbnail,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 import { EMPTY, Subscription } from 'rxjs';
 import {
   catchError,
@@ -26,13 +39,24 @@ import { PlayerService } from '../../providers/player/player.service2';
   standalone: true,
   imports: [
     CommonModule,
-    IonicModule,
     SongItemComponent,
     FormatArtworkUrlPipe,
     LazyImgComponent,
     ErrorComponent,
     ReactiveFormsModule,
     RouterModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonSearchbar,
+    IonSpinner,
+    IonSegment,
+    IonSegmentButton,
+    IonButtons,
+    IonMenuButton,
+    IonContent,
+    IonItemGroup,
+    IonThumbnail,
   ],
 })
 export class SearchPage implements OnDestroy {
@@ -88,6 +112,6 @@ export class SearchPage implements OnDestroy {
     this.router.navigate([]);
   }
   ngOnDestroy() {
-    this.search$.unsubscribe();
+    // this.search$.unsubscribe();
   }
 }

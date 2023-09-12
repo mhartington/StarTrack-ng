@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonSkeletonText, IonThumbnail, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Album } from 'src/@types/album';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
@@ -18,12 +18,12 @@ import { PlayerService } from '../../../providers/player/player.service2';
 
   imports: [
     CommonModule,
-    IonicModule,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
     RouterModule,
+    IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonBackButton, IonContent, IonList, IonThumbnail, IonItem, IonLabel, IonSkeletonText
   ],
 })
 export class AlbumPage {

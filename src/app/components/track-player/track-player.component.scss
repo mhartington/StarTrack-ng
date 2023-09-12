@@ -1,16 +1,29 @@
 :host {
+  display: block;
+  height: auto;
+  position: absolute;
+  bottom: calc(var(--ion-safe-area-bottom) + 16px);
+  left: 0;
+  right: 0;
+  margin: 0 16px;
+
   ion-footer.mh-footer {
-    position: absolute;
-    bottom: 0;
-    .footer-background {
-      z-index: -1 !important;
-    }
-  }
-  .track-wrapper {
+    position: initial;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+      0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+
     background-color: rgba(
       var(--ion-background-color-rgb),
       var(--platform-opacity)
     );
+    .footer-background {
+      // z-index: -1 !important;
+    }
+  }
+  .track-wrapper {
+    backdrop-filter: saturate(180%) blur(20px);
   }
   .player-queue {
     display: none;
@@ -19,10 +32,10 @@
     border-top-width: 0.55px;
     border-top-color: rgba(var(--ion-background-color-rgb), 0.2);
     border-top-style: solid;
-    min-height: calc(var(--ion-safe-area-bottom) + 58px);
-    padding: 4px calc(16px + var(--ion-safe-area-left));
+    min-height: 58px;
+    padding: 4px 8px;
     color: #444;
-    padding-bottom: var(--ion-safe-area-bottom);
+    // padding-bottom: var(--ion-safe-area-bottom);
     justify-content: space-between;
     display: grid;
     grid-template-columns: minmax(200px, 30%) minmax(auto, 400px) minmax(
@@ -53,7 +66,7 @@
     padding-bottom: 0;
 
     .range-knob-handle {
-        transition: left 0.01s ease-in;
+      transition: left 0.01s ease-in;
     }
   }
   .song-actions {
