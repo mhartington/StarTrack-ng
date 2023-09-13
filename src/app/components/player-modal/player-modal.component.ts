@@ -1,28 +1,15 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MsToMinsPipe,
-  SecondsToMins,
-} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+import { StatusBar, Style} from '@capacitor/status-bar'
+
+import { MsToMinsPipe, SecondsToMins, } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
-import {
-  PlaybackStates,
-  PlayerService,
-  RepeatMode,
-} from '../../providers/player/player.service2';
+import { PlaybackStates, PlayerService, RepeatMode, } from '../../providers/player/player.service2';
 import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
 import { SongItemComponent } from '../song-item/song-item.component';
-import { SvgBarsComponent } from '../svg-bars/svg-bars.component';
-import { createQueueAnimation } from './player-modal.animation';
 import { QueueListComponent } from '../queue-list/queue-list.component';
 import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-from-img.directive';
 import {
@@ -50,7 +37,7 @@ import {
   volumeHigh,
   list,
   repeat,
-  shuffle,
+  shuffle
 } from 'ionicons/icons';
 
 @Component({
@@ -62,7 +49,6 @@ import {
     CommonModule,
     SongItemComponent,
     FormsModule,
-    SvgBarsComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
     NowPlayingArtworkComponent,
@@ -84,7 +70,7 @@ import {
     IonText,
   ],
 })
-export class PlayerModalComponent implements OnInit {
+export class PlayerModalComponent {
   @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
 
   private modalCtrl = inject(ModalController);
@@ -100,7 +86,7 @@ export class PlayerModalComponent implements OnInit {
 
   public showQueue = false;
 
-  ngOnInit() {
+  constructor() {
     addIcons({
       list,
       play,
@@ -143,7 +129,6 @@ export class PlayerModalComponent implements OnInit {
     await this.player.togglePlay();
   }
   playAtIndex(e: any) {
-    console.log(e.$event);
     this.stopProp(e.$event);
     const parent: HTMLElement = e.$event.target.closest('.queue-scroller');
     parent.scrollTo({ top: 0, behavior: 'smooth' });
@@ -163,7 +148,9 @@ export class PlayerModalComponent implements OnInit {
   }
   async toggleQueue() {
     this.showQueue = !this.showQueue;
-    await createQueueAnimation(this.wrapper.nativeElement, this.showQueue);
+    await import('./player-modal.animation').then((m) =>
+      m.createQueueAnimation(this.wrapper.nativeElement, this.showQueue)
+    );
   }
   toggleShuffle(shuffleMode: boolean) {
     this.player.toggleShuffle(!shuffleMode);
@@ -174,5 +161,13 @@ export class PlayerModalComponent implements OnInit {
 
   setVol(e: any) {
     this.player.volume.set(e.detail.value);
+  }
+  ionViewWillEnter(){
+    console.log('enter')
+    StatusBar.setStyle({style: Style.Dark})
+  }
+  ionViewWillLeave(){
+    StatusBar.setStyle({style: Style.Default})
+    console.log('gone')
   }
 }

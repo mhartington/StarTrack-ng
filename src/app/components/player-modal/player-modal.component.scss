@@ -50,8 +50,6 @@ ion-footer {
 
   .song-info {
     overflow: hidden;
-    // border: thin solid white;
-    // background: blue;
     transform-origin: center center;
     width: 100%;
     grid-area: now-playing;
@@ -90,7 +88,6 @@ ion-footer {
     }
 
     ion-label {
-      // background: purple;
       padding: 16px 0;
       display: block;
       width: 100%;
@@ -156,7 +153,6 @@ ion-footer {
   }
 }
 
-// shared
 ion-badge {
   font-size: 8px;
   position: absolute;
@@ -230,12 +226,8 @@ ion-button.active {
 @media (orientation: portrait) {
   .track-wrapper {
     .song-info {
-      now-playing-artwork {
-        view-transition-name: thumbnail;
-      }
-      ion-label {
-        view-transition-name: label;
-      }
+      now-playing-artwork { view-transition-name: thumbnail; }
+      ion-label { view-transition-name: label; }
     }
   }
   .track-wrapper.animation-start {
@@ -274,12 +266,8 @@ ion-button.active {
       '. now-playing .'
       '. controls .';
 
-    .song-info {
-      view-transition-name: song-info;
-    }
-    .controls-wrapper {
-      view-transition-name: controls;
-    }
+    .song-info { view-transition-name: song-info; }
+    .controls-wrapper { view-transition-name: controls; }
     .song-info,
     .controls-wrapper {
       width: 85%;

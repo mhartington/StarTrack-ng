@@ -64,12 +64,13 @@ export class AlbumPage {
   public collection = signal<Partial<Album>>(null);
 
   public canShare = !!('share' in navigator);
-  ngOnInit(){
+  constructor(){
     addIcons({ share, add });
   }
   async ionViewDidEnter() {
     const id = this.route.snapshot.params.id;
     const data = await this.api.fetchAlbum(id);
+    console.log(data)
     this.collection.set(data);
     this.isLoading.set(false);
   }

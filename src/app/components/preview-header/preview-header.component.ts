@@ -59,7 +59,7 @@ export class PreviewHeaderComponent {
   @ViewChild(IonModal) modal: IonModal;
 
   routerOutlet = inject(IonRouterOutlet).nativeEl;
-  ngOnInit() {
+  constructor() {
     addIcons({ play, shuffle });
   }
   togglePlay(shuffle = false): void {

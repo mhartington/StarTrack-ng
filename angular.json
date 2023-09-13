@@ -10,7 +10,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/browser",
             "index": "src/index.html",
@@ -36,31 +36,10 @@
               }
             ],
             "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": true,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true,
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": true,
-              "extractLicenses": true,
-              "commonChunk": true,
-              "buildOptimizer": true,
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": true
-                },
-                "fonts": true
-              },
-              "serviceWorker": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -69,30 +48,25 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "5kb"
                 }
-              ]
-            }, 
-            "dev": {
-
-              "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": false,
-              "extractLicenses": false,
-              "commonChunk": true,
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
               "buildOptimizer": false,
-              "optimization": {
-                "scripts": false,
-                "styles": {
-                  "minify": false,
-                  "inlineCritical": false
-                },
-                "fonts": false
-              },
-              "serviceWorker": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "ci": {
+              "progress": false
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",

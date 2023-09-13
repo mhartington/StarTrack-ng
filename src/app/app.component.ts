@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import {} from '@ionic/angular/common';
 import { Meta } from '@angular/platform-browser';
 import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
@@ -91,51 +90,51 @@ export class AppComponent implements OnInit {
     });
     const prefersDark = matchMedia('(prefers-color-scheme: dark)');
     this.setMetaTheme();
-    // this.setupListener();
     prefersDark.addEventListener('change', () => this.setMetaTheme());
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
       () => this.isAuthorized.set(this.musicKitInstance.isAuthorized)
     );
+    // this.setupListener();
     // console.log(Capacitor.isNativePlatform)
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
   }
-  overridewindow() {
-    const og = window.open;
-    window.open = (
-      url?: string | URL,
-      target?: string,
-      features?: string
-    ): any => {
-      const formattedURL = new URL(url);
-      console.log('url: ', formattedURL.href);
-      const params = formattedURL.searchParams;
-      params.forEach((param) => console.log('param: ', param));
-
-      let referrer = params.get('referrer');
-      console.log('referrer: ', referrer);
-      if (!referrer.includes('http://startrack-ng.web.app/')) {
-        console.log('referrer should be reset');
-        referrer = 'startrack-ng://app/';
-        console.log('referrer: ', referrer);
-      }
-      params.set('referrer', referrer);
-      let newReferrer = params.get('referrer');
-      console.log('new referrer: ', newReferrer);
-
-      formattedURL.search = params.toString();
-      console.log('updated url: ', formattedURL);
-      // og(formattedURL)
-      // return;
-      Browser.open({
-        url: formattedURL.toString(),
-        presentationStyle: 'popover',
-      });
-    };
-  }
+  // overridewindow() {
+  //   const og = window.open;
+  //   window.open = (
+  //     url?: string | URL,
+  //     target?: string,
+  //     features?: string
+  //   ): any => {
+  //     const formattedURL = new URL(url);
+  //     console.log('url: ', formattedURL.href);
+  //     const params = formattedURL.searchParams;
+  //     params.forEach((param) => console.log('param: ', param));
+  //
+  //     let referrer = params.get('referrer');
+  //     console.log('referrer: ', referrer);
+  //     if (!referrer.includes('http://startrack-ng.web.app/')) {
+  //       console.log('referrer should be reset');
+  //       referrer = 'startrack-ng://app/';
+  //       console.log('referrer: ', referrer);
+  //     }
+  //     params.set('referrer', referrer);
+  //     let newReferrer = params.get('referrer');
+  //     console.log('new referrer: ', newReferrer);
+  //
+  //     formattedURL.search = params.toString();
+  //     console.log('updated url: ', formattedURL);
+  //     // og(formattedURL)
+  //     // return;
+  //     Browser.open({
+  //       url: formattedURL.toString(),
+  //       presentationStyle: 'popover',
+  //     });
+  //   };
+  // }
   async ngOnInit() {
     if (environment.production) {
       const hasUpdate = await this.swUpdate.checkForUpdate();
@@ -159,8 +158,7 @@ export class AppComponent implements OnInit {
     }
   }
   async login() {
-    const res = await this.musicKitInstance.authorize();
-    console.log(res);
+    await this.musicKitInstance.authorize();
   }
   async logout() {
     await this.musicKitInstance.unauthorize();

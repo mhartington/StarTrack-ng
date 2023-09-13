@@ -45,12 +45,14 @@ export class SongItemComponent {
   @Input() color: string;
 
   private popoverCtrl = inject(PopoverController);
-  ngOnInit() {
+
+  constructor() {
     addIcons({
       ellipsisHorizontal,
     });
   }
   async showMore(e: any) {
+    console.log('click')
     e.stopPropagation();
     const popover = await this.popoverCtrl.create({
       component: SongContextMenuComponent,

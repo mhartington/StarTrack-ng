@@ -8,8 +8,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { provideIonicAngular } from '@ionic/angular/standalone';
-import { IonicRouteStrategy } from '@ionic/angular/common';
+import { provideIonicAngular, IonicRouteStrategy } from '@ionic/angular/standalone';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 

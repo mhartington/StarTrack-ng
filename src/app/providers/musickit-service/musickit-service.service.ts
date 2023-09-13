@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
 import { from, Observable, of } from 'rxjs';
 import { timeout, map, retry, switchMap } from 'rxjs/operators';
 import { Album } from 'src/@types/album';

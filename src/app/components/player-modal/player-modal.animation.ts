@@ -1,4 +1,4 @@
-import { createAnimation } from '@ionic/angular';
+import { createAnimation } from '@ionic/angular/standalone';
 const getQueueVectors = (pre: number, post: number) => {
   const val = {
     scaleFrom: null,

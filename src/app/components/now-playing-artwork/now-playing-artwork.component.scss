@@ -102,21 +102,27 @@
 // }
 
 @media (orientation: portrait) {
+  // .track-wrapper.animation-start {
+  //     :host.paused {
+  //       lazy-img { transform: scale3d(1,1,1) !important; }
+  //     }
+  // }
 
-// .track-wrapper.animation-start {
-//     :host.paused {
-//       lazy-img { transform: scale3d(1,1,1) !important; }
-//     }
-// }
-
-  .queue-active:not(.animation-start) {
+  .queue-active {
     :host {
-      // --lazy-transition-duration: 0;
+      --lazy-transition-duration: 0;
       .shadow {
         display: none;
       }
-      lazy-img {
-        transform: scale3d(1, 1, 1);
+
+      // lazy-img {
+      //   transform: scale3d(1, 1, 1);
+      // }
+      //
+      &.paused {
+        lazy-img {
+          transform: scale3d(1, 1, 1);
+        }
       }
     }
   }

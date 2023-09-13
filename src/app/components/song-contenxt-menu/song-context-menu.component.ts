@@ -32,7 +32,8 @@ export class SongContextMenuComponent {
 
   public queue = inject(PlayerService).queue;
   public nowPlaying = inject(PlayerService).nowPlaying;
-
+  constructor(){
+  }
   async addToLibrary() {
     this.song.attributes.inLibrary = true;
     await this.#popoverCtrl.dismiss();

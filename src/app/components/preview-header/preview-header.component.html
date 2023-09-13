@@ -15,29 +15,37 @@
           : collection.attributes.curatorName
       }}</ion-text>
     </h3>
-    <p>
-      <ion-note *ngIf="collection?.attributes?.description" id="editorial-notes">
+    <p id="editorial-notes">
+      <ion-note *ngIf="collection?.attributes?.description">
         {{ collection.attributes.description.standard }}
       </ion-note>
-      <ion-note *ngIf="!collection.attributes.descript && collection.attributes.genreNames">
-        {{collection.attributes?.genreNames[0] }}
+      <ion-note
+        *ngIf="collection?.attributes?.editorialNotes"
+        [innerHtml]="collection.attributes.editorialNotes?.standard"
+      ></ion-note>
+    </p>
+    <p>
+      <ion-note
+        *ngIf="
+          !collection.attributes.description && collection.attributes.genreNames
+        "
+      >
+        {{ collection.attributes?.genreNames[0] }}
       </ion-note>
     </p>
-    <p
-      class="editorial-notes"
-      [innerHtml]="collection.attributes.editorialNotes?.standard"
-      id="editorial-notes"
-    ></p>
 
-
-
-    <ion-modal trigger="editorial-notes" [presentingElement]="routerOutlet">
+    <ion-modal
+      trigger="editorial-notes"
+      [presentingElement]="routerOutlet"
+    >
       <ng-template>
         <ion-header>
           <ion-toolbar>
-              <ion-title>{{collection.attributes.name}}</ion-title>
+            <ion-title>{{ collection.attributes.name }}</ion-title>
             <ion-buttons slot="end">
-              <ion-button  color="primary" fill="clear" (click)="dismiss()">Done</ion-button>
+              <ion-button color="primary" fill="clear" (click)="dismiss()"
+                >Done</ion-button
+              >
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
@@ -46,16 +54,13 @@
             class="editorial-notes"
             *ngIf="collection.attributes.editorialNotes; else description"
             [innerHTML]="collection.attributes.editorialNotes.standard"
-          >
-          </p>
-          <ng-template #description >
-              <p [innerHTML]="collection.attributes.description.standard"></p>
+          ></p>
+          <ng-template #description>
+            <p [innerHTML]="collection.attributes.description.standard"></p>
           </ng-template>
         </ion-content>
       </ng-template>
     </ion-modal>
-
-
   </ng-container>
 
   <ng-template #placeholder>
@@ -71,15 +76,13 @@
   </ng-template>
 
   <ion-buttons>
-  <ion-button (click)="togglePlay()" color="light" fill="solid">
-    <ion-icon color="primary" slot="start" name="play"></ion-icon>
-    <ion-text color="primary">Play</ion-text>
-  </ion-button>
-  <ion-button (click)="togglePlay(true)" color="light" fill="solid">
-    <ion-icon color="primary" name="shuffle" slot="start"></ion-icon>
-    <ion-text color="primary">Shuffle</ion-text>
-  </ion-button>
+    <ion-button (click)="togglePlay()" color="light" fill="solid">
+      <ion-icon color="primary" slot="start" name="play"></ion-icon>
+      <ion-text color="primary">Play</ion-text>
+    </ion-button>
+    <ion-button (click)="togglePlay(true)" color="light" fill="solid">
+      <ion-icon color="primary" name="shuffle" slot="start"></ion-icon>
+      <ion-text color="primary">Shuffle</ion-text>
+    </ion-button>
   </ion-buttons>
 </div>
-
-

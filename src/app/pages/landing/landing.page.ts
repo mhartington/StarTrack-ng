@@ -33,9 +33,10 @@ export class LandingPage implements OnInit {
   ev: any;
   items = Array.from(new Array(50).keys());
   private platformId = inject(PLATFORM_ID);
-  constructor() {}
-  ngOnInit() {
+  constructor() {
     addIcons({ musicalNotes });
+  }
+  ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       fromEvent(window, 'beforeinstallprompt').subscribe((res: any) => {
         console.log(res);
