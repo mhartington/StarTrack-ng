@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import { LandingPage } from './pages/landing/landing.page';
-import { AuthGuard } from './providers/auth/auth.service';
 export const routes: Routes = [
-  { path: '', component: LandingPage },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/landing/landing.page').then((m) => m.LandingPage),
+  },
   {
     path: 'browse',
     loadComponent: () =>
@@ -27,6 +29,6 @@ export const routes: Routes = [
     path: 'library',
     loadChildren: () =>
       import('./pages/library/library-routes').then((m) => m.routes),
-    canLoad: [AuthGuard],
+    // canLoad: [AuthGuard],
   },
 ];

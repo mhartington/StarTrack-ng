@@ -35,6 +35,7 @@ const getOffset = (el: HTMLElement) => {
 };
 
 const ANIMATION_START = 'animation-start';
+const ANIMATION_DONE = 'animation-done'
 export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
@@ -56,6 +57,7 @@ export const createQueueAnimation = async (
     .easing('cubic-bezier(.42,0,.58,1)');
 
   targetEl.classList.add(ANIMATION_START);
+  targetEl.classList.remove(ANIMATION_DONE);
 
   let thumbnailStarting: {
     top: number;
@@ -232,6 +234,9 @@ export const createQueueAnimation = async (
   }
   if (isPortait) {
     const thumbnailEl = targetEl.querySelector('now-playing-artwork');
+    const lazyImgEl = thumbnailEl.querySelector('lazy-img')
+
+    console.log(lazyImgEl)
     const labelEl = targetEl.querySelector('ion-label');
     const playerQueueEl = targetEl.querySelector('queue-list') as HTMLElement;
     const musicControls = targetEl.querySelector(
@@ -242,13 +247,11 @@ export const createQueueAnimation = async (
     const labelRecPre = getRec(labelEl);
     const playerQueueRecPre = getOffset(playerQueueEl);
     const musicControlsRecPre = getOffset(musicControls);
-
     targetEl.classList.toggle('queue-active');
 
     const thumbnailRecPost = getRec(thumbnailEl);
     const labelRecPost = getRec(labelEl);
     const playerQueueRecPost = getOffset(playerQueueEl);
-    const musicControlsPostPre = getOffset(musicControls);
 
     if (isOpening) {
       playerQueueStarting = {
@@ -291,7 +294,7 @@ export const createQueueAnimation = async (
       .addElement(thumbnailEl)
       .easing('linear')
       .beforeStyles({
-        transform: 'scale3d(1,1,1)',
+        // transform: 'scale3d(1,1,1)',
         position: 'absolute',
         top: `${thumbnailStarting.top}px`,
         left: `${thumbnailStarting.left}px`,
@@ -371,25 +374,13 @@ export const createQueueAnimation = async (
         'opacity',
       ]);
     animationChain.push(playerQueueAnimation);
-
-    const musicControlsAnimation = createAnimation()
-      .addElement(musicControls)
-      .beforeStyles({
-        position: 'absolute',
-        top: `${musicControlsRecPre.top}px`,
-        left: `${musicControlsRecPre.left}px`,
-        width: `${musicControlsRecPre.width}px`,
-        height: `${musicControlsRecPre.height}px`,
-      })
-      .fromTo('opacity', '1', '1')
-      .afterClearStyles(['position', 'top', 'left', 'width', 'height']);
-    animationChain.push(musicControlsAnimation);
   }
 
   baseAnimation
     .addElement(targetEl)
     .addAnimation(animationChain)
     .afterRemoveClass(ANIMATION_START)
+    .afterAddClass(ANIMATION_DONE)
     .play();
   }
 };

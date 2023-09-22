@@ -163,11 +163,9 @@ export class PlayerModalComponent {
     this.player.volume.set(e.detail.value);
   }
   ionViewWillEnter(){
-    console.log('enter')
     StatusBar.setStyle({style: Style.Dark})
   }
   ionViewWillLeave(){
     StatusBar.setStyle({style: Style.Default})
-    console.log('gone')
   }
 }

@@ -64,7 +64,9 @@ export class TrackPlayerComponent {
   async toggle() {
     if (!this.playerModal && !this.clickBlock) {
       this.clickBlock = true;
-      this.playerModal = await import( '../player-modal/player-modal.component').then((m) => m.PlayerModalComponent);
+      this.playerModal = await import(
+        '../player-modal/player-modal.component'
+      ).then((m) => m.PlayerModalComponent);
     }
 
     const modalInstance = await this.modalCtrl.create({

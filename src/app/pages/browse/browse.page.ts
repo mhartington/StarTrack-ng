@@ -9,7 +9,17 @@ import { AlbumPreviewItemsComponent } from '../../components/album-preview-items
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { RouterModule } from '@angular/router';
 import { ErrorComponent } from '../../components/error/error.component';
-import { IonButtons, IonContent, IonHeader, IonList, IonListHeader, IonMenuButton, IonThumbnail, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonList,
+  IonListHeader,
+  IonMenuButton,
+  IonThumbnail,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-browse-page',
@@ -25,7 +35,15 @@ import { IonButtons, IonContent, IonHeader, IonList, IonListHeader, IonMenuButto
     LazyImgComponent,
     RouterModule,
     ErrorComponent,
-    IonTitle, IonHeader, IonToolbar, IonContent, IonThumbnail, IonListHeader, IonList, IonMenuButton, IonButtons
+    IonTitle,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonThumbnail,
+    IonListHeader,
+    IonList,
+    IonMenuButton,
+    IonButtons,
   ],
 })
 export class BrowsePage {

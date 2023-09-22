@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
-import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
 import { RouterModule } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
@@ -19,25 +18,28 @@ import {
 import { addIcons } from 'ionicons';
 import {
   IonApp,
-  IonHeader,
   IonSplitPane,
+  IonMenu,
+  IonRouterOutlet,
+  MenuController,
+  Platform,
+  ToastController,
+  IonItemGroup,
+  IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
   IonList,
-  IonItemGroup,
+  IonContent,
   IonMenuToggle,
   IonItem,
   IonIcon,
   IonAccordionGroup,
   IonAccordion,
   IonLabel,
-  IonMenu,
-  IonRouterOutlet,
-  MenuController,
-  Platform,
-  ToastController,
 } from '@ionic/angular/standalone';
+
+import { Capacitor } from '@capacitor/core'
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-root',
@@ -96,12 +98,15 @@ export class AppComponent implements OnInit {
       this.musicKitEvents.authorizationStatusDidChange,
       () => this.isAuthorized.set(this.musicKitInstance.isAuthorized)
     );
-    // this.setupListener();
+
+
     // console.log(Capacitor.isNativePlatform)
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
   }
+
+
   // overridewindow() {
   //   const og = window.open;
   //   window.open = (
@@ -171,16 +176,4 @@ export class AppComponent implements OnInit {
 
     this.metaService.updateTag({ content: color, name: 'theme-color' });
   }
-  // async setupListener() {
-  //   console.log('is here')
-  //   App.addListener('appUrlOpen', (data: URLOpenListenerEvent) => {
-  //     console.log('App opened with URL:', JSON.stringify(data));
-  //     const openUrl = data.url;
-  //     // Use URL for routing to the right page!
-  //   });
-  //
-  //   // Alternative easy way to access the value once
-  //   let res = await App.getLaunchUrl();
-  //   console.log(res);
-  // }
 }

@@ -109,16 +109,21 @@
   // }
 
   .queue-active {
-    :host {
-      --lazy-transition-duration: 0;
-      .shadow {
-        display: none;
-      }
+    // &.animation-done {
+    //   :host.paused {
+    //     lazy-img {
+    //       transform: unset !important;
+    //     }
+    //   }
+    // }
 
+    :host {
+      --lazy-transition-duration: 250ms;
+      .shadow { opacity: 0 }
       // lazy-img {
       //   transform: scale3d(1, 1, 1);
       // }
-      //
+
       &.paused {
         lazy-img {
           transform: scale3d(1, 1, 1);

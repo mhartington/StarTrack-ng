@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import {
   IonButton,
   IonContent,
@@ -19,17 +19,19 @@ import { musicalNotes } from 'ionicons/icons';
   styleUrls: ['./landing.page.scss'],
   standalone: true,
   imports: [
-    RouterModule,
-    CommonModule,
-    IonContent,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonButton,
-    IonIcon,
     IonTitle,
+    IonContent,
+    IonIcon,
   ],
 })
 export class LandingPage implements OnInit {
+  handleEnter($event: KeyboardEvent) {
+    $event.target.dispatchEvent(new Event('click'));
+  }
   ev: any;
   items = Array.from(new Array(50).keys());
   private platformId = inject(PLATFORM_ID);
