@@ -2,13 +2,16 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
   Input,
+  Output,
 } from '@angular/core';
 import {
   IonButton,
   IonButtons,
   IonIcon,
+  IonItem,
   IonLabel,
   IonNote,
   IonSkeletonText,
@@ -37,15 +40,20 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
     IonIcon,
     IonNote,
     IonText,
+    IonItem
   ],
 })
 export class SongItemComponent {
   @Input() song: Song;
   @Input() index = null;
   @Input() color: string;
+  @Input() disabled: boolean;
 
+  @Output() onClick = new EventEmitter<any>;
   private popoverCtrl = inject(PopoverController);
-
+  handleClick(){
+    this.onClick.emit();
+  }
   constructor() {
     addIcons({
       ellipsisHorizontal,

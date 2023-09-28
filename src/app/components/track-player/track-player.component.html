@@ -50,16 +50,16 @@
           fill="clear"
           (click)="togglePlay($event)"
         >
-          <ion-spinner
-            *ngIf="
-                player.playbackState() === playbackStates.LOADING ||
-                player.playbackState() === playbackStates.ENDED ||
-                player.playbackState() === playbackStates.WAITING ||
-                player.playbackState() === playbackStates.STALLED;
-              else buttonTemplate
-            "
-          ></ion-spinner>
-          <ng-template #buttonTemplate>
+          <!-- <ion-spinner -->
+          <!--   *ngIf=" -->
+          <!--       player.playbackState() === playbackStates.LOADING || -->
+          <!--       player.playbackState() === playbackStates.ENDED || -->
+          <!--       player.playbackState() === playbackStates.WAITING || -->
+          <!--       player.playbackState() === playbackStates.STALLED; -->
+          <!--     else buttonTemplate -->
+          <!--   " -->
+          <!-- ></ion-spinner> -->
+          <!-- <ng-template #buttonTemplate> -->
             <ion-icon
               [name]="
                 player.playbackState() === playbackStates.PLAYING
@@ -68,7 +68,7 @@
               "
               slot="icon-only"
             ></ion-icon>
-          </ng-template>
+          <!-- </ng-template> -->
         </ion-button>
         <ion-button
           shape="round"

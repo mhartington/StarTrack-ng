@@ -87,7 +87,6 @@ export class MusickitService {
           songs: Song[];
           playlists: Playlist[];
         }) => {
-          console.log(orgData);
           if (orgData.songs.length === 0) return of(orgData);
           const songsToFetch = orgData.songs.map((song) => song.id);
           return this.fetchSongs(songsToFetch).then(({ data: newSongs }) => ({

@@ -1,9 +1,6 @@
 :host {
   --padding-begin: 20px;
   display: block;
-  &:hover {
-    cursor: pointer;
-  }
   ion-item {
     --color: var(--text-color);
     --border-color: var(--item-border-color, var(--ion-item-border-color, var(--ion-border-color)));

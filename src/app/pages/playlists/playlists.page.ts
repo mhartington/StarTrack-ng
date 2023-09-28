@@ -60,14 +60,12 @@ export class PlaylistPage {
   public collection = signal(null);
   public canShare = !!('share' in navigator);
 
-  // @Input() id: string = '';
   constructor() {
     addIcons({ share });
   }
   async ionViewDidEnter() {
     const id = this.route.snapshot.params.id;
     const data = await this.api.fetchPlaylist(id);
-    console.log(data)
     this.collection.set(data);
   }
 

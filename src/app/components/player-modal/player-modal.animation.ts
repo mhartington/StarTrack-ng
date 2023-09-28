@@ -40,15 +40,15 @@ export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
 ): Promise<void> => {
-  if ((document as any)?.startViewTransition) {
-    (document as any).startViewTransition(() => {
-      targetEl.classList.toggle('animation-start');
-      targetEl.classList.toggle('queue-active');
-      setTimeout(() => {
-        targetEl.classList.toggle('animation-start');
-      }, 250);
-    });
-  } else {
+  // if ((document as any)?.startViewTransition) {
+  //   (document as any).startViewTransition(() => {
+  //     targetEl.classList.toggle('animation-start');
+  //     targetEl.classList.toggle('queue-active');
+  //     setTimeout(() => {
+  //       targetEl.classList.toggle('animation-start');
+  //     }, 250);
+  //   });
+  // } else {
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
@@ -234,19 +234,13 @@ export const createQueueAnimation = async (
   }
   if (isPortait) {
     const thumbnailEl = targetEl.querySelector('now-playing-artwork');
-    const lazyImgEl = thumbnailEl.querySelector('lazy-img')
 
-    console.log(lazyImgEl)
     const labelEl = targetEl.querySelector('ion-label');
     const playerQueueEl = targetEl.querySelector('queue-list') as HTMLElement;
-    const musicControls = targetEl.querySelector(
-      '.controls-wrapper'
-    ) as HTMLElement;
 
     const thumbnailRecPre = getRec(thumbnailEl);
     const labelRecPre = getRec(labelEl);
     const playerQueueRecPre = getOffset(playerQueueEl);
-    const musicControlsRecPre = getOffset(musicControls);
     targetEl.classList.toggle('queue-active');
 
     const thumbnailRecPost = getRec(thumbnailEl);
@@ -278,12 +272,6 @@ export const createQueueAnimation = async (
       height: thumbnailRecPre.height,
       y: 0,
     };
-    const thumbnailDelta = {
-      x: thumbnailRecPre.left - thumbnailRecPost.left,
-      y: thumbnailRecPre.top - thumbnailRecPost.top,
-      w: thumbnailRecPost.width / thumbnailRecPre.width,
-      h: thumbnailRecPost.height / thumbnailRecPre.height,
-    };
     const thumbnailDelta2 = {
       x:  thumbnailRecPost.left - thumbnailRecPre.left,
       y: thumbnailRecPost.top - thumbnailRecPre.top ,
@@ -294,7 +282,6 @@ export const createQueueAnimation = async (
       .addElement(thumbnailEl)
       .easing('linear')
       .beforeStyles({
-        // transform: 'scale3d(1,1,1)',
         position: 'absolute',
         top: `${thumbnailStarting.top}px`,
         left: `${thumbnailStarting.left}px`,
@@ -382,5 +369,5 @@ export const createQueueAnimation = async (
     .afterRemoveClass(ANIMATION_START)
     .afterAddClass(ANIMATION_DONE)
     .play();
-  }
+  // }
 };

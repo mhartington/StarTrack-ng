@@ -1,23 +1,17 @@
 import { provideHttpClient } from '@angular/common/http';
-import {
-  APP_INITIALIZER,
-  enableProdMode,
-  importProvidersFrom,
-} from '@angular/core';
+import { APP_INITIALIZER, isDevMode, } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { provideIonicAngular, IonicRouteStrategy } from '@ionic/angular/standalone';
+import { provideServiceWorker } from '@angular/service-worker';
+import { provideIonicAngular, IonicRouteStrategy, } from '@ionic/angular/standalone';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
-
 import { environment } from './environments/environment';
 
 import { RM } from '@request-metrics/browser-agent';
 
-if (environment.production) {
-  enableProdMode();
+if (isDevMode()) {
   RM.install({ token: 'g7kp7mi:y8ty9gm' });
 }
 
@@ -40,15 +34,13 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: APP_INITIALIZER, useFactory: appInitialize, multi: true },
-    importProvidersFrom(BrowserAnimationsModule),
+    provideAnimations(),
     provideIonicAngular(),
     provideHttpClient(),
     provideRouter(routes),
-    importProvidersFrom(
-      ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: environment.production,
-        registrationStrategy: 'registerWhenStable:30000',
-      })
-    ),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 });

@@ -13,6 +13,8 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": [ "es2018", "dom" ],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "plugins": [ { "name": "typescript-eslint-language-service" } ],
   },
   "angularCompilerOptions": {

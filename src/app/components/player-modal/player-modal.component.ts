@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild, } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { StatusBar, Style} from '@capacitor/status-bar'
+import { StatusBar, Style } from '@capacitor/status-bar';
 
-import { MsToMinsPipe, SecondsToMins, } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+import {
+  MsToMinsPipe,
+  SecondsToMins,
+} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
-import { PlaybackStates, PlayerService, RepeatMode, } from '../../providers/player/player.service2';
+import {
+  PlaybackStates,
+  PlayerService,
+  RepeatMode,
+} from '../../providers/player/player.service2';
 import { BackgroundGlow } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
@@ -16,6 +23,7 @@ import {
   IonBadge,
   IonButton,
   IonButtons,
+  IonContent,
   IonFooter,
   IonHeader,
   IonIcon,
@@ -25,6 +33,7 @@ import {
   IonText,
   IonToolbar,
   ModalController,
+  
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
@@ -37,8 +46,9 @@ import {
   volumeHigh,
   list,
   repeat,
-  shuffle
+  shuffle,
 } from 'ionicons/icons';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-player-modal',
@@ -68,6 +78,7 @@ import {
     IonFooter,
     IonToolbar,
     IonText,
+    IonContent
   ],
 })
 export class PlayerModalComponent {
@@ -75,7 +86,7 @@ export class PlayerModalComponent {
 
   private modalCtrl = inject(ModalController);
   private isScrubbing = false;
-  private _playbackTime: any;
+  private _playbackTime: number;
 
   public player = inject(PlayerService);
 
@@ -85,6 +96,7 @@ export class PlayerModalComponent {
   public queue = this.player.upNext;
 
   public showQueue = false;
+
 
   constructor() {
     addIcons({
@@ -103,11 +115,16 @@ export class PlayerModalComponent {
     await this.modalCtrl.dismiss();
   }
 
+  get volume() {
+    return this.player.volume();
+  }
+
   get playbackTime() {
     if (this.isScrubbing) {
       return this._playbackTime;
+    } else {
+      return this.player.playbackTime();
     }
-    return this.player.playbackTime();
   }
   set playbackTime(val: number) {
     this._playbackTime = val;
@@ -116,8 +133,8 @@ export class PlayerModalComponent {
   async seekToTime(ev: any): Promise<void> {
     this.stopProp(ev);
     await this.player.seekToTime(ev.target.value);
+    this.isScrubbing = false;
   }
-
   pauseSeeking(ev: any): void {
     this.stopProp(ev);
     this.isScrubbing = true;
@@ -162,10 +179,14 @@ export class PlayerModalComponent {
   setVol(e: any) {
     this.player.volume.set(e.detail.value);
   }
-  ionViewWillEnter(){
-    StatusBar.setStyle({style: Style.Dark})
+  ionViewWillEnter() {
+    if (Capacitor.isNativePlatform()) {
+      StatusBar.setStyle({ style: Style.Dark });
+    }
   }
-  ionViewWillLeave(){
-    StatusBar.setStyle({style: Style.Default})
+  ionViewWillLeave() {
+    if (Capacitor.isNativePlatform()) {
+      StatusBar.setStyle({ style: Style.Default });
+    }
   }
 }

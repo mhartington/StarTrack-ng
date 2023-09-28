@@ -1,5 +1,7 @@
 <div class="queue-header">
-  <h3><ion-text color="white">Playing Next</ion-text></h3>
+  <h3>
+    <ion-text color="white">Playing Next</ion-text>
+  </h3>
   <ng-content></ng-content>
 </div>
 <div class="queue-scroller" [@listAnimation]="queue.length">
@@ -10,7 +12,10 @@
     (click)="playAt.emit({$event, song})"
   >
     <ion-thumbnail slot="start">
-      <lazy-img [src]=" song.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl : 60 " alt="album art" ></lazy-img>
+      <lazy-img
+        [src]=" song.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl : 60 "
+        alt="album art"
+      ></lazy-img>
     </ion-thumbnail>
   </song-item>
 </div>

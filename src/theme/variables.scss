@@ -92,7 +92,7 @@
   --ion-color-step-900: #191919;
   --ion-color-step-950: #0d0d0d;
 
-  --ion-color-white: #ffffff82;
+  --ion-color-white: #ffffff;
   --ion-color-white-rgb: 255, 255, 255;
   --ion-color-white-contrast: #000000;
   --ion-color-white-contrast-rgb: 0, 0, 0;
@@ -188,7 +188,7 @@ ion-content::part(scroll) {
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
 
-    --ion-color-white: #ffffff82;
+    --ion-color-white: #ffffff;
     --ion-color-white-rgb: 255, 255, 255;
     --ion-color-white-contrast: #000000;
     --ion-color-white-contrast-rgb: 0, 0, 0;
@@ -292,57 +292,57 @@ ion-range::part(knob) {
     --background: #5a5960;
   }
 
-  ion-range {
-    --bar-height: 10px;
-    --bar-border-radius: 8px;
-    --bar-background: #ffffff63;
-
-    --knob-size: 10px;
-    --knob-border-radius: 8px;
-    --knob-box-shadow: none;
-    --knob-background: none;
-    --knob-handle-size: 10px;
-
-    --transform-value: scale3d(1, 1, 1);
-    --opacity: 0.5;
-
-    transition: background, transform 250ms ease-in-out;
-    opacity: var(--opacity);
-
-    &::part(bar-active) {
-      transform: var(--transform-value);
-      transition: transform 250ms ease-in-out;
-    }
-
-    &::part(bar) {
-      transform: var(--transform-value);
-      transition: transform 250ms ease-in-out;
-    }
-
-    &::part(knob) {
-      opacity: 0;
-      transform: var(--transform-value);
-      transition: transform 250ms ease-in-out;
-
-      &::before {
-        opacity: 0;
-      }
-    }
-
-    &.range-pressed {
-      --transform-value: scale3d(1, 2, 1);
-      --opacity: 1;
-      &::part(knob) {
-        &::before {
-          opacity: 0;
-        }
-      }
-    }
-  }
-  ion-range:focus-within {
-    --transform-value: scale3d(1, 2, 1);
-    --opacity: 1;
-  }
+  // ion-range {
+  //   // --bar-height: 10px;
+  //   --bar-border-radius: 8px;
+  //   --bar-background: #ffffff63;
+  //
+  //   --knob-size: 10px;
+  //   --knob-border-radius: 8px;
+  //   --knob-box-shadow: none;
+  //   --knob-background: none;
+  //   --knob-handle-size: 10px;
+  //
+  //   --transform-value: scale3d(1, 1, 1);
+  //   --opacity: 0.5;
+  //
+  //   transition: background, transform 250ms ease-in-out;
+  //   opacity: var(--opacity);
+  //
+  //   &::part(bar-active) {
+  //     transform: var(--transform-value);
+  //     transition: transform 250ms ease-in-out;
+  //   }
+  //
+  //   &::part(bar) {
+  //     transform: var(--transform-value);
+  //     transition: transform 250ms ease-in-out;
+  //   }
+  //
+  //   &::part(knob) {
+  //     opacity: 0;
+  //     transform: var(--transform-value);
+  //     transition: transform 250ms ease-in-out;
+  //
+  //     &::before {
+  //       opacity: 0;
+  //     }
+  //   }
+  //
+  //   &.range-pressed {
+  //     --transform-value: scale3d(1, 2, 1);
+  //     --opacity: 1;
+  //     &::part(knob) {
+  //       &::before {
+  //         opacity: 0;
+  //       }
+  //     }
+  //   }
+  // }
+  // ion-range:focus-within {
+  //   --transform-value: scale3d(1, 2, 1);
+  //   --opacity: 1;
+  // }
 }
 html.ios ion-modal .ion-page {
   border-radius: 0 !important;

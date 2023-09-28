@@ -26,6 +26,7 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
 
 import { share, add } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { Song } from 'src/@types/song';
 
 @Component({
   selector: 'app-album',
@@ -70,18 +71,19 @@ export class AlbumPage {
   async ionViewDidEnter() {
     const id = this.route.snapshot.params.id;
     const data = await this.api.fetchAlbum(id);
-    console.log(data)
     this.collection.set(data);
     this.isLoading.set(false);
   }
 
-  playSong(startPosition: number, shuffle = false) {
+  playSong(song: Song, startPosition: number, shuffle = false) {
+    if(!song.attributes.releaseDate){ return; }
     const url = this.collection().attributes.url;
     this.player.playCollection({ shuffle, url, startPosition });
   }
 
   playAlbum({ shuffle }) {
-    this.playSong(null, shuffle);
+    const url = this.collection().attributes.url;
+    this.player.playCollection({ shuffle, url});
   }
 
   share() {

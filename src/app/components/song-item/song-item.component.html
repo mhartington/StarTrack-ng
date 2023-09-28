@@ -1,4 +1,10 @@
-<ion-item button="true" [ngClass]="{'has-index': index !== null}" detail="false">
+<ion-item
+  button="true"
+  [ngClass]="{ 'has-index': index !== null }"
+  detail="false"
+  [disabled]="disabled"
+  (click)="handleClick()"
+>
   <ng-content></ng-content>
   <ion-text color="primary" slot="start" *ngIf="index !== null">
     <p class="index">{{ index + 1 }}</p>
@@ -11,12 +17,17 @@
         <p>{{ song.attributes.artistName }}</p>
       </ion-note>
     </ion-label>
-    <p slot="end" class="rating" *ngIf="song.attributes.contentRating === 'explicit'" > E </p>
+    <p
+      slot="end"
+      class="rating"
+      *ngIf="song.attributes.contentRating === 'explicit'"
+    >
+      E
+    </p>
     <!-- <ion-note slot="end" *ngIf="song.attributes.durationInMillis"> -->
     <!--   {{ song.attributes.durationInMillis | msToMins }} -->
     <!-- </ion-note> -->
   </ng-container>
-
 
   <ion-button slot="end" fill="clear" color="dark" (click)="showMore($event)">
     <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
@@ -25,8 +36,17 @@
 
 <ng-template #placeholder>
   <ion-label>
-    <ion-skeleton-text animated style="width: 88%; max-width: 300px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 70%; max-width: 250px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 60%; max-width: 200px;"></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 88%; max-width: 300px"
+    ></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 70%; max-width: 250px"
+    ></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 60%; max-width: 200px"
+    ></ion-skeleton-text>
   </ion-label>
 </ng-template>

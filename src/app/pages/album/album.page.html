@@ -30,7 +30,8 @@
           *ngFor="let song of collection().relationships.tracks.data; let i = index"
           [song]="song"
           [index]="i"
-          (click)="playSong(i)"
+          [disabled]="!song.attributes.releaseDate"
+          (onClick)="playSong(song, i)"
         >
           <ion-thumbnail
             slot="start"

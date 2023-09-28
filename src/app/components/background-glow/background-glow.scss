@@ -10,8 +10,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.blur{
+
+  canvas {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -19,6 +19,16 @@
   right: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(180px) brightness(70%) saturate(1.9);
-  z-index: 1
+  }
 }
+// .blur{
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   width: 100%;
+//   height: 100%;
+//   backdrop-filter: blur(180px) brightness(70%) saturate(1.9);
+//   z-index: 1
+// }

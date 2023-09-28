@@ -7,7 +7,19 @@ import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artw
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { Album } from 'src/@types/album';
 import { parseNext } from 'src/app/util';
-import { IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInfiniteScroll, IonMenuButton, IonRow, IonTitle, IonToolbar, IonInfiniteScrollContent } from '@ionic/angular/standalone';
+import {
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonInfiniteScroll,
+  IonMenuButton,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+  IonInfiniteScrollContent,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-recently-added',
@@ -20,13 +32,22 @@ import { IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInfiniteScroll, 
     AlbumPreviewItemsComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    IonInfiniteScroll, IonHeader, IonToolbar, IonTitle, IonButtons, IonMenuButton, IonContent, IonGrid, IonRow, IonCol,IonInfiniteScrollContent
+    IonInfiniteScroll,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonMenuButton,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInfiniteScrollContent,
   ],
 })
 export class RecentlyAddedPage {
   private api = inject(MusickitService);
   private offset = 0;
-  private total = 0;
   public collection = signal<Partial<Album[]>>([]);
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -40,12 +61,17 @@ export class RecentlyAddedPage {
 
   async fetchCollection() {
     const res = await this.api.fetchRecentlyAdded(this.offset);
-    this.offset = parseNext(res.next);
-    this.collection.update((s) => [...s, ...res.data]);
+    if(!res.next){
+      this.infiniteScroll.disabled = true;
+      return;
+    } else {
+      this.offset = parseNext(res.next);
+      this.collection.update((s) => [...s, ...res.data]);
+    }
   }
 
   async fetchNext() {
-    if (this.collection().length === this.total) {
+    if (this.collection().length === 150) {
       this.infiniteScroll.disabled = true;
       return;
     } else {

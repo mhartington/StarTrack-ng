@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
 import { CommonModule } from '@angular/common';
 import {
@@ -36,6 +36,7 @@ import {
   IonAccordionGroup,
   IonAccordion,
   IonLabel,
+  IonRouterLink
 } from '@ionic/angular/standalone';
 
 import { Capacitor } from '@capacitor/core'
@@ -47,7 +48,6 @@ import { Browser } from '@capacitor/browser';
   styleUrls: ['app.component.scss'],
   standalone: true,
   imports: [
-    RouterModule,
     TrackPlayerComponent,
     CommonModule,
     IonApp,
@@ -66,6 +66,8 @@ import { Browser } from '@capacitor/browser';
     IonAccordion,
     IonLabel,
     IonRouterOutlet,
+    RouterLink
+    // IonRouterLink,
   ],
 })
 export class AppComponent implements OnInit {

@@ -55,8 +55,7 @@ export class PlayerService {
   public playbackTime = signal(0);
   public playbackTimeRemaining = signal(0);
   public nowPlaying = signal(nowPlayingInit);
-
-  public volume = signal(this.mkInstance.volume);
+  public volume = signal(this.mkInstance.volume ?? 1);
 
   constructor() {
     this.mkInstance.addEventListener(this.mkEvents.mediaPlaybackError, () => {

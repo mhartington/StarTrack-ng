@@ -63,7 +63,7 @@
           <song-item
             *ngFor="let song of chart.topSongs; let i = index; trackBy:trackByItem"
             [song]="song"
-            (click)="playSong(i)"
+            (onClick)="playSong(i)"
           >
             <ion-thumbnail slot="start">
               <lazy-img

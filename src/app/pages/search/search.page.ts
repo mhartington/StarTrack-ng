@@ -75,7 +75,6 @@ export class SearchPage implements OnDestroy {
   public isLoading = signal(false);
 
   constructor() {
-    alert(' HERE IN SEARCH')
     this.search$ = this.searchForm.valueChanges
       .pipe(
         filter((search) => !!search),
@@ -113,6 +112,6 @@ export class SearchPage implements OnDestroy {
     this.router.navigate([]);
   }
   ngOnDestroy() {
-    // this.search$.unsubscribe();
+    this.search$.unsubscribe();
   }
 }

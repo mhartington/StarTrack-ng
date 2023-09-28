@@ -18,7 +18,15 @@ import { SongItemComponent } from '../song-item/song-item.component';
   templateUrl: `./queue-list.html`,
   styleUrls: ['./queue-list.scss'],
   standalone: true,
-  imports: [SongItemComponent, FormatArtworkUrlPipe, NgForOf, NgIf, LazyImgComponent, IonText, IonThumbnail],
+  imports: [
+    SongItemComponent,
+    FormatArtworkUrlPipe,
+    NgForOf,
+    NgIf,
+    LazyImgComponent,
+    IonText,
+    IonThumbnail,
+  ],
   animations: [
     trigger('listAnimation', [
       transition(':increment', [
@@ -50,5 +58,5 @@ import { SongItemComponent } from '../song-item/song-item.component';
 })
 export class QueueListComponent {
   @Input() queue: any[];
-  @Output() playAt = new EventEmitter()
+  @Output() playAt = new EventEmitter();
 }
