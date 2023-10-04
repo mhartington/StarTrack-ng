@@ -73,6 +73,7 @@ export class SearchPage implements OnDestroy {
   public playlists = signal(null);
   public songs = signal(null);
   public isLoading = signal(false);
+  public recomendations = signal([]);
 
   constructor() {
     this.search$ = this.searchForm.valueChanges
@@ -96,7 +97,14 @@ export class SearchPage implements OnDestroy {
 
     const qp = this.route.snapshot.queryParams.query;
     this.searchForm.setValue(qp ?? '');
+
   }
+  async ngOnInit(){
+    // const data = await this.api.fetchRecomendations();
+    // this.recomendations.set(data);
+    // console.log(data)
+  }
+  
 
   playSong(song: Song): void {
     this.player.setQueueFromItems([song]);

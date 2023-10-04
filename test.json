@@ -1,71 +1,145 @@
 {
-  "post": {
-    "uri": "at://did:plc:o6ibgputv3kmdq6ebzd27ezx/app.bsky.feed.post/3jvfeemvory2m",
-    "cid": "bafyreic6737tpvwgchpzwh42glrb2exzoy37dxctvdoydzsefpjd6x532u",
-    "author": {
-      "did": "did:plc:o6ibgputv3kmdq6ebzd27ezx",
-      "handle": "neilhimself.bsky.social",
-      "displayName": "Neil Gaiman ",
-      "avatar": "https://cdn.bsky.social/imgproxy/wobULfawyvCUpsSX6kchgEIptybKg3dnB0a6Rsp_Stc/rs:fill:1000:1000:1:0/plain/bafkreid6ykgrqomejrttozfe2c5fzmmo4kalohcafh3jgtbs7t53bdbfwa@jpeg",
-      "viewer": {
-        "muted": false,
-        "blockedBy": false
-      },
-      "labels": []
+  "id": "6-27s5hU6azhJY",
+  "type": "personal-recommendation",
+  "href": "/v1/me/recommendations/6-27s5hU6azhJY?l=en-US",
+  "attributes": {
+    "isGroupRecommendation": false,
+    "nextUpdateDate": "2023-09-30T21:59:59Z",
+    "resourceTypes": ["playlists"],
+    "title": {
+      "stringForDisplay": "Made for You"
     },
-    "record": {
-      "text": "No reason why the other places should get all the news first. Here, a release date, and a poster:",
-      "$type": "app.bsky.feed.post",
-      "embed": {
-        "$type": "app.bsky.embed.images",
-        "images": [
-          {
-            "alt": "",
-            "image": {
-              "$type": "blob",
-              "ref": {
-                "$link": "bafkreid6gfmowokw6r564dvnpjgzwgigqjkbim3ctqybcffxu7ifaprocu"
-              },
-              "mimeType": "image/jpeg",
-              "size": 802895
+    "kind": "music-recommendations"
+  },
+  "relationships": {
+    "contents": {
+      "href": "/v1/me/recommendations/6-27s5hU6azhJY/contents?l=en-US",
+      "data": [
+        {
+          "id": "pl.pm-20e9f373919da08077dc48f135e1b5f6",
+          "type": "playlists",
+          "href": "/v1/catalog/us/playlists/pl.pm-20e9f373919da08077dc48f135e1b5f6?l=en-US",
+          "attributes": {
+            "curatorName": "Apple Music for Michael",
+            "lastModifiedDate": "2023-09-29T18:34:24Z",
+            "isChart": false,
+            "name": "New Music Mix",
+            "playlistType": "personal-mix",
+            "description": {
+              "standard": "Discover new music from artists we think you'll like. Refreshed every Friday."
+            },
+            "artwork": {
+              "width": 4320,
+              "height": 1080,
+              "url": "https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/9f/fe/a4/9ffea4c9-ac6e-ea9e-89c4-29c1ebf32dcf/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLU5ld011c2ljLUFEQU1fSUQ9MTExOTM4OTk2Ny5wbmc.png/{w}x{h}cc.jpg",
+              "bgColor": "fc6a7b",
+              "textColor1": "ffffff",
+              "textColor2": "121010",
+              "textColor3": "351418",
+              "textColor4": "351f21"
+            },
+            "url": "https://music.apple.com/us/playlist/new-music-mix/pl.pm-20e9f373919da08077dc48f135e1b5f6",
+            "playParams": {
+              "id": "pl.pm-20e9f373919da08077dc48f135e1b5f6",
+              "kind": "playlist",
+              "versionHash": "77c23c77c8ebfd177448d1a88ce6b2644e2720932fed50d14bf298f36e61a874"
             }
           }
-        ]
-      },
-      "createdAt": "2023-05-10T17:55:52.756Z"
-    },
-    "embed": {
-      "$type": "app.bsky.embed.images#view",
-      "images": [
+        },
         {
-          "thumb": "https://cdn.bsky.social/imgproxy/mxmNLVeCpbLnIDcPJJEfB6s_QVurBgRDtdfBjDupZRY/rs:fit:1000:1000:1:0/plain/bafkreid6gfmowokw6r564dvnpjgzwgigqjkbim3ctqybcffxu7ifaprocu@jpeg",
-          "fullsize": "https://cdn.bsky.social/imgproxy/mapS_lqIc9lu-1USLKKNneiOr7w3veoDJFSmU6vMmS8/rs:fit:2000:2000:1:0/plain/bafkreid6gfmowokw6r564dvnpjgzwgigqjkbim3ctqybcffxu7ifaprocu@jpeg",
-          "alt": ""
+          "id": "pl.pm-20e9f373919da0802898471707139e3b",
+          "type": "playlists",
+          "href": "/v1/catalog/us/playlists/pl.pm-20e9f373919da0802898471707139e3b?l=en-US",
+          "attributes": {
+            "curatorName": "Apple Music for Michael",
+            "lastModifiedDate": "2023-09-26T17:26:05Z",
+            "name": "Favorites Mix",
+            "isChart": false,
+            "playlistType": "personal-mix",
+            "description": {
+              "standard": "The songs you love. The more you use Apple Music, the better the mix. Refreshed every Tuesday."
+            },
+            "artwork": {
+              "width": 4320,
+              "height": 1080,
+              "url": "https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/83/47/18/83471885-22a3-e3f0-3589-374fd60fe6b0/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUZhdm9yaXRlcy1BREFNX0lEPTExMTk2OTMyODIucG5n.png/{w}x{h}cc.jpg",
+              "bgColor": "5500e8",
+              "textColor1": "ffffff",
+              "textColor2": "b18bfd",
+              "textColor3": "d45be3",
+              "textColor4": "9d6ef9"
+            },
+            "playParams": {
+              "id": "pl.pm-20e9f373919da0802898471707139e3b",
+              "kind": "playlist",
+              "versionHash": "a8e854beb622bb656bb95ff78d8dde92d4f39494e6c81b393f1a5ade615a0208"
+            },
+            "url": "https://music.apple.com/us/playlist/favorites-mix/pl.pm-20e9f373919da0802898471707139e3b"
+          }
+        },
+        {
+          "id": "pl.pm-20e9f373919da0805778fb71b65b34ea",
+          "type": "playlists",
+          "href": "/v1/catalog/us/playlists/pl.pm-20e9f373919da0805778fb71b65b34ea?l=en-US",
+          "attributes": {
+            "curatorName": "Apple Music for Michael",
+            "lastModifiedDate": "2023-09-25T17:26:05Z",
+            "isChart": false,
+            "name": "Get Up! Mix",
+            "playlistType": "personal-mix",
+            "description": {
+              "standard": "Whether it’s Monday morning or Friday night, get going with this personalized mix of upbeat music."
+            },
+            "artwork": {
+              "width": 4320,
+              "height": 1080,
+              "url": "https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7d/5e/8e/7d5e8efa-6d09-e23a-037a-48e19b5a7b6d/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUdldFVwLUFEQU1fSUQ9MTQ0MTI3Njc4MS5wbmc.png/{w}x{h}cc.jpg",
+              "bgColor": "f02807",
+              "textColor1": "ffffff",
+              "textColor2": "120f03",
+              "textColor3": "321401",
+              "textColor4": "331403"
+            },
+            "playParams": {
+              "id": "pl.pm-20e9f373919da0805778fb71b65b34ea",
+              "kind": "playlist",
+              "versionHash": "0b5734aefa8c112691491c9ac38aec003fa94f6cf2f17ebbc49c91d33124aefd"
+            },
+            "url": "https://music.apple.com/us/playlist/get-up-mix/pl.pm-20e9f373919da0805778fb71b65b34ea"
+          }
+        },
+        {
+          "id": "pl.pm-20e9f373919da080aae82a7bf5df94e0",
+          "type": "playlists",
+          "href": "/v1/catalog/us/playlists/pl.pm-20e9f373919da080aae82a7bf5df94e0?l=en-US",
+          "attributes": {
+            "curatorName": "Apple Music for Michael",
+            "lastModifiedDate": "2023-09-24T11:57:44Z",
+            "isChart": false,
+            "name": "Chill Mix",
+            "playlistType": "personal-mix",
+            "description": {
+              "standard": "Songs to help you relax and unwind. Updated every Sunday."
+            },
+            "artwork": {
+              "width": 4320,
+              "height": 1080,
+              "url": "https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/ab/fa/bd/abfabdec-2a43-dcb7-8991-5ab180c0fa6d/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUNoaWxsLUFEQU1fSUQ9MTE5OTIyMjI0My5wbmc.png/{w}x{h}cc.jpg",
+              "bgColor": "145079",
+              "textColor1": "ffffff",
+              "textColor2": "5cfafb",
+              "textColor3": "5ed7de",
+              "textColor4": "4cd5df"
+            },
+            "playParams": {
+              "id": "pl.pm-20e9f373919da080aae82a7bf5df94e0",
+              "kind": "playlist",
+              "versionHash": "99d38b37539215ec620161da0256e0f5c48231eab497726de0cf0901caec3961"
+            },
+            "url": "https://music.apple.com/us/playlist/chill-mix/pl.pm-20e9f373919da080aae82a7bf5df94e0"
+          }
         }
       ]
-    },
-    "replyCount": 69,
-    "repostCount": 130,
-    "likeCount": 574,
-    "indexedAt": "2023-05-10T17:55:52.004Z",
-    "viewer": {},
-    "labels": []
-  },
-  "reason": {
-    "$type": "app.bsky.feed.defs#reasonRepost",
-    "by": {
-      "did": "did:plc:6emsaxhev75u2rbnljhbfmfb",
-      "handle": "jerdog.dev",
-      "displayName": "Jeremy 🧢 at OS Summit NA",
-      "avatar": "https://cdn.bsky.social/imgproxy/yBFB1PoC_yNwJ8Dyersw96FKskGR3uysuVTjsYSCIGk/rs:fill:1000:1000:1:0/plain/bafkreiddj26sdbkxcmxdjzd2dpw4q3vabcic6bja6wiwa6ucssh2lphxjm@jpeg",
-      "viewer": {
-        "muted": false,
-        "blockedBy": false,
-        "following": "at://did:plc:7kwylbxx56yro6aqz3oh5d2s/app.bsky.graph.follow/3ju2svrrw7b2e",
-        "followedBy": "at://did:plc:6emsaxhev75u2rbnljhbfmfb/app.bsky.graph.follow/3ju2svfdzgh2x"
-      },
-      "labels": []
-    },
-    "indexedAt": "2023-05-10T18:44:42.250Z"
+    }
   }
 }

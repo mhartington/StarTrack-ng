@@ -344,6 +344,21 @@ export class MusickitService {
     await this.musicKitInstance.playNext(addNext);
     await loader.present();
   }
+
+  
+  async fetchRecomendations(){
+    const queryParameters = { l: 'en-us' };
+
+
+    // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/search/suggestions`, {
+    //   kinds: ['topResults']
+    // })
+    const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/genres`, {})
+    console.log(res)
+    // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/charts`)
+    return res.data.data
+  }
+
   // fetchRecentlyAdded(offset: number): Observable<any> {
   //   return from(
   //    this.musicKitInstance.api.library.collection(

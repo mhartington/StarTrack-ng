@@ -127,9 +127,9 @@ ion-content::part(scroll) {
   --background: var(--ion-background-color);
   --border-color: transparent;
 }
-.footer-background {
-  z-index: -1;
-}
+// .footer-background {
+//   z-index: -1;
+// }
 @media (prefers-color-scheme: dark) {
   :root {
     --ion-color-secondary: #50c8ff;

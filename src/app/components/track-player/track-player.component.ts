@@ -18,6 +18,7 @@ import {
   IonRange,
   IonSpinner,
   IonThumbnail,
+  IonToolbar,
   ModalController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -43,6 +44,7 @@ import { playForward, play, pause, playBack } from 'ionicons/icons';
     IonButton,
     IonIcon,
     IonSpinner,
+    IonToolbar
   ],
 })
 export class TrackPlayerComponent {

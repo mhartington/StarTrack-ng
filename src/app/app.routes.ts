@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ActivatedRoute, Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
@@ -17,8 +17,10 @@ export const routes: Routes = [
   },
   {
     path: 'us/album/:id',
-    loadComponent: () =>
-      import('./pages/album/album.page').then((m) => m.AlbumPage),
+    loadComponent: () => import('./pages/album/album.page').then((m) => m.AlbumPage),
+    resolve: {
+        'id': (route: ActivatedRoute) => route.params['id']
+    }
   },
   {
     path: 'us/playlist/:id',

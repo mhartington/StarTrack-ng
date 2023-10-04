@@ -8,7 +8,7 @@ import { effect } from '@angular/core';
 export type QueueOpts = {
   url: string;
   shuffle: boolean | false;
-  startWith?: number;
+  startPosition?: number;
 };
 export enum PlaybackStates {
   NONE,
@@ -170,7 +170,7 @@ export class PlayerService {
       url: opts.url,
     };
     if (opts.startPosition) {
-      queueOpts.startWith = opts.startPosition;
+      queueOpts.startPosition = opts.startPosition + 1;
     }
     await this.mkInstance.setQueue(queueOpts);
     this.toggleShuffle(opts.shuffle);

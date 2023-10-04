@@ -6,24 +6,29 @@
   left: 0;
   right: 0;
   margin: 0 16px;
-
-  ion-footer.mh-footer {
-    position: initial;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
       0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 
-    background-color: rgba(
-      var(--ion-background-color-rgb),
-      var(--platform-opacity)
-    );
+  ion-footer.mh-footer {
+    position: initial;
+
+    // background-color: #e6e6e62e;
+
+    //hsl(from #1357a6 h s l / 0.5); 
+      //rgba(from var(--ion-color-step-100) r g b / 0.2);
+    //   ,
+    //   var(--platform-opacity)
+    // );
     .footer-background {
       // z-index: -1 !important;
     }
   }
   .track-wrapper {
-    backdrop-filter: saturate(180%) blur(20px);
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    // backdrop-filter: saturate(180%) blur(20px);
   }
   .player-queue {
     display: none;

@@ -21,10 +21,6 @@
   <div class="ion-text-center ion-padding" *ngIf="isLoading()">
     <ion-spinner></ion-spinner>
   </div>
-    <!-- <error-emoji -->
-    <!--   class="ion-text-center ion-padding" -->
-    <!--   *ngIf="state.hasError" -->
-    <!-- ></error-emoji> -->
   <ion-segment scrollable [formControl]="segmentFilter">
     <ion-segment-button *ngIf="songs()" value="songs">
       Songs
@@ -86,4 +82,9 @@
       </ion-item-group>
     </ng-container>
   </ng-container>
+  
+  <!-- <ng-container *ngIf="!searchForm.value"> -->
+    <!-- <pre *ngFor="let recomendation of recomendations()">{{recomendation | json}}</pre> -->
+  <!-- <pre>{{recomendations() | json}}</pre>  -->
+  <!-- </ng-container> -->
 </ion-content>

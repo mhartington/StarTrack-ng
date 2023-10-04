@@ -65,6 +65,8 @@ export class AlbumPage {
   public collection = signal<Partial<Album>>(null);
 
   public canShare = !!('share' in navigator);
+
+  private id: string
   constructor(){
     addIcons({ share, add });
   }
