@@ -33,7 +33,7 @@
     "@capacitor/local-notifications": "5.0.0",
     "@capacitor/splash-screen": "5.0.0",
     "@capacitor/status-bar": "^5.0.6",
-    "@ionic/angular": "7.3.4-dev.11695650636.128f2ec9",
+    "@ionic/angular": "7.3.4-dev.11696436834.1e83c799",
     "@ionic/angular-toolkit": "9.0.0",
     "@pixi/filter-adjustment": "^5.1.1",
     "@pixi/filter-kawase-blur": "^5.1.1",
