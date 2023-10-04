@@ -3,12 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button color="primary" defaultHref="/browse"></ion-back-button>
     </ion-buttons>
-      <ion-title> {{collection()?.attributes?.name ?? null}} </ion-title>
-      <ion-buttons slot="end">
-        <ion-button color="primary" *ngIf="canShare" (click)="share()">
-          <ion-icon slot="icon-only" name="share"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+    <ion-title> {{collection()?.attributes?.name ?? null}} </ion-title>
+      @if(canShare){
+        <ion-buttons slot="end">
+          <ion-button color="primary" (click)="share()">
+            <ion-icon slot="icon-only" name="share"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      }
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -17,40 +19,36 @@
       <ion-title size="large"></ion-title>
     </ion-toolbar>
   </ion-header>
-    <ng-container *ngIf="collection(); else isLoading">
-      <preview-header
-        [collection]="collection()"
-        (playCollection)="playPlaylist($event)"
-      ></preview-header>
-      <ion-list>
-        <song-item
-          *ngFor="let song of collection().relationships.tracks.data; let i = index"
-          [song]="song"
-          (onClick)="playSong(i)"
-        >
-          <ion-thumbnail slot="start">
-            <lazy-img
-              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-              alt=""
-            ></lazy-img>
-          </ion-thumbnail>
-        </song-item>
-      </ion-list>
-    </ng-container>
-    <ng-template #isLoading>
-      <preview-header></preview-header>
-      <ion-list>
-        <song-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]">
-          <ion-thumbnail slot="start">
-            <lazy-img alt=""></lazy-img>
-          </ion-thumbnail>
-        </song-item>
-      </ion-list>
-    </ng-template>
-  <!---->
-  <!--   <error-emoji -->
-  <!--     class="ion-text-center ion-padding" -->
-  <!--     *ngIf="state.hasError" -->
-  <!--   ></error-emoji> -->
-  <!-- </ng-container> -->
+  @if(collection()){
+  <preview-header
+    [collection]="collection()"
+    (playCollection)="playPlaylist($event)"
+  ></preview-header>
+  <ion-list>
+
+    @for(song of collection().relationships.tracks.data; let i = $index; track song.id ){
+      <song-item [song]="song" [index]="i" (click)="playSong(i)">
+        <ion-thumbnail slot="start">
+          <lazy-img
+            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+          ></lazy-img>
+        </ion-thumbnail>
+      </song-item>
+    }
+  </ion-list>
+
+  } @else{
+  <preview-header></preview-header>
+  <ion-list>
+    @for(filler of [0,1,2,3,4,5,6,7,8,9,10]; track filler){
+
+    <song-item>
+      <ion-thumbnail slot="start">
+        <lazy-img alt=""></lazy-img>
+      </ion-thumbnail>
+    </song-item>
+    }
+  </ion-list>
+  }
 </ion-content>

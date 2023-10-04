@@ -6,47 +6,29 @@
   (click)="handleClick()"
 >
   <ng-content></ng-content>
-  <ion-text color="primary" slot="start" *ngIf="index !== null">
+  @if(index !== null){
+  <ion-text color="primary" slot="start">
     <p class="index">{{ index + 1 }}</p>
   </ion-text>
-
-  <ng-container *ngIf="song; else placeholder">
-    <ion-label>
-      <h3>{{ song.attributes.name }}</h3>
-      <ion-note *ngIf="song.attributes.artistName">
-        <p>{{ song.attributes.artistName }}</p>
-      </ion-note>
-    </ion-label>
-    <p
-      slot="end"
-      class="rating"
-      *ngIf="song.attributes.contentRating === 'explicit'"
-    >
-      E
-    </p>
-    <!-- <ion-note slot="end" *ngIf="song.attributes.durationInMillis"> -->
-    <!--   {{ song.attributes.durationInMillis | msToMins }} -->
-    <!-- </ion-note> -->
-  </ng-container>
-
+  } @if(song){
+  <ion-label>
+    <h3>{{ song.attributes.name }}</h3>
+    @if(song.attributes.artistName){
+    <ion-note>
+      <p>{{ song.attributes.artistName }}</p>
+    </ion-note>
+    }
+  </ion-label>
+  @if(song.attributes.contentRating === 'explicit'){
+  <p slot="end" class="rating">E</p>
+  } } @else {
+  <ion-label>
+    <ion-skeleton-text animated style="width: 88%; max-width: 300px" />
+    <ion-skeleton-text animated style="width: 70%; max-width: 250px" />
+    <ion-skeleton-text animated style="width: 60%; max-width: 200px" />
+  </ion-label>
+  }
   <ion-button slot="end" fill="clear" color="dark" (click)="showMore($event)">
-    <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+    <ion-icon slot="icon-only" name="ellipsis-horizontal" />
   </ion-button>
 </ion-item>
-
-<ng-template #placeholder>
-  <ion-label>
-    <ion-skeleton-text
-      animated
-      style="width: 88%; max-width: 300px"
-    ></ion-skeleton-text>
-    <ion-skeleton-text
-      animated
-      style="width: 70%; max-width: 250px"
-    ></ion-skeleton-text>
-    <ion-skeleton-text
-      animated
-      style="width: 60%; max-width: 200px"
-    ></ion-skeleton-text>
-  </ion-label>
-</ng-template>

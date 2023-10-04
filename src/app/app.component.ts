@@ -61,13 +61,13 @@ import { Browser } from '@capacitor/browser';
     IonItemGroup,
     IonMenuToggle,
     IonItem,
+    IonRouterLink,
+    RouterLink,
     IonIcon,
     IonAccordionGroup,
     IonAccordion,
     IonLabel,
     IonRouterOutlet,
-    RouterLink
-    // IonRouterLink,
   ],
 })
 export class AppComponent implements OnInit {

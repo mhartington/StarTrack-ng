@@ -2,20 +2,18 @@
   <ng-content></ng-content>
 </ion-card>
 <ion-label>
-  <ng-container *ngIf="album; else placeholder">
+  @if(album){
     <h3>
-      <span class="index" *ngIf="index != null">{{ index + 1 }}</span> {{ album.attributes.name }}
-      <span class="rating" *ngIf="album.attributes.contentRating === 'explicit'"
-        >E</span
-      >
+      @if(index != null){<span class="index">{{ index + 1 }}</span>}
+      <span>{{ album.attributes.name }}</span>
+      @if(album.attributes.contentRating === 'explicit'){ <span class="rating">E</span > }
     </h3>
     <ion-note>
       <p>{{ album.attributes.artistName }}</p>
     </ion-note>
-  </ng-container>
-
-  <ng-template #placeholder>
-    <ion-skeleton-text animated style="width: 88%; height: 16px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 70%; height: 14px;"></ion-skeleton-text>
-  </ng-template>
+  }
+  @else{
+    <ion-skeleton-text animated style="width: 88%; height: 16px;" />
+    <ion-skeleton-text animated style="width: 70%; height: 14px;" />
+  }
 </ion-label>

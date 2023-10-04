@@ -1,55 +1,39 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="primary"></ion-menu-button>
+      <ion-menu-button color="primary" />
     </ion-buttons>
     <ion-title>Recently Added</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-      <ion-row>
-        <ng-container *ngIf="collection().length; else loading"></ng-container>
-        <ion-col
-          size="6"
-          sizeMd="4"
-          sizeLg="3"
-          sizeXl="2"
-          *ngFor="let album of collection()"
+  <ion-grid>
+    <ion-row>
+      @if(collection().length){ @for(album of collection(); track album.id){
+      <ion-col size="6" sizeMd="4" sizeLg="3" sizeXl="2">
+        <a
+          album-preview-item
+          [album]="album"
+          [routerLink]="['/library', album.attributes.playParams.kind + 's', album.id]"
         >
-          <a album-preview-item
-            [album]="album"
-            [routerLink]="['/library', album.attributes.playParams.kind + 's', album.id]"
-          >
-            <lazy-img
-              [src]="album.attributes.artwork?.url | formatArtworkUrl: 200"
-              lazyParent="album-grid"
-              alt="Album Artwork"
-            ></lazy-img>
-          </a>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <ng-template #loading>
-      <ion-col
-        *ngFor="let album of [].constructor(20)"
-        size="6"
-        sizeMd="4"
-        sizeLg="3"
-        sizeXl="2"
-      >
-        <a album-preview-item>
-          <lazy-img></lazy-img>
+          <lazy-img
+            [src]="album.attributes.artwork?.url | formatArtworkUrl: 200"
+            lazyParent="album-grid"
+            alt="Album Artwork"
+          />
         </a>
       </ion-col>
-    </ng-template>
-  <ion-infinite-scroll
-    threshold="500px"
-    (ionInfinite)="fetchNext()"
-  >
-    <ion-infinite-scroll-content>
-    </ion-infinite-scroll-content>
+      } } @else { @for(album of [].constructor(20); track album){
+      <ion-col size="6" sizeMd="4" sizeLg="3" sizeXl="2">
+        <a album-preview-item>
+          <lazy-img />
+        </a>
+      </ion-col>
+      } }
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll threshold="500px" (ionInfinite)="fetchNext()">
+    <ion-infinite-scroll-content />
   </ion-infinite-scroll>
 </ion-content>

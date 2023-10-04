@@ -66,7 +66,6 @@ export class PlaylistPage {
       await this.api.fetchLibraryPlaylist(id),
       await this.api.fetchLibraryPlaylistTracks(id),
     ]);
-
     this.collection.set(playlistInfo);
     this.playlistTracks.set(playlistTracks);
   }

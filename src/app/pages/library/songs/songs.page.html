@@ -8,26 +8,21 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="songs().length; else loading">
-    <song-item
-      *ngFor="let song of songs(); index as i; trackBy:trackByItem"
-      [song]="song"
-      (onClick)="playSong(i)"
-    >
-      <ion-thumbnail slot="start">
-        <lazy-img
-          [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"
-        ></lazy-img>
-      </ion-thumbnail>
-    </song-item>
-  </ng-container>
-  <ng-template #loading>
-    <song-item *ngFor="let song of [].constructor(50)">
-      <ion-thumbnail slot="start">
-        <lazy-img></lazy-img>
-      </ion-thumbnail>
-    </song-item>
-  </ng-template>
+  @if(songs().length){ @for(song of songs(); track song.id; let i = $index){
+  <song-item [song]="song" (onClick)="playSong(i)">
+    <ion-thumbnail slot="start">
+      <lazy-img
+        [src]="song.attributes.artwork?.url ?? 'assets/imgs/default.svg'| formatArtworkUrl: 60"
+      ></lazy-img>
+    </ion-thumbnail>
+  </song-item>
+  } } @else { @for(filler of [].constructor(50); track filler){
+  <song-item>
+    <ion-thumbnail slot="start">
+      <lazy-img></lazy-img>
+    </ion-thumbnail>
+  </song-item>
+  } }
 
   <ion-infinite-scroll (ionInfinite)="fetchNext()" threshold="60%">
     <ion-infinite-scroll-content> </ion-infinite-scroll-content>

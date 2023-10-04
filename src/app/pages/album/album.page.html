@@ -5,9 +5,11 @@
     </ion-buttons>
     <ng-container>
       <ion-buttons slot="end">
-        <ion-button color="primary" *ngIf="canShare" (click)="share()">
+        @if(canShare){
+        <ion-button color="primary" (click)="share()">
           <ion-icon slot="icon-only" name="share"></ion-icon>
         </ion-button>
+        }
         <ion-button (click)="addToLibrary()" color="primary">
           <ion-icon slot="icon-only" name="add"></ion-icon>
         </ion-button>
@@ -16,46 +18,41 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <ion-header  collapse="condense" >
+  <ion-header collapse="condense">
     <ion-toolbar></ion-toolbar>
   </ion-header>
-  <ng-container>
-    <ng-container *ngIf="collection()">
-      <preview-header
-        [collection]="collection()"
-        (playCollection)="playAlbum($event)"
-      ></preview-header>
-      <ion-list>
-        <song-item
-          *ngFor="let song of collection().relationships.tracks.data; let i = index"
-          [song]="song"
-          [index]="i"
-          [disabled]="!song.attributes.releaseDate"
-          (onClick)="playSong(song, i)"
-        >
-          <ion-thumbnail
-            slot="start"
-            *ngIf="collection().type === 'playlists'"
-          >
-            <lazy-img
-              [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-              alt=""
-            ></lazy-img>
-          </ion-thumbnail>
-        </song-item>
-      </ion-list>
-    </ng-container>
 
-    <ng-container *ngIf="isLoading()">
-      <preview-header></preview-header>
-      <ion-list>
-        <song-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]"></song-item>
-      </ion-list>
-    </ng-container>
-
-    <error-emoji
-      class="ion-text-center ion-padding"
-      *ngIf="hasError()"
-    ></error-emoji>
-  </ng-container>
+  @if(collection()){
+  <preview-header
+    [collection]="collection()"
+    (playCollection)="playAlbum($event)"
+  ></preview-header>
+  <ion-list>
+    @for( song of collection().relationships.tracks.data; let i = $index; track
+    song.id ){
+    <song-item
+      [song]="song"
+      [index]="i"
+      [disabled]="!song.attributes.releaseDate"
+      (onClick)="playSong(song, i)"
+    >
+      @if(collection().type === 'playlists'){
+      <ion-thumbnail slot="start">
+        <lazy-img
+          [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+          alt=""
+        />
+      </ion-thumbnail>
+      }
+    </song-item>
+    }
+  </ion-list>
+  } @else if(hasError()){
+  <error-emoji class="ion-text-center ion-padding" />
+  } @else {
+  <preview-header></preview-header>
+  <ion-list>
+    @for(filler of [0,1,2,3,4,5,6,7,8,9,10]; track filler){ <song-item /> }
+  </ion-list>
+  }
 </ion-content>

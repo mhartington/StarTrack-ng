@@ -8,42 +8,27 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ng-container *ngIf="collection(); else isLoading">
-    <preview-header
-      [collection]="collection()"
-      (playCollection)="playAlbum($event)"
-    ></preview-header>
-    <ion-list>
-      <song-item
-        *ngFor="let song of playlistTracks(); let i = index"
-        [song]="song"
-        [index]="i"
-        (click)="playSong(i)"
-      >
-        <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-            alt=""
-          ></lazy-img>
-        </ion-thumbnail>
-      </song-item>
-    </ion-list>
-  </ng-container>
-
-  <ng-template #isLoading>
-    <preview-header></preview-header>
-    <ion-list>
-      <ion-item *ngFor="let filler of [0,1,2,3,4,5,6,7,8,9,10]">
-        <ion-label>
-          <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ng-template>
-
-  <!-- <error-emoji -->
-  <!--   class="ion-text-center ion-padding" -->
-  <!--   *ngIf="albums.hasError" -->
-  <!-- ></error-emoji> -->
+  @if(collection()){
+  <preview-header
+    [collection]="collection()"
+    (playCollection)="playAlbum($event)"
+  ></preview-header>
+  <ion-list>
+    @for(song of playlistTracks(); let i = $index; track song.id ){
+    <song-item [song]="song" [index]="i" (click)="playSong(i)">
+      <ion-thumbnail slot="start">
+        <lazy-img
+          [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+          alt=""
+        ></lazy-img>
+      </ion-thumbnail>
+    </song-item>
+    }
+  </ion-list>
+  } @else {
+  <preview-header></preview-header>
+  <ion-list>
+    @for(filler of [0,1,2,3,4,5,6,7,8,9,10]; track filler){ <song-item /> }
+  </ion-list>
+  }
 </ion-content>

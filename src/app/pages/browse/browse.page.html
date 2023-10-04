@@ -1,119 +1,119 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="primary"></ion-menu-button>
+      <ion-menu-button color="primary" />
     </ion-buttons>
     <ion-title>Browse</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true" class='ion-padding-top ion-padding-bottom'>
-
+<ion-content fullscreen="true" class="ion-padding-top ion-padding-bottom">
   <ion-header collapse="condense">
     <ion-toolbar class="transparent">
       <ion-title size="large">Browse</ion-title>
     </ion-toolbar>
   </ion-header>
-    <ng-container *ngIf="state().collection as chart">
-      <ion-list >
-        <ion-list-header>
-          <h2>Top Albums</h2>
-        </ion-list-header>
-        <div class="album-grid">
-          <a album-preview-item
-            *ngFor="let album of chart.topAlbums; let i = index; trackBy:trackByItem"
-            [album]="album"
-            [routerLink]="['/us', 'album', album.id]"
-          >
-            <lazy-img
-              [src]="album.attributes.artwork.url | formatArtworkUrl: 200"
-              lazyParent="album-grid"
-              [style.background]="'#' + album.attributes.artwork.bgColor + 'aa'"
-              alt="Album Artwork"
-            ></lazy-img>
-          </a>
-        </div>
-      </ion-list>
+  @if(state().collection; as chart){
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Albums</h2>
+    </ion-list-header>
+    <div class="album-grid">
+      @for (album of chart.topAlbums; track album.id) {
+      <a
+        album-preview-item
+        [album]="album"
+        [routerLink]="['/us', 'album', album.id]"
+      >
+        <lazy-img
+          [src]="album.attributes.artwork.url | formatArtworkUrl: 200"
+          lazyParent="album-grid"
+          [style.background]="'#' + album.attributes.artwork.bgColor + 'aa'"
+          alt="Album Artwork"
+        />
+      </a>
+      }
+    </div>
+  </ion-list>
 
-      <ion-list>
-        <ion-list-header>
-          <h2>Top Playlists</h2>
-        </ion-list-header>
-        <div class="album-grid">
-          <a album-preview-item
-            *ngFor="let playlist of chart.topPlaylists; let i = index; trackBy:trackByItem"
-            [album]="playlist"
-            [routerLink]="['/us','playlist', playlist.id]"
-          >
-            <lazy-img
-              [src]="playlist.attributes.artwork.url | formatArtworkUrl: 200"
-              lazyParent="album-grid"
-              [style.background]="'#' + playlist.attributes.artwork.bgColor + 'aa'"
-              alt="Album Artwork"
-            ></lazy-img>
-          </a>
-        </div>
-      </ion-list>
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Playlists</h2>
+    </ion-list-header>
+    <div class="album-grid">
+      @for (playlist of chart.topPlaylists; track playlist.id){
+      <a
+        album-preview-item
+        [album]="playlist"
+        [routerLink]="['/us','playlist', playlist.id]"
+      >
+        <lazy-img
+          [src]="playlist.attributes.artwork.url | formatArtworkUrl: 200"
+          lazyParent="album-grid"
+          [style.background]="'#' + playlist.attributes.artwork.bgColor + 'aa'"
+          alt="Album Artwork"
+        />
+      </a>
+      }
+    </div>
+  </ion-list>
 
-      <ion-list>
-        <ion-list-header>
-          <h2>Top Songs</h2>
-        </ion-list-header>
-        <div class="song-grid">
-          <song-item
-            *ngFor="let song of chart.topSongs; let i = index; trackBy:trackByItem"
-            [song]="song"
-            (onClick)="playSong(i)"
-          >
-            <ion-thumbnail slot="start">
-              <lazy-img
-                lazyParent="song-grid"
-                [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-                alt=""
-              ></lazy-img>
-            </ion-thumbnail>
-          </song-item>
-        </div>
-      </ion-list>
-    </ng-container>
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Songs</h2>
+    </ion-list-header>
+    <div class="song-grid">
+      @for (song of chart.topSongs; track song.id; let i = $index){
+      <song-item [song]="song" (onClick)="playSong(i)">
+        <ion-thumbnail slot="start">
+          <lazy-img
+            lazyParent="song-grid"
+            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+            alt=""
+          />
+        </ion-thumbnail>
+      </song-item>
 
-    <ng-container *ngIf="state().hasError">
-      <h2>Error</h2>
-      <error-emoji class="ion-padding ion-text-center"></error-emoji>
-    </ng-container>
-
-    <ng-container *ngIf="state().isLoading">
-      <ion-list>
-        <ion-list-header>
-          <h2>Top Albums</h2>
-        </ion-list-header>
-        <div class="album-grid">
-          <a album-preview-item *ngFor="let album of [].constructor(20)">
-            <lazy-img></lazy-img>
-          </a>
-        </div>
-      </ion-list>
-      <ion-list>
-        <ion-list-header>
-          <h2>Top Playlists</h2>
-        </ion-list-header>
-        <div class="album-grid">
-          <a album-preview-item *ngFor="let album of [].constructor(20)">
-            <lazy-img></lazy-img>
-          </a>
-        </div>
-      </ion-list>
-      <ion-list>
-        <ion-list-header>
-          <h2>Top Songs</h2>
-        </ion-list-header>
-        <div class="song-grid">
-          <song-item *ngFor="let song of [].constructor(20)">
-            <ion-thumbnail slot="start">
-              <lazy-img></lazy-img>
-            </ion-thumbnail>
-          </song-item>
-        </div>
-      </ion-list>
-    </ng-container>
+      }
+    </div>
+  </ion-list>
+  } @else if(state().hasError){
+  <h2>Error</h2>
+  <error-emoji class="ion-padding ion-text-center"></error-emoji>
+  } @else {
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Albums</h2>
+    </ion-list-header>
+    <div class="album-grid">
+      @for(album of [].constructor(20); track album){
+      <a album-preview-item> <lazy-img/> </a>
+      }
+    </div>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Playlists</h2>
+    </ion-list-header>
+    <div class="album-grid">
+      @for(playlist of [].constructor(20); track playlist){
+      <a album-preview-item> <lazy-img /> </a>
+      }
+    </div>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      <h2>Top Songs</h2>
+    </ion-list-header>
+    <div class="song-grid">
+      @for(song of [].constructor(20); track song){
+      <song-item>
+        <ion-thumbnail slot="start">
+          <lazy-img />
+        </ion-thumbnail>
+      </song-item>
+      }
+    </div>
+  </ion-list>
+  }
 </ion-content>

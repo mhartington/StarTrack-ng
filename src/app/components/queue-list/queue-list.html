@@ -5,12 +5,8 @@
   <ng-content></ng-content>
 </div>
 <div class="queue-scroller" [@listAnimation]="queue.length">
-  <song-item
-    color="white"
-    *ngFor="let song of queue; let i = index"
-    [song]="song"
-    (click)="playAt.emit({$event, song})"
-  >
+  @for(song of queue; let i = $index; track song.id){
+  <song-item color="white" [song]="song" (click)="playAt.emit({$event, song})">
     <ion-thumbnail slot="start">
       <lazy-img
         [src]=" song.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl : 60 "
@@ -18,4 +14,5 @@
       ></lazy-img>
     </ion-thumbnail>
   </song-item>
+  }
 </div>

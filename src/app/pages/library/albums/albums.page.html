@@ -14,18 +14,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <ng-container>
     <ion-grid>
       <ion-row>
-        <ng-container *ngIf="albums().length; else loading">
-          <ion-col
-            size="6"
-            sizeMd="4"
-            sizeLg="3"
-            sizeXl="2"
-            *ngFor="let album of albums()"
-          >
-            <a album-preview-item
+        @if(albums().length){ 
+        @for(album of albums(); track album.id) {
+          <ion-col size="6" sizeMd="4" sizeLg="3" sizeXl="2">
+            <a
+              album-preview-item
               [album]="album"
               [routerLink]="['/library', 'albums', album.id]"
             >
@@ -36,28 +31,20 @@
               ></lazy-img>
             </a>
           </ion-col>
-        </ng-container>
+        } 
+        } @else {
+          @for(filler of [].constructor(20); track filler){
+            <ion-col size="6" sizeMd="4" sizeLg="3" sizeXl="2">
+              <a album-preview-item>
+                <lazy-img></lazy-img>
+              </a>
+            </ion-col>
+          } 
+        }
       </ion-row>
     </ion-grid>
-  </ng-container>
 
-  <ng-template #loading>
-    <ion-col
-      *ngFor="let album of [].constructor(20)"
-      size="6"
-      sizeMd="4"
-      sizeLg="3"
-      sizeXl="2"
-    >
-      <a album-preview-item>
-        <lazy-img></lazy-img>
-      </a>
-    </ion-col>
-  </ng-template>
-  <ion-infinite-scroll
-    threshold="500px"
-    (ionInfinite)="fetchNext()"
-  >
+  <ion-infinite-scroll threshold="500px" (ionInfinite)="fetchNext()">
     <ion-infinite-scroll-content> </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

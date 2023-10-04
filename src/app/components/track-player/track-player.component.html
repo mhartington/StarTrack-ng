@@ -3,13 +3,7 @@
     <div class="track-player">
       <div class="song-info">
         <ion-thumbnail>
-          <lazy-img
-            [src]="
-              player.nowPlaying()?.attributes?.artwork?.url ??
-                'assets/imgs/default.svg' | formatArtworkUrl: 60
-            "
-            alt="The album art work cover"
-          ></lazy-img>
+          <lazy-img [src]=" player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 60 " alt="The album art work cover" />
         </ion-thumbnail>
         <ion-label>
           <p>{{player.nowPlaying()?.attributes?.name }}</p>
@@ -35,48 +29,16 @@
         "
       ></ion-range>
       <ion-buttons class="song-actions">
-        <ion-button
-          shape="round"
-          color="primary"
-          fill="clear"
-          class="prev-button"
-          (click)="prev($event)"
-        >
-          <ion-icon name="play-back" slot="icon-only"></ion-icon>
+        <ion-button shape="round" color="primary" fill="clear" class="prev-button" (click)="prev($event)" >
+          <ion-icon name="play-back" slot="icon-only" />
         </ion-button>
-        <ion-button
-          shape="round"
-          color="primary"
-          fill="clear"
-          (click)="togglePlay($event)"
-        >
-          <!-- <ion-spinner -->
-          <!--   *ngIf=" -->
-          <!--       player.playbackState() === playbackStates.LOADING || -->
-          <!--       player.playbackState() === playbackStates.ENDED || -->
-          <!--       player.playbackState() === playbackStates.WAITING || -->
-          <!--       player.playbackState() === playbackStates.STALLED; -->
-          <!--     else buttonTemplate -->
-          <!--   " -->
-          <!-- ></ion-spinner> -->
-          <!-- <ng-template #buttonTemplate> -->
-            <ion-icon
-              [name]="
-                player.playbackState() === playbackStates.PLAYING
-                  ? 'pause'
-                  : 'play'
-              "
-              slot="icon-only"
-            ></ion-icon>
-          <!-- </ng-template> -->
+        <ion-button shape="round" color="primary" fill="clear" (click)="togglePlay($event)" >
+          @if(player.playbackState() === playbackStates.LOADING){ <ion-spinner /> }
+          @else if(player.playbackState() === playbackStates.PLAYING){<ion-icon name="pause" slot="icon-only" />}
+          @else {<ion-icon name="play" slot="icon-only" />}
         </ion-button>
-        <ion-button
-          shape="round"
-          color="primary"
-          fill="clear"
-          (click)="next($event)"
-        >
-          <ion-icon name="play-forward" slot="icon-only"></ion-icon>
+        <ion-button shape="round" color="primary" fill="clear" (click)="next($event)" >
+          <ion-icon name="play-forward" slot="icon-only" />
         </ion-button>
       </ion-buttons>
     </div>
