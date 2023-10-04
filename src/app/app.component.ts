@@ -66,8 +66,8 @@ import { Browser } from '@capacitor/browser';
     IonAccordion,
     IonLabel,
     IonRouterOutlet,
-    RouterLink
-    // IonRouterLink,
+    // RouterLink,
+    IonRouterLink,
   ],
 })
 export class AppComponent implements OnInit {
