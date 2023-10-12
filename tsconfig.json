@@ -12,17 +12,15 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [ "es2018", "dom" ],
+    "lib": ["es2018", "dom"],
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "plugins": [ { "name": "typescript-eslint-language-service" } ],
+    "plugins": [{ "name": "typescript-eslint-language-service" }]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "_enabledBlockTypes": ["if", "for", "switch", "defer"]
+    "strictTemplates": true
   }
-
 }

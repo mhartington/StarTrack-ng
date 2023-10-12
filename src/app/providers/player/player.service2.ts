@@ -9,6 +9,7 @@ export type QueueOpts = {
   url: string;
   shuffle: boolean | false;
   startPosition?: number;
+  startWith?: number;
 };
 export enum PlaybackStates {
   NONE,
@@ -170,7 +171,7 @@ export class PlayerService {
       url: opts.url,
     };
     if (opts.startPosition) {
-      queueOpts.startPosition = opts.startPosition + 1;
+      queueOpts.startWith = opts.startPosition;
     }
     await this.mkInstance.setQueue(queueOpts);
     this.toggleShuffle(opts.shuffle);

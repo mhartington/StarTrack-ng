@@ -18,7 +18,6 @@ import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
 import { SongItemComponent } from '../song-item/song-item.component';
 import { QueueListComponent } from '../queue-list/queue-list.component';
-import { ColorFromImgDirective } from 'src/app/directives/color-from-img/color-from-img.directive';
 import {
   IonBadge,
   IonButton,
@@ -66,7 +65,6 @@ import { Capacitor } from '@capacitor/core';
     MsToMinsPipe,
     SecondsToMins,
     QueueListComponent,
-    ColorFromImgDirective,
     IonHeader,
     IonButtons,
     IonButton,

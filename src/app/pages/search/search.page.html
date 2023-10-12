@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button color="primary"></ion-menu-button>
+      <ion-menu-button color="primary" />
     </ion-buttons>
     <ion-title>Search</ion-title>
   </ion-toolbar>
@@ -13,58 +13,52 @@
       showCancelButton="focus"
       animated="true"
       (ionClear)="clearSearch()"
-    >
-    </ion-searchbar>
+    />
   </ion-toolbar>
 </ion-header>
+
 <ion-content fullscreen="true">
+
   @if(isLoading()){
   <div class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
+    <ion-spinner />
   </div>
   }
   <ion-segment scrollable [formControl]="segmentFilter">
-    @if(songs()) {
-    <ion-segment-button value="songs"> Songs </ion-segment-button>
-    } @if(albums()) {
-    <ion-segment-button value="albums"> Albums </ion-segment-button>
-    } @if(playlists()) {
-    <ion-segment-button value="playlists"> Playlists </ion-segment-button>
-    }
+    @if(songs()) {<ion-segment-button value="songs"> Songs </ion-segment-button>} 
+    
+    @if(albums()) {<ion-segment-button value="albums"> Albums </ion-segment-button>} 
+
+    @if(playlists()) {<ion-segment-button value="playlists"> Playlists </ion-segment-button>}
   </ion-segment>
-  @switch(segmentFilter.value){ @case('songs'){ @for(song of songs(); track
-  song.id; let i = $index){
-  <song-item [song]="song" (onClick)="playSong(song)">
-    <ion-thumbnail slot="start">
-      <lazy-img
-        [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-        alt=""
-      ></lazy-img>
-    </ion-thumbnail>
-  </song-item>
 
-  } } @case('albums'){ @for(album of albums(); track album.id){
-  <song-item [song]="album" [routerLink]="['/us', 'album', album.id]">
-    <ion-thumbnail slot="start">
-      <lazy-img
-        [src]="album.attributes.artwork.url | formatArtworkUrl: 60"
-        alt=""
-      ></lazy-img>
-    </ion-thumbnail>
-  </song-item>
-  } } @case('playlists'){ @for(playlist of playlists(); track playlist.id;){
-  <song-item [song]="playlist" [routerLink]="['/us','playlist', playlist.id]">
-    <ion-thumbnail slot="start">
-      <lazy-img
-        [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60"
-        alt=""
-      ></lazy-img>
-    </ion-thumbnail>
-  </song-item>
-  } } }
-
-  <!-- <ng-container *ngIf="!searchForm.value"> -->
-  <!-- <pre *ngFor="let recomendation of recomendations()">{{recomendation | json}}</pre> -->
-  <!-- <pre>{{recomendations() | json}}</pre>  -->
-  <!-- </ng-container> -->
+  @switch(segmentFilter.value){ 
+    @case ('songs') {
+      @for(song of songs(); track song.id){
+        <song-item [song]="song" (onClick)="playSong(song)">
+          <ion-thumbnail slot="start">
+            <lazy-img [src]="song.attributes.artwork.url | formatArtworkUrl: 60" alt="" />
+          </ion-thumbnail>
+        </song-item>
+      } 
+    }
+    @case ('albums') { 
+      @for(album of albums(); track album.id){
+        <song-item [song]="album" [routerLink]="['/us', 'album', album.id]">
+          <ion-thumbnail slot="start">
+            <lazy-img [src]="album.attributes.artwork.url | formatArtworkUrl: 60" alt=""/>
+          </ion-thumbnail>
+        </song-item>
+      } 
+    } 
+    @case ('playlists'){ 
+      @for(playlist of playlists(); track playlist.id;){
+        <song-item [song]="playlist" [routerLink]="['/us','playlist', playlist.id]">
+          <ion-thumbnail slot="start">
+            <lazy-img [src]="playlist.attributes.artwork.url | formatArtworkUrl: 60" alt="" />
+          </ion-thumbnail>
+        </song-item>
+      }
+    } 
+  } 
 </ion-content>

@@ -19,35 +19,32 @@
       <ion-title size="large"></ion-title>
     </ion-toolbar>
   </ion-header>
+
   @if(collection()){
   <preview-header
     [collection]="collection()"
     (playCollection)="playPlaylist($event)"
-  ></preview-header>
+  />
   <ion-list>
-
     @for(song of collection().relationships.tracks.data; let i = $index; track song.id ){
-      <song-item [song]="song" [index]="i" (click)="playSong(i)">
+      <song-item [song]="song" (click)="playSong(i)">
         <ion-thumbnail slot="start">
-          <lazy-img
-            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-            alt=""
-          ></lazy-img>
+          <lazy-img [src]="song.attributes.artwork.url | formatArtworkUrl: 60" alt="" />
         </ion-thumbnail>
       </song-item>
     }
   </ion-list>
 
-  } @else{
-  <preview-header></preview-header>
+  } 
+  @else {
+  <preview-header />
   <ion-list>
-    @for(filler of [0,1,2,3,4,5,6,7,8,9,10]; track filler){
-
-    <song-item>
-      <ion-thumbnail slot="start">
-        <lazy-img alt=""></lazy-img>
-      </ion-thumbnail>
-    </song-item>
+    @for(_ of [0,1,2,3,4,5,6,7,8,9,10]; let id = $index; track id){
+      <song-item>
+        <ion-thumbnail slot="start">
+          <lazy-img alt="" />
+        </ion-thumbnail>
+      </song-item>
     }
   </ion-list>
   }

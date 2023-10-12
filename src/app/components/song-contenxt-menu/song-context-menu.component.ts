@@ -1,8 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { IonItem, IonList, PopoverController } from '@ionic/angular/standalone';
 import { Song } from 'src/@types/song';
-import { MusickitService } from 'src/app/providers/musickit-service/musickit-service.service';
-import { PlayerService } from 'src/app/providers/player/player.service2';
+import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
+import { PlayerService } from '../../providers/player/player.service2';
 
 @Component({
   template: `

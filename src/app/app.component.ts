@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, isDevMode } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
-import { environment } from 'src/environments/environment';
 import { RouterLink, RouterModule } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
 import { CommonModule } from '@angular/common';
@@ -143,7 +142,7 @@ export class AppComponent implements OnInit {
   //   };
   // }
   async ngOnInit() {
-    if (environment.production) {
+    if (!isDevMode()) {
       const hasUpdate = await this.swUpdate.checkForUpdate();
       if (hasUpdate) {
         const toast = await this.toastCtrl.create({

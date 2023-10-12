@@ -5,7 +5,13 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/index.html", "/*.css", "/main-*.js", "/runtime-*.js", "/*.js"]
+        "files": [
+          "/index.html",
+          "/*.css",
+          "/main-*.js",
+          "/runtime-*.js",
+          "/*.js"
+        ]
       }
     },
     {

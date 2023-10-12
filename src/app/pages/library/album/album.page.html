@@ -15,7 +15,12 @@
   <ion-list>
     @for(song of collection.relationships.tracks.data; let i = $index; track
     song.id){
-    <song-item [song]="song" [index]="i" (click)="playSong(i)">
+    <song-item
+      [song]="song"
+      [index]="i"
+      (onClick)="playSong(i)"
+      [disabled]="!song.attributes.releaseDate"
+    >
       @if(collection.type === 'playlists'){
       <ion-thumbnail slot="start">
         <lazy-img

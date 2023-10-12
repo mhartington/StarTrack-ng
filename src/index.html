@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -41,14 +41,6 @@
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-    <!-- Add to homescreen for Safari on iOS -->
-    <!-- <meta name="apple-mobile-web-app-capable" content="yes" /> -->
-    <!-- <meta name="apple-mobile-web-app-title" content="Star Track" /> -->
-    <!-- <link -->
-    <!--   rel="apple-touch-icon" -->
-    <!--   sizes="192x192" -->
-    <!--   href="/assets/icons/icon-mask.png" -->
-    <!-- /> -->
     <link
       rel="mask-icon"
       href="/assets/icons/safari-icon-mask.svg"
@@ -76,7 +68,6 @@
   </head>
 
   <body style="background: var(--ion-background-color)">
-    <!-- <app&#45;root></app&#45;root> -->
     <app-root
       style="
         height: 100%;
@@ -96,6 +87,9 @@
           border-bottom-width: 0.55px;
           border-color: #262626;
           border-style: solid;
+          border-top: none;
+          border-left: none;
+          border-right: none;
         "
       ></div>
       <div
@@ -121,18 +115,7 @@
         </svg>
         <h1>Welcome to Star Track</h1>
       </div>
-      <div
-        class="header"
-        style="
-          height: 58px;
-          width: 100%;
-          border-top-width: 0.55px;
-          border-color: #262626;
-          border-style: solid;
-        "
-      ></div>
     </app-root>
-
     <noscript>
       <h3
         style="

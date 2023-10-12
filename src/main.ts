@@ -1,7 +1,6 @@
-import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, isDevMode, } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouteReuseStrategy, provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideIonicAngular, IonicRouteStrategy, } from '@ionic/angular/standalone';
@@ -32,11 +31,10 @@ const appInitialize = () => async () =>
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideAnimationsAsync(),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: APP_INITIALIZER, useFactory: appInitialize, multi: true },
-    provideAnimations(),
     provideIonicAngular(),
-    provideHttpClient(),
     provideRouter(routes),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
