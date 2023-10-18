@@ -9,9 +9,9 @@ import {
 import { NgForOf, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonText, IonThumbnail } from '@ionic/angular/standalone';
-import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { SongItemComponent } from '../song-item/song-item.component';
+import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 
 @Component({
   selector: 'queue-list',

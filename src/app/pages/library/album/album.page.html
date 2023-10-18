@@ -19,7 +19,7 @@
       [song]="song"
       [index]="i"
       (onClick)="playSong(i)"
-      [disabled]="!song.attributes.releaseDate"
+      [disabled]="!song.attributes.playParams"
     >
       @if(collection.type === 'playlists'){
       <ion-thumbnail slot="start">

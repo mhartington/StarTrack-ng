@@ -3,10 +3,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
-import {
-  MsToMinsPipe,
-  SecondsToMins,
-} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
   PlaybackStates,
@@ -48,6 +45,8 @@ import {
   shuffle,
 } from 'ionicons/icons';
 import { Capacitor } from '@capacitor/core';
+import { MsToMinsPipe, SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+
 
 @Component({
   selector: 'app-player-modal',

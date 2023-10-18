@@ -6,8 +6,8 @@ import { AlbumPreviewItemsComponent } from '../../../components/album-preview-it
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
-import { Album } from 'src/@types/album';
-import { parseNext } from 'src/app/util';
+import { Album } from '../../../../@types/album';
+import { parseNext } from '../../../util';
 import { IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInfiniteScroll, IonInfiniteScrollContent, IonMenuButton, IonRow, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({

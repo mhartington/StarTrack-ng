@@ -103,7 +103,7 @@ html {
   --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
 ion-content {
-  --padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
+  --padding-bottom: calc(var(--ion-safe-area-bottom) + 30px) !important;
 }
 ion-content::part(scroll) {
   // bottom: calc(var(--ion-safe-area-bottom) + 58px);

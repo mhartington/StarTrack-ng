@@ -15,7 +15,7 @@
     "lib": ["es2018", "dom"],
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "plugins": [{ "name": "typescript-eslint-language-service" }]
+    "plugins": [{ "name": "typescript-eslint-language-service" }],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

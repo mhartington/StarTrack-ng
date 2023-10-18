@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { Song } from 'src/@types/song';
-import { parseNext } from 'src/app/util';
+import { Song } from '../../../../@types/song';
+import { parseNext } from '../../../util';
+
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
 import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';

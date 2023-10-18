@@ -24,11 +24,11 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { Song } from 'src/@types/song';
-import { ErrorComponent } from 'src/app/components/error/error.component';
-import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
-import { SongItemComponent } from 'src/app/components/song-item/song-item.component';
-import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { Song } from '../../../@types/song';
+import { ErrorComponent } from '../../components/error/error.component';
+import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
+import { SongItemComponent } from '../../components/song-item/song-item.component';
+import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 

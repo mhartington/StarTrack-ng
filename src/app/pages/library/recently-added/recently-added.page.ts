@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AlbumPreviewItemsComponent } from 'src/app/components/album-preview-items/album-preview-items.component';
-import { LazyImgComponent } from 'src/app/components/lazy-img/lazy-img.component';
-import { FormatArtworkUrlPipe } from 'src/app/pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { AlbumPreviewItemsComponent } from '../../../components/album-preview-items/album-preview-items.component';
+import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
+import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
-import { Album } from 'src/@types/album';
-import { parseNext } from 'src/app/util';
+import { Album } from '../../../../@types/album';
+import { parseNext } from '../../../util';
 import {
   IonButtons,
   IonCol,
