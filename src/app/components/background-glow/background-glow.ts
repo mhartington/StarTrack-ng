@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnDestroy,
   SimpleChanges,
   ViewChild,
@@ -14,6 +15,7 @@ import {
   Container,
   Texture,
   DisplayObject,
+  ICanvas,
 } from 'pixi.js';
 import { TwistFilter } from '@pixi/filter-twist';
 import { AdjustmentFilter } from '@pixi/filter-adjustment';
@@ -25,17 +27,17 @@ import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
   template: `<canvas #canvas width="100" height="100"></canvas>`,
   styleUrls: ['./background-glow.scss'],
 })
-export class BackgroundGlow implements AfterViewInit, OnDestroy {
+export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() src: string;
   @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
 
   private container: Container | null;
-  private app: Application<any>;
+  private app: Application<ICanvas>;
 
   reduceMotionQuery = matchMedia('(prefers-reduced-motion)');
   ngAfterViewInit() {
-    let width = window.innerWidth;
-    let height = window.innerHeight;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     this.app = new Application({
       resizeTo: window,
       width,
@@ -162,14 +164,15 @@ export class BackgroundGlow implements AfterViewInit, OnDestroy {
       if (this.container.children.length > 4) {
         this.container.removeChildren(4);
       }
-      this.addSpritesToContainer.apply(this, incomingImgArray);
+      // this.addSpritesToContainer(incom)
+      this.addSpritesToContainer(incomingImgArray[0],incomingImgArray[1],incomingImgArray[2],incomingImgArray[3]);
 
       const currentContainerCopy = this.container.children.slice(0, 4);
       let opacityDelta = 1;
-      let currentRotationValArray = currentContainerCopy.map((h) => h.rotation);
+      const currentRotationValArray = currentContainerCopy.map((h) => h.rotation);
       this.app.ticker.add(() => {
-        let rotationSpeed = 0.4;
-        let opacitySpeed = this.app.ticker.deltaMS / 33.33333;
+        const rotationSpeed = 0.4;
+        const opacitySpeed = this.app.ticker.deltaMS / 33.33333;
 
         opacityDelta -= 0.02 * opacitySpeed;
         opacityDelta < 0 && this.container.removeChild(...currentContainerCopy);

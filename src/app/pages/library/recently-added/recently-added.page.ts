@@ -55,10 +55,6 @@ export class RecentlyAddedPage {
   async ionViewDidEnter() {
     this.collection().length === 0 ? this.fetchCollection() : null;
   }
-  trackByItem(_idx: number, item: any) {
-    return item.id;
-  }
-
   async fetchCollection() {
     const res = await this.api.fetchRecentlyAdded(this.offset);
     if(!res.next){

@@ -6,8 +6,8 @@
   overflow: hidden;
   song-item {
     --text-color: #fff;
-    --item-border-color: #ffffff0b;
     --padding-begin: 0;
+    --ion-item-border-color: #ffffff0b;
     ion-item {
       --padding-start: 0;
     }
@@ -28,7 +28,6 @@
       top: 3px;
       right: -3px;
     }
-
   }
   .queue-scroller {
     flex: 1;
@@ -37,4 +36,3 @@
     height: 100%;
   }
 }
-

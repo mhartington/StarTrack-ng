@@ -10,7 +10,7 @@ import {
   PlayerService,
   RepeatMode,
 } from '../../providers/player/player.service2';
-import { BackgroundGlow } from '../background-glow/background-glow';
+import { BackgroundGlowComponent } from '../background-glow/background-glow';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
 import { SongItemComponent } from '../song-item/song-item.component';
@@ -27,6 +27,7 @@ import {
   IonRange,
   IonSpinner,
   IonText,
+  IonThumbnail,
   IonToolbar,
   ModalController,
   
@@ -60,7 +61,7 @@ import { MsToMinsPipe, SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.p
     LazyImgComponent,
     FormatArtworkUrlPipe,
     NowPlayingArtworkComponent,
-    BackgroundGlow,
+    BackgroundGlowComponent,
     MsToMinsPipe,
     SecondsToMins,
     QueueListComponent,
@@ -75,7 +76,8 @@ import { MsToMinsPipe, SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.p
     IonFooter,
     IonToolbar,
     IonText,
-    IonContent
+    IonContent,
+    IonThumbnail
   ],
 })
 export class PlayerModalComponent {

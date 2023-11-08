@@ -1,10 +1,10 @@
 <img
   role="presentation"
   loading="lazy"
-  [class.loaded]="isLoaded"
+  [class.loaded]="isLoaded()"
   [src]="src"
   [alt]="alt"
-  (load)="markForChange()"
+  (load)="isLoaded.set(true)"
   decoding="async"
 />
 

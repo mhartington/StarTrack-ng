@@ -19,8 +19,8 @@ export type PlaylistAttributes = {
 };
 
 export type PlaylistRelationships = {
-  curator: { url: string; href: string; data: any[] };
-  library: { url: string; href: string; data: any[] };
+  curator: { url: string; href: string; data: unknown[] };
+  library: { url: string; href: string; data: unknown[] };
   tracks: { url: string; href: string; data: Song[] };
 };
 // export type PlaylistViews = {

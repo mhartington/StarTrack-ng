@@ -7,7 +7,9 @@
         </ion-thumbnail>
         <ion-label>
           <p>{{player.nowPlaying()?.attributes?.name }}</p>
-          <ion-note>{{player.nowPlaying()?.attributes?.artistName }}</ion-note>
+          @if(player.nowPlaying().attributes.artistName){
+            <ion-note class="artist-name">{{player.nowPlaying().attributes.artistName }}</ion-note>
+          }
         </ion-label>
       </div>
       <ion-range

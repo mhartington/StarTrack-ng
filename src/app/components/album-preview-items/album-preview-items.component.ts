@@ -6,6 +6,8 @@ import {
   IonNote,
   IonSkeletonText,
 } from '@ionic/angular/standalone';
+import { Album } from '../../../@types/album';
+import { Playlist } from '../../../@types/playlist';
 
 @Component({
   selector: '[album-preview-item]',
@@ -18,5 +20,4 @@ import {
 export class AlbumPreviewItemsComponent {
   @Input() album: any;
   @Input() index: number;
-  constructor() {}
 }

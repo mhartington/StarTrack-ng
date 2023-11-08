@@ -68,7 +68,7 @@ export class PlayerService {
     // Time has incremented
     this.mkInstance.addEventListener(
       this.mkEvents.playbackTimeDidChange,
-      ({ currentPlaybackTime, currentPlaybackTimeRemaining }: any) => {
+      ({ currentPlaybackTime, currentPlaybackTimeRemaining }: never) => {
         this.playbackTime.set(currentPlaybackTime);
         this.playbackTimeRemaining.set(currentPlaybackTimeRemaining);
       }
@@ -121,7 +121,7 @@ export class PlayerService {
       const playbackState = this.playbackState();
       const nowPlaying = this.nowPlaying();
       if (playbackState === PlaybackStates.PLAYING) {
-        this.title.setTitle(`${nowPlaying.attributes.name} • ${nowPlaying.attributes.artistName}`);
+        this.title.setTitle(`${nowPlaying.attributes.name}${nowPlaying.attributes.artistName ? ' • ' + nowPlaying.attributes.artistName : ''}`);
       } else {
         this.title.setTitle('Star Track');
       }
@@ -166,7 +166,7 @@ export class PlayerService {
 
   // Eventually try to move this all together
   async playCollection(opts: any) {
-    let queueOpts: QueueOpts = {
+    const queueOpts: QueueOpts = {
       shuffle: opts.shuffle ?? false,
       url: opts.url,
     };

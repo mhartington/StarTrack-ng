@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, isDevMode } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
-import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
 import { CommonModule } from '@angular/common';
 import {
@@ -38,8 +38,8 @@ import {
   IonRouterLink
 } from '@ionic/angular/standalone';
 
-import { Capacitor } from '@capacitor/core'
-import { Browser } from '@capacitor/browser';
+// import { Capacitor } from '@capacitor/core'
+// import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-root',

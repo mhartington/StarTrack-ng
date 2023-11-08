@@ -13,13 +13,10 @@ import { PlayerService } from '../../../providers/player/player.service2';
 
 import {
   IonButtons,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonInfiniteScroll,
   IonMenuButton,
-  IonRow,
   IonTitle,
   IonToolbar,
   IonInfiniteScrollContent,
