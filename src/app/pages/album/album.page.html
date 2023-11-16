@@ -27,12 +27,14 @@
     [collection]="collection()"
     (playCollection)="playAlbum($event)"
   ></preview-header>
+  <hr>
+  
   <ion-list>
     @for( song of collection().relationships.tracks.data; let i = $index; track
     song.id ){
     <song-item
       [song]="song"
-      [index]="i"
+      [index]="song.attributes.trackNumber"
       [disabled]="!song.attributes.releaseDate"
       (onClick)="playSong(song, i)"
     >

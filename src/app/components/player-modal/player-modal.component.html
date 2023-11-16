@@ -6,8 +6,21 @@
 <div class="track-wrapper" #wrapper>
   <div class="track-player">
     <div class="song-info">
-      <ion-thumbnail>
+      <ion-thumbnail
+  [ngClass]="{
+              paused:
+                player.playbackState() === playbackStates.PAUSED ||
+                player.playbackState() === playbackStates.NONE ||
+                player.playbackState() === playbackStates.STOPPED
+            }"
+      >
         <now-playing-artwork
+          [ngClass]="{
+              paused:
+                player.playbackState() === playbackStates.PAUSED ||
+                player.playbackState() === playbackStates.NONE ||
+                player.playbackState() === playbackStates.STOPPED
+            }"
           [src]=" player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 500 "
           alt="The album art work cover"
         ></now-playing-artwork>

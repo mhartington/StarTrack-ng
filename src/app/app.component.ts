@@ -38,8 +38,6 @@ import {
   IonRouterLink
 } from '@ionic/angular/standalone';
 
-// import { Capacitor } from '@capacitor/core'
-// import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-root',
@@ -100,8 +98,6 @@ export class AppComponent implements OnInit {
       () => this.isAuthorized.set(this.musicKitInstance.isAuthorized)
     );
 
-
-    // console.log(Capacitor.isNativePlatform)
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }

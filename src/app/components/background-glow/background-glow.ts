@@ -119,7 +119,6 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
 
     const saturationFilter = new AdjustmentFilter();
     saturationFilter.saturation = 2.75;
-    // saturationFilter.contrast = 1// 1.9;
     saturationFilter.brightness = 0.7;
 
     this.container.filters = [twistingFilter, n, o, h, a, l, saturationFilter];
@@ -164,7 +163,6 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
       if (this.container.children.length > 4) {
         this.container.removeChildren(4);
       }
-      // this.addSpritesToContainer(incom)
       this.addSpritesToContainer(incomingImgArray[0],incomingImgArray[1],incomingImgArray[2],incomingImgArray[3]);
 
       const currentContainerCopy = this.container.children.slice(0, 4);

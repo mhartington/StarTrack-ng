@@ -7,17 +7,17 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  @if(collection(); as collection){
+  <!-- <pre>{{libraryAlbum() | json}}</pre> -->
+  @if(libraryAlbum(); as collection){
   <preview-header
     [collection]="collection"
     (playCollection)="playAlbum($event)"
   ></preview-header>
   <ion-list>
-    @for(song of collection.relationships.tracks.data; let i = $index; track
-    song.id){
+    @for(song of librarySongs(); let i = $index; track song.id){
     <song-item
       [song]="song"
-      [index]="i"
+      [index]="song.attributes.trackNumber"
       (onClick)="playSong(i)"
       [disabled]="!song.attributes.playParams"
     >
@@ -33,6 +33,17 @@
     </song-item>
     }
   </ion-list>
+
+  <div class="ion-padding">
+    @if(showCompleteAlbum()){
+    <ion-button
+      [routerLink]="['/', 'us', 'album', albumData().id]"
+      fill="clear"
+      color="primary"
+      >Show Complete Album</ion-button
+    >
+    }
+  </div>
   } @else{
 
   <preview-header></preview-header>

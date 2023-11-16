@@ -2,61 +2,70 @@
   alt="The artwork for the album"
   [src]="
     collection?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'
-      | formatArtworkUrl : 500
+      | formatArtworkUrl: 500
   "
 ></lazy-img>
 <div class="album-detail">
-  @if(collection){
-
+  @if (collection) {
     <h3>{{ collection?.attributes?.name }}</h3>
     <h3 class="name">
-      <ion-text color="primary">{{ collection?.attributes?.artistName ? collection.attributes.artistName : collection.attributes.curatorName }}</ion-text>
+      <ion-text color="primary">{{
+        collection?.attributes?.artistName
+          ? collection.attributes.artistName
+          : collection.attributes.curatorName
+      }}</ion-text>
     </h3>
-    <p id="editorial-notes">
-      @if(collection?.attributes?.description){
-        <ion-note>
-          {{ collection.attributes.description.standard }}
-        </ion-note>
-      }
-      @if(collection?.attributes?.editorialNotes){
-        <ion-note [innerHtml]="collection.attributes.editorialNotes?.standard" />
+
+    <p class="genre-names">
+      @if ( !collection.attributes.description && collection.attributes.genreNames) {
+        <ion-note >{{ collection.attributes?.genreNames[0] }} • {{ collection?.attributes?.releaseDate | date: 'YYYY' }}</ion-note >
       }
     </p>
-    <p>
-      @if(!collection.attributes.description && collection.attributes.genreNames){
-        <ion-note>
-          {{ collection.attributes?.genreNames[0] }}
-        </ion-note>
+
+    <p class="editorial-notes" (click)="showModal.set(true)">
+      @if (collection?.attributes?.description) {
+        <ion-note>{{ collection.attributes.description.standard }}</ion-note>
+      }
+      @if (collection?.attributes?.editorialNotes) {
+        <ion-note [innerHtml]="collection.attributes.editorialNotes?.standard" />
       }
     </p>
 
     <ion-modal
-      trigger="editorial-notes"
       [presentingElement]="routerOutlet"
+      [isOpen]="showModal()"
+      class="editorial-modal"
     >
       <ng-template>
         <ion-header>
           <ion-toolbar>
             <ion-title>{{ collection.attributes.name }}</ion-title>
             <ion-buttons slot="end">
-              <ion-button color="primary" fill="clear" (click)="dismiss()"
+              <ion-button
+                color="primary"
+                fill="clear"
+                (click)="showModal.set(false)"
                 >Done</ion-button
               >
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          @if(collection.attributes.editorialNotes){<p class="editorial-notes" [innerHTML]="collection.attributes.editorialNotes.standard" ></p>}
-          @else{ <p [innerHTML]="collection.attributes.description.standard"></p> }
+          @if (collection.attributes.editorialNotes) {
+            <p
+              class="modal-editorial-notes"
+              [innerHTML]="collection.attributes.editorialNotes.standard"
+            ></p>
+          } @else {
+            <p [innerHTML]="collection.attributes.description.standard"></p>
+          }
         </ion-content>
       </ng-template>
     </ion-modal>
-
-  }
-  @else{
-    <h3> <ion-skeleton-text animated style="width: 80%" /> </h3>
-    <p> <ion-skeleton-text animated style="width: 70%" /> </p>
-    <p> <ion-skeleton-text animated style="width: 60%" /> </p>
+  } @else {
+    <h3><ion-skeleton-text animated style="width: 80%" /></h3>
+    <p><ion-skeleton-text animated style="width: 70%" /></p>
+    <p><ion-skeleton-text animated style="width: 60%" /></p>
   }
   <ion-buttons>
     <ion-button (click)="togglePlay()" color="light" fill="solid">

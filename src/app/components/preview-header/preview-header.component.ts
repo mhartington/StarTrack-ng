@@ -1,4 +1,3 @@
-import { JsonPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +5,7 @@ import {
   inject,
   Input,
   Output,
-  ViewChild,
+  signal,
 } from '@angular/core';
 import {
   IonNote,
@@ -26,6 +25,7 @@ import { addIcons } from 'ionicons';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { play, shuffle } from 'ionicons/icons';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'preview-header',
@@ -34,10 +34,8 @@ import { play, shuffle } from 'ionicons/icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     FormatArtworkUrlPipe,
     LazyImgComponent,
-    JsonPipe,
     IonText,
     IonNote,
     IonModal,
@@ -50,22 +48,20 @@ import { play, shuffle } from 'ionicons/icons';
     IonSkeletonText,
     IonIcon,
     IonRouterOutlet,
+    DatePipe
   ],
 })
 export class PreviewHeaderComponent {
-  @Output() playCollection: EventEmitter<{ shuffle: boolean }> =
-    new EventEmitter();
+  @Output() playCollection: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
   @Input() collection: any = null;
-  @ViewChild(IonModal) modal: IonModal;
 
+  public showModal = signal(false);
   routerOutlet = inject(IonRouterOutlet).nativeEl;
+
   constructor() {
     addIcons({ play, shuffle });
   }
   togglePlay(shuffle = false): void {
     this.playCollection.emit({ shuffle });
-  }
-  async dismiss() {
-    await this.modal.dismiss();
   }
 }

@@ -14,38 +14,41 @@ export class MusickitService {
   private toastCtrl = inject(ToastController);
 
   // API/Apple Music
-  async fetchAlbum(id: string): Promise<any> {
+  async fetchAlbum(id: string): Promise<Album> {
     const {
       data: { data: res },
     }: { data: { data: [Album] } } = await this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
-      { 'art[url]': 'f' }
-    );
-    const albumRes = res[0];
-    const songsToFetch = albumRes.relationships.tracks.data.map(
-      (song) => song.id
-    );
+      { 'art[url]': 'f',
 
-    const { data: newSongs } = await this.fetchSongs(songsToFetch);
-    albumRes.relationships.tracks.data = newSongs.data;
+        'include[albums]': 'tracks',
+        },
+    );
+    // const albumRes = res[0];
+    // const songsToFetch = albumRes.relationships.tracks.data.map(
+    //   (song) => song.id,
+    // );
+
+    // const { data: newSongs } = await this.fetchSongs(songsToFetch);
+    // albumRes.relationships.tracks.data = newSongs.data;
     return res[0];
   }
-  async fetchPlaylist(id: string): Promise<any> {
+  async fetchPlaylist(id: string): Promise<Playlist> {
     const {
       data: { data: res },
     }: { data: { data: [Playlist] } } = await this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/playlists/${id}`,
-      { 'art[url]': 'f' }
+      { 'art[url]': 'f' },
     );
     const playlistRes = res[0];
     const songsToFetch = playlistRes.relationships.tracks.data.map(
-      (song) => song.id
+      (song) => song.id,
     );
     const { data: newSongs } = await this.fetchSongs(songsToFetch);
     playlistRes.relationships.tracks.data = newSongs.data;
     return playlistRes;
   }
-  fetchAlbumOrPlaylist(type: string, id: string): Promise<any> {
+  fetchAlbumOrPlaylist(type: string, id: string): Promise<Album | Playlist> {
     if (type === 'playlist') {
       return this.fetchPlaylist(id);
     } else {
@@ -65,7 +68,7 @@ export class MusickitService {
         include: 'playlists,albums',
         offset: '26',
         'art[url]': 'f',
-      })
+      }),
     );
   }
   search(term: string): Observable<any> {
@@ -73,8 +76,8 @@ export class MusickitService {
     return from(
       this.musicKitInstance.api.music(
         `v1/catalog/${this.musicKitInstance.storefrontId}/search`,
-        { term, types, limit: 25 }
-      )
+        { term, types, limit: 25 },
+      ),
     ).pipe(
       map(({ data }: any) => ({
         albums: data.results.albums?.data ?? null,
@@ -93,10 +96,10 @@ export class MusickitService {
             ...orgData,
             songs: newSongs.data,
           }));
-        }
+        },
       ),
       retry({ delay: 500 }),
-      timeout(5000)
+      timeout(5000),
     );
   }
 
@@ -104,7 +107,7 @@ export class MusickitService {
     const types = ['songs', 'albums', 'playlists'];
     const { data } = await this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/search`,
-      { term, types, limit: 25, 'art[url]': 'f' }
+      { term, types, limit: 25, 'art[url]': 'f' },
     );
     const ogData: { albums: Album[]; songs: Song[]; playlists: Playlist[] } = {
       albums: data.results.albums?.data ?? null,
@@ -126,7 +129,7 @@ export class MusickitService {
         'art[url]': 'f',
         fields:
           'inLibrary,albumName,artistName,artwork,composerName,discNumber,durationInMillis,genreNames,hasLyrics,isAppleDigitalMaster,isrc,name,playParams,previews,releaseDate,trackNumber,url',
-      }
+      },
     );
   }
 
@@ -144,7 +147,7 @@ export class MusickitService {
         types: searchTypes,
         limit: 32,
         'art[url]': 'f',
-      }
+      },
     );
 
     const orgData: {
@@ -178,7 +181,7 @@ export class MusickitService {
         limit: 100,
         offset,
         'art[url]': 'f',
-      })
+      }),
     ).pipe(retry({ delay: 500 }), timeout(5000));
   }
 
@@ -198,13 +201,13 @@ export class MusickitService {
     return res.data;
   }
 
-  parseNext(next: string, fallback: number = 0): number {
+  parseNext(next: string, fallback = 0): number {
     return next ? parseInt(next.match(/\d*$/)[0], 10) : fallback;
   }
 
   fetchPage(
     url: string,
-    offset: number
+    offset: number,
   ): Observable<{ collection: any[]; offset: number; total: number }> {
     return from(this.musicKitInstance.api.music(url, { offset })).pipe(
       map(({ data }: any) => {
@@ -213,7 +216,7 @@ export class MusickitService {
           offset: this.parseNext(data.next),
           total: data.meta.total,
         };
-      })
+      }),
     );
   }
 
@@ -226,20 +229,16 @@ export class MusickitService {
   }
 
   async fetchLibraryAlbum(id: string): Promise<any> {
-    const {
-      data: { data: res },
-    }: { data: { data: [Album] } } = await this.musicKitInstance.api.music(
+    const req = await this.musicKitInstance.api.music(
       `v1/me/library/albums/${id}`,
-      { 'art[url]': 'f' }
+      {
+        'art[url]': 'f',
+        'format[resources]': 'map',
+        'include': 'catalog',
+        'include[albums]': 'tracks',
+      },
     );
-    const albumRes = res[0];
-    const newSongs = albumRes.relationships.tracks.data.map((song) => ({
-      ...song,
-      attributes: { ...song.attributes, inLibrary: true },
-    }));
-
-    albumRes.relationships.tracks.data = newSongs;
-    return res[0];
+    return req.data.resources;
   }
 
   fetchLibraryArtists(offset: number): Observable<any> {
@@ -248,7 +247,7 @@ export class MusickitService {
         limit: 100,
         offset,
         'art[url]': 'f',
-      })
+      }),
     );
   }
   fetchLibraryArtist(id: string): Observable<any> {
@@ -256,7 +255,7 @@ export class MusickitService {
       this.musicKitInstance.api.library.artist(id, {
         include: 'albums',
         'art[url]': 'f',
-      })
+      }),
     );
   }
   searchLibrary(query: string): Observable<any> {
@@ -271,26 +270,26 @@ export class MusickitService {
         types: searchTypes,
         limit: 20,
         'art[url]': 'f',
-      })
+      }),
     ).pipe(
       map((results: any) => ({
         songResults: results.songs.data,
         albumResults: results.albums.data,
         artistResults: results.artists.data,
         playlistResults: results.playlists.data,
-      }))
+      })),
     );
   }
   async fetchLibraryPlaylist(id: string): Promise<any> {
     const res = await this.musicKitInstance.api.music(
-      `v1/me/library/playlists/${id}`
+      `v1/me/library/playlists/${id}`,
     );
     return res.data.data[0];
   }
 
   async fetchLibraryPlaylistTracks(id: string): Promise<any> {
     const res = await this.musicKitInstance.api.music(
-      `v1/me/library/playlists/${id}/tracks`
+      `v1/me/library/playlists/${id}/tracks`,
     );
     return res.data.data;
   }
@@ -325,7 +324,7 @@ export class MusickitService {
       {
         limit: 25,
         offset,
-      }
+      },
     );
     return res.data;
   }
@@ -345,18 +344,30 @@ export class MusickitService {
     await loader.present();
   }
 
-  
-  async fetchRecomendations(){
-    const queryParameters = { l: 'en-us' };
+  async fetchCompleteAlbum(id: string): Promise<any> {
+    const {
+      data: { data: res },
+    }: { data: { data: [Album] } } = await this.musicKitInstance.api.music(
+      `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
+      { 'art[url]': 'f', relate: 'library' },
+    );
+    const albumRes = res[0];
+    console.log(albumRes);
+  }
 
+  async fetchRecomendations() {
+    const queryParameters = { l: 'en-us' };
 
     // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/search/suggestions`, {
     //   kinds: ['topResults']
     // })
-    const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/genres`, {})
-    console.log(res)
+    const res = await this.musicKitInstance.api.music(
+      `/v1/catalog/${this.musicKitInstance.storefrontId}/genres`,
+      {},
+    );
+    console.log(res);
     // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/charts`)
-    return res.data.data
+    return res.data.data;
   }
 
   // fetchRecentlyAdded(offset: number): Observable<any> {
