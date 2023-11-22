@@ -1,6 +1,5 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input, inject, signal } from '@angular/core';
 import {
   IonBackButton,
   IonButton,
@@ -23,7 +22,7 @@ import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-art
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../../providers/player/player.service2';
 import { Song } from '../../../../@types/song';
-import { LibraryAlbum } from '../../../../@types/library-album';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-library-albums',
@@ -37,7 +36,6 @@ import { LibraryAlbum } from '../../../../@types/library-album';
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    RouterModule,
     JsonPipe,
     IonHeader,
     IonToolbar,
@@ -51,11 +49,11 @@ import { LibraryAlbum } from '../../../../@types/library-album';
     IonItem,
     IonLabel,
     IonSkeletonText,
+    RouterLink,
   ],
 })
 export class AlbumPage {
   private api = inject(MusickitService);
-  private route = inject(ActivatedRoute);
   private player = inject(PlayerService);
 
   public hasError = signal(false);
@@ -66,33 +64,29 @@ export class AlbumPage {
   public canShare = !!('share' in navigator);
   showCompleteAlbum = signal(false);
 
-  async ionViewDidEnter() {
-    const id = this.route.snapshot.params.id;
-    const data = await this.api.fetchLibraryAlbum(id);
+  @Input()
+  set id(albumId: string) {
+    this.api.fetchLibraryAlbum(albumId).then((data) => {
+      const albumData = data['library-albums'][albumId];
+      const libraryTracks = Object.values(data['library-songs']).sort(
+        (a: Song, b: Song) =>
+          a.attributes.trackNumber - b.attributes.trackNumber,
+      );
 
-    const albumData = data['library-albums'][id];
-    const libraryTracks = Object.values(data['library-songs']).sort(
-      (a: Song, b: Song) => a.attributes.trackNumber - b.attributes.trackNumber,
-    );
-
-    if (libraryTracks < Object.values(data.songs)) {
-      this.showCompleteAlbum.set(true);
-      this.albumData.set(Object.values(data.albums)[0]);
-    }
-
-    this.libraryAlbum.set(albumData);
-    this.librarySongs.set(libraryTracks);
+      if (libraryTracks < Object.values(data.songs)) {
+        this.showCompleteAlbum.set(true);
+        this.albumData.set(Object.values(data.albums)[0]);
+      }
+      this.libraryAlbum.set(albumData);
+      this.librarySongs.set(libraryTracks);
+    });
   }
 
   playSong(index: number, shuffle = false) {
-    const { type } = this.libraryAlbum();
-    this.player.playAlbum(type, this.route.snapshot.params.id, index, shuffle);
+    const album = this.libraryAlbum().id;
+    this.player.playCollection({ album, startWith: index, shuffle });
   }
   playAlbum({ shuffle }) {
     this.playSong(0, shuffle);
-  }
-  delete() {
-    // const { href } = this.collection();
-    // this.api.deleteFromLibrary(href);
   }
 }

@@ -1,17 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 import { from, Observable, of } from 'rxjs';
 import { timeout, map, retry, switchMap } from 'rxjs/operators';
 import { Album } from 'src/@types/album';
 import { Playlist } from 'src/@types/playlist';
 import { Song } from 'src/@types/song';
-
+import { checkmarkCircle, list } from 'ionicons/icons';
 @Injectable({
   providedIn: 'root',
 })
 export class MusickitService {
   private musicKitInstance = globalThis.MusicKit?.getInstance();
   private toastCtrl = inject(ToastController);
+
 
   // API/Apple Music
   async fetchAlbum(id: string): Promise<Album> {
@@ -307,7 +309,7 @@ export class MusickitService {
     const loader = await this.toastCtrl.create({
       cssClass: 'loader-add-to-library',
       message: 'Added to Library',
-      icon: 'checkmark-circle',
+      icon: checkmarkCircle,
       duration: 2000,
     });
     await this.musicKitInstance.addToLibrary(id, type);
@@ -329,14 +331,13 @@ export class MusickitService {
     return res.data;
   }
 
-  async playNext(type: string, ids: string[]) {
+  async playNext(type: string, id: string) {
     const addNext = {};
-    addNext[type] = ids;
-
+    addNext[type] = id;
     const loader = await this.toastCtrl.create({
       cssClass: 'loader-play-next',
       message: 'Playing Next',
-      icon: 'list',
+      icon: list,
       duration: 2000,
     });
 

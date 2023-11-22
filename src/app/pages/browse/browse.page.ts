@@ -20,6 +20,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { Song } from '../../../@types/song';
 
 @Component({
   selector: 'app-browse-page',
@@ -55,9 +56,7 @@ export class BrowsePage {
     hasError: false,
     collection: null,
   });
-  trackByItem(_idx: number, item: any) {
-    return item.id;
-  }
+
   async ionViewDidEnter() {
     const data = await this.api.fetchChart();
     this.state.update(() => ({
@@ -67,6 +66,8 @@ export class BrowsePage {
     }));
   }
   playSong(index: number) {
-    this.player.setQueueFromItems(this.state().collection.topSongs, index);
+    const songs: Array<Song> = this.state().collection.topSongs;
+    const songsToPlay = songs.map(song => song.id);
+    this.player.playCollection({ songs: songsToPlay, startWith: index });
   }
 }

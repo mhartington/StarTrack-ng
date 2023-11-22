@@ -107,7 +107,7 @@ export class SearchPage implements OnDestroy {
   
 
   playSong(song: Song): void {
-    this.player.setQueueFromItems([song]);
+    this.player.playCollection({song: song.id});
   }
   clearSearch() {
     this.segmentFilter.setValue('songs');

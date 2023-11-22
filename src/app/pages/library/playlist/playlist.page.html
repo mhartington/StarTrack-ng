@@ -15,7 +15,7 @@
   ></preview-header>
   <ion-list>
     @for(song of playlistTracks(); let i = $index; track song.id ){
-    <song-item [song]="song" [index]="i" (click)="playSong(i)">
+    <song-item [song]="song" (click)="playSong(i)">
       <ion-thumbnail slot="start">
         <lazy-img
           [src]="song.attributes.artwork.url | formatArtworkUrl: 60"

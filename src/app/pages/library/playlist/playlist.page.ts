@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input, inject, signal } from '@angular/core';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
@@ -34,7 +33,6 @@ import {
     SongItemComponent,
     LazyImgComponent,
     FormatArtworkUrlPipe,
-    RouterModule,
     IonHeader,
     IonToolbar,
     IonContent,
@@ -50,7 +48,6 @@ import {
 })
 export class PlaylistPage {
   private api = inject(MusickitService);
-  private route = inject(ActivatedRoute);
   private player = inject(PlayerService);
 
   public hasError = signal(false);
@@ -58,26 +55,22 @@ export class PlaylistPage {
   public collectionTracks = signal<Partial<Album>>(null);
   public playlistTracks = signal(null);
 
-  public canShare = !!('share' in navigator);
-
-  async ionViewDidEnter() {
-    const id = this.route.snapshot.params.id;
-    const [playlistInfo, playlistTracks] = await Promise.all([
-      await this.api.fetchLibraryPlaylist(id),
-      await this.api.fetchLibraryPlaylistTracks(id),
-    ]);
-    this.collection.set(playlistInfo);
-    this.playlistTracks.set(playlistTracks);
+  @Input()
+  set id(playlistId: string) {
+    Promise.all([
+      this.api.fetchLibraryPlaylist(playlistId),
+      this.api.fetchLibraryPlaylistTracks(playlistId),
+    ]).then(([playlistInfo, playlistTracks]) => {
+      this.collection.set(playlistInfo);
+      this.playlistTracks.set(playlistTracks);
+    });
   }
 
   playSong(index: number, shuffle = false) {
-    this.player.playPlaylist(this.route.snapshot.params.id, index, shuffle);
+    const playlist = this.collection().id;
+    this.player.playCollection({ playlist, startWith: index, shuffle });
   }
   playAlbum({ shuffle }) {
     this.playSong(0, shuffle);
-  }
-  delete() {
-    const { href } = this.collection();
-    this.api.deleteFromLibrary(href);
   }
 }

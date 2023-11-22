@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -7,6 +6,7 @@ import {
   OnDestroy,
   SimpleChanges,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import {
   Application,
@@ -27,7 +27,9 @@ import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
   template: `<canvas #canvas width="100" height="100"></canvas>`,
   styleUrls: ['./background-glow.scss'],
 })
-export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class BackgroundGlowComponent
+  implements OnDestroy, OnChanges, AfterViewInit
+{
   @Input() src: string;
   @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
 
@@ -35,7 +37,7 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
   private app: Application<ICanvas>;
 
   reduceMotionQuery = matchMedia('(prefers-reduced-motion)');
-  ngAfterViewInit() {
+  createApp() {
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.app = new Application({
@@ -83,7 +85,6 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
       r as DisplayObject,
     );
   }
-
   initAnimation() {
     this.container = new Container();
     this.app.stage.addChild(this.container as DisplayObject);
@@ -148,9 +149,9 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
     colorOverlayContainer.addChild(_ as DisplayObject);
     this.app.stage.addChild(f as DisplayObject);
   }
-
+  
   updateArtwork(img: string) {
-    if (this.app && img !== 'assets/imgs/default.svg') {
+    if (this.app) {
       const incomingTexture = Texture.from(img);
       const incomingImgArray = [];
 
@@ -163,11 +164,16 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
       if (this.container.children.length > 4) {
         this.container.removeChildren(4);
       }
-      this.addSpritesToContainer(incomingImgArray[0],incomingImgArray[1],incomingImgArray[2],incomingImgArray[3]);
+      this.addSpritesToContainer(
+        incomingImgArray[0],
+        incomingImgArray[1],
+        incomingImgArray[2],
+        incomingImgArray[3],
+      );
 
       const currentContainerCopy = this.container.children.slice(0, 4);
       let opacityDelta = 1;
-      const currentRotationValArray = currentContainerCopy.map((h) => h.rotation);
+      const currentRotationValArray = currentContainerCopy.map( (h) => h.rotation,);
       this.app.ticker.add(() => {
         const rotationSpeed = 0.4;
         const opacitySpeed = this.app.ticker.deltaMS / 33.33333;
@@ -216,15 +222,17 @@ export class BackgroundGlowComponent implements AfterViewInit, OnDestroy, OnChan
       });
     }
   }
-
-  async ngOnChanges({ src }: SimpleChanges) {
-    if (src.currentValue !== 'assets/imgs/default.svg') {
+  ngAfterViewInit() {
+    this.createApp();
+  }
+  ngOnChanges({ src }: SimpleChanges) {
+    if (!src.firstChange && this.app != null) {
       this.updateArtwork(src.currentValue);
     }
   }
 
   ngOnDestroy(): void {
-    this.app.destroy(true, {
+    this.app?.destroy(true, {
       children: true,
       texture: true,
       baseTexture: true,

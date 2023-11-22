@@ -60,7 +60,6 @@ export class SongItemComponent {
     });
   }
   async showMore(e: any) {
-    console.log('click')
     e.stopPropagation();
     const popover = await this.popoverCtrl.create({
       component: SongContextMenuComponent,

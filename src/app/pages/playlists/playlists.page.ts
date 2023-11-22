@@ -1,5 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input, inject, signal } from '@angular/core';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
@@ -31,7 +30,6 @@ import { addIcons } from 'ionicons';
   styleUrls: ['./playlists.page.scss'],
   standalone: true,
   imports: [
-    RouterModule,
     CommonModule,
     ErrorComponent,
     PreviewHeaderComponent,
@@ -54,7 +52,6 @@ import { addIcons } from 'ionicons';
 })
 export class PlaylistPage {
   private api = inject(MusickitService);
-  private route = inject(ActivatedRoute);
   private player = inject(PlayerService);
 
   public collection = signal(null);
@@ -63,23 +60,27 @@ export class PlaylistPage {
   constructor() {
     addIcons({ share });
   }
-  async ionViewDidEnter() {
-    const id = this.route.snapshot.params.id;
-    const data = await this.api.fetchPlaylist(id);
-    this.collection.set(data);
+
+
+  @Input()
+  set id(playlistId: string){
+    this.api.fetchPlaylist(playlistId)
+    .then((data) => {
+      this.collection.set(data);
+    })
   }
 
-  playSong(startPosition: number, shuffle = false) {
-    const { url } = this.collection().attributes;
-    this.player.playCollection({ shuffle, url, startPosition });
+  playSong(startWith: number, shuffle = false) {
+    const playlist = this.collection().id
+    this.player.playCollection({ shuffle, playlist, startWith });
   }
   playPlaylist({ shuffle }) {
-    this.playSong(null, shuffle);
+    this.playSong(0, shuffle);
   }
   share() {
     const collection = this.collection();
     if (this.canShare) {
-      (navigator as any)
+      navigator
         .share({
           title: 'Star Track',
           text: `Check out "${collection.attributes.name}" by ${collection.attributes.curatorName}. Via Star Track.`,

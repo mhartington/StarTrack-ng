@@ -44,6 +44,6 @@ export class SongContextMenuComponent {
 
   async playNext() {
     await this.#popoverCtrl.dismiss();
-    await this.#api.playNext(this.song.type, [this.song.id]);
+    await this.#api.playNext('song', this.song.id);
   }
 }

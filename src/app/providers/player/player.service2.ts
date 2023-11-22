@@ -6,10 +6,16 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { effect } from '@angular/core';
 
 export type QueueOpts = {
-  url: string;
-  shuffle: boolean | false;
+  url?: string;
+  shuffle?: boolean | false;
   startPosition?: number;
   startWith?: number;
+  albums?: Array<string>;
+  songs?: Array<string>;
+  playlists?: Array<string>;
+  album?: string;
+  song?: string;
+  playlist?: string;
 };
 export enum PlaybackStates {
   NONE,
@@ -63,7 +69,6 @@ export class PlayerService {
       this.nowPlaying.set(nowPlayingInit);
       this.queue.set([]);
     });
-    
 
     // Time has incremented
     this.mkInstance.addEventListener(
@@ -71,23 +76,22 @@ export class PlayerService {
       ({ currentPlaybackTime, currentPlaybackTimeRemaining }: never) => {
         this.playbackTime.set(currentPlaybackTime);
         this.playbackTimeRemaining.set(currentPlaybackTimeRemaining);
-      }
+      },
     );
-
 
     // Song duration has changed
     this.mkInstance.addEventListener(
       this.mkEvents.playbackDurationDidChange,
       ({ duration }) => {
         this.playbackDuration.set(duration);
-      }
+      },
     );
     // Play/Pause/Loading
     this.mkInstance.addEventListener(
       this.mkEvents.playbackStateDidChange,
       ({ state }) => {
         this.playbackState.set(state);
-      }
+      },
     );
 
     // Now playing song changed
@@ -99,7 +103,7 @@ export class PlayerService {
           this.playbackTime.set(0);
           this.scheduleNotification();
         }
-      }
+      },
     );
 
     // queue items changed
@@ -114,66 +118,33 @@ export class PlayerService {
       ({ position }) => {
         this.queuePosition.set(position + 1);
         this.upNext.set(this.mkInstance.queue.unplayedUserItems.slice(1));
-      }
+      },
     );
 
     effect(() => {
       const playbackState = this.playbackState();
       const nowPlaying = this.nowPlaying();
       if (playbackState === PlaybackStates.PLAYING) {
-        this.title.setTitle(`${nowPlaying.attributes.name}${nowPlaying.attributes.artistName ? ' • ' + nowPlaying.attributes.artistName : ''}`);
+        this.title.setTitle(
+          `${nowPlaying.attributes.name}${
+            nowPlaying.attributes.artistName
+              ? ' • ' + nowPlaying.attributes.artistName
+              : ''
+          }`,
+        );
       } else {
         this.title.setTitle('Star Track');
       }
     });
 
-    effect(()=> {
-        this.mkInstance.volume = this.volume();
-    })
-    
-
+    effect(() => {
+      this.mkInstance.volume = this.volume();
+    });
   }
 
   // PLAYER METHODS
-  // Play Album
-  async playAlbum(
-    _type: string,
-    album: string,
-    startWith: number,
-    shuffle = false
-  ) {
-    this.toggleShuffle(shuffle);
-    await this.mkInstance.setQueue({ album, startWith });
-    await this.play();
-  }
-
-
-  async playPlaylist(playlist: string, startWith: number, shuffle = false) {
-    this.toggleShuffle(shuffle);
-    await this.mkInstance.setQueue({ playlist, startWith });
-    await this.play();
-  }
-  async setQueueFromItems(items: any[], startPosition = 0, shuffle = false) {
-    if (shuffle) {
-      items = items.sort(() => 0.5 - Math.random());
-    }
-    const newItems = items.map(
-      (item) => new globalThis.MusicKit.MediaItem(item)
-    );
-    await this.mkInstance.setQueue({ items: newItems });
-    await this.mkInstance.changeToMediaAtIndex(startPosition);
-  }
-
-  // Eventually try to move this all together
-  async playCollection(opts: any) {
-    const queueOpts: QueueOpts = {
-      shuffle: opts.shuffle ?? false,
-      url: opts.url,
-    };
-    if (opts.startPosition) {
-      queueOpts.startWith = opts.startPosition;
-    }
-    await this.mkInstance.setQueue(queueOpts);
+  async playCollection(opts: QueueOpts) {
+    await this.mkInstance.setQueue(opts);
     this.toggleShuffle(opts.shuffle);
     await this.play();
   }
@@ -214,28 +185,40 @@ export class PlayerService {
     this.isShuffling.set(this.mkInstance.shuffleMode);
   }
   async skipToNextItem() {
-    await this.stop();
-    const repeatMode = this.repeatMode();
-    if (repeatMode === 1) {
-      return await this.seekToTime(0);
-    }
-    return await this.mkInstance.skipToNextItem();
+        await this.stop();
+        const repeatMode = this.repeatMode();
+        if (repeatMode === 1) {
+          return await this.seekToTime(0);
+        }
+        return await this.mkInstance.skipToNextItem();
+    // if ((document as any)?.startViewTransition) {
+    //   (document as any).startViewTransition(async () => {
+    //   });
+    // }
   }
   async skipToPreviousItem() {
-    await this.stop();
-    const repeatMode = this.repeatMode();
-    if (repeatMode === 1) {
-      return await this.seekToTime(0);
-    }
-    return await this.mkInstance.skipToPreviousItem();
+        await this.stop();
+        const repeatMode = this.repeatMode();
+        if (repeatMode === 1) {
+          return await this.seekToTime(0);
+        }
+        return await this.mkInstance.skipToPreviousItem();
+    // if ((document as any)?.startViewTransition) {
+    //   (document as any).startViewTransition(async () => {
+    //   });
+    // }
   }
   async seekToTime(time: number) {
     await this.mkInstance.seekToTime(time);
   }
   async skipTo(song: Song) {
-    const index = this.queue().indexOf(song);
-    await this.stop();
-    await this.mkInstance.changeToMediaAtIndex(index);
+        const index = this.queue().indexOf(song);
+        await this.stop();
+        await this.mkInstance.changeToMediaAtIndex(index);
+    // if ((document as any)?.startViewTransition) {
+    //   (document as any).startViewTransition(async () => {
+    //   });
+    // }
   }
 
   // playNext(item: SongModel): void {

@@ -1,5 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input, inject, signal } from '@angular/core';
 import { Album } from '../../../@types/album';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
@@ -34,7 +33,6 @@ import { Song } from 'src/@types/song';
   styleUrls: ['./album.page.scss'],
   standalone: true,
   imports: [
-    RouterModule,
     CommonModule,
     ErrorComponent,
     PreviewHeaderComponent,
@@ -57,7 +55,6 @@ import { Song } from 'src/@types/song';
 })
 export class AlbumPage {
   private api = inject(MusickitService);
-  private route = inject(ActivatedRoute);
   private player = inject(PlayerService);
 
   public isLoading = signal(true);
@@ -66,16 +63,24 @@ export class AlbumPage {
 
   public canShare = !!('share' in navigator);
 
-  private id: string
+  @Input()
+  set id(albumId: string){
+    this.api.fetchAlbum(albumId)
+    .then((data) => {
+      this.collection.set(data);
+      this.isLoading.set(false);
+    })
+  }
+
   constructor(){
     addIcons({ share, add });
   }
-  async ionViewDidEnter() {
-    const id = this.route.snapshot.params.id;
-    const data = await this.api.fetchAlbum(id);
-    this.collection.set(data);
-    this.isLoading.set(false);
-  }
+  // async ionViewDidEnter() {
+  //   const id = this.route.snapshot.params.id;
+  //   const data = await this.api.fetchAlbum(id);
+  //   this.collection.set(data);
+  //   this.isLoading.set(false);
+  // }
 
   playSong(song: Song, startPosition: number, shuffle = false) {
     if(!song.attributes.releaseDate){ return; }
@@ -90,7 +95,7 @@ export class AlbumPage {
 
   share() {
     if (this.canShare) {
-      (navigator as any)
+      navigator
         .share({
           title: 'Star Track',
           text: `Check out "${this.collection().attributes.name}" by ${
@@ -100,7 +105,7 @@ export class AlbumPage {
         })
         .then(
           () => console.log('Successful share'),
-          (error: any) => console.log('Error sharing', error)
+          (error) => console.log('Error sharing', error)
         );
     }
   }

@@ -55,7 +55,7 @@ ion-content {
   z-index: 1;
 
   display: grid;
-  grid-template-rows: 70% auto;
+  grid-template-rows: 70% 30%;
   grid-template-areas:
     'now-playing'
     'controls';
@@ -255,7 +255,7 @@ ion-button.active {
   }
   .track-wrapper.queue-active {
     .track-player {
-      grid-template-rows: auto 50% 35%;
+      grid-template-rows: auto 50% 30%;
         // grid-template-rows: 65% 35%;
 
       grid-template-areas:

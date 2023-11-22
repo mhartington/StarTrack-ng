@@ -58,9 +58,6 @@ export class SongsPage {
   async ionViewDidEnter() {
     this.songs().length === 0 ? this.fetchSongs() : null;
   }
-  trackByItem(_idx: number, item: any) {
-    return item.id;
-  }
 
   async fetchSongs() {
     const res = await this.api.fetchLibrarySongs(this.offset);
@@ -79,8 +76,9 @@ export class SongsPage {
     }
   }
 
-  playSong(index: number, shuffle = false) {
+  playSong(index: number) {
     const songs = this.songs();
-    this.player.playCollection({ songs, startPosition: index });
+    const songsToPlay = songs.map(song => song.id);
+    this.player.playCollection({ songs: songsToPlay, startWith: index });
   }
 }
