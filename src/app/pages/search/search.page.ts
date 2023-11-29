@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
@@ -59,7 +59,7 @@ import { PlayerService } from '../../providers/player/player.service2';
     IonThumbnail,
   ],
 })
-export class SearchPage implements OnDestroy {
+export class SearchPage implements OnDestroy, OnInit {
   private api = inject(MusickitService);
   private player = inject(PlayerService);
   private router = inject(Router);
@@ -100,6 +100,7 @@ export class SearchPage implements OnDestroy {
 
   }
   async ngOnInit(){
+    console.log()
     // const data = await this.api.fetchRecomendations();
     // this.recomendations.set(data);
     // console.log(data)

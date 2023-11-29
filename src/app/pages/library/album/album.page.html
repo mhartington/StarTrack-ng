@@ -13,6 +13,7 @@
     [collection]="collection"
     (playCollection)="playAlbum($event)"
   ></preview-header>
+  <hr>
   <ion-list>
     @for(song of librarySongs(); let i = $index; track song.id){
     <song-item
@@ -47,6 +48,7 @@
   } @else{
 
   <preview-header></preview-header>
+  <hr>
   <ion-list>
     @for(filler of [].constructor(10); track filler){
     <ion-item>

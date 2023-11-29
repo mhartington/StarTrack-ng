@@ -66,20 +66,20 @@ export class AlbumPage {
 
   @Input()
   set id(albumId: string) {
-    this.api.fetchLibraryAlbum(albumId).then((data) => {
-      const albumData = data['library-albums'][albumId];
-      const libraryTracks = Object.values(data['library-songs']).sort(
-        (a: Song, b: Song) =>
-          a.attributes.trackNumber - b.attributes.trackNumber,
-      );
-
-      if (libraryTracks < Object.values(data.songs)) {
-        this.showCompleteAlbum.set(true);
-        this.albumData.set(Object.values(data.albums)[0]);
-      }
-      this.libraryAlbum.set(albumData);
-      this.librarySongs.set(libraryTracks);
-    });
+    this.fetchAlbum(albumId);
+  }
+  async fetchAlbum(id: string) {
+    const data = await this.api.fetchLibraryAlbum(id);
+    const albumData = data['library-albums'][id];
+    const libraryTracks = Object.values(data['library-songs']).sort(
+      (a: Song, b: Song) => a.attributes.trackNumber - b.attributes.trackNumber,
+    );
+    if (data.songs && libraryTracks < Object.values(data.songs)) {
+      this.showCompleteAlbum.set(true);
+      this.albumData.set(Object.values(data.albums)[0]);
+    }
+    this.libraryAlbum.set(albumData);
+    this.librarySongs.set(libraryTracks);
   }
 
   playSong(index: number, shuffle = false) {

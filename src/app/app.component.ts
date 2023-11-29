@@ -35,9 +35,8 @@ import {
   IonAccordionGroup,
   IonAccordion,
   IonLabel,
-  IonRouterLink
+  IonRouterLink,
 } from '@ionic/angular/standalone';
-
 
 @Component({
   selector: 'app-root',
@@ -95,14 +94,13 @@ export class AppComponent implements OnInit {
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
-      () => this.isAuthorized.set(this.musicKitInstance.isAuthorized)
+      () => this.isAuthorized.set(this.musicKitInstance.isAuthorized),
     );
 
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
   }
-
 
   // overridewindow() {
   //   const og = window.open;

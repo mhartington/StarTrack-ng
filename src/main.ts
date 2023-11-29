@@ -1,9 +1,16 @@
-import { APP_INITIALIZER, isDevMode, } from '@angular/core';
+import { APP_INITIALIZER, isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { RouteReuseStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  RouteReuseStrategy,
+  provideRouter,
+  withComponentInputBinding,
+} from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideIonicAngular, IonicRouteStrategy, } from '@ionic/angular/standalone';
+import {
+  provideIonicAngular,
+  IonicRouteStrategy,
+} from '@ionic/angular/standalone';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';

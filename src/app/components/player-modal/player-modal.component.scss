@@ -1,5 +1,5 @@
 ion-header {
-  ion-toolbar{
+  ion-toolbar {
     padding-top: max(var(--ion-safe-area-top), 16px);
   }
   &:hover {
@@ -24,10 +24,19 @@ ion-footer {
 
   ion-toolbar {
     --border-width: 0;
-    --padding-start: calc(env(safe-area-inset-left) + 24px);
-    --padding-end: calc(env(safe-area-inset-left) + 24px);
+    @media (orientation: landscape) {
+      --padding-start: calc(env(safe-area-inset-left) + 24px);
+      --padding-end: calc(env(safe-area-inset-left) + 24px);
+    }
+    @media (orientation: portrait) {
+      margin: auto;
+      max-width: 85%;
+      --padding-start: unset;
+      --padding-end: unset;
+    }
   }
 }
+
 ion-content {
   --padding-bottom: 0;
   --background: none;
@@ -95,7 +104,7 @@ ion-content {
 
         height: auto;
         width: auto;
-        
+
         aspect-ratio: 1;
       }
     }
@@ -256,7 +265,7 @@ ion-button.active {
   .track-wrapper.queue-active {
     .track-player {
       grid-template-rows: auto 50% 30%;
-        // grid-template-rows: 65% 35%;
+      // grid-template-rows: 65% 35%;
 
       grid-template-areas:
         'now-playing'

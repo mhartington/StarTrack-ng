@@ -14,17 +14,17 @@ export class MusickitService {
   private musicKitInstance = globalThis.MusicKit?.getInstance();
   private toastCtrl = inject(ToastController);
 
-
   // API/Apple Music
   async fetchAlbum(id: string): Promise<Album> {
     const {
       data: { data: res },
     }: { data: { data: [Album] } } = await this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/albums/${id}`,
-      { 'art[url]': 'f',
+      {
+        'art[url]': 'f',
 
         'include[albums]': 'tracks',
-        },
+      },
     );
     // const albumRes = res[0];
     // const songsToFetch = albumRes.relationships.tracks.data.map(
@@ -236,7 +236,7 @@ export class MusickitService {
       {
         'art[url]': 'f',
         'format[resources]': 'map',
-        'include': 'catalog',
+        include: 'catalog',
         'include[albums]': 'tracks',
       },
     );
@@ -357,18 +357,16 @@ export class MusickitService {
   }
 
   async fetchRecomendations() {
-    const queryParameters = { l: 'en-us' };
-
-    // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/search/suggestions`, {
-    //   kinds: ['topResults']
-    // })
+    const queryParameters = {
+      l: 'en-us',
+      'art[url]': 'f',
+      'format[resources]': 'map',
+    };
     const res = await this.musicKitInstance.api.music(
-      `/v1/catalog/${this.musicKitInstance.storefrontId}/genres`,
-      {},
+      `/v1/me/recommendations`,
+      queryParameters,
     );
-    console.log(res);
-    // const res = await this.musicKitInstance.api.music(`/v1/catalog/${this.musicKitInstance.storefrontId}/charts`)
-    return res.data.data;
+    return res.data.resources;
   }
 
   // fetchRecentlyAdded(offset: number): Observable<any> {

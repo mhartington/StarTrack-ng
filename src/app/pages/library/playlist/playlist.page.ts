@@ -57,13 +57,15 @@ export class PlaylistPage {
 
   @Input()
   set id(playlistId: string) {
-    Promise.all([
+    this.fetchPlaylist(playlistId);
+  }
+  async fetchPlaylist(playlistId: string) {
+    const [playlistInfo, playlistTracks] = await Promise.all([
       this.api.fetchLibraryPlaylist(playlistId),
       this.api.fetchLibraryPlaylistTracks(playlistId),
-    ]).then(([playlistInfo, playlistTracks]) => {
-      this.collection.set(playlistInfo);
-      this.playlistTracks.set(playlistTracks);
-    });
+    ]);
+    this.collection.set(playlistInfo);
+    this.playlistTracks.set(playlistTracks);
   }
 
   playSong(index: number, shuffle = false) {
