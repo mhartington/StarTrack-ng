@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Song } from 'src/@types/song';
+import { Song, SongAttributes } from 'src/@types/song';
 
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { effect } from '@angular/core';
@@ -35,13 +35,14 @@ export enum RepeatMode {
   ONE,
   ALL,
 }
-const nowPlayingInit = {
-  attributes: {
-    name: null,
-    artistName: null,
-    albumName: null,
-    artwork: { url: 'assets/imgs/default.svg' },
-  },
+const nowPlayingAttrs: Partial<SongAttributes> = {
+  name: null,
+  artistName: null,
+  albumName: null,
+  artwork: { url: 'assets/imgs/default.svg' },
+};
+const nowPlayingInit: any = {
+  attributes: nowPlayingAttrs,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -185,24 +186,24 @@ export class PlayerService {
     this.isShuffling.set(this.mkInstance.shuffleMode);
   }
   async skipToNextItem() {
-        await this.stop();
-        const repeatMode = this.repeatMode();
-        if (repeatMode === 1) {
-          return await this.seekToTime(0);
-        }
-        return await this.mkInstance.skipToNextItem();
+    await this.stop();
+    const repeatMode = this.repeatMode();
+    if (repeatMode === 1) {
+      return await this.seekToTime(0);
+    }
+    return await this.mkInstance.skipToNextItem();
     // if ((document as any)?.startViewTransition) {
     //   (document as any).startViewTransition(async () => {
     //   });
     // }
   }
   async skipToPreviousItem() {
-        await this.stop();
-        const repeatMode = this.repeatMode();
-        if (repeatMode === 1) {
-          return await this.seekToTime(0);
-        }
-        return await this.mkInstance.skipToPreviousItem();
+    await this.stop();
+    const repeatMode = this.repeatMode();
+    if (repeatMode === 1) {
+      return await this.seekToTime(0);
+    }
+    return await this.mkInstance.skipToPreviousItem();
     // if ((document as any)?.startViewTransition) {
     //   (document as any).startViewTransition(async () => {
     //   });
@@ -212,9 +213,9 @@ export class PlayerService {
     await this.mkInstance.seekToTime(time);
   }
   async skipTo(song: Song) {
-        const index = this.queue().indexOf(song);
-        await this.stop();
-        await this.mkInstance.changeToMediaAtIndex(index);
+    const index = this.queue().indexOf(song);
+    await this.stop();
+    await this.mkInstance.changeToMediaAtIndex(index);
     // if ((document as any)?.startViewTransition) {
     //   (document as any).startViewTransition(async () => {
     //   });

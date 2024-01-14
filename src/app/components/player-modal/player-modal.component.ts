@@ -3,7 +3,6 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
-
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import {
   PlaybackStates,
@@ -30,7 +29,7 @@ import {
   IonThumbnail,
   IonToolbar,
   ModalController,
-  
+  PopoverController,
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
@@ -44,10 +43,14 @@ import {
   list,
   repeat,
   shuffle,
+  ellipsisHorizontal,
 } from 'ionicons/icons';
 import { Capacitor } from '@capacitor/core';
-import { MsToMinsPipe, SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
-
+import {
+  MsToMinsPipe,
+  SecondsToMins,
+} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+import { NowPlayingContextMenuComponent } from '../now-playing-context-menu/now-playing-context-menu.component';
 
 @Component({
   selector: 'app-player-modal',
@@ -77,7 +80,7 @@ import { MsToMinsPipe, SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.p
     IonToolbar,
     IonText,
     IonContent,
-    IonThumbnail
+    IonThumbnail,
   ],
 })
 export class PlayerModalComponent {
@@ -96,7 +99,6 @@ export class PlayerModalComponent {
 
   public showQueue = false;
 
-
   constructor() {
     addIcons({
       list,
@@ -108,6 +110,7 @@ export class PlayerModalComponent {
       shuffle,
       volumeOff,
       repeat,
+      ellipsisHorizontal,
     });
   }
   async dismiss() {
@@ -165,7 +168,7 @@ export class PlayerModalComponent {
   async toggleQueue() {
     this.showQueue = !this.showQueue;
     await import('./player-modal.animation').then((m) =>
-      m.createQueueAnimation(this.wrapper.nativeElement, this.showQueue)
+      m.createQueueAnimation(this.wrapper.nativeElement, this.showQueue),
     );
   }
   toggleShuffle(shuffleMode: boolean) {
@@ -187,5 +190,15 @@ export class PlayerModalComponent {
     if (Capacitor.isNativePlatform()) {
       StatusBar.setStyle({ style: Style.Default });
     }
+  }
+
+  private popoverCtrl = inject(PopoverController);
+  async showNowPlayingContext(event) {
+    const popover = await this.popoverCtrl.create({
+      component: NowPlayingContextMenuComponent,
+      event,
+      side: 'top',
+    });
+    await popover.present();
   }
 }

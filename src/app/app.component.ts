@@ -88,9 +88,11 @@ export class AppComponent implements OnInit {
       gridOutline,
       chevronForward,
     });
-    const prefersDark = matchMedia('(prefers-color-scheme: dark)');
+    
     this.setMetaTheme();
-    prefersDark.addEventListener('change', () => this.setMetaTheme());
+
+    matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => this.setMetaTheme());
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,

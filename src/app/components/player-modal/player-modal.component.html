@@ -26,16 +26,25 @@
         ></now-playing-artwork>
       </ion-thumbnail>
       <ion-label>
-        <h3>
-          <ion-text color="white">{{
-            player.nowPlaying().attributes.name ?? 'Not Playing'
-          }}</ion-text>
-        </h3>
-        <p>
-          <ion-text color="white">{{
-            player.nowPlaying().attributes.artistName
-          }}</ion-text>
-        </p>
+        <div class="text-wrapper">
+          <h3>
+            <ion-text color="white">{{
+              player.nowPlaying().attributes.name ?? 'Not Playing'
+              }}</ion-text>
+          </h3>
+          <p>
+            <ion-text color="white">{{
+              player.nowPlaying().attributes.artistName
+              }}</ion-text>
+          </p>
+        </div>
+        @if(player.nowPlaying().attributes.name){
+        <ion-buttons>
+          <ion-button shape="round" (click)="showNowPlayingContext($event)">
+          <ion-icon slot="icon-only" icon="ellipsis-horizontal"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        }
       </ion-label>
     </div>
     <queue-list
@@ -177,3 +186,5 @@
       | formatArtworkUrl: 50
   "
 />
+
+<!-- <background-glow src="https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c2/f2/78/c2f2783f-8e65-0b2b-80ac-b52c4cfece2d/16UMGIM35657.rgb.jpg/50x50bb.jpg"></background-glow> -->

@@ -114,6 +114,9 @@ ion-content {
       display: block;
       width: 100%;
       overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+
       * {
         line-height: 1.2;
         white-space: nowrap;

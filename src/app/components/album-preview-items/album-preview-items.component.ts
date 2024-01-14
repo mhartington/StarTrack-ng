@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import {
   IonCard,
@@ -6,8 +5,6 @@ import {
   IonNote,
   IonSkeletonText,
 } from '@ionic/angular/standalone';
-import { Album } from '../../../@types/album';
-import { Playlist } from '../../../@types/playlist';
 
 @Component({
   selector: '[album-preview-item]',
@@ -15,9 +12,9 @@ import { Playlist } from '../../../@types/playlist';
   styleUrls: ['./album-preview-items.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, IonCard, IonLabel, IonNote, IonSkeletonText],
+  imports: [IonCard, IonLabel, IonNote, IonSkeletonText],
 })
 export class AlbumPreviewItemsComponent {
-  @Input() album: any;
+  @Input() collection: any;
   @Input() index: number;
 }

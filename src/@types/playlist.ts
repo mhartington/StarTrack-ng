@@ -3,6 +3,7 @@ import { PlayParameters, Song } from './song';
 export type PlaylistAttributes = {
   artwork: Artwork;
   curatorName: string;
+  contentRating: 'clean' | 'explicit';
   description: { short: string; standard: string };
   isChart: boolean;
   lastModifiedDate: string;
@@ -28,10 +29,10 @@ export type PlaylistRelationships = {
 //   'more-by-curator': PlaylistMoreByCuratorView;
 // };
 export type Playlist = {
+  attributes: PlaylistAttributes;
   id: string;
   type: 'playlists';
   href: string;
-  attributes: PlaylistAttributes;
   relationships: PlaylistRelationships;
   // views: PlaylistViews;
 };

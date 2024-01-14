@@ -87,8 +87,7 @@ export class PlaylistPage {
           url: `${window.location.origin}/album/${collection.id}`,
         })
         .then(
-          () => console.log('Successful share'),
-          (error: any) => console.log('Error sharing', error)
+          () => console.log('Successful share')
         );
     }
   }

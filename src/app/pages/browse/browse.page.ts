@@ -1,13 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { AlbumPreviewItemsComponent } from '../../components/album-preview-items/album-preview-items.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
-import { RouterModule } from '@angular/router';
+import { RouterLinkWithHref } from '@angular/router';
 import { ErrorComponent } from '../../components/error/error.component';
 import {
   IonButtons,
@@ -28,13 +26,10 @@ import { Song } from '../../../@types/song';
   styleUrls: ['./browse.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
     SongItemComponent,
     AlbumPreviewItemsComponent,
     FormatArtworkUrlPipe,
     LazyImgComponent,
-    RouterModule,
     ErrorComponent,
     IonTitle,
     IonHeader,
@@ -45,6 +40,7 @@ import { Song } from '../../../@types/song';
     IonList,
     IonMenuButton,
     IonButtons,
+    RouterLinkWithHref,
   ],
 })
 export class BrowsePage {
@@ -59,15 +55,16 @@ export class BrowsePage {
 
   async ionViewDidEnter() {
     const data = await this.api.fetchChart();
-    this.state.update(() => ({
+    this.state.set({
       isLoading: false,
       hasError: false,
       collection: data,
-    }));
+    });
   }
+
   playSong(index: number) {
     const songs: Array<Song> = this.state().collection.topSongs;
-    const songsToPlay = songs.map(song => song.id);
+    const songsToPlay = songs.map((song) => song.id);
     this.player.playCollection({ songs: songsToPlay, startWith: index });
   }
 }

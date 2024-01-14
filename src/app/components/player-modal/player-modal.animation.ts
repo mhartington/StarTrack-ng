@@ -40,15 +40,15 @@ export const createQueueAnimation = async (
   targetEl: HTMLElement,
   isOpening: boolean
 ): Promise<void> => {
-  // if ((document as any)?.startViewTransition) {
-  //   (document as any).startViewTransition(() => {
-  //     targetEl.classList.toggle('animation-start');
-  //     targetEl.classList.toggle('queue-active');
-  //     setTimeout(() => {
-  //       targetEl.classList.toggle('animation-start');
-  //     }, 250);
-  //   });
-  // } else {
+  if ((document as any)?.startViewTransition) {
+    (document as any).startViewTransition(() => {
+      targetEl.classList.toggle('animation-start');
+      targetEl.classList.toggle('queue-active');
+      setTimeout(() => {
+        targetEl.classList.toggle('animation-start');
+      }, 250);
+    });
+  } else {
   const isPortait = window.matchMedia('(orientation: portrait)').matches;
   const animationChain = [];
   const baseAnimation = createAnimation()
@@ -369,5 +369,5 @@ export const createQueueAnimation = async (
     .afterRemoveClass(ANIMATION_START)
     .afterAddClass(ANIMATION_DONE)
     .play();
-  // }
+  }
 };

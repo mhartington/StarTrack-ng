@@ -1,10 +1,13 @@
 :host {
-  padding-bottom: 16px;
-  padding-top: 16px;
+  // padding-bottom: 16px;
+  // padding-top: 16px;
+  padding: 16px;
   display: grid;
-  grid-template-columns: 40% 60%;
+  column-gap: 16px;
+  grid-template-columns: 2fr 3fr;
   align-items: center;
   justify-content: flex-start;
+  height: 324px;
 }
 ion-toolbar {
   --background: transparent;
@@ -33,7 +36,7 @@ lazy-img {
 }
 
 .album-detail {
-  padding: 0 16px;
+  // padding: 0 16px;
   z-index: 1;
   text-overflow: ellipsis;
   overflow: hidden;

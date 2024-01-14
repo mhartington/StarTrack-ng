@@ -36,7 +36,7 @@
               }
             ],
             "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json",
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -68,14 +68,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "app:build"
-          },
           "configurations": {
             "production": {
-              "buildTarget": "app:build:dev"
+              "buildTarget": "app:build:production"
+            },
+            "development": {
+              "buildTarget": "app:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

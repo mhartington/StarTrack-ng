@@ -484,37 +484,43 @@ song-item {
   --thumbnail-shadow-opacity: 0;
   transform-origin: top left;
 }
-::view-transition-new(thumbnail),
-::view-transition-old(thumbnail) {
-  --thumbnail-transition-duration: 0;
-  mix-blend-mode: normal;
+
+
+// ::view-transition-old() {
+//   display: none;
+// }
+::view-transition-new(thumbnail) {
+  animation: none;
 }
-// @media (orientation: landscape) {
-//   ::view-transition-old(queue):only-child {
-//     animation:
-//       scale 250ms ease reverse,
-//       fade 250ms ease reverse;
-//   }
-//   ::view-transition-new(queue):only-child {
-//     opacity: 0;
-//     transform: scale3d(0.6, 0.6, 0.6);
-//     animation:
-//       scale 250ms ease-out,
-//       fade 250ms ease-out;
-//   }
-// }
-// @media (orientation: portrait) {
-//   ::view-transition-old(queue):only-child {
-//     animation:
-//       slide 250ms ease-out reverse,
-//       fade 250ms ease-out reverse;
-//   }
-//   ::view-transition-new(queue):only-child {
-//     opacity: 0;
-//     transform: translate3d(0, 100%, 0);
-//     animation:
-//       slide 250ms ease-out,
-//       fade 250ms ease-out;
-//     animation-delay: 50ms;
-//   }
-// }
+::view-transition-old(thumbnail) {
+  display: none;
+}
+@media (orientation: landscape) {
+  ::view-transition-old(queue):only-child {
+    animation:
+      scale 250ms ease reverse,
+      fade 250ms ease reverse;
+  }
+  ::view-transition-new(queue):only-child {
+    opacity: 0;
+    transform: scale3d(0.6, 0.6, 0.6);
+    animation:
+      scale 250ms ease-out,
+      fade 250ms ease-out;
+  }
+}
+@media (orientation: portrait) {
+  ::view-transition-old(queue):only-child {
+    animation:
+      slide 250ms ease-out reverse,
+      fade 250ms ease-out reverse;
+  }
+  ::view-transition-new(queue):only-child {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    animation:
+      slide 250ms ease-out,
+      fade 250ms ease-out;
+    animation-delay: 50ms;
+  }
+}

@@ -82,10 +82,10 @@ export class AlbumPage {
   //   this.isLoading.set(false);
   // }
 
-  playSong(song: Song, startPosition: number, shuffle = false) {
+  playSong(song: Song, startWith: number, shuffle = false) {
     if(!song.attributes.releaseDate){ return; }
     const url = this.collection().attributes.url;
-    this.player.playCollection({ shuffle, url, startPosition });
+    this.player.playCollection({ shuffle, url,startWith });
   }
 
   playAlbum({ shuffle }) {

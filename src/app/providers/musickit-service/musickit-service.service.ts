@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
 import { from, Observable, of } from 'rxjs';
-import { timeout, map, retry, switchMap } from 'rxjs/operators';
+import { timeout, map, retry, switchMap, tap } from 'rxjs/operators';
 import { Album } from 'src/@types/album';
 import { Playlist } from 'src/@types/playlist';
 import { Song } from 'src/@types/song';
@@ -123,6 +122,18 @@ export class MusickitService {
     return ogData;
   }
 
+  searchSuggestions(term: string): Observable<any> {
+    const types = [ 'activities', 'albums', 'apple-curators', 'artists', 'curators', 'music-videos', 'playlists', 'record-labels', 'songs', 'stations', ]
+
+    return from(
+      this.musicKitInstance.api.music(
+        `v1/catalog/${this.musicKitInstance.storefrontId}/search/suggestions`,
+        { term, types, kinds:['terms','topResults'] },
+      ),
+    ).pipe(
+        tap(data => console.log(data))
+      );
+  }
   async fetchSongs(ids: string[]) {
     return this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/songs`,
@@ -141,41 +152,24 @@ export class MusickitService {
   fetchHeavyRotation(): Observable<any> {
     return from(this.musicKitInstance.api.historyHeavyRotation());
   }
+  
   async fetchChart(): Promise<any> {
     const searchTypes = ['songs', 'albums', 'playlists'];
-    const { data } = await this.musicKitInstance.api.music(
+    const  { data }  = await this.musicKitInstance.api.music(
       `v1/catalog/${this.musicKitInstance.storefrontId}/charts`,
       {
         types: searchTypes,
         limit: 32,
         'art[url]': 'f',
+        'format[resources]': 'map',
       },
     );
-
-    const orgData: {
-      topAlbums: Album[];
-      topPlaylists: Playlist[];
-      topSongs: Song[];
-    } = {
-      topAlbums: data.results.albums[0].data,
-      topPlaylists: data.results.playlists[0].data,
-      topSongs: data.results.songs[0].data,
-    };
-    const songsToFetch = orgData.topSongs.map((song) => song.id);
-
-    const { data: newSongs } = await this.fetchSongs(songsToFetch);
-    orgData.topSongs = newSongs.data;
-    return orgData;
-
-    //   .pipe(
-    //   map(({ data }: any) => ({
-    //     topAlbums: data.results.albums[0].data,
-    //     topPlaylists: data.results.playlists[0].data,
-    //     topSongs: data.results.songs[0].data,
-    //   })),
-    //   retryWhen((error) => error.pipe(delay(500))),
-    //   timeout(5000)
-    // );
+    const results = {
+      topAlbums: Object.values(data.resources.albums),
+      topSongs: Object.values(data.resources.songs),
+      topPlaylists: Object.values(data.resources.playlists),
+    }
+    return results
   }
   fetchPlaylists(offset: number): Observable<any> {
     return from(

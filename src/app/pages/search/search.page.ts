@@ -64,9 +64,10 @@ export class SearchPage implements OnDestroy, OnInit {
   private player = inject(PlayerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private search$: Subscription;
+  private search$;
 
   public searchForm = new FormControl('');
+
   public segmentFilter = new FormControl('songs');
 
   public albums = signal(null);
@@ -80,23 +81,24 @@ export class SearchPage implements OnDestroy, OnInit {
       .pipe(
         filter((search) => !!search),
         debounceTime(500),
-        tap((v) => {
-          this.router.navigate([], { queryParams: { query: v } });
-          this.isLoading.set(true);
-          return v;
-        }),
-        switchMap((v) => this.api.search(v)),
-        catchError(() => EMPTY)
-      )
-      .subscribe((results) => {
-        this.albums.set(results?.albums);
-        this.playlists.set(results?.playlists);
-        this.songs.set(results?.songs);
-        this.isLoading.set(false);
-      });
+        // tap((v) => {
+        //   this.router.navigate([], { queryParams: { query: v } });
+        //   this.isLoading.set(true);
+        //   return v;
+        // }),
+        // switchMap((v) => this.api.search(v)),
+        switchMap((v) => this.api.searchSuggestions(v)),
+        // catchError(() => EMPTY)
+      ).subscribe();
+      // .subscribe((results) => {
+      //   this.albums.set(results?.albums);
+      //   this.playlists.set(results?.playlists);
+      //   this.songs.set(results?.songs);
+      //   this.isLoading.set(false);
+      // });
 
-    const qp = this.route.snapshot.queryParams.query;
-    this.searchForm.setValue(qp ?? '');
+    // const qp = this.route.snapshot.queryParams.query;
+    // this.searchForm.setValue(qp ?? '');
 
   }
   async ngOnInit(){

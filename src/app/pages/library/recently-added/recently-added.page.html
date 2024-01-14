@@ -14,7 +14,7 @@
       <ion-col size="6" sizeMd="4" sizeLg="3" sizeXl="2">
         <a
           album-preview-item
-          [album]="album"
+          [collection]="album"
           [routerLink]="['/library', album.attributes.playParams.kind + 's', album.id]"
         >
           <lazy-img

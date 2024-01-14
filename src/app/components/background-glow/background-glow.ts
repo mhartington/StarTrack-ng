@@ -4,90 +4,118 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  SimpleChanges,
   ViewChild,
   AfterViewInit,
-} from '@angular/core';
+} from "@angular/core";
+import type { SimpleChanges } from "@angular/core";
 import {
   Application,
   Sprite,
   Graphics,
   Container,
-  Texture,
-  DisplayObject,
-  ICanvas,
-} from 'pixi.js';
-import { TwistFilter } from '@pixi/filter-twist';
-import { AdjustmentFilter } from '@pixi/filter-adjustment';
-import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
+  Renderer,
+  Assets,
+  Point,
+} from "pixi.js";
+import { TwistFilter } from "@pixi/filter-twist";
+import { AdjustmentFilter } from "@pixi/filter-adjustment";
+import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
 
 @Component({
   standalone: true,
-  selector: 'background-glow',
+  selector: "background-glow",
   template: `<canvas #canvas width="100" height="100"></canvas>`,
-  styleUrls: ['./background-glow.scss'],
+  styleUrls: ["./background-glow.scss"],
 })
 export class BackgroundGlowComponent
   implements OnDestroy, OnChanges, AfterViewInit
 {
   @Input() src: string;
-  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild("canvas") canvas: ElementRef<HTMLCanvasElement>;
 
   private container: Container | null;
-  private app: Application<ICanvas>;
+  private app: Application<Renderer>;
 
-  reduceMotionQuery = matchMedia('(prefers-reduced-motion)');
-  createApp() {
+  reduceMotionQuery = matchMedia("(prefers-reduced-motion)");
+
+  async createApp() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    this.app = new Application({
+    this.app = new Application();
+    await this.app.init({
       resizeTo: window,
       width,
       height,
-      powerPreference: 'low-power',
+      powerPreference: "low-power",
+      preference: "webgl",
       backgroundAlpha: 0,
-      view: this.canvas.nativeElement,
+      canvas: this.canvas.nativeElement,
+      autoDensity: true,
+      resolution: window.devicePixelRatio,
     });
 
     const graphics = new Graphics();
-    graphics.beginFill('#5a5960');
-    graphics.drawRect(0, 0, this.app.renderer.width, this.app.renderer.height);
-    graphics.endFill();
+    graphics
+      .rect(0, 0, this.app.screen.width, this.app.screen.height)
+      .fill({ color: "#5a5960" });
 
-    this.app.stage.addChild(graphics as DisplayObject);
+    this.app.stage.addChild(graphics);
     this.app.ticker.maxFPS = 15;
 
+    console.log(this.src);
     this.initAnimation();
-    this.updateArtwork(this.src);
+    await this.updateArtwork(this.src);
   }
 
-  addSpritesToContainer(t: Sprite, s: Sprite, i: Sprite, r: Sprite) {
-    t.anchor.set(0.5, 0.5);
-    s.anchor.set(0.5, 0.5);
-    i.anchor.set(0.5, 0.5);
-    r.anchor.set(0.5, 0.5);
-    t.position.set(this.app.screen.width / 2, this.app.screen.height / 2);
-    s.position.set(this.app.screen.width / 2.5, this.app.screen.height / 2.5);
-    i.position.set(this.app.screen.width / 2, this.app.screen.height / 2);
-    r.position.set(this.app.screen.width / 2, this.app.screen.height / 2);
-    t.width = this.app.screen.width * 1.25;
-    t.height = t.width;
-    s.width = this.app.screen.width * 0.8;
-    s.height = s.width;
-    i.width = this.app.screen.width * 0.5;
-    i.height = i.width;
-    r.width = this.app.screen.width * 0.25;
-    r.height = r.width;
+  addSpritesToContainer(
+    largeCenter: Sprite,
+    largeOffset: Sprite,
+    mediumCenter: Sprite,
+    smallCenter: Sprite,
+  ) {
+    largeCenter.anchor.set(0.5, 0.5);
+    largeCenter.position.set(
+      this.app.screen.width / 2,
+      this.app.screen.height / 2,
+    );
+    largeCenter.width = this.app.screen.width * 1.25;
+    largeCenter.height = this.app.screen.width * 1.25;
+
+    largeOffset.anchor.set(0.5, 0.5);
+    largeOffset.position.set(
+      this.app.screen.width / 2.5,
+      this.app.screen.height / 2.5,
+    );
+    largeOffset.width = this.app.screen.width * 0.8;
+    largeOffset.height = largeOffset.width;
+
+    mediumCenter.anchor.set(0.5, 0.5);
+    mediumCenter.position.set(
+      this.app.screen.width / 2,
+      this.app.screen.height / 2,
+    );
+    mediumCenter.width = this.app.screen.width * 0.5;
+    mediumCenter.height = mediumCenter.width;
+
+    smallCenter.anchor.set(0.5, 0.5);
+    smallCenter.position.set(
+      this.app.screen.width / 2,
+      this.app.screen.height / 2,
+    );
+    smallCenter.width = this.app.screen.width * 0.25;
+    smallCenter.height = smallCenter.width;
+
     this.container.addChild(
-      t as DisplayObject,
-      s as DisplayObject,
-      i as DisplayObject,
-      r as DisplayObject,
+      largeCenter,
+      largeOffset,
+      mediumCenter,
+      smallCenter,
     );
   }
+
   initAnimation() {
     this.container = new Container();
-    this.app.stage.addChild(this.container as DisplayObject);
+    this.app.stage.addChild(this.container);
 
     const t = new Sprite();
     const s = new Sprite();
@@ -95,64 +123,53 @@ export class BackgroundGlowComponent
     const r = new Sprite();
     this.addSpritesToContainer(t, s, i, r);
 
-    const n = new KawaseBlurFilter();
-    const o = new KawaseBlurFilter();
-    const h = new KawaseBlurFilter();
-    const a = new KawaseBlurFilter();
-    const l = new KawaseBlurFilter();
+    const n = new KawaseBlurFilter(5, 1);
+    const o = new KawaseBlurFilter(10, 1);
+    const h = new KawaseBlurFilter(20, 2);
+    const a = new KawaseBlurFilter(40, 2);
+    const l = new KawaseBlurFilter(80, 2);
 
-    n.blur = 5;
-    o.blur = 10;
-    h.blur = 20;
-    a.blur = 40;
-    l.blur = 80;
-    n.quality = 1;
-    o.quality = 1;
-    h.quality = 2;
-    a.quality = 2;
-    l.quality = 2;
+    const twistingFilter = new TwistFilter({
+      angle: -3.25,
+      radius: 900,
+      offset: new Point(
+        Math.round(this.app.screen.width / 2),
+        Math.round(this.app.screen.height / 2),
+      ),
+    });
+    const saturationFilter = new AdjustmentFilter({
+      saturation: 2.75,
+      brightness: 0.7,
+    });
 
-    const twistingFilter = new TwistFilter();
-    twistingFilter.angle = -3.25;
-    twistingFilter.radius = 900;
-    twistingFilter.offset.x = Math.round(this.app.renderer.screen.width / 2);
-    twistingFilter.offset.y = Math.round(this.app.renderer.screen.height / 2);
+    // this.container.filters = [twistingFilter, n, o, h, a, l, saturationFilter];
 
-    const saturationFilter = new AdjustmentFilter();
-    saturationFilter.saturation = 2.75;
-    saturationFilter.brightness = 0.7;
-
-    this.container.filters = [twistingFilter, n, o, h, a, l, saturationFilter];
-
-    const colorOverlayContainer = new Sprite();
+    const colorOverlayContainer = new Container();
     colorOverlayContainer.width = this.app.screen.width;
     colorOverlayContainer.height = this.app.screen.height;
 
-    const colorOverlay = new Graphics();
-    colorOverlay.beginFill(0, 0.5);
-    colorOverlay.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
-    colorOverlay.endFill();
+    const colorOverlay = new Graphics()
+      .fill({ color: 0, alpha: 0.5 })
+      .rect(0, 0, this.app.screen.width, this.app.screen.height);
+    colorOverlayContainer.addChild(colorOverlay);
 
-    colorOverlayContainer.addChild(colorOverlay as DisplayObject);
-
-    this.app.stage.addChild(colorOverlayContainer as DisplayObject);
+    this.app.stage.addChild(colorOverlayContainer);
 
     const f = new Sprite();
     f.width = this.app.screen.width;
     f.height = this.app.screen.height;
 
     const _ = new Graphics();
-    _.beginFill(16777215, 0.05);
-    _.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
-    _.endFill();
+    _.fill({ color: 16777215, alpha: 0.05 });
+    _.rect(0, 0, this.app.screen.width, this.app.screen.height);
+    colorOverlayContainer.addChild(_);
 
-    colorOverlayContainer.addChild(_ as DisplayObject);
-    this.app.stage.addChild(f as DisplayObject);
+    this.app.stage.addChild(f);
   }
-  
-  updateArtwork(img: string) {
+
+  async updateArtwork(img: string) {
     if (this.app) {
-      const incomingTexture = Texture.from(img);
+      const incomingTexture = await Assets.load(img);
       const incomingImgArray = [];
 
       for (let h = 0; h < 4; h++) {
@@ -173,11 +190,14 @@ export class BackgroundGlowComponent
 
       const currentContainerCopy = this.container.children.slice(0, 4);
       let opacityDelta = 1;
-      const currentRotationValArray = currentContainerCopy.map( (h) => h.rotation,);
-      this.app.ticker.add(() => {
-        const rotationSpeed = 0.4;
-        const opacitySpeed = this.app.ticker.deltaMS / 33.33333;
 
+      const currentRotationValArray = currentContainerCopy.map(
+        (h) => h.rotation,
+      );
+      const rotationSpeed = 0.4;
+      const opacitySpeed = this.app.ticker.deltaMS / 33.33333;
+
+      this.app.ticker.add(() => {
         opacityDelta -= 0.02 * opacitySpeed;
         opacityDelta < 0 && this.container.removeChild(...currentContainerCopy);
         currentContainerCopy.forEach((a) => (a.alpha = opacityDelta));
@@ -197,6 +217,7 @@ export class BackgroundGlowComponent
           (incomingImgArray[0].rotation = currentRotationValArray[0]);
         incomingImgArray[1] &&
           (incomingImgArray[1].rotation = currentRotationValArray[1]);
+
         incomingImgArray[2] &&
           ((incomingImgArray[2].rotation = -currentRotationValArray[2]),
           (incomingImgArray[2].x =
@@ -207,6 +228,7 @@ export class BackgroundGlowComponent
             this.app.screen.height / 2 +
             (this.app.screen.width / 4) *
               Math.sin(currentRotationValArray[2] * 0.75)));
+
         incomingImgArray[3] &&
           ((incomingImgArray[3].rotation = -currentRotationValArray[3]),
           (incomingImgArray[3].x =
@@ -222,7 +244,7 @@ export class BackgroundGlowComponent
       });
     }
   }
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     this.createApp();
   }
   ngOnChanges({ src }: SimpleChanges) {
@@ -232,10 +254,11 @@ export class BackgroundGlowComponent
   }
 
   ngOnDestroy(): void {
-    this.app?.destroy(true, {
-      children: true,
-      texture: true,
-      baseTexture: true,
+    // const opt: ViewSystemDestroyOptions = {
+    //   removeView: true
+    // }
+    this.app.destroy({
+      removeView: true,
     });
   }
 }
