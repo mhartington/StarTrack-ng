@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
-  Input,
+  input,
   Output,
 } from '@angular/core';
 import {
@@ -21,7 +20,6 @@ import {
 import { addIcons } from 'ionicons';
 import { ellipsisHorizontal } from 'ionicons/icons';
 import { Song } from 'src/@types/song';
-import { MsToMinsPipe } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-menu.component';
 
 @Component({
@@ -31,8 +29,6 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-    MsToMinsPipe,
     IonButton,
     IonButtons,
     IonLabel,
@@ -40,16 +36,18 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
     IonIcon,
     IonNote,
     IonText,
-    IonItem
+    IonItem,
   ],
 })
 export class SongItemComponent {
-  @Input() song: Song;
-  @Input() index = null;
-  @Input() color: string;
-  @Input() disabled: boolean;
+  song= input<Song> ();
+  index= input<number> (0);
+  color= input<string> ()
+  disabled = input<boolean>(false)
+  
+  
 
-  @Output() onClick = new EventEmitter<any>;
+  @Output() onClick = new EventEmitter<null>;
   private popoverCtrl = inject(PopoverController);
   handleClick(){
     this.onClick.emit();
@@ -59,7 +57,7 @@ export class SongItemComponent {
       ellipsisHorizontal,
     });
   }
-  async showMore(e: any) {
+  async showMore(e: MouseEvent) {
     e.stopPropagation();
     const popover = await this.popoverCtrl.create({
       component: SongContextMenuComponent,

@@ -1,5 +1,5 @@
-import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import {
   IonBackButton,
   IonButton,
@@ -28,10 +28,10 @@ import { RouterLink } from '@angular/router';
   selector: 'app-library-albums',
   templateUrl: './album.page.html',
   styleUrls: ['./album.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 
   imports: [
-    CommonModule,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
@@ -64,10 +64,14 @@ export class AlbumPage {
   public canShare = !!('share' in navigator);
   showCompleteAlbum = signal(false);
 
-  @Input()
-  set id(albumId: string) {
-    this.fetchAlbum(albumId);
+
+  private id = input('')
+  constructor(){
+    effect(() => {
+      this.fetchAlbum(this.id());
+    })
   }
+
   async fetchAlbum(id: string) {
     const data = await this.api.fetchLibraryAlbum(id);
     const albumData = data['library-albums'][id];

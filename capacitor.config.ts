@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'dist/browser',
   backgroundColor: '#000000FF',
   server: {
-    allowNavigation: ['*.apple.com'],
+    allowNavigation: ['*'],
   },
   plugins: {
     LocalNotifications: {},

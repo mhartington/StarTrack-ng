@@ -2,8 +2,8 @@
   role="presentation"
   loading="lazy"
   [class.loaded]="isLoaded()"
-  [src]="src"
-  [alt]="alt"
+  [src]="src()"
+  [alt]="alt()"
   (load)="isLoaded.set(true)"
   decoding="async"
 />

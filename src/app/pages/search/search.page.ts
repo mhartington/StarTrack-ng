@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
@@ -38,7 +38,6 @@ import { PlayerService } from '../../providers/player/player.service2';
   styleUrls: ['./search.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
     SongItemComponent,
     FormatArtworkUrlPipe,
     LazyImgComponent,
@@ -59,12 +58,12 @@ import { PlayerService } from '../../providers/player/player.service2';
     IonThumbnail,
   ],
 })
-export class SearchPage implements OnDestroy, OnInit {
+export class SearchPage {
   private api = inject(MusickitService);
   private player = inject(PlayerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private search$;
+  private search$: Subscription;
 
   public searchForm = new FormControl('');
 
@@ -73,41 +72,36 @@ export class SearchPage implements OnDestroy, OnInit {
   public albums = signal(null);
   public playlists = signal(null);
   public songs = signal(null);
+
+
   public isLoading = signal(false);
   public recomendations = signal([]);
 
   constructor() {
     this.search$ = this.searchForm.valueChanges
       .pipe(
+        takeUntilDestroyed(),
         filter((search) => !!search),
         debounceTime(500),
-        // tap((v) => {
-        //   this.router.navigate([], { queryParams: { query: v } });
-        //   this.isLoading.set(true);
-        //   return v;
-        // }),
-        // switchMap((v) => this.api.search(v)),
-        switchMap((v) => this.api.searchSuggestions(v)),
-        // catchError(() => EMPTY)
-      ).subscribe();
-      // .subscribe((results) => {
-      //   this.albums.set(results?.albums);
-      //   this.playlists.set(results?.playlists);
-      //   this.songs.set(results?.songs);
-      //   this.isLoading.set(false);
-      // });
+        tap((v) => {
+          this.router.navigate([], { queryParams: { query: v } });
+          this.isLoading.set(true);
+          return v;
+        }),
+        switchMap((v) => this.api.search(v)),
+        catchError(() => EMPTY)
+      )
+      .subscribe((results) => {
+        this.albums.set(results?.albums);
+        this.playlists.set(results?.playlists);
+        this.songs.set(results?.songs);
+        this.isLoading.set(false);
+      });
 
-    // const qp = this.route.snapshot.queryParams.query;
-    // this.searchForm.setValue(qp ?? '');
+    const qp = this.route.snapshot.queryParams.query;
+    this.searchForm.setValue(qp ?? '');
 
   }
-  async ngOnInit(){
-    console.log()
-    // const data = await this.api.fetchRecomendations();
-    // this.recomendations.set(data);
-    // console.log(data)
-  }
-  
 
   playSong(song: Song): void {
     this.player.playCollection({song: song.id});
@@ -122,7 +116,7 @@ export class SearchPage implements OnDestroy, OnInit {
 
     this.router.navigate([]);
   }
-  ngOnDestroy() {
-    this.search$.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.search$.unsubscribe();
+  // }
 }

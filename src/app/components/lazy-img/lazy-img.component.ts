@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, signal, } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  input,
+} from '@angular/core';
 @Component({
   selector: 'lazy-img',
   templateUrl: './lazy-img.component.html',
@@ -7,8 +12,7 @@ import { ChangeDetectionStrategy, Component, Input, signal, } from '@angular/cor
   standalone: true,
 })
 export class LazyImgComponent {
-  @Input() src = '';
-  @Input() alt = '';
-
+  public src = input('');
+  public alt = input('');
   public isLoaded = signal(false);
 }

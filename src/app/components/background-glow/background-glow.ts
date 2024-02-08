@@ -1,70 +1,79 @@
 import {
   Component,
   ElementRef,
-  Input,
-  OnChanges,
   OnDestroy,
   ViewChild,
-  AfterViewInit,
-} from "@angular/core";
-import type { SimpleChanges } from "@angular/core";
+  input,
+  effect,
+  afterNextRender,
+  AfterRenderPhase,
+} from '@angular/core';
 import {
   Application,
   Sprite,
   Graphics,
   Container,
-  Renderer,
   Assets,
+  ICanvas,
   Point,
-} from "pixi.js";
-import { TwistFilter } from "@pixi/filter-twist";
-import { AdjustmentFilter } from "@pixi/filter-adjustment";
-import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
+} from 'pixi.js';
+import { TwistFilter } from '@pixi/filter-twist';
+import { AdjustmentFilter } from '@pixi/filter-adjustment';
+import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
 
 @Component({
   standalone: true,
-  selector: "background-glow",
+  selector: 'background-glow',
   template: `<canvas #canvas width="100" height="100"></canvas>`,
-  styleUrls: ["./background-glow.scss"],
+  styleUrls: ['./background-glow.scss'],
 })
-export class BackgroundGlowComponent
-  implements OnDestroy, OnChanges, AfterViewInit
-{
-  @Input() src: string;
-  @ViewChild("canvas") canvas: ElementRef<HTMLCanvasElement>;
+export class BackgroundGlowComponent implements OnDestroy {
+  public src = input('');
+
+  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
 
   private container: Container | null;
-  private app: Application<Renderer>;
+  private app: Application<ICanvas>;
 
-  reduceMotionQuery = matchMedia("(prefers-reduced-motion)");
+  reduceMotionQuery = matchMedia('(prefers-reduced-motion)');
+
+  constructor() {
+    afterNextRender(
+      async () => {
+        await this.createApp();
+      },
+      { phase: AfterRenderPhase.Write },
+    );
+    effect(async () => {
+      if (this.app) {
+        await this.updateArtwork(this.src());
+      }
+    });
+  }
 
   async createApp() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    this.app = new Application();
-    await this.app.init({
+    this.app = new Application({
       resizeTo: window,
       width,
       height,
-      powerPreference: "low-power",
-      preference: "webgl",
+      powerPreference: 'low-power',
       backgroundAlpha: 0,
-      canvas: this.canvas.nativeElement,
+      view: this.canvas.nativeElement,
       autoDensity: true,
-      resolution: window.devicePixelRatio,
     });
 
     const graphics = new Graphics();
-    graphics
-      .rect(0, 0, this.app.screen.width, this.app.screen.height)
-      .fill({ color: "#5a5960" });
+    graphics.beginFill('#5a5960');
+    graphics.drawRect(0, 0, this.app.renderer.width, this.app.renderer.height);
+    graphics.endFill();
 
     this.app.stage.addChild(graphics);
     this.app.ticker.maxFPS = 15;
 
-    console.log(this.src);
     this.initAnimation();
-    await this.updateArtwork(this.src);
+    await this.updateArtwork(this.src());
   }
 
   addSpritesToContainer(
@@ -79,7 +88,7 @@ export class BackgroundGlowComponent
       this.app.screen.height / 2,
     );
     largeCenter.width = this.app.screen.width * 1.25;
-    largeCenter.height = this.app.screen.width * 1.25;
+    largeCenter.height = largeCenter.width;
 
     largeOffset.anchor.set(0.5, 0.5);
     largeOffset.position.set(
@@ -142,15 +151,17 @@ export class BackgroundGlowComponent
       brightness: 0.7,
     });
 
-    // this.container.filters = [twistingFilter, n, o, h, a, l, saturationFilter];
+    this.container.filters = [twistingFilter, n, o, h, a, l, saturationFilter];
 
     const colorOverlayContainer = new Container();
     colorOverlayContainer.width = this.app.screen.width;
     colorOverlayContainer.height = this.app.screen.height;
 
-    const colorOverlay = new Graphics()
-      .fill({ color: 0, alpha: 0.5 })
-      .rect(0, 0, this.app.screen.width, this.app.screen.height);
+    const colorOverlay = new Graphics();
+    colorOverlay.beginFill(0, 0.5);
+    colorOverlay.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
+    colorOverlay.endFill();
+
     colorOverlayContainer.addChild(colorOverlay);
 
     this.app.stage.addChild(colorOverlayContainer);
@@ -160,10 +171,11 @@ export class BackgroundGlowComponent
     f.height = this.app.screen.height;
 
     const _ = new Graphics();
-    _.fill({ color: 16777215, alpha: 0.05 });
-    _.rect(0, 0, this.app.screen.width, this.app.screen.height);
-    colorOverlayContainer.addChild(_);
+    _.beginFill(16777215, 0.05);
+    _.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
+    _.endFill();
 
+    colorOverlayContainer.addChild(_);
     this.app.stage.addChild(f);
   }
 
@@ -244,21 +256,12 @@ export class BackgroundGlowComponent
       });
     }
   }
-  async ngAfterViewInit() {
-    this.createApp();
-  }
-  ngOnChanges({ src }: SimpleChanges) {
-    if (!src.firstChange && this.app != null) {
-      this.updateArtwork(src.currentValue);
-    }
-  }
 
   ngOnDestroy(): void {
-    // const opt: ViewSystemDestroyOptions = {
-    //   removeView: true
-    // }
-    this.app.destroy({
-      removeView: true,
+    this.app?.destroy(true, {
+      children: true,
+      texture: true,
+      baseTexture: true,
     });
   }
 }

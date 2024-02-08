@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  afterNextRender,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   IonButton,
   IonContent,
@@ -13,10 +14,27 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { musicalNotes } from 'ionicons/icons';
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.page.html',
   styleUrls: ['./landing.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     RouterLink,
@@ -28,24 +46,19 @@ import { musicalNotes } from 'ionicons/icons';
     IonIcon,
   ],
 })
-export class LandingPage implements OnInit {
+export class LandingPage {
+  ev: BeforeInstallPromptEvent;
+
+  constructor() {
+    addIcons({ musicalNotes });
+    afterNextRender(() => {
+      window.addEventListener('beforeinstallprompt', (ev) => (this.ev = ev));
+    });
+  }
   handleEnter($event: KeyboardEvent) {
     $event.target.dispatchEvent(new Event('click'));
   }
-  ev: any;
-  items = Array.from(new Array(50).keys());
-  private platformId = inject(PLATFORM_ID);
-  constructor() {
-    addIcons({ musicalNotes });
-  }
-  ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      fromEvent(window, 'beforeinstallprompt').subscribe((res: any) => {
-        console.log(res);
-        this.ev = res;
-      });
-    }
-  }
+
   push() {
     Notification.requestPermission().then((result) => {
       console.log('push: ', result);

@@ -1,8 +1,14 @@
-import { Component, Input, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { Album } from '../../../@types/album';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
-import { CommonModule } from '@angular/common';
 import {
   IonButton,
   IonButtons,
@@ -31,9 +37,9 @@ import { Song } from 'src/@types/song';
   selector: 'app-album',
   templateUrl: './album.page.html',
   styleUrls: ['./album.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     ErrorComponent,
     PreviewHeaderComponent,
     SongItemComponent,
@@ -63,34 +69,30 @@ export class AlbumPage {
 
   public canShare = !!('share' in navigator);
 
-  @Input()
-  set id(albumId: string){
-    this.api.fetchAlbum(albumId)
-    .then((data) => {
-      this.collection.set(data);
-      this.isLoading.set(false);
-    })
-  }
-
-  constructor(){
+  private id = input('');
+  constructor() {
     addIcons({ share, add });
+    effect(() => {
+      this.fetchAlbum();
+    });
   }
-  // async ionViewDidEnter() {
-  //   const id = this.route.snapshot.params.id;
-  //   const data = await this.api.fetchAlbum(id);
-  //   this.collection.set(data);
-  //   this.isLoading.set(false);
-  // }
+  async fetchAlbum() {
+    const data = await this.api.fetchAlbum(this.id());
+    this.collection.set(data);
+    this.isLoading.set(false);
+  }
 
   playSong(song: Song, startWith: number, shuffle = false) {
-    if(!song.attributes.releaseDate){ return; }
+    if (!song.attributes.releaseDate) {
+      return;
+    }
     const url = this.collection().attributes.url;
-    this.player.playCollection({ shuffle, url,startWith });
+    this.player.playCollection({ shuffle, url, startWith });
   }
 
   playAlbum({ shuffle }) {
     const url = this.collection().attributes.url;
-    this.player.playCollection({ shuffle, url});
+    this.player.playCollection({ shuffle, url });
   }
 
   share() {
@@ -105,7 +107,7 @@ export class AlbumPage {
         })
         .then(
           () => console.log('Successful share'),
-          (error) => console.log('Error sharing', error)
+          (error) => console.log('Error sharing', error),
         );
     }
   }

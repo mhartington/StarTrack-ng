@@ -360,6 +360,7 @@ div.route-wrapper {
 
 ion-split-pane {
   overflow: hidden;
+  z-index:-1;
 }
 
 .split-pane-md.split-pane-visible:not(.plt-desktop) > .split-pane-side {

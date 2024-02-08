@@ -3,7 +3,7 @@
     <div class="track-player">
       <div class="song-info">
         <ion-thumbnail>
-          <lazy-img [src]=" player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 60 " alt="The album art work cover" />
+          <lazy-img [src]="nowPlayingArtwork()" alt="The album art work cover" />
         </ion-thumbnail>
         <ion-label>
           <p>{{player.nowPlaying()?.attributes?.name }}</p>

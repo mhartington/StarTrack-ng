@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AlbumPreviewItemsComponent } from '../../../components/album-preview-items/album-preview-items.component';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
@@ -25,6 +25,7 @@ import {
   selector: 'app-recently-added',
   templateUrl: './recently-added.page.html',
   styleUrls: ['./recently-added.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,

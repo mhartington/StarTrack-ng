@@ -29,7 +29,9 @@
     @for(song of collection().relationships.tracks.data; let i = $index; track song.id ){
       <song-item [song]="song" (click)="playSong(i)">
         <ion-thumbnail slot="start">
-          <lazy-img [src]="song.attributes.artwork.url | formatArtworkUrl: 60" alt="" />
+          <lazy-img
+            [style.background]="'#' + song?.attributes?.artwork?.bgColor + 'aa'"
+            [src]="song.attributes.artwork.url | formatArtworkUrl: 60" alt="" />
         </ion-thumbnail>
       </song-item>
     }

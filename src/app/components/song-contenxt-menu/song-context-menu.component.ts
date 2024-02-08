@@ -1,10 +1,11 @@
-import { Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { IonItem, IonList, PopoverController } from '@ionic/angular/standalone';
 import { Song } from 'src/@types/song';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ion-list>
       @if(!song.attributes.inLibrary){

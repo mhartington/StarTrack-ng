@@ -5,7 +5,7 @@
 	"backgroundColor": "#000000FF",
 	"server": {
 		"allowNavigation": [
-			"*.apple.com"
+			"*"
 		]
 	},
 	"plugins": {

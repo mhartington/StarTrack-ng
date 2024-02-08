@@ -7,20 +7,10 @@
   <div class="track-player">
     <div class="song-info">
       <ion-thumbnail
-  [ngClass]="{
-              paused:
-                player.playbackState() === playbackStates.PAUSED ||
-                player.playbackState() === playbackStates.NONE ||
-                player.playbackState() === playbackStates.STOPPED
-            }"
+  [class.paused]=" player.playbackState() === playbackStates.PAUSED || player.playbackState() === playbackStates.NONE || player.playbackState() === playbackStates.STOPPED "
       >
         <now-playing-artwork
-          [ngClass]="{
-              paused:
-                player.playbackState() === playbackStates.PAUSED ||
-                player.playbackState() === playbackStates.NONE ||
-                player.playbackState() === playbackStates.STOPPED
-            }"
+  [class.paused]=" player.playbackState() === playbackStates.PAUSED || player.playbackState() === playbackStates.NONE || player.playbackState() === playbackStates.STOPPED "
           [src]=" player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 500 "
           alt="The album art work cover"
         ></now-playing-artwork>
@@ -55,14 +45,14 @@
       <ion-buttons class="toggle-buttons">
         <ion-button
           color="white"
-          [ngClass]="{ active: player.isShuffling() }"
+          [class.active]="player.isShuffling()"
           (click)="toggleShuffle(player.isShuffling())"
         >
           <ion-icon name="shuffle"></ion-icon>
         </ion-button>
         <ion-button
           color="white"
-          [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
+          [class.active]="player.repeatMode() !== repeatMode.NONE"
           (click)="toggleRepeatMode()"
         >
           <ion-icon name="repeat"></ion-icon>
@@ -106,7 +96,7 @@
         <ion-button
           class="shuffle-button"
           color="white"
-          [ngClass]="{ active: player.isShuffling() }"
+          [class.active]="player.isShuffling()"
           (click)="toggleShuffle(player.isShuffling())"
         >
           <ion-icon name="shuffle" slot="icon-only" />
@@ -143,7 +133,7 @@
         <ion-button
           class="repeat-button"
           color="white"
-          [ngClass]="{ active: player.repeatMode() !== repeatMode.NONE }"
+          [class.active]="player.repeatMode() !== repeatMode.NONE"
           (click)="toggleRepeatMode()"
         >
           <ion-icon name="repeat"></ion-icon>
@@ -173,7 +163,7 @@
       <ion-button
         color="white"
         (click)="toggleQueue()"
-        [ngClass]="{ active: showQueue }"
+        [class.active]="showQueue"
       >
         <ion-icon name="list"></ion-icon>
       </ion-button>

@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
-import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { FormatArtworkUrlPipe, formatArtwork } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { AlbumPreviewItemsComponent } from '../../components/album-preview-items/album-preview-items.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { RouterLinkWithHref } from '@angular/router';
@@ -25,10 +25,10 @@ import { Song } from '../../../@types/song';
   templateUrl: './browse.page.html',
   styleUrls: ['./browse.page.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SongItemComponent,
     AlbumPreviewItemsComponent,
-    FormatArtworkUrlPipe,
     LazyImgComponent,
     ErrorComponent,
     IonTitle,
@@ -60,6 +60,10 @@ export class BrowsePage {
       hasError: false,
       collection: data,
     });
+  }
+
+  formartUrl(url:string){
+    return formatArtwork(url, 200);
   }
 
   playSong(index: number) {

@@ -26,8 +26,7 @@
         [routerLink]="['/us', 'album', album.id]"
       >
         <lazy-img
-          [src]="album.attributes.artwork.url | formatArtworkUrl: 200"
-          lazyParent="album-grid"
+          [src]="formartUrl(album.attributes.artwork.url)"
           [style.background]="'#' + album.attributes.artwork.bgColor + 'aa'"
           alt="Album Artwork"
         />
@@ -48,8 +47,7 @@
         [routerLink]="['/us','playlist', playlist.id]"
       >
         <lazy-img
-          [src]="playlist.attributes.artwork.url | formatArtworkUrl: 200"
-          lazyParent="album-grid"
+          [src]="formartUrl(playlist.attributes.artwork.url)"
           [style.background]="'#' + playlist.attributes.artwork.bgColor + 'aa'"
           alt="Album Artwork"
         />
@@ -67,8 +65,7 @@
       <song-item [song]="song" (onClick)="playSong(i)">
         <ion-thumbnail slot="start">
           <lazy-img
-            lazyParent="song-grid"
-            [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
+            [src]="formartUrl(song.attributes.artwork.url)"
             alt=""
           />
         </ion-thumbnail>

@@ -7,7 +7,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { NgForOf, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonText, IonThumbnail } from '@ionic/angular/standalone';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { SongItemComponent } from '../song-item/song-item.component';
@@ -17,6 +17,7 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
   selector: 'queue-list',
   templateUrl: `./queue-list.html`,
   styleUrls: ['./queue-list.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     SongItemComponent,

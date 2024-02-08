@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 
@@ -7,6 +7,7 @@ import { LazyImgComponent } from '../lazy-img/lazy-img.component';
   selector: 'now-playing-artwork',
   templateUrl: './now-playing-artwork.component.html',
   styleUrls: ['./now-playing-artwork.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule, LazyImgComponent, FormatArtworkUrlPipe]
 })

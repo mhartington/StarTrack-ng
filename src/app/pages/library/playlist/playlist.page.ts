@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, effect, inject, input, signal } from '@angular/core';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
@@ -25,6 +25,7 @@ import {
   selector: 'app-library-playlist',
   templateUrl: './playlist.page.html',
   styleUrls: ['./playlist.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 
   imports: [
@@ -55,10 +56,13 @@ export class PlaylistPage {
   public collectionTracks = signal<Partial<Album>>(null);
   public playlistTracks = signal(null);
 
-  @Input()
-  set id(playlistId: string) {
-    this.fetchPlaylist(playlistId);
+  private id = input('')
+  constructor(){
+    effect(() => {
+      this.fetchPlaylist(this.id());
+    })
   }
+
   async fetchPlaylist(playlistId: string) {
     const [playlistInfo, playlistTracks] = await Promise.all([
       this.api.fetchLibraryPlaylist(playlistId),

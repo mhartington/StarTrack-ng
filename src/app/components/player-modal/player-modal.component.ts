@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
@@ -56,9 +55,9 @@ import { NowPlayingContextMenuComponent } from '../now-playing-context-menu/now-
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
     SongItemComponent,
     FormsModule,
     LazyImgComponent,

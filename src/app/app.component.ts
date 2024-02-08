@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, signal, isDevMode } from '@angular/core';
+import { Component, inject, OnInit, signal, isDevMode, ChangeDetectionStrategy } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
-import { CommonModule } from '@angular/common';
+import { StatusBar } from '@capacitor/status-bar';
 import {
   albumsOutline,
   musicalNote,
@@ -37,15 +37,16 @@ import {
   IonLabel,
   IonRouterLink,
 } from '@ionic/angular/standalone';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     TrackPlayerComponent,
-    CommonModule,
     IonApp,
     IonSplitPane,
     IonMenu,
@@ -88,7 +89,7 @@ export class AppComponent implements OnInit {
       gridOutline,
       chevronForward,
     });
-    
+      
     this.setMetaTheme();
 
     matchMedia('(prefers-color-scheme: dark)')
@@ -98,13 +99,20 @@ export class AppComponent implements OnInit {
       this.musicKitEvents.authorizationStatusDidChange,
       () => this.isAuthorized.set(this.musicKitInstance.isAuthorized),
     );
-
+    
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
   }
 
-  // overridewindow() {
+  overridewindow() {
+    // console.log('foo')
+    // window.open = function(url: string, windowName: string, windowFeatures: string) { 
+    //
+    // console.log('window caught', url, windowName, windowFeatures);
+    // window.location.href=url;
+    // return null;
+  // };
   //   const og = window.open;
   //   window.open = (
   //     url?: string | URL,
@@ -136,7 +144,7 @@ export class AppComponent implements OnInit {
   //       presentationStyle: 'popover',
   //     });
   //   };
-  // }
+  }
   async ngOnInit() {
     if (!isDevMode()) {
       const hasUpdate = await this.swUpdate.checkForUpdate();

@@ -1,4 +1,12 @@
-import { Component, Input, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
@@ -28,6 +36,7 @@ import { addIcons } from 'ionicons';
   selector: 'app-playlist',
   templateUrl: './playlists.page.html',
   styleUrls: ['./playlists.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
@@ -57,21 +66,20 @@ export class PlaylistPage {
   public collection = signal(null);
   public canShare = !!('share' in navigator);
 
+  private id = input('');
+
   constructor() {
     addIcons({ share });
+    effect(() => {
+      this.fetchPlaylist();
+    });
   }
-
-
-  @Input()
-  set id(playlistId: string){
-    this.api.fetchPlaylist(playlistId)
-    .then((data) => {
-      this.collection.set(data);
-    })
+  async fetchPlaylist() {
+    const data = await this.api.fetchPlaylist(this.id());
+    this.collection.set(data);
   }
-
   playSong(startWith: number, shuffle = false) {
-    const playlist = this.collection().id
+    const playlist = this.collection().id;
     this.player.playCollection({ shuffle, playlist, startWith });
   }
   playPlaylist({ shuffle }) {
@@ -86,9 +94,7 @@ export class PlaylistPage {
           text: `Check out "${collection.attributes.name}" by ${collection.attributes.curatorName}. Via Star Track.`,
           url: `${window.location.origin}/album/${collection.id}`,
         })
-        .then(
-          () => console.log('Successful share')
-        );
+        .then(() => console.log('Successful share'));
     }
   }
 }

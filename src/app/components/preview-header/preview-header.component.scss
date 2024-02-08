@@ -7,22 +7,8 @@
   grid-template-columns: 2fr 3fr;
   align-items: center;
   justify-content: flex-start;
-  height: 324px;
 }
-ion-toolbar {
-  --background: transparent;
-  color: #ffffff;
 
-  ion-title {
-    // -webkit-padding-start: 0;
-    // padding-inline-start: 0;
-    // -webkit-padding-end: 0;
-    // padding-inline-end: 0;
-  }
-}
-ion-skeleton-text {
-  margin: auto;
-}
 lazy-img {
   aspect-ratio: 1/1;
   max-width: 324px;
@@ -36,7 +22,6 @@ lazy-img {
 }
 
 .album-detail {
-  // padding: 0 16px;
   z-index: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -106,5 +91,9 @@ hr {
     .editorial-notes {
       order: 5;
     }
+  }
+  ion-skeleton-text {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

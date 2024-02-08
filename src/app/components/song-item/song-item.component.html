@@ -1,34 +1,41 @@
 <ion-item
   button="true"
-  [ngClass]="{ 'has-index': index !== null }"
+  [class.has-index]="index() !== null"
   detail="false"
-  [disabled]="disabled"
+  [disabled]="disabled()"
   (click)="handleClick()"
 >
   <ng-content></ng-content>
-  @if(index !== null){
-  <ion-text color="primary" slot="start">
-    <p class="index">{{ index }}</p>
-  </ion-text>
-  } @if(song){
-  <ion-label>
-    <h3>{{ song.attributes.name }}</h3>
-    @if(song.attributes.artistName){
-    <ion-note>
-      <p>{{ song.attributes.artistName }}</p>
-    </ion-note>
+  @if(index()){
+    <ion-text color="primary" slot="start">
+      <p class="index">{{ index() }}</p>
+    </ion-text>
+  } 
+  @if(song()){
+  <ion-label class="ion-text-nowrap">
+    <h3>{{ song().attributes.name }}</h3>
+
+    @if(song().attributes.artistName){
+      <ion-note> 
+        <p>{{ song().attributes.artistName }}</p> 
+      </ion-note>
     }
   </ion-label>
-  @if(song.attributes.contentRating === 'explicit'){
-  <p slot="end" class="rating">E</p>
-  } } @else {
-  <ion-label>
-    <ion-skeleton-text animated style="width: 88%; max-width: 300px" />
-    <ion-skeleton-text animated style="width: 70%; max-width: 250px" />
-    <ion-skeleton-text animated style="width: 60%; max-width: 200px" />
-  </ion-label>
-  }
+
+
+  @if(song().attributes.contentRating === 'explicit'){
+    <div class="rating">E</div>
+  } 
   <ion-button slot="end" fill="clear" color="dark" (click)="showMore($event)">
     <ion-icon slot="icon-only" name="ellipsis-horizontal" />
   </ion-button>
+  } 
+
+  @else {
+    <ion-label>
+      <ion-skeleton-text animated style="width: 88%; max-width: 300px" />
+      <ion-skeleton-text animated style="width: 70%; max-width: 250px" />
+      <ion-skeleton-text animated style="width: 60%; max-width: 200px" />
+    </ion-label>
+  }
 </ion-item>

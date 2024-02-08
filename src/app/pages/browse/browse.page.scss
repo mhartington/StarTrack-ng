@@ -38,7 +38,7 @@ ion-list-header {
   display: grid;
   grid-template-columns: repeat(8, min(90%, 320px));
   grid-template-rows: repeat(4, auto);
-  grid-auto-flow: column;
+  // grid-auto-flow: column;
   grid-gap: 8px 16px;
   padding: 0 16px;
   justify-content: left;

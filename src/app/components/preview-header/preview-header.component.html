@@ -1,8 +1,9 @@
 <lazy-img
   alt="The artwork for the album"
+  [style.background]="'#' + collection?.attributes?.artwork?.bgColor + 'aa'"
   [src]="
     collection?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'
-      | formatArtworkUrl: 500
+      | formatArtworkUrl: 400
   "
 ></lazy-img>
 <div class="album-detail">
@@ -63,9 +64,9 @@
       </ng-template>
     </ion-modal>
   } @else {
-    <h3><ion-skeleton-text animated style="width: 80%" /></h3>
-    <p><ion-skeleton-text animated style="width: 70%" /></p>
-    <p><ion-skeleton-text animated style="width: 60%" /></p>
+     <h3><ion-skeleton-text animated style="width: 80%" /></h3>
+     <p class="genre-names"><ion-skeleton-text animated style="width: 70%" /></p>
+     <p class="editorial-notes"><ion-skeleton-text animated style="width: 60%" /></p>
   }
   <ion-buttons>
     <ion-button (click)="togglePlay()" color="light" fill="solid">

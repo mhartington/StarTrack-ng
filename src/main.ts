@@ -1,12 +1,30 @@
-import { APP_INITIALIZER, isDevMode } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  isDevMode,
+  ɵprovideZonelessChangeDetection as provideZonelessChangeDetection,
+} from '@angular/core';
+
 import { bootstrapApplication } from '@angular/platform-browser';
+
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { RouteReuseStrategy, provideRouter, withComponentInputBinding, } from '@angular/router';
+
+import {
+  RouteReuseStrategy,
+  provideRouter,
+  withComponentInputBinding,
+} from '@angular/router';
+
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideIonicAngular, IonicRouteStrategy, } from '@ionic/angular/standalone';
+
+import {
+  provideIonicAngular,
+  IonicRouteStrategy,
+} from '@ionic/angular/standalone';
+
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
+
 
 const appInitialize = () => async () =>
   await globalThis.MusicKit.configure({
@@ -25,14 +43,15 @@ const appInitialize = () => async () =>
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideAnimationsAsync(),
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: APP_INITIALIZER, useFactory: appInitialize, multi: true },
-    provideIonicAngular(),
     provideRouter(routes, withComponentInputBinding()),
+    provideAnimationsAsync(),
+    provideIonicAngular(),
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    provideZonelessChangeDetection(),
   ],
 });

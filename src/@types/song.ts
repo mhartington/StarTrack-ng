@@ -11,32 +11,39 @@ export type Preview = {
   url: string;
   hlsUrl: string;
 };
+
 export type PlayParameters = {
   id: string;
   kind: string;
 };
+
 export type EditorialNotes = {
   short: string;
   standard: string;
   name: string;
   tagline: string;
 };
+
 export type GenreRelationship = { href: string; next: string; data: Genre[] };
+
 export type ComposerRelationship = {
   href: string;
   next: string;
   data: Artist[];
 };
+
 export type LibraryRelationship = {
   href: string;
   next: string;
   data: LibrarySong[];
 };
+
 export type PlaylistRelationship = {
   href: string;
   next: string;
   data: Playlist[];
 };
+
 export type SongAttributes = {
   albumName?: string;
   artistName?: string;
