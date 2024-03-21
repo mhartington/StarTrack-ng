@@ -70,42 +70,44 @@ ion-content {
     'controls';
 
   .song-info {
-    overflow: hidden;
+    // overflow: hidden;
     transform-origin: center center;
     width: 100%;
     grid-area: now-playing;
     z-index: 1;
 
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
-    grid-auto-flow: row;
-
+    grid-template-rows: calc(100% - 75px) 75px;
     grid-template-areas: 'artwork' 'title';
+
     margin-left: auto;
     margin-right: auto;
 
     ion-thumbnail {
-      transform-origin: center center;
       margin: 0 auto;
       --thumbnail-transition-duration: 500ms;
+      align-self: center;
 
       width: 100%;
       height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      overflow: hidden;
+      position: relative;
       display: flex;
+      justify-content: center;
+      align-items: center;
 
       now-playing-artwork {
-        margin: auto;
-        max-height: 100%;
-        max-width: 100%;
-
-        height: auto;
-        width: auto;
-
+        flex: 1;
         aspect-ratio: 1;
+
+        max-width: 500px;
+        max-height: 500px;
+        width: auto;
+        height: auto;
+
+        &.paused {
+          --scale-value: .75;
+          // transform: scale3d(1, 1, 1);
+        }
       }
     }
 
@@ -267,19 +269,22 @@ ion-button.active {
   }
   .track-wrapper.queue-active {
     .track-player {
-      grid-template-rows: auto 50% 30%;
-      // grid-template-rows: 65% 35%;
-
+      grid-template-rows: 20% 50% 30%;
       grid-template-areas:
         'now-playing'
         'queue'
         'controls';
     }
     .song-info {
-      flex: initial;
+      gap: 0 20px;
       align-items: center;
-      grid-template-columns: 18% auto;
-      grid-gap: 0 20px;
+      grid-template-columns: 18% 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas: 'artwork title';
+
+      now-playing-artwork {
+          --scale-value: 1 !important;
+      }
     }
     queue-list {
       ion-badge {

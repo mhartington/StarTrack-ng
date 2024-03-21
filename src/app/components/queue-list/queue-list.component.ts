@@ -7,11 +7,19 @@ import {
   trigger,
 } from '@angular/animations';
 import { NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  input,
+} from '@angular/core';
 import { IonText, IonThumbnail } from '@ionic/angular/standalone';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { SongItemComponent } from '../song-item/song-item.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { Song } from '../../../@types/song';
 
 @Component({
   selector: 'queue-list',
@@ -44,12 +52,10 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
       transition(':decrement', [
         group([
           query(':leave', [animate('250ms ease-out', style({ opacity: 0 }))]),
-          query('song-item:not(:leave)', [
+          query('song-item:leave ~ song-item:not(:leave)', [
             animate(
               '300ms ease-out',
-              style({
-                transform: 'translate3d(0, calc(-100% + 1px), 0)',
-              })
+              style({ transform: `translate3d(0, calc(-100% + 1px), 0)` })
             ),
           ]),
         ]),
@@ -58,6 +64,6 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
   ],
 })
 export class QueueListComponent {
-  @Input() queue: any[];
+  queue = input<Song[]>();
   @Output() playAt = new EventEmitter();
 }

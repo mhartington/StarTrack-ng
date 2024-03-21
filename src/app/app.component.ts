@@ -89,7 +89,8 @@ export class AppComponent implements OnInit {
       gridOutline,
       chevronForward,
     });
-      
+
+
     this.setMetaTheme();
 
     matchMedia('(prefers-color-scheme: dark)')

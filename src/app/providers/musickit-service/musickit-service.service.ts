@@ -25,13 +25,6 @@ export class MusickitService {
         'include[albums]': 'tracks',
       },
     );
-    // const albumRes = res[0];
-    // const songsToFetch = albumRes.relationships.tracks.data.map(
-    //   (song) => song.id,
-    // );
-
-    // const { data: newSongs } = await this.fetchSongs(songsToFetch);
-    // albumRes.relationships.tracks.data = newSongs.data;
     return res[0];
   }
   async fetchPlaylist(id: string): Promise<Playlist> {

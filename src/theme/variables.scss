@@ -243,8 +243,6 @@ ion-content {
   --padding-bottom: calc(var(--ion-safe-area-bottom) + 30px) !important;
 }
 ion-content::part(scroll) {
-  // bottom: calc(var(--ion-safe-area-bottom) + 58px);
-  // padding-bottom: calc(var(--ion-safe-area-bottom) + 58px);
   padding-bottom: calc(
     var(--padding-bottom) + var(--keyboard-offset) + var(--offset-bottom) + 58px
   );
@@ -385,10 +383,6 @@ ion-split-pane {
   box-shadow: none !important;
   z-index: 0;
 }
-.header-ios ion-toolbar:last-of-type,
-ion-toolbar.ios {
-  /* --border-width: 0; */
-}
 
 ion-accordion {
   .ion-accordion-toggle-icon {
@@ -487,9 +481,6 @@ song-item {
 }
 
 
-// ::view-transition-old() {
-//   display: none;
-// }
 ::view-transition-new(thumbnail) {
   animation: none;
 }

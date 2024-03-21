@@ -5,11 +5,14 @@
   <ng-content></ng-content>
 </div>
 
-<div class="queue-scroller" [@listAnimation]="queue.length">
-  <!-- <song-item *ngFor="let song of queue"></song-item> -->
-  @for(song of queue; let i = $index; track song.id){
-<!-- [style.view-transition-name]="'song-item-'+ song.id" -->
-  <song-item color="white" [song]="song" (click)="playAt.emit({$event, song})" >
+<div class="queue-scroller" [@listAnimation]="queue().length">
+  @for(song of queue(); let i = $index; track song.id){
+  <song-item
+    [style.--travel-distance]="i"
+    color="white"
+    [song]="song"
+    (click)="playAt.emit({$event, song})"
+  >
     <ion-thumbnail slot="start">
       <lazy-img
         [src]=" song.attributes.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl : 60 "

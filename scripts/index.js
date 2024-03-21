@@ -1,6 +1,7 @@
-const writeFile = require('fs').writeFileSync;
+import {writeFileSync } from 'node:fs'
+import 'dotenv/config'
 
-require('dotenv').config();
+
 const token = process.env.MUSICKIT_TOKEN;
 const isProd = process.env.ENVIRONMENT === 'production' ? true : false;
 
@@ -8,4 +9,4 @@ const envConfigFile = `export const environment = {
   production:    ${isProd},
   musicKitToken: '${token}',
 }`;
-writeFile('src/environments/environment.ts', envConfigFile);
+writeFileSync('src/environments/environment.ts', envConfigFile);

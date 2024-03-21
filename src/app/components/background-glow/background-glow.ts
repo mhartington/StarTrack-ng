@@ -2,11 +2,11 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
   input,
   effect,
   afterNextRender,
   AfterRenderPhase,
+  viewChild,
 } from '@angular/core';
 import {
   Application,
@@ -30,7 +30,7 @@ import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
 export class BackgroundGlowComponent implements OnDestroy {
   public src = input('');
 
-  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
+  private canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas')
 
   private container: Container | null;
   private app: Application<ICanvas>;
@@ -60,7 +60,7 @@ export class BackgroundGlowComponent implements OnDestroy {
       height,
       powerPreference: 'low-power',
       backgroundAlpha: 0,
-      view: this.canvas.nativeElement,
+      view: this.canvas().nativeElement,
       autoDensity: true,
     });
 
