@@ -57,9 +57,9 @@ export class AlbumPage {
   private player = inject(PlayerService);
 
   public hasError = signal(false);
-  public libraryAlbum = signal<Partial<Album>>(null);
+  public libraryAlbum = signal<Album>(null);
   public librarySongs = signal<Array<Song>>(null);
-  public albumData = signal<Partial<Album>>(null);
+  public albumData = signal<Album>(null);
 
   public canShare = !!('share' in navigator);
   showCompleteAlbum = signal(false);
@@ -80,7 +80,7 @@ export class AlbumPage {
     );
     if (data.songs && libraryTracks < Object.values(data.songs)) {
       this.showCompleteAlbum.set(true);
-      this.albumData.set(Object.values(data.albums)[0]);
+      this.albumData.set(Object.values(data.albums)[0] as Album);
     }
     this.libraryAlbum.set(albumData);
     this.librarySongs.set(libraryTracks);

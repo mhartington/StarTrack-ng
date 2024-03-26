@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
 import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { PlayerService } from '../../../providers/player/player.service2';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
-import { Album } from 'src/@types/album';
 import {
   IonHeader,
   IonToolbar,
@@ -20,6 +19,7 @@ import {
   IonTitle,
   IonButtons,
 } from '@ionic/angular/standalone';
+import { Playlist } from '../../../../@types/playlist';
 
 @Component({
   selector: 'app-library-playlist',
@@ -52,8 +52,8 @@ export class PlaylistPage {
   private player = inject(PlayerService);
 
   public hasError = signal(false);
-  public collection = signal<Partial<Album>>(null);
-  public collectionTracks = signal<Partial<Album>>(null);
+  public collection = signal<Playlist>(null);
+  public collectionTracks = signal<Playlist>(null);
   public playlistTracks = signal(null);
 
   private id = input('')

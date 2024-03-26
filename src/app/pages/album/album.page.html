@@ -38,14 +38,6 @@
       [disabled]="!song.attributes.releaseDate"
       (onClick)="playSong(song, i)"
     >
-      @if(collection().type === 'playlists'){
-      <ion-thumbnail slot="start">
-        <lazy-img
-          [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-          alt=""
-        />
-      </ion-thumbnail>
-      }
     </song-item>
     }
   </ion-list>

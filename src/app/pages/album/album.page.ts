@@ -65,7 +65,7 @@ export class AlbumPage {
 
   public isLoading = signal(true);
   public hasError = signal(false);
-  public collection = signal<Partial<Album>>(null);
+  public collection = signal<Album>(null);
 
   public canShare = !!('share' in navigator);
 

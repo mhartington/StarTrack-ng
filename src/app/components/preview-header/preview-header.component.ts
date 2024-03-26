@@ -3,7 +3,9 @@ import {
   Component,
   EventEmitter,
   inject,
+  input,
   Input,
+  output,
   Output,
   signal,
 } from '@angular/core';
@@ -26,6 +28,8 @@ import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwor
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 import { play, shuffle } from 'ionicons/icons';
 import { DatePipe } from '@angular/common';
+import { Playlist } from '../../../@types/playlist';
+import { Album } from '../../../@types/album';
 
 @Component({
   selector: 'preview-header',
@@ -52,8 +56,9 @@ import { DatePipe } from '@angular/common';
   ],
 })
 export class PreviewHeaderComponent {
-  @Output() playCollection: EventEmitter<{ shuffle: boolean }> = new EventEmitter();
-  @Input() collection: any = null;
+
+  playCollection = output<{shuffle: boolean}>()
+  collection = input<Playlist | Album>(null)
 
   public showModal = signal(false);
   routerOutlet = inject(IonRouterOutlet).nativeEl;

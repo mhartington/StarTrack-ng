@@ -22,15 +22,6 @@
       (onClick)="playSong(i)"
       [disabled]="!song.attributes.playParams"
     >
-      @if(collection.type === 'playlists'){
-      <ion-thumbnail slot="start">
-        <lazy-img
-          [src]="song.attributes.artwork.url | formatArtworkUrl: 60"
-          alt=""
-        ></lazy-img>
-      </ion-thumbnail>
-
-      }
     </song-item>
     }
   </ion-list>

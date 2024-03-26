@@ -36,7 +36,7 @@ export type AlbumRelationship = {
 export type Album = {
   attributes: AlbumAttributes;
   id: string;
-  type: string;
+  type: 'albums';
   href: string;
   relationships: AlbumRelationship;
 };

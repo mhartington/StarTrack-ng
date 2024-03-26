@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   effect,
   inject,
   input,
@@ -31,6 +30,7 @@ import {
 } from '@ionic/angular/standalone';
 import { share } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { Playlist } from '../../../@types/playlist';
 
 @Component({
   selector: 'app-playlist',
@@ -63,7 +63,7 @@ export class PlaylistPage {
   private api = inject(MusickitService);
   private player = inject(PlayerService);
 
-  public collection = signal(null);
+  public collection = signal<Playlist>(null);
   public canShare = !!('share' in navigator);
 
   private id = input('');
