@@ -1,5 +1,4 @@
 import { APP_INITIALIZER, ApplicationConfig, isDevMode } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouteReuseStrategy, provideRouter, withComponentInputBinding, } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -34,6 +33,5 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    provideClientHydration(),
   ],
 };

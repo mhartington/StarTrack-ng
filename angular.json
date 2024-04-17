@@ -15,25 +15,15 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": [ "src/polyfills.ts", "zone.js" ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              },
+                "src/assets",
               "src/manifest.webmanifest"
             ],
             "styles": [
-              {
-                "input": "src/theme/variables.scss",
-                "inject": true
-              },
-              {
-                "input": "src/global.scss",
-                "inject": true
-              }
+               "src/global.scss",
+               "src/theme/variables.scss",
             ],
             "scripts": [],
             "webWorkerTsConfig": "tsconfig.worker.json"

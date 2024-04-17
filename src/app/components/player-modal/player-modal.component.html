@@ -7,11 +7,22 @@
   <div class="track-player">
     <div class="song-info">
       <ion-thumbnail
-  [class.paused]=" player.playbackState() === playbackStates.PAUSED || player.playbackState() === playbackStates.NONE || player.playbackState() === playbackStates.STOPPED "
+        [class.paused]="
+          player.playbackState() === playbackStates.PAUSED ||
+          player.playbackState() === playbackStates.NONE ||
+          player.playbackState() === playbackStates.STOPPED
+        "
       >
         <now-playing-artwork
-  [class.paused]=" player.playbackState() === playbackStates.PAUSED || player.playbackState() === playbackStates.NONE || player.playbackState() === playbackStates.STOPPED "
-          [src]=" player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg' | formatArtworkUrl: 500 "
+          [class.paused]="
+            player.playbackState() === playbackStates.PAUSED ||
+            player.playbackState() === playbackStates.NONE ||
+            player.playbackState() === playbackStates.STOPPED
+          "
+          [src]="
+            player.nowPlaying()?.attributes?.artwork?.url ??
+              'assets/imgs/default.svg' | formatArtworkUrl: 500
+          "
           alt="The album art work cover"
         ></now-playing-artwork>
       </ion-thumbnail>
@@ -20,20 +31,20 @@
           <h3>
             <ion-text color="white">{{
               player.nowPlaying().attributes.name ?? 'Not Playing'
-              }}</ion-text>
+            }}</ion-text>
           </h3>
           <p>
             <ion-text color="white">{{
               player.nowPlaying().attributes.artistName
-              }}</ion-text>
+            }}</ion-text>
           </p>
         </div>
-        @if(player.nowPlaying().attributes.name){
-        <ion-buttons>
-          <ion-button shape="round" (click)="showNowPlayingContext($event)">
-          <ion-icon slot="icon-only" icon="ellipsis-horizontal"></ion-icon>
-          </ion-button>
-        </ion-buttons>
+        @if (player.nowPlaying().attributes.name) {
+          <ion-buttons>
+            <ion-button shape="round" (click)="showNowPlayingContext($event)">
+              <ion-icon slot="icon-only" icon="ellipsis-horizontal"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         }
       </ion-label>
     </div>
@@ -56,8 +67,9 @@
           (click)="toggleRepeatMode()"
         >
           <ion-icon name="repeat"></ion-icon>
-          @if(player.repeatMode() === repeatMode.ONE){
-          <ion-badge>1</ion-badge> }
+          @if (player.repeatMode() === repeatMode.ONE) {
+            <ion-badge>1</ion-badge>
+          }
         </ion-button>
       </ion-buttons>
     </queue-list>
@@ -116,10 +128,13 @@
           fill="clear"
           (click)="togglePlay($event)"
         >
-          @if(player.playbackState() === playbackStates.LOADING){
-          <ion-spinner color="white" /> } @else if(player.playbackState() ===
-          playbackStates.PLAYING){ <ion-icon name="pause" slot="icon-only" />}
-          @else {<ion-icon name="play" slot="icon-only" /> }
+          @if (player.playbackState() === playbackStates.LOADING) {
+            <ion-spinner color="white" />
+          } @else if (player.playbackState() === playbackStates.PLAYING) {
+            <ion-icon name="pause" slot="icon-only" />
+          } @else {
+            <ion-icon name="play" slot="icon-only" />
+          }
         </ion-button>
         <ion-button
           shape="round"
@@ -137,7 +152,9 @@
           (click)="toggleRepeatMode()"
         >
           <ion-icon name="repeat"></ion-icon>
-          @if(player.repeatMode() === repeatMode.ONE){<ion-badge>1</ion-badge>}
+          @if (player.repeatMode() === repeatMode.ONE) {
+            <ion-badge>1</ion-badge>
+          }
         </ion-button>
       </ion-buttons>
 

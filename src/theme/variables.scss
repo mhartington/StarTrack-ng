@@ -169,7 +169,7 @@
     }
   }
 
-  .ios {
+  :root .ios {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0, 0, 0;
 
@@ -204,7 +204,7 @@
     // --ion-item-background-activated: #313131;
   }
 
-  .md {
+  :root .md {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18, 18, 18;
 
@@ -235,9 +235,6 @@
 
     // --ion-item-background: #1a1b1e;
   }
-}
-html {
-  --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
 ion-content {
   --padding-bottom: calc(var(--ion-safe-area-bottom) + 30px) !important;

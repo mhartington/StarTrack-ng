@@ -1,14 +1,19 @@
 <ion-footer class="mh-footer" translucent="true">
-  <ion-toolbar class="track-wrapper " color="light">
+  <ion-toolbar class="track-wrapper" color="light">
     <div class="track-player">
       <div class="song-info">
         <ion-thumbnail>
-          <lazy-img [src]="nowPlayingArtwork()" alt="The album art work cover" />
+          <lazy-img
+            [src]="nowPlayingArtwork()"
+            alt="The album art work cover"
+          />
         </ion-thumbnail>
         <ion-label>
-          <p>{{player.nowPlaying()?.attributes?.name }}</p>
-          @if(player.nowPlaying().attributes.artistName){
-            <ion-note class="artist-name">{{player.nowPlaying().attributes.artistName }}</ion-note>
+          <p>{{ player.nowPlaying()?.attributes?.name }}</p>
+          @if (player.nowPlaying().attributes.artistName) {
+            <ion-note class="artist-name">{{
+              player.nowPlaying().attributes.artistName
+            }}</ion-note>
           }
         </ion-label>
       </div>
@@ -31,15 +36,35 @@
         "
       ></ion-range>
       <ion-buttons class="song-actions">
-        <ion-button shape="round" color="primary" fill="clear" class="prev-button" (click)="prev($event)" >
+        <ion-button
+          shape="round"
+          color="primary"
+          fill="clear"
+          class="prev-button"
+          (click)="prev($event)"
+        >
           <ion-icon name="play-back" slot="icon-only" />
         </ion-button>
-        <ion-button shape="round" color="primary" fill="clear" (click)="togglePlay($event)" >
-          @if(player.playbackState() === playbackStates.LOADING){ <ion-spinner /> }
-          @else if(player.playbackState() === playbackStates.PLAYING){<ion-icon name="pause" slot="icon-only" />}
-          @else {<ion-icon name="play" slot="icon-only" />}
+        <ion-button
+          shape="round"
+          color="primary"
+          fill="clear"
+          (click)="togglePlay($event)"
+        >
+          @if (player.playbackState() === playbackStates.LOADING) {
+            <ion-spinner />
+          } @else if (player.playbackState() === playbackStates.PLAYING) {
+            <ion-icon name="pause" slot="icon-only" />
+          } @else {
+            <ion-icon name="play" slot="icon-only" />
+          }
         </ion-button>
-        <ion-button shape="round" color="primary" fill="clear" (click)="next($event)" >
+        <ion-button
+          shape="round"
+          color="primary"
+          fill="clear"
+          (click)="next($event)"
+        >
           <ion-icon name="play-forward" slot="icon-only" />
         </ion-button>
       </ion-buttons>

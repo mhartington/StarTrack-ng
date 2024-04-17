@@ -265,7 +265,7 @@ export class PlayerService {
           body: `${nowPlaying.attributes.artistName} - ${nowPlaying.attributes.albumName} `,
           id: 1,
           schedule: { at: new Date() },
-          smallIcon: nowPlaying.attributes.artwork.url,
+          smallIcon: nowPlaying.attributes.artwork?.url,
         },
       ],
     });

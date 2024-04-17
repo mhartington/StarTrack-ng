@@ -63,7 +63,7 @@ export class TrackPlayerComponent {
   private _playbackTime: number;
 
   public nowPlayingArtwork = computed(() => {
-    return formatArtwork(this.player.nowPlaying().attributes.artwork.url, 60);
+    return formatArtwork((this.player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'), 60);
   });
 
   constructor() {
