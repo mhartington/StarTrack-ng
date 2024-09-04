@@ -30,7 +30,7 @@ import { play, shuffle } from 'ionicons/icons';
 import { DatePipe } from '@angular/common';
 import { Playlist } from '../../../@types/playlist';
 import { Album } from '../../../@types/album';
-
+import { PlayerService} from '../../providers/player/player.service2'
 @Component({
   selector: 'preview-header',
   templateUrl: './preview-header.component.html',
@@ -59,6 +59,8 @@ export class PreviewHeaderComponent {
 
   playCollection = output<{shuffle: boolean}>()
   collection = input<Playlist | Album>(null)
+
+  bRate = inject(PlayerService).bitrate
 
   public showModal = signal(false);
   routerOutlet = inject(IonRouterOutlet).nativeEl;

@@ -145,6 +145,7 @@ export class PlayerService {
 
   // PLAYER METHODS
   async playCollection(opts: QueueOpts) {
+    console.log(opts)
     await this.mkInstance.setQueue(opts);
     this.toggleShuffle(opts.shuffle);
     await this.play();

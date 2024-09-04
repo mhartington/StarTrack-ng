@@ -17,10 +17,11 @@ export const routes: Routes = [
   },
   {
     path: 'us/album/:id',
-    loadComponent: () => import('./pages/album/album.page').then((m) => m.AlbumPage),
+    loadComponent: () =>
+      import('./pages/album/album.page').then((m) => m.AlbumPage),
     resolve: {
-        'id': (route: ActivatedRoute) => route.params['id']
-    }
+      id: (route: ActivatedRoute) => route.params['id'],
+    },
   },
   {
     path: 'us/playlist/:id',
@@ -29,11 +30,15 @@ export const routes: Routes = [
   },
   {
     path: 'library',
-    loadChildren: () => import('./pages/library/library-routes').then((m) => m.routes),
+    loadChildren: () =>
+      import('./pages/library/library-routes').then((m) => m.routes),
     canMatch: [() => globalThis.MusicKit.getInstance().isAuthorized],
   },
   {
     path: '**',
-    redirectTo: '/browse',
+    redirectTo:() => {
+      return '/browse'
+    }
+    // redirectTo: '/browse',
   },
 ];

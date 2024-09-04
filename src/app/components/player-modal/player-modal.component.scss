@@ -142,6 +142,15 @@ ion-content {
     grid-area: queue;
     display: none;
     view-transition-name: queue;
+
+
+    ion-buttons {
+      width: 100%;
+
+      ion-button{
+        width: 50%;
+      }
+    }
   }
 
   .controls-wrapper {

@@ -9,6 +9,7 @@
 <div class="album-detail">
   @if (collection(); as collection) {
     <h3>{{ collection?.attributes?.name }}</h3>
+    <h2>{{bRate()}}</h2>
     <h3 class="name">
       <ion-text color="primary">
         @if (collection.type === 'albums') { {{ collection.attributes?.artistName }} }

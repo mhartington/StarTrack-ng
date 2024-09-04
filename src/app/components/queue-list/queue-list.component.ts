@@ -23,7 +23,7 @@ import { Song } from '../../../@types/song';
 
 @Component({
   selector: 'queue-list',
-  templateUrl: `./queue-list.html`,
+  templateUrl: './queue-list.html',
   styleUrls: ['./queue-list.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

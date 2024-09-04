@@ -65,7 +65,7 @@ export class AlbumPage {
   showCompleteAlbum = signal(false);
 
 
-  private id = input('')
+  public id = input('')
   constructor(){
     effect(() => {
       this.fetchAlbum(this.id());
@@ -75,9 +75,12 @@ export class AlbumPage {
   async fetchAlbum(id: string) {
     const data = await this.api.fetchLibraryAlbum(id);
     const albumData = data['library-albums'][id];
-    const libraryTracks = Object.values(data['library-songs']).sort(
+    const libraryTracks = Object.values(data['library-songs'])
+    .sort(
       (a: Song, b: Song) => a.attributes.trackNumber - b.attributes.trackNumber,
     );
+
+
     if (data.songs && libraryTracks < Object.values(data.songs)) {
       this.showCompleteAlbum.set(true);
       this.albumData.set(Object.values(data.albums)[0] as Album);
@@ -87,6 +90,7 @@ export class AlbumPage {
   }
 
   playSong(index: number, shuffle = false) {
+
     const album = this.libraryAlbum().id;
     this.player.playCollection({ album, startWith: index, shuffle });
   }

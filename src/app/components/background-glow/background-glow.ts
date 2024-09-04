@@ -4,22 +4,20 @@ import {
   OnDestroy,
   input,
   effect,
-  afterNextRender,
-  AfterRenderPhase,
   viewChild,
 } from '@angular/core';
+
 import {
   Application,
   Sprite,
   Graphics,
   Container,
+  Renderer,
   Assets,
-  ICanvas,
   Point,
 } from 'pixi.js';
-import { TwistFilter } from '@pixi/filter-twist';
-import { AdjustmentFilter } from '@pixi/filter-adjustment';
-import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
+
+import { TwistFilter, AdjustmentFilter, KawaseBlurFilter } from 'pixi-filters';
 
 @Component({
   standalone: true,
@@ -28,49 +26,51 @@ import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
   styleUrls: ['./background-glow.scss'],
 })
 export class BackgroundGlowComponent implements OnDestroy {
-  public src = input('');
+  public src = input.required<string>();
 
-  private canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas')
+  canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
 
-  private container: Container | null;
-  private app: Application<ICanvas>;
+  private container: Container | null = null;
+  private app: Application<Renderer> | null = null;
 
   reduceMotionQuery = matchMedia('(prefers-reduced-motion)');
 
-  constructor() {
-    afterNextRender(
-      async () => {
-        await this.createApp();
-      },
-      { phase: AfterRenderPhase.Write },
-    );
-    effect(async () => {
-      if (this.app) {
-        await this.updateArtwork(this.src());
-      }
-    });
-  }
+  
+  #canvasEffect = effect(() => {
+    if (this.canvas().nativeElement) {
+      this.createApp();
+    }
+  });
+
+  #imageSrcEffect = effect(
+    () => this.updateArtwork(this.src())
+  );
+
 
   async createApp() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    this.app = new Application({
+    this.app = new Application();
+    await this.app.init({
       resizeTo: window,
       width,
       height,
       powerPreference: 'low-power',
+      preference: 'webgl',
       backgroundAlpha: 0,
-      view: this.canvas().nativeElement,
-      autoDensity: true,
+      canvas: this.canvas().nativeElement,
     });
 
     const graphics = new Graphics();
-    graphics.beginFill('#5a5960');
-    graphics.drawRect(0, 0, this.app.renderer.width, this.app.renderer.height);
-    graphics.endFill();
+    graphics
+      .rect(0, 0, this.app.screen.width, this.app.screen.height)
+      .fill({ color: '#5a5960' });
 
     this.app.stage.addChild(graphics);
     this.app.ticker.maxFPS = 15;
+
+    this.container = new Container();
+    this.app.stage.addChild(this.container);
 
     this.initAnimation();
     await this.updateArtwork(this.src());
@@ -88,7 +88,7 @@ export class BackgroundGlowComponent implements OnDestroy {
       this.app.screen.height / 2,
     );
     largeCenter.width = this.app.screen.width * 1.25;
-    largeCenter.height = largeCenter.width;
+    largeCenter.height = this.app.screen.width * 1.25;
 
     largeOffset.anchor.set(0.5, 0.5);
     largeOffset.position.set(
@@ -123,20 +123,17 @@ export class BackgroundGlowComponent implements OnDestroy {
   }
 
   initAnimation() {
-    this.container = new Container();
-    this.app.stage.addChild(this.container);
-
     const t = new Sprite();
     const s = new Sprite();
     const i = new Sprite();
     const r = new Sprite();
     this.addSpritesToContainer(t, s, i, r);
 
-    const n = new KawaseBlurFilter(5, 1);
-    const o = new KawaseBlurFilter(10, 1);
-    const h = new KawaseBlurFilter(20, 2);
-    const a = new KawaseBlurFilter(40, 2);
-    const l = new KawaseBlurFilter(80, 2);
+    const n = new KawaseBlurFilter({ strength: 5, quality: 1 });
+    const o = new KawaseBlurFilter({ strength: 10, quality: 1 });
+    const h = new KawaseBlurFilter({ strength: 20, quality: 2 });
+    const a = new KawaseBlurFilter({ strength: 40, quality: 2 });
+    const l = new KawaseBlurFilter({ strength: 80, quality: 2 });
 
     const twistingFilter = new TwistFilter({
       angle: -3.25,
@@ -157,11 +154,9 @@ export class BackgroundGlowComponent implements OnDestroy {
     colorOverlayContainer.width = this.app.screen.width;
     colorOverlayContainer.height = this.app.screen.height;
 
-    const colorOverlay = new Graphics();
-    colorOverlay.beginFill(0, 0.5);
-    colorOverlay.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
-    colorOverlay.endFill();
-
+    const colorOverlay = new Graphics()
+      .fill({ color: 0, alpha: 0.5 })
+      .rect(0, 0, this.app.screen.width, this.app.screen.height);
     colorOverlayContainer.addChild(colorOverlay);
 
     this.app.stage.addChild(colorOverlayContainer);
@@ -171,16 +166,14 @@ export class BackgroundGlowComponent implements OnDestroy {
     f.height = this.app.screen.height;
 
     const _ = new Graphics();
-    _.beginFill(16777215, 0.05);
-    _.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
-    _.endFill();
-
+    _.fill({ color: 16777215, alpha: 0.05 });
+    _.rect(0, 0, this.app.screen.width, this.app.screen.height);
     colorOverlayContainer.addChild(_);
     this.app.stage.addChild(f);
   }
 
   async updateArtwork(img: string) {
-    if (this.app) {
+    if (this.app && this.container) {
       const incomingTexture = await Assets.load(img);
       const incomingImgArray = [];
 
@@ -190,7 +183,7 @@ export class BackgroundGlowComponent implements OnDestroy {
         incomingImgArray.push(newImg);
       }
 
-      if (this.container.children.length > 4) {
+      if (this.container?.children?.length > 4) {
         this.container.removeChildren(4);
       }
       this.addSpritesToContainer(
@@ -212,8 +205,17 @@ export class BackgroundGlowComponent implements OnDestroy {
       this.app.ticker.add(() => {
         opacityDelta -= 0.02 * opacitySpeed;
         opacityDelta < 0 && this.container.removeChild(...currentContainerCopy);
-        currentContainerCopy.forEach((a) => (a.alpha = opacityDelta));
-        incomingImgArray.forEach((a) => (a.alpha = 1 - opacityDelta));
+
+        for(const a of currentContainerCopy){
+          a.alpha = opacityDelta;
+        }
+
+        for(const a of incomingImgArray){
+          a.alpha = 1 - opacityDelta
+        }
+
+        // currentContainerCopy.forEach((a) => (a.alpha = opacityDelta));
+        // incomingImgArray.forEach((a) => (a.alpha = 1 - opacityDelta));
 
         this.reduceMotionQuery.matches
           ? ((currentRotationValArray[0] += 0.001 * rotationSpeed),
@@ -258,10 +260,6 @@ export class BackgroundGlowComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.app?.destroy(true, {
-      children: true,
-      texture: true,
-      baseTexture: true,
-    });
+    this.app.destroy();
   }
 }

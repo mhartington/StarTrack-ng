@@ -56,7 +56,7 @@ export class PlaylistPage {
   public collectionTracks = signal<Playlist>(null);
   public playlistTracks = signal(null);
 
-  private id = input('')
+  public id = input('')
   constructor(){
     effect(() => {
       this.fetchPlaylist(this.id());

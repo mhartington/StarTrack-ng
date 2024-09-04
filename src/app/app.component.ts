@@ -3,7 +3,6 @@ import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { TrackPlayerComponent } from './components/track-player/track-player.component';
-import { StatusBar } from '@capacitor/status-bar';
 import {
   albumsOutline,
   musicalNote,
@@ -37,7 +36,6 @@ import {
   IonLabel,
   IonRouterLink,
 } from '@ionic/angular/standalone';
-import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -179,7 +177,6 @@ export class AppComponent implements OnInit {
     const color = getComputedStyle(document.documentElement)
       .getPropertyValue('--ion-background-color')
       .replace(/\s+/g, '');
-
     this.metaService.updateTag({ content: color, name: 'theme-color' });
   }
 }

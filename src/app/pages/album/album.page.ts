@@ -69,7 +69,7 @@ export class AlbumPage {
 
   public canShare = !!('share' in navigator);
 
-  private id = input('');
+  public id = input('');
   constructor() {
     addIcons({ share, add });
     effect(() => {

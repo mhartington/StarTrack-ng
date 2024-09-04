@@ -56,12 +56,16 @@
       <ion-buttons class="toggle-buttons">
         <ion-button
           color="white"
+          expand="block"
+          fill="solid"
           [class.active]="player.isShuffling()"
           (click)="toggleShuffle(player.isShuffling())"
         >
           <ion-icon name="shuffle"></ion-icon>
         </ion-button>
         <ion-button
+          fill="solid"
+          expand="block"
           color="white"
           [class.active]="player.repeatMode() !== repeatMode.NONE"
           (click)="toggleRepeatMode()"

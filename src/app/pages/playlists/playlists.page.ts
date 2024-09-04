@@ -66,7 +66,7 @@ export class PlaylistPage {
   public collection = signal<Playlist>(null);
   public canShare = !!('share' in navigator);
 
-  private id = input('');
+  public id = input('');
 
   constructor() {
     addIcons({ share });
