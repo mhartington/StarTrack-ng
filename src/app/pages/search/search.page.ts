@@ -1,12 +1,16 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterModule,
+} from '@angular/router';
 import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonItemGroup,
   IonMenuButton,
   IonSearchbar,
   IonSegment,
@@ -25,7 +29,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Song } from '../../../@types/song';
-import { ErrorComponent } from '../../components/error/error.component';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
@@ -41,11 +44,10 @@ import { PlayerService } from '../../providers/player/player.service2';
     SongItemComponent,
     FormatArtworkUrlPipe,
     LazyImgComponent,
-    ErrorComponent,
     ReactiveFormsModule,
-    RouterModule,
     IonHeader,
     IonToolbar,
+    RouterLink,
     IonTitle,
     IonSearchbar,
     IonSpinner,
@@ -54,7 +56,6 @@ import { PlayerService } from '../../providers/player/player.service2';
     IonButtons,
     IonMenuButton,
     IonContent,
-    IonItemGroup,
     IonThumbnail,
   ],
 })
@@ -73,7 +74,6 @@ export class SearchPage {
   public playlists = signal(null);
   public songs = signal(null);
 
-
   public isLoading = signal(false);
   public recomendations = signal([]);
 
@@ -89,7 +89,7 @@ export class SearchPage {
           return v;
         }),
         switchMap((v) => this.api.search(v)),
-        catchError(() => EMPTY)
+        catchError(() => EMPTY),
       )
       .subscribe((results) => {
         this.albums.set(results?.albums);
@@ -100,11 +100,10 @@ export class SearchPage {
 
     const qp = this.route.snapshot.queryParams.query;
     this.searchForm.setValue(qp ?? '');
-
   }
 
   playSong(song: Song): void {
-    this.player.playCollection({song: song.id});
+    this.player.playCollection({ song: song.id });
   }
   clearSearch() {
     this.segmentFilter.setValue('songs');

@@ -1,5 +1,11 @@
-import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import {
   IonBackButton,
   IonButton,
@@ -10,15 +16,11 @@ import {
   IonLabel,
   IonList,
   IonSkeletonText,
-  IonThumbnail,
-  IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { Album } from 'src/@types/album';
-import { LazyImgComponent } from '../../../components/lazy-img/lazy-img.component';
 import { PreviewHeaderComponent } from '../../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../../components/song-item/song-item.component';
-import { FormatArtworkUrlPipe } from '../../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { MusickitService } from '../../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../../providers/player/player.service2';
 import { Song } from '../../../../@types/song';
@@ -34,18 +36,13 @@ import { RouterLink } from '@angular/router';
   imports: [
     PreviewHeaderComponent,
     SongItemComponent,
-    LazyImgComponent,
-    FormatArtworkUrlPipe,
-    JsonPipe,
     IonHeader,
     IonToolbar,
-    IonTitle,
     IonButtons,
     IonButton,
     IonBackButton,
     IonContent,
     IonList,
-    IonThumbnail,
     IonItem,
     IonLabel,
     IonSkeletonText,
@@ -64,23 +61,19 @@ export class AlbumPage {
   public canShare = !!('share' in navigator);
   showCompleteAlbum = signal(false);
 
-
-  public id = input('')
-  constructor(){
+  public id = input('');
+  constructor() {
     effect(() => {
       this.fetchAlbum(this.id());
-    })
+    });
   }
 
   async fetchAlbum(id: string) {
     const data = await this.api.fetchLibraryAlbum(id);
     const albumData = data['library-albums'][id];
-    const libraryTracks = Object.values(data['library-songs'])
-    .sort(
+    const libraryTracks = Object.values(data['library-songs']).sort(
       (a: Song, b: Song) => a.attributes.trackNumber - b.attributes.trackNumber,
     );
-
-
     if (data.songs && libraryTracks < Object.values(data.songs)) {
       this.showCompleteAlbum.set(true);
       this.albumData.set(Object.values(data.albums)[0] as Album);
@@ -90,7 +83,6 @@ export class AlbumPage {
   }
 
   playSong(index: number, shuffle = false) {
-
     const album = this.libraryAlbum().id;
     this.player.playCollection({ album, startWith: index, shuffle });
   }

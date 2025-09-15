@@ -38,7 +38,6 @@ import { playForward, play, pause, playBack } from 'ionicons/icons';
   imports: [
     FormsModule,
     LazyImgComponent,
-    PlayerModalComponent,
     IonFooter,
     IonThumbnail,
     IonLabel,
@@ -63,7 +62,11 @@ export class TrackPlayerComponent {
   private _playbackTime: number;
 
   public nowPlayingArtwork = computed(() => {
-    return formatArtwork((this.player.nowPlaying()?.attributes?.artwork?.url ?? 'assets/imgs/default.svg'), 60);
+    return formatArtwork(
+      this.player.nowPlaying()?.attributes?.artwork?.url ??
+        'assets/imgs/default.svg',
+      60,
+    );
   });
 
   constructor() {

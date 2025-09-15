@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, signal, isDevMode, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal,
+  isDevMode,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Meta } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
@@ -88,17 +95,17 @@ export class AppComponent implements OnInit {
       chevronForward,
     });
 
-
     this.setMetaTheme();
 
-    matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', () => this.setMetaTheme());
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () =>
+      this.setMetaTheme(),
+    );
 
     this.musicKitInstance.addEventListener(
       this.musicKitEvents.authorizationStatusDidChange,
       () => this.isAuthorized.set(this.musicKitInstance.isAuthorized),
     );
-    
+
     // if (Capacitor.isNativePlatform) {
     //   this.overridewindow();
     // }
@@ -106,43 +113,43 @@ export class AppComponent implements OnInit {
 
   overridewindow() {
     // console.log('foo')
-    // window.open = function(url: string, windowName: string, windowFeatures: string) { 
+    // window.open = function(url: string, windowName: string, windowFeatures: string) {
     //
     // console.log('window caught', url, windowName, windowFeatures);
     // window.location.href=url;
     // return null;
-  // };
-  //   const og = window.open;
-  //   window.open = (
-  //     url?: string | URL,
-  //     target?: string,
-  //     features?: string
-  //   ): any => {
-  //     const formattedURL = new URL(url);
-  //     console.log('url: ', formattedURL.href);
-  //     const params = formattedURL.searchParams;
-  //     params.forEach((param) => console.log('param: ', param));
-  //
-  //     let referrer = params.get('referrer');
-  //     console.log('referrer: ', referrer);
-  //     if (!referrer.includes('http://startrack-ng.web.app/')) {
-  //       console.log('referrer should be reset');
-  //       referrer = 'startrack-ng://app/';
-  //       console.log('referrer: ', referrer);
-  //     }
-  //     params.set('referrer', referrer);
-  //     let newReferrer = params.get('referrer');
-  //     console.log('new referrer: ', newReferrer);
-  //
-  //     formattedURL.search = params.toString();
-  //     console.log('updated url: ', formattedURL);
-  //     // og(formattedURL)
-  //     // return;
-  //     Browser.open({
-  //       url: formattedURL.toString(),
-  //       presentationStyle: 'popover',
-  //     });
-  //   };
+    // };
+    //   const og = window.open;
+    //   window.open = (
+    //     url?: string | URL,
+    //     target?: string,
+    //     features?: string
+    //   ): any => {
+    //     const formattedURL = new URL(url);
+    //     console.log('url: ', formattedURL.href);
+    //     const params = formattedURL.searchParams;
+    //     params.forEach((param) => console.log('param: ', param));
+    //
+    //     let referrer = params.get('referrer');
+    //     console.log('referrer: ', referrer);
+    //     if (!referrer.includes('http://startrack-ng.web.app/')) {
+    //       console.log('referrer should be reset');
+    //       referrer = 'startrack-ng://app/';
+    //       console.log('referrer: ', referrer);
+    //     }
+    //     params.set('referrer', referrer);
+    //     let newReferrer = params.get('referrer');
+    //     console.log('new referrer: ', newReferrer);
+    //
+    //     formattedURL.search = params.toString();
+    //     console.log('updated url: ', formattedURL);
+    //     // og(formattedURL)
+    //     // return;
+    //     Browser.open({
+    //       url: formattedURL.toString(),
+    //       presentationStyle: 'popover',
+    //     });
+    //   };
   }
   async ngOnInit() {
     if (!isDevMode()) {

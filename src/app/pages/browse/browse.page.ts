@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { MusickitService } from '../../providers/musickit-service/musickit-service.service';
 import { PlayerService } from '../../providers/player/player.service2';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
-import { FormatArtworkUrlPipe, formatArtwork } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { formatArtwork } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
 import { AlbumPreviewItemsComponent } from '../../components/album-preview-items/album-preview-items.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import { RouterLinkWithHref } from '@angular/router';

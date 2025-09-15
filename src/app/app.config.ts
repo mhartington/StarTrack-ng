@@ -1,8 +1,20 @@
-import { APP_INITIALIZER, ApplicationConfig, isDevMode, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  isDevMode,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { RouteReuseStrategy, provideRouter, withComponentInputBinding, } from '@angular/router';
+import {
+  RouteReuseStrategy,
+  provideRouter,
+  withComponentInputBinding,
+} from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideIonicAngular, IonicRouteStrategy, } from '@ionic/angular/standalone';
+import {
+  provideIonicAngular,
+  IonicRouteStrategy,
+} from '@ionic/angular/standalone';
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
@@ -33,6 +45,6 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    provideExperimentalZonelessChangeDetection()
+    provideExperimentalZonelessChangeDetection(),
   ],
 };

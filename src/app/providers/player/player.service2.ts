@@ -18,31 +18,28 @@ export type QueueOpts = {
   playlist?: string;
 };
 export enum PlaybackStates {
-  NONE,
-  LOADING,
-  PLAYING,
-  PAUSED,
-  STOPPED,
-  ENDED,
-  SEEKING,
-  NULL,
-  WAITING,
-  STALLED,
-  COMPLETED,
+  NONE = 0,
+  LOADING = 1,
+  PLAYING = 2,
+  PAUSED = 3,
+  STOPPED = 4,
+  ENDED = 5,
+  SEEKING = 6,
+  NULL = 7,
+  WAITING = 8,
+  STALLED = 9,
+  COMPLETED = 10,
 }
 export enum RepeatMode {
-  NONE,
-  ONE,
-  ALL,
+  NONE = 0,
+  ONE = 1,
+  ALL = 2,
 }
 const nowPlayingAttrs: Partial<SongAttributes> = {
   name: null,
   artistName: null,
   albumName: null,
   artwork: { url: 'assets/imgs/default.svg' },
-};
-const nowPlayingInit: any = {
-  attributes: nowPlayingAttrs,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -62,12 +59,16 @@ export class PlayerService {
   public playbackDuration = signal(0);
   public playbackTime = signal(0);
   public playbackTimeRemaining = signal(0);
-  public nowPlaying = signal<Partial<Song>>(nowPlayingInit);
+  public nowPlaying = signal<Partial<Song>>({
+          attributes: nowPlayingAttrs,
+      });
   public volume = signal(this.mkInstance.volume ?? 1);
 
   constructor() {
     this.mkInstance.addEventListener(this.mkEvents.mediaPlaybackError, () => {
-      this.nowPlaying.set(nowPlayingInit);
+      this.nowPlaying.set({
+              attributes: nowPlayingAttrs,
+          });
       this.queue.set([]);
     });
 
@@ -129,7 +130,7 @@ export class PlayerService {
         this.title.setTitle(
           `${nowPlaying.attributes.name}${
             nowPlaying.attributes.artistName
-              ? ' • ' + nowPlaying.attributes.artistName
+              ? ` • ${nowPlaying.attributes.artistName}`
               : ''
           }`,
         );
@@ -145,7 +146,6 @@ export class PlayerService {
 
   // PLAYER METHODS
   async playCollection(opts: QueueOpts) {
-    console.log(opts)
     await this.mkInstance.setQueue(opts);
     this.toggleShuffle(opts.shuffle);
     await this.play();
@@ -193,10 +193,6 @@ export class PlayerService {
       return await this.seekToTime(0);
     }
     return await this.mkInstance.skipToNextItem();
-    // if ((document as any)?.startViewTransition) {
-    //   (document as any).startViewTransition(async () => {
-    //   });
-    // }
   }
   async skipToPreviousItem() {
     await this.stop();
@@ -205,10 +201,6 @@ export class PlayerService {
       return await this.seekToTime(0);
     }
     return await this.mkInstance.skipToPreviousItem();
-    // if ((document as any)?.startViewTransition) {
-    //   (document as any).startViewTransition(async () => {
-    //   });
-    // }
   }
   async seekToTime(time: number) {
     await this.mkInstance.seekToTime(time);
@@ -217,10 +209,6 @@ export class PlayerService {
     const index = this.queue().indexOf(song);
     await this.stop();
     await this.mkInstance.changeToMediaAtIndex(index);
-    // if ((document as any)?.startViewTransition) {
-    //   (document as any).startViewTransition(async () => {
-    //   });
-    // }
   }
 
   // playNext(item: SongModel): void {

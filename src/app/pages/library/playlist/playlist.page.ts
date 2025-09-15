@@ -29,7 +29,6 @@ import { Playlist } from '../../../../@types/playlist';
   standalone: true,
 
   imports: [
-    CommonModule,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
@@ -40,9 +39,6 @@ import { Playlist } from '../../../../@types/playlist';
     IonBackButton,
     IonList,
     IonThumbnail,
-    IonSkeletonText,
-    IonItem,
-    IonLabel,
     IonTitle,
     IonButtons,
   ],

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
@@ -9,15 +15,14 @@ import {
   RepeatMode,
 } from '../../providers/player/player.service2';
 import { BackgroundGlowComponent } from '../background-glow/background-glow';
-import { LazyImgComponent } from '../lazy-img/lazy-img.component';
+
 import { NowPlayingArtworkComponent } from '../now-playing-artwork/now-playing-artwork.component';
-import { SongItemComponent } from '../song-item/song-item.component';
+
 import { QueueListComponent } from '../queue-list/queue-list.component';
 import {
   IonBadge,
   IonButton,
   IonButtons,
-  IonContent,
   IonFooter,
   IonHeader,
   IonIcon,
@@ -29,6 +34,7 @@ import {
   IonToolbar,
   ModalController,
   PopoverController,
+  RangeCustomEvent,
 } from '@ionic/angular/standalone';
 
 import { addIcons } from 'ionicons';
@@ -45,11 +51,9 @@ import {
   ellipsisHorizontal,
 } from 'ionicons/icons';
 import { Capacitor } from '@capacitor/core';
-import {
-  MsToMinsPipe,
-  SecondsToMins,
-} from '../../pipes/ms-to-mins/ms-to-mins.pipe';
+import { SecondsToMins } from '../../pipes/ms-to-mins/ms-to-mins.pipe';
 import { NowPlayingContextMenuComponent } from '../now-playing-context-menu/now-playing-context-menu.component';
+import { Song } from '../../../@types/song';
 
 @Component({
   selector: 'app-player-modal',
@@ -58,13 +62,10 @@ import { NowPlayingContextMenuComponent } from '../now-playing-context-menu/now-
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    SongItemComponent,
     FormsModule,
-    LazyImgComponent,
     FormatArtworkUrlPipe,
     NowPlayingArtworkComponent,
     BackgroundGlowComponent,
-    MsToMinsPipe,
     SecondsToMins,
     QueueListComponent,
     IonHeader,
@@ -78,18 +79,16 @@ import { NowPlayingContextMenuComponent } from '../now-playing-context-menu/now-
     IonFooter,
     IonToolbar,
     IonText,
-    IonContent,
     IonThumbnail,
   ],
 })
 export class PlayerModalComponent {
-  @ViewChild('wrapper') wrapper: ElementRef<HTMLElement>;
-
+  wrapper = viewChild<ElementRef<HTMLElement>>('wrapper');
+  public player = inject(PlayerService);
+  private popoverCtrl = inject(PopoverController);
   private modalCtrl = inject(ModalController);
   private isScrubbing = false;
   private _playbackTime: number;
-
-  public player = inject(PlayerService);
 
   public playbackStates = PlaybackStates;
   public repeatMode = RepeatMode;
@@ -123,51 +122,52 @@ export class PlayerModalComponent {
   get playbackTime() {
     if (this.isScrubbing) {
       return this._playbackTime;
-    } else {
-      return this.player.playbackTime();
     }
+    return this.player.playbackTime();
   }
   set playbackTime(val: number) {
     this._playbackTime = val;
   }
 
-  async seekToTime(ev: any): Promise<void> {
+  async seekToTime(ev: RangeCustomEvent): Promise<void> {
     this.stopProp(ev);
-    await this.player.seekToTime(ev.target.value);
+    await this.player.seekToTime(ev.target.value as number);
     this.isScrubbing = false;
   }
-  pauseSeeking(ev: any): void {
+  pauseSeeking(ev: RangeCustomEvent): void {
     this.stopProp(ev);
     this.isScrubbing = true;
-    this.playbackTime = ev.target.value;
+    this.playbackTime = ev.target.value as number;
   }
 
-  async togglePlay(e: any): Promise<void> {
+  async togglePlay(e: MouseEvent): Promise<void> {
     this.stopProp(e);
     await this.player.togglePlay();
   }
-  playAtIndex(e: any) {
-    this.stopProp(e.$event);
-    const parent: HTMLElement = e.$event.target.closest('.queue-scroller');
+  playAtIndex({ $event, song }: { $event: MouseEvent; song: Song }) {
+    this.stopProp($event);
+    const parent: HTMLElement = ($event.target as HTMLElement).closest(
+      '.queue-scroller',
+    );
     parent.scrollTo({ top: 0, behavior: 'smooth' });
-    this.player.skipTo(e.song);
+    this.player.skipTo(song);
   }
 
-  stopProp(e: any): void {
+  stopProp(e: MouseEvent | RangeCustomEvent): void {
     e.stopPropagation();
   }
-  async next(e: any): Promise<void> {
+  async next(e: MouseEvent): Promise<void> {
     this.stopProp(e);
     await this.player.skipToNextItem();
   }
-  async prev(e: any): Promise<void> {
+  async prev(e: MouseEvent): Promise<void> {
     this.stopProp(e);
     await this.player.skipToPreviousItem();
   }
   async toggleQueue() {
     this.showQueue = !this.showQueue;
     await import('./player-modal.animation').then((m) =>
-      m.createQueueAnimation(this.wrapper.nativeElement, this.showQueue),
+      m.createQueueAnimation(this.wrapper().nativeElement, this.showQueue),
     );
   }
   toggleShuffle(shuffleMode: boolean) {
@@ -177,7 +177,7 @@ export class PlayerModalComponent {
     this.player.toggleRepeat();
   }
 
-  setVol(e: any) {
+  setVol(e: RangeCustomEvent) {
     this.player.volume.set(e.detail.value);
   }
   ionViewWillEnter() {
@@ -191,8 +191,7 @@ export class PlayerModalComponent {
     }
   }
 
-  private popoverCtrl = inject(PopoverController);
-  async showNowPlayingContext(event) {
+  async showNowPlayingContext(event: MouseEvent) {
     const popover = await this.popoverCtrl.create({
       component: NowPlayingContextMenuComponent,
       event,

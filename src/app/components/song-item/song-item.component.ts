@@ -1,14 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import {
   IonButton,
-  IonButtons,
   IonIcon,
   IonItem,
   IonLabel,
@@ -30,7 +28,6 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
   standalone: true,
   imports: [
     IonButton,
-    IonButtons,
     IonLabel,
     IonSkeletonText,
     IonIcon,
@@ -40,16 +37,15 @@ import { SongContextMenuComponent } from '../song-contenxt-menu/song-context-men
   ],
 })
 export class SongItemComponent {
-  song= input<Song> ();
-  index= input<number> (0);
-  color= input<string> ()
-  disabled = input<boolean>(false)
-  
-  
+  song = input<Song>();
+  index = input<number>(0);
+  color = input<string>();
+  disabled = input<boolean>(false);
 
-  @Output() onClick = new EventEmitter<null>;
+  onClick = output();
+  
   private popoverCtrl = inject(PopoverController);
-  handleClick(){
+  handleClick() {
     this.onClick.emit();
   }
   constructor() {

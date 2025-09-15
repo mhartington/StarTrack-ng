@@ -2,10 +2,10 @@
   <ng-content></ng-content>
 </ion-card>
 <ion-label>
-  @if (collection) {
+  @if (collection(); as collection) {
     <h3>
       @if (index != null) {
-        <span class="index">{{ index + 1 }}</span>
+        <span class="index">{{ index() + 1 }}</span>
       }
       <span>{{ collection.attributes.name }}</span>
       @if (collection.attributes.contentRating === 'explicit') {
@@ -13,12 +13,8 @@
       }
     </h3>
     <ion-note>
-      @if (collection.type === 'albums') {
-        <p>{{ collection.attributes.artistName }}</p>
-      }
-      @if (collection.type === 'playlists') {
-        <p>{{ collection.attributes.curatorName }}</p>
-      }
+      @if (collection.type === 'albums') { <p>{{ collection.attributes?.artistName }}</p> }
+      @if (collection.type === 'playlists') { <p>{{collection.attributes?.curatorName }}</p> }
     </ion-note>
 
   } @else {

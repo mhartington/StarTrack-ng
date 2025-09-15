@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 function pad2(num: any) {
   if (num <= 99) {
-    num = ('0' + num).slice(-2);
+    num = (`0${num}`).slice(-2);
   }
   return num;
 }

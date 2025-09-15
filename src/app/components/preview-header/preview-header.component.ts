@@ -1,12 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
   input,
-  Input,
   output,
-  Output,
   signal,
 } from '@angular/core';
 import {
@@ -31,6 +28,7 @@ import { DatePipe } from '@angular/common';
 import { Playlist } from '../../../@types/playlist';
 import { Album } from '../../../@types/album';
 import { PlayerService} from '../../providers/player/player.service2'
+import { LibraryAlbum } from 'src/@types/library-album';
 @Component({
   selector: 'preview-header',
   templateUrl: './preview-header.component.html',
@@ -51,14 +49,13 @@ import { PlayerService} from '../../providers/player/player.service2'
     IonContent,
     IonSkeletonText,
     IonIcon,
-    IonRouterOutlet,
     DatePipe
   ],
 })
 export class PreviewHeaderComponent {
 
   playCollection = output<{shuffle: boolean}>()
-  collection = input<Playlist | Album>(null)
+  collection = input<Playlist | Album | LibraryAlbum>(null)
 
   bRate = inject(PlayerService).bitrate
 

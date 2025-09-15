@@ -1,10 +1,13 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import {
   IonCard,
   IonLabel,
   IonNote,
   IonSkeletonText,
 } from '@ionic/angular/standalone';
+import { Album } from 'src/@types/album';
+import { LibraryAlbum } from 'src/@types/library-album';
+import { Playlist } from 'src/@types/playlist';
 
 @Component({
   selector: '[album-preview-item]',
@@ -15,6 +18,6 @@ import {
   imports: [IonCard, IonLabel, IonNote, IonSkeletonText],
 })
 export class AlbumPreviewItemsComponent {
-  @Input() collection: any;
-  @Input() index: number;
+  collection = input<Playlist | Album | LibraryAlbum>();
+  index = input<number>();
 }

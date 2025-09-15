@@ -10,8 +10,6 @@ import { MusickitService } from '../../providers/musickit-service/musickit-servi
 import { PlayerService } from '../../providers/player/player.service2';
 import { LazyImgComponent } from '../../components/lazy-img/lazy-img.component';
 import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
-import { CommonModule } from '@angular/common';
-import { ErrorComponent } from '../../components/error/error.component';
 import { PreviewHeaderComponent } from '../../components/preview-header/preview-header.component';
 import { SongItemComponent } from '../../components/song-item/song-item.component';
 import {
@@ -19,14 +17,12 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonMenuButton,
   IonThumbnail,
   IonTitle,
   IonToolbar,
   IonBackButton,
   IonIcon,
   IonList,
-  IonRouterOutlet,
 } from '@ionic/angular/standalone';
 import { share } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -39,8 +35,6 @@ import { Playlist } from '../../../@types/playlist';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
-    ErrorComponent,
     PreviewHeaderComponent,
     SongItemComponent,
     LazyImgComponent,
@@ -49,14 +43,12 @@ import { Playlist } from '../../../@types/playlist';
     IonToolbar,
     IonTitle,
     IonButtons,
-    IonMenuButton,
     IonThumbnail,
     IonBackButton,
     IonButton,
     IonContent,
     IonIcon,
     IonList,
-    IonRouterOutlet,
   ],
 })
 export class PlaylistPage {

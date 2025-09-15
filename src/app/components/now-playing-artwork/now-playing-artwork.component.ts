@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormatArtworkUrlPipe } from '../../pipes/formatArtworkUrl/format-artwork-url.pipe';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LazyImgComponent } from '../lazy-img/lazy-img.component';
 
 @Component({
@@ -9,14 +7,9 @@ import { LazyImgComponent } from '../lazy-img/lazy-img.component';
   styleUrls: ['./now-playing-artwork.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, LazyImgComponent, FormatArtworkUrlPipe]
+  imports: [LazyImgComponent],
 })
-export class NowPlayingArtworkComponent implements OnInit {
+export class NowPlayingArtworkComponent {
   @Input() src: string;
   @Input() alt: string;
-
-  constructor() { }
-
-  ngOnInit() {}
-
 }
